@@ -55,5 +55,5 @@ e2e/
 .project
 
 #GIT files
-.git/
+.git/*
 #.gitignore
