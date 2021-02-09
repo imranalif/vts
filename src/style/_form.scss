@@ -1,0 +1,60 @@
+$width:450px;
+
+.mat-card {
+    position: relative;
+    top: 30px;
+   width: $width;
+
+   margin: auto;
+    
+  }
+  
+.mat-card .full {
+   width: 90%;
+   margin-left: 5%;
+  }
+
+  .mat-card .half{
+    width: 42.5%;
+    margin-left: 5%;
+ 
+    float: left;
+  }
+  
+
+.title{
+   margin-left:120px;   
+  }
+  
+mat-card-actions{
+   text-align: center;
+  }
+
+p{
+   font-size: 10px;
+  }
+
+.red{
+   color: red;
+   margin-right: 5%;
+   font-size: 12px;
+  }
+
+.feedback{
+  margin-left: 5%;
+  }
+
+.mat-stroked-button{
+   width:120px;
+   border: 1px solid blue;
+}
+
+.filterBox{
+  width: 120px;
+  height: 25px;
+  margin-left:10px;
+  margin-top: 5px; 
+  margin-bottom: 10px;
+  text-align: left;
+  
+}

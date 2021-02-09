@@ -1,0 +1,82 @@
+.host {
+    display: flex;
+    flex-direction: column;
+    outline: none;
+    width: 100%;
+  
+   
+  }
+  
+  
+    .mat-list-item.active {
+      // background-color: #a5c5e1 !important;
+      color:#66FF00 ;
+      
+    } 
+    
+    .mat-list-item {
+      width: auto;
+  
+      color: wheat;
+      border-radius: 10px 10px 10px 10px;
+      font-size: 12px;
+     
+      height: 35px;
+      margin-bottom: 1px;
+   
+      &:hover{
+        color: blue !important;
+        background-color: gray !important;
+      }
+  
+      // transition: transform 300ms ease;
+      // transform: scaleY(1);
+      // transform-origin: top;
+  
+      //   overflow-y: hidden;
+      // transition: transform 300ms ease;
+      // transform: scaleY(0);
+      // transform-origin: top;
+      
+    }
+    // .mat-list-item.expanded {
+    //   transform: scaleY(1);
+    // }
+  
+    .menu-expand{
+     background-color:  #305a9c;
+     width: 100%;
+     opacity: 0;
+     animation: load 1s forwards;
+   
+    
+    }
+  
+    
+  
+    @keyframes load{
+      100%{
+  opacity:1;
+      }
+    }
+  
+    
+  
+    .routeIcon {
+      margin-right: 20px;
+    }
+  
+     
+    .remainingspace{
+      flex: 1 1 auto;
+      display: flex;
+     
+    }
+  
+    .rspace{
+      display:flex !important;
+      flex: 1 1 auto !important;;
+    }
+  
+  
+  

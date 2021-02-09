@@ -1,0 +1,102 @@
+<mat-card class="customStyle">
+    <div class="title-style">
+        <mat-card-title>User Add Form</mat-card-title>
+    </div>
+    <mat-card-content>
+        <form [formGroup]="myform">
+
+            <mat-form-field class="half">
+                <input trim="blur" matInput placeholder="First Name" formControlName="firstName" autocomplete="off"
+                    required />
+            </mat-form-field>
+            <!-- <div *ngIf="submitted && myform.get('name').errors" class="feedback">
+                <div *ngIf=" myform.get('name').errors.required" class="red"> Name is required</div>
+            </div> -->
+
+            <mat-form-field class="half">
+                <input trim="blur" matInput placeholder="Last Name" formControlName="lastName" autocomplete="off"
+                    required />
+            </mat-form-field>
+
+            <mat-form-field class="full">
+                <input trim="blur" matInput placeholder="Mobile" formControlName="mobile" autocomplete="off" required />
+            </mat-form-field>
+
+            <mat-form-field class="full">
+                <input trim="blur" matInput placeholder="Email" formControlName="email" autocomplete="off" required />
+            </mat-form-field>
+
+
+            <mat-form-field class="full">
+                <textarea matInput placeholder="Address" formControlName="address" autocomplete="off"></textarea>
+            </mat-form-field>
+
+
+            <!-- <div class="full">
+                <label>Gender</label>
+                <mat-radio-group class="radio-group" class="half" formControlName="gender">
+                    <mat-radio-button class="radio-button" *ngFor="let state of gend" [value]="state.value">
+                        {{ state.value }}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div> -->
+
+            <mat-form-field class="half">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender">
+                    <mat-option *ngFor="let state of gend" [value]="state.value">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="half" >
+                <mat-label>User Role</mat-label>
+                <mat-select formControlName="userRole" required>
+                    <mat-option *ngFor="let state of roles" [value]="state.id">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div class="full" >
+                <mat-label class="image">Image *</mat-label>
+                <input type="file" formControlName="image" (change)="onFileSelected($event)" enctype="multipart/form-data" required/>
+              </div>
+
+              <mat-form-field class="half">
+                <input matInput type="password" placeholder="Password" formControlName="password" autocomplete="off" required />
+        
+              </mat-form-field>
+        
+              <mat-form-field class="half">
+                <input type="password" matInput placeholder="Confirm Password" formControlName="confirmPassword"
+                  autocomplete="off" compare="password" required />
+                <mat-error>
+                  password does not match
+                </mat-error>
+              </mat-form-field>
+
+
+
+            <mat-form-field class="full" required>
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status">
+                    <mat-option *ngFor="let state of states" [value]="state.id">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <div *ngIf="submitted && myform.get('status').errors" class="feedback">
+            <div *ngIf=" myform.get('status').errors.required" class="red"> Status is required</div>
+        </div> -->
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button class="button" mat-stroked-button color="primary"  (click)="addUser()" class="btn-block">
+            Add
+        </button>
+        <p>Note: Field marked with * is Mandatory</p>
+    </mat-card-actions>
+</mat-card>

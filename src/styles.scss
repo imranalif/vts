@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./style/form";
+@import "./style/table";
+html, body { height: 100%; }
+html {
+    overflow:   scroll;
+  }
+  ::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+  }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

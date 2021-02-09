@@ -1,0 +1,64 @@
+<div class="containerr">
+    <div class="welcome-logo">
+
+    </div>
+
+    <div class="content">
+
+        <a href="hrefs://www.bdcom.com/" class="logo">
+            <img class="im" src="assets/admin/images/ac.png" style="width: 200.984px;  max-height: 50px;">
+
+        </a>
+
+    </div>
+
+
+    <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center ">
+
+
+
+        <mat-card class="box">
+
+            <div class="content">
+
+                <a href="hrefs://www.bdcom.com/" class="logo">
+                    <img class="im" src="assets/admin/images/traccar.png" style="width: 300.984px;  max-height: 80px;">
+
+                </a>
+
+            </div>
+
+
+
+
+
+
+            <mat-card-header>
+                <mat-card-title></mat-card-title>
+            </mat-card-header>
+
+            <form [formGroup]="myform" class="example-form">
+                <mat-card-content>
+                    <mat-form-field class="example-full-width">
+                        <input autocomplete="off" formControlName="email" matInput placeholder="Email">
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <input trim="blur" type="password" autocomplete="off" formControlName="password" matInput
+                            placeholder="Password">
+                    </mat-form-field>
+
+
+
+                </mat-card-content>
+                <div class="submitButton">
+                    <button mat-raised-button color="primary" class="btn-block" (click)="login()">Log in</button>
+                </div>
+            </form>
+            <div *ngIf="this.show">
+                <p class="red">Authentic Email and Password Required</p>
+            </div>
+        </mat-card>
+
+    </div>
+</div>

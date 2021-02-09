@@ -1,0 +1,10 @@
+<div>
+    <div class="content-container">
+      <mat-icon id="close-button" (click)="closeDialog()">close</mat-icon>
+      <div class="content-span">Are you sure to delete this record ?</div>
+    </div>
+    <div>
+    <button mat-flat-button id="no-button"  [mat-dialog-close]="false">No</button>
+    <button mat-flat-button id="yes-button" color="warn" [mat-dialog-close]="true">Yes</button>
+</div>
+</div>

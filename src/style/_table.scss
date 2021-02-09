@@ -1,0 +1,91 @@
+$width:100%;
+$primary-color:#FFE082;
+$accent-color:#388E3C;
+$text-color:#fff;
+$alignment:left;
+
+@mixin placcement {
+  position: relative;
+  width: $width;
+  margin: auto;
+}
+
+.container {
+  @include placcement();
+  }
+
+.table-title{
+  @include placcement();
+    height: 40px !important;
+    background:#e5e5e5;
+    // background: linear-gradient(40deg,#45cafc,#303f9f);
+  }
+
+h3{
+     position: relative;
+     top: 5px;
+     text-align: center;  
+  }
+
+table {
+  @include placcement();
+  }
+  
+.mat-cell {
+       text-align: $alignment;
+       border-right: 1px solid #e0e0e0;
+    }
+
+.mat-header-cell{
+      height: 40px !important;
+    }
+  
+td{
+      font-size: 12px !important;
+      padding: 0 ;
+      margin: 0;
+    }
+  
+.filter{
+      margin-left: 80px
+    }
+  
+.spacer{
+      margin-left: 50%
+    }
+  
+.spacer2{
+      margin-left: 5px
+    }
+  
+:host ::ng-deep .mat-sort-header-container {
+      display: flex;
+      // justify-content: center;
+  }
+  
+.addNewButton{
+    margin-left: 65%;
+    margin-top: 10px;
+   background-color: aquamarine;
+  }
+
+h4{
+    margin-left:10%;
+    float: $alignment; 
+  }
+
+.row{
+    &:hover{
+    background: #d2dce3  !important;
+      }
+  }
+
+.header-row{
+    background:#C5E1A5  !important;   
+    
+  }
+
+  
+tr:nth-child(even) {background: #dfdfdf;
+     height:20px;}
+tr:nth-child(odd) {background: #FFF; height:20px;}

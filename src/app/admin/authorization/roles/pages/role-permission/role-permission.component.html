@@ -1,0 +1,119 @@
+<mat-card>
+    <div class="title-style">
+        <h3 >Role Permission Table</h3>
+  </div>
+    <mat-card-content>
+
+        <form [formGroup]="myform">
+            <div class="allCheck">
+                <mat-checkbox  [indeterminate]="someComplete()"  (change)="checkAll($event.checked)" class="heading"> All Permission</mat-checkbox>
+                <mat-divider></mat-divider>
+            </div>
+
+            <div *ngFor="let state of this.groups;  let i=index " class="space" style="clear:both">
+
+                <mat-checkbox (change)="checkAllByGroup($event.checked,i)" class="group" formControlName="groupId" labelPosition="before" [value]="state.id"
+                    [checked]="allComplete">
+
+                    {{state.name}}
+                </mat-checkbox>
+                <div *ngFor="let val of permission[i]; let l=index  ">
+
+                    <div class="item">
+                        <mat-checkbox [checked]="checkState(val.permission)" (change)="getPermission($event.checked,val.permission,i)">
+                            {{val.name}}
+                        </mat-checkbox>
+                        <!-- <mat-checkbox formControlName="permission" 
+                        class="space2" 
+                        (change)="getPermission($event.checked,val.permission,i)"
+                        [value]="val.permission">
+
+
+                        {{val.name}} {{checkState(val.permission)}}
+                    </mat-checkbox> -->
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+            <!-- <div *ngFor="let state of this.groupName  let i=index " style="clear:both" >
+
+                <mat-selection-list formControlName="groupId" class="mainItem">
+
+                    <mat-list-option multiple [value]="state.id" class="group">
+
+                        {{ state.name }}
+
+                    </mat-list-option>
+                </mat-selection-list>
+
+                <div *ngFor="let state of this.data[i] let l=index ">
+                    <span class="item">
+                        <mat-selection-list formControlName="permission">
+
+                            <mat-list-option checkboxPosition="before" class="inline" [value]="state.permission"
+                                (ngModelChange)="updateAllComplete()" class="item"
+                              >
+
+                                <mat-checkbox [checked]="this.selected.indexOf(this.data[i][l].permission == -1)" (change)="getPermission($event.checked,this.data[i][l].permission,i)"> {{state.name}}</mat-checkbox>
+                               
+
+                            </mat-list-option>
+                        </mat-selection-list>
+
+                    </span>
+                </div>
+            </div>  -->
+
+
+
+
+
+
+
+
+            <!-- <div *ngFor="let state of this.groupName  let i=index " style="clear:both" > 
+
+                <mat-selection-list formControlName="groupId" class="mainItem">
+
+                    <mat-list-option multiple [value]="state.id" class="group">
+
+                        {{ state.name }}
+
+                    </mat-list-option>
+                </mat-selection-list>
+
+                <div *ngFor="let state of this.data[i] let l=index ">
+                    <span class="item">
+                        <mat-selection-list formControlName="permission"  (selectionChange)="getPermission($event.checked,this.data[i][l].permission,i)">
+
+                            <mat-list-option  checkboxPosition="before"  class="inline" [value]="state.permission"
+                            
+                                >
+
+                                {{state.name}}
+                            </mat-list-option>
+                           
+                        </mat-selection-list>
+
+                    </span>
+                </div>
+            </div>  -->
+
+
+
+        </form>
+
+    </mat-card-content>
+    <div>
+        <mat-card-actions class="submitButton">
+            <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="addPermission()">
+                Submit
+            </button>
+
+        </mat-card-actions>
+    </div>
+</mat-card>
