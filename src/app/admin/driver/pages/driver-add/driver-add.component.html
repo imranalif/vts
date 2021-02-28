@@ -1,0 +1,116 @@
+<mat-card class="customStyle">
+    <div class="title-style">
+        <mat-card-title >Driver Add Form</mat-card-title>
+</div>
+<mat-card-content>
+    <form [formGroup]="myform">
+        <div class="main">
+            <div class="mainContent">
+        <mat-form-field class="full">
+            <input trim="blur" matInput placeholder="Name" formControlName="driverName" autocomplete="off" required />
+        </mat-form-field>
+        <div *ngIf="submitted && myform.get('driverName').errors" class="feedback">
+            <div *ngIf=" myform.get('driverName').errors.required" class="red"> Name is required</div>
+        </div>
+
+
+
+
+        <mat-form-field class="full">
+            <input matInput placeholder="Identifier" formControlName="identifier" autocomplete="off" required />
+        </mat-form-field>
+
+        <mat-form-field class="full">
+            <input matInput placeholder="Driving License" formControlName="driving_license" autocomplete="off" required />
+        </mat-form-field>
+
+        <mat-form-field class="full">
+            <input matInput placeholder="Phone" formControlName="phone" autocomplete="off" />
+        </mat-form-field>
+    </div>
+        <div class="optionalContent">
+            <mat-accordion class="example-headers-align">
+                <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <mat-icon>add</mat-icon>  Personal Information
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+
+                    <mat-form-field class="half">
+                        <input matInput placeholder="Father Name" formControlName="fatherName"
+                            autocomplete="off"/>
+                    </mat-form-field>
+
+                    <mat-form-field class="half">
+                        <input matInput placeholder="Mother Name" formControlName="motherName"
+                            autocomplete="off"/>
+                    </mat-form-field>
+
+                    <mat-form-field class="half">
+                        <input matInput placeholder="Email" formControlName="email"
+                            autocomplete="off"/>
+                    </mat-form-field>
+
+                    <mat-form-field class="half">
+                        <textarea matInput placeholder="Present Address" formControlName="presentAddress"
+                            autocomplete="off"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field class="half">
+                        <textarea matInput placeholder="Permanent Address" formControlName="permanentAddress"
+                            autocomplete="off"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field class="half">
+                        <input matInput placeholder="NID" formControlName="nid"
+                            autocomplete="off"/>
+                    </mat-form-field>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <mat-accordion class="example-headers-align">
+                <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>add</mat-icon>  Attributes
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div formArrayName="attributes" *ngFor="let assign of myform.get('attributes')['controls']; let i = index"  >
+                        <div [formArrayName]="i">
+                    <mat-form-field class="half">
+                        <input trim="blur" matInput placeholder="Name" [id]="'name' + i"  formControlName="name"
+                            autocomplete="off"  />
+                    </mat-form-field>
+
+                    <mat-form-field class="half">
+                        <input trim="blur" matInput placeholder="Value" [id]="'value' + i" formControlName="value"
+                            autocomplete="off"  />
+                    </mat-form-field>
+
+                    <div class="delAssigns" *ngIf="myform.get('attributes').length >1">
+                        <a>  <mat-icon (click)="removeAttributes(i)">clear</mat-icon></a>
+                    </div>
+                </div> 
+              
+                </div>
+                   <button (click)="addassignAttributes()"><mat-icon>add</mat-icon></button>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </div>
+
+        <!-- <div *ngIf="submitted && myform.get('status').errors" class="feedback">
+            <div *ngIf=" myform.get('status').errors.required" class="red"> Status is required</div>
+        </div> -->
+    </form>
+</mat-card-content>
+
+<mat-card-actions class="button">
+    <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="addDriver()">
+        Add
+    </button>
+    <p>Note: Field marked with * is Mandatory</p>
+</mat-card-actions>
+</mat-card>

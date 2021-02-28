@@ -9,25 +9,25 @@ import { Observable, fromEvent} from 'rxjs';
 export class GroupService {
 
   constructor(private http: HttpClient) { }
-  private url = environment.apiUrl + '/group/';
+  private url = environment.apiUrl + '/permission_group/';
 
   addGroup(data){
-    return this.http.post(this.url + '/addGroup', data);
+    return this.http.post(this.url + '/addPermissionGroup', data);
   }
 
   getAllGroup(): Observable<any> {
-    return this.http.get(this.url + '/listGroup');
+    return this.http.get(this.url + '/listPermissionGroup');
   }
 
   getGroupById(id: string): Observable<object> {
-    return this.http.get(this.url + id + '/editGroup');
+    return this.http.get(this.url + id + '/editPermissionGroup');
   }
 
   updateGroup(id: string, data): Observable<object> {
-    return this.http.put(this.url + id + '/updateGroup', data);
+    return this.http.put(this.url + id + '/updatePermissionGroup', data);
   }
 
   deleteGroup(id: string): Observable<object> {
-    return this.http.delete(this.url + id + '/deleteGroup');
+    return this.http.delete(this.url + id + '/deletePermissionGroup');
   }
 }

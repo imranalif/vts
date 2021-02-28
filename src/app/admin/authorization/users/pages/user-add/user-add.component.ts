@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, EmailValidator } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { compareValidators } from '../../services/confirm-password.directive';
 import { UserService } from '../../services/user.service';
+import { RoleService } from '../../../roles/services/role.service';
 
 
 @Component({
@@ -12,18 +13,35 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./user-add.component.scss']
 })
 export class UserAddComponent implements OnInit {
-  imgurl: string = null;
+  imgurl: string=null
+  fileUpload: File = null;
+  object: any = {}
+  fieldArray: Array<any> = [];
   images;
   submitted = false;
   show: boolean;
+  userRoles
   myform: FormGroup;
+  mapTypes = [{id: 1,  value: 'OpenStree Map' }, {id: 2,  value: 'Bing Map' }, {id: 3,  value: 'Baidu Map' }];
+  formats = [{id: 1,  value: 'Decimal Degrees' }, {id: 2,  value: 'Degress Decimal Minutes' }, {id: 3,  value: 'Degrees Minutes Seconds' }];
   states = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   roles = [{ id: 1, value: 'Admin' }, { id: 0, value: 'User' }];
   gend = [{ value: 'Male' }, { value: 'Female' }];
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
-    private userService: UserService) { }
+    private userService: UserService,
+    private rolesService:RoleService) { }
+
+    // stepp = 0;
+    // setStepp(index: number) {
+    //   this.stepp = index;
+    // }
+
+    step = 0;
+    setStep(index: number) {
+      this.step = index;
+    }
 
   ngOnInit(): void {
     this.myform = this.fb.group({
@@ -37,8 +55,48 @@ export class UserAddComponent implements OnInit {
       image: ['', [Validators.required]],
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required, compareValidators('password')]],
+      mapLayer:[''],
+      latitude:[''],
+      longitude:[''],
+      zoom:[],
+      hourFormat:[],
+      cordinatesFormat:[''],
+      poiLayer:[],
+      disabled:[],
+      admin:[],
+      readonly:[],
+      deviceReadonly:[],
+      limitCommands:[],
+      expiration:[],
+      deviceLimit:[],
+      userLimit:[],
+      token:[],
       created_by: [''],
-      status: []
+      status: [ ,[Validators.required]],
+      attributes: this.fb.array ([this.assignAttributes()]),
+    });
+    this.getAllRole();
+  }
+
+  assignAttributes() {
+    return this.fb.group({
+      name: [''],
+      value: ['']
+    });
+      }
+
+     get fArray(){
+       return this.myform.get('attributes') as FormArray
+     } 
+
+      addassignTicket() {
+        this.fArray.push(this.assignAttributes())
+          }
+    
+
+  getAllRole(): void {
+    this.rolesService.getAllRole().subscribe(res => {
+      this.userRoles = res;
     });
   }
 
@@ -79,6 +137,13 @@ export class UserAddComponent implements OnInit {
     if (this.myform.invalid) {
       return;
     }
+
+    this.myform.value.attributes.forEach(element => {
+      const b = element.value
+      this.object[element.name] = b;
+    });
+    this.myform.value.attributes = this.object;
+
     const formData = new FormData();
     formData.append('image', this.images);
     formData.append('firstName', this.myform.get('firstName').value);
@@ -90,11 +155,32 @@ export class UserAddComponent implements OnInit {
     formData.append('address', this.myform.get('address').value);
     formData.append('gender', this.myform.get('gender').value);
     formData.append('status', this.myform.get('status').value);
+
+    formData.append('mapLayer', this.myform.get('mapLayer').value);
+    formData.append('latitude', this.myform.get('latitude').value);
+    formData.append('longitude', this.myform.get('longitude').value);
+    formData.append('zoom', this.myform.get('zoom').value);
+    formData.append('hourFormat', this.myform.get('hourFormat').value);
+    formData.append('cordinatesFormat', this.myform.get('cordinatesFormat').value);
+    formData.append('poiLayer', this.myform.get('poiLayer').value);
+    formData.append('disabled', this.myform.get('disabled').value);
+    formData.append('admin', this.myform.get('admin').value);
+    formData.append('readonly', this.myform.get('readonly').value);
+    formData.append('deviceReadonly', this.myform.get('deviceReadonly').value);
+    formData.append('expiration', this.myform.get('expiration').value);
+    formData.append('deviceLimit', this.myform.get('deviceLimit').value);
+    formData.append('userLimit', this.myform.get('userLimit').value);
+    formData.append('attributes',  this.object);
+    formData.append('token', this.myform.get('token').value);
+
+    
     formData.append('created_by', this.myform.value.created_by);
+
+    console.log(this.myform.value)
 
     this.userService.addUser(formData).subscribe(data => {
       this.openSnackBar();
-      // this.router.navigate(['admin/users/user/user-list']);
+       //this.router.navigate(['admin/users/user/user-list']);
     },
       error => {
         this.errorMessage();

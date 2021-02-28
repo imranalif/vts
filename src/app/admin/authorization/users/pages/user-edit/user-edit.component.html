@@ -1,1 +1,235 @@
-<p>user-edit works!</p>
+<mat-card class="customStyle">
+    <div class="title-style">
+        <mat-card-title>User Update Form</mat-card-title>
+    </div>
+    <mat-card-content>
+        <form [formGroup]="myform">
+            <div class="main">
+                <div class="mainContent">
+                    <mat-form-field class="half">
+                        <input trim="blur" matInput placeholder="First Name" formControlName="firstName"
+                            autocomplete="off" required />
+                    </mat-form-field>
+                    <!-- <div *ngIf="submitted && myform.get('name').errors" class="feedback">
+                <div *ngIf=" myform.get('name').errors.required" class="red"> Name is required</div>
+            </div> -->
+
+                    <mat-form-field class="half">
+                        <input trim="blur" matInput placeholder="Last Name" formControlName="lastName"
+                            autocomplete="off" required />
+                    </mat-form-field>
+
+                    <mat-form-field class="half">
+                        <input trim="blur" matInput placeholder="Mobile" formControlName="mobile" autocomplete="off"
+                            required />
+                    </mat-form-field>
+
+                    <mat-form-field class="half">
+                        <input trim="blur" matInput placeholder="Email" formControlName="email" autocomplete="off"
+                            required />
+                    </mat-form-field>
+
+                   
+
+                    <mat-form-field class="half">
+                        <mat-label>Gender</mat-label>
+                        <mat-select formControlName="gender">
+                            <mat-option *ngFor="let state of gend" [value]="state.value">
+                                {{ state.value }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="half">
+                        <mat-label>User Role</mat-label>
+
+                        <mat-select formControlName="userRole" required #sl>
+                            <input class="filterBox" placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
+                            <a>
+                                <mat-icon class="closeButton" (click)="sl.close()">clear</mat-icon>
+                              </a>
+                            <mat-option *ngFor="let state of userRoles" [value]="state.id">
+                                {{ state.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="full">
+                        <textarea matInput placeholder="Address" formControlName="address"
+                            autocomplete="off"></textarea>
+                    </mat-form-field>
+
+
+                    <!-- <div class="full">
+                <label>Gender</label>
+                <mat-radio-group class="radio-group" class="half" formControlName="gender">
+                    <mat-radio-button class="radio-button" *ngFor="let state of gend" [value]="state.value">
+                        {{ state.value }}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div> -->
+
+
+
+                    
+
+
+
+
+
+                    <mat-form-field class="full" required>
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status">
+                            <mat-option *ngFor="let state of states" [value]="state.id">
+                                {{ state.value }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- <div *ngIf="submitted && myform.get('status').errors" class="feedback">
+            <div *ngIf=" myform.get('status').errors.required" class="red"> Status is required</div>
+        </div> -->
+                </div>
+                <div class="optionalContent">
+                    <mat-accordion class="example-headers-align">
+                        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <mat-icon>add</mat-icon> Preferences
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <mat-form-field class="half" required>
+                                <mat-label>Map Layer</mat-label>
+                                <mat-select formControlName="mapLayer">
+                                    <mat-option *ngFor="let state of mapTypes" [value]="state.id">
+                                        {{ state.value }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="half">
+                                <input matInput placeholder="Latitude" formControlName="latitude" autocomplete="off" />
+                            </mat-form-field>
+
+                            <mat-form-field class="half">
+                                <input matInput placeholder="Longitude" formControlName="longitude"
+                                    autocomplete="off" />
+                            </mat-form-field>
+
+                            <mat-form-field class="half">
+                                <input matInput placeholder="Zoom" formControlName="zoom" autocomplete="off" />
+                            </mat-form-field>
+
+
+
+                            <mat-form-field class="half" required>
+                                <mat-label>Coordinates Format</mat-label>
+                                <mat-select formControlName="cordinatesFormat">
+                                    <mat-option *ngFor="let state of formats" [value]="state.id">
+                                        {{ state.value }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="half">
+                                <input matInput placeholder="POI Layer" formControlName="poiLayer" autocomplete="off" />
+                            </mat-form-field>
+
+                            <mat-checkbox class="checkbox" formControlName="hourFormat" labelPosition="before">
+                                12 Hour Format
+                            </mat-checkbox>
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <mat-accordion class="example-headers-align">
+                        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <mat-icon>add</mat-icon> Permissions
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div>
+                                <mat-checkbox class="checkbox" formControlName="disabled" labelPosition="before">
+                                    Disabled
+                                </mat-checkbox>
+                            </div>
+                            <div>
+                                <mat-checkbox class="checkbox" formControlName="admin" labelPosition="before">
+                                    Admin
+                                </mat-checkbox>
+                            </div>
+
+                            <div>
+                                <mat-checkbox class="checkbox" formControlName="readonly" labelPosition="before">
+                                    Readonly
+                                </mat-checkbox>
+                            </div>
+                            <div>
+                                <mat-checkbox class="checkbox" formControlName="deviceReadonly" labelPosition="before">
+                                    Device Readonly
+                                </mat-checkbox>
+                            </div>
+                            <div>
+
+                                <mat-checkbox class="checkbox" formControlName="limitCommands" labelPosition="before">
+                                    Limit Commands
+                                </mat-checkbox>
+                            </div>
+                            <mat-form-field class="half">
+                                <input matInput placeholder="Expiration" formControlName="expiration"
+                                    autocomplete="off" />
+                            </mat-form-field>
+                            <mat-form-field class="half">
+                                <input matInput placeholder="Device Limit" formControlName="deviceLimit"
+                                    autocomplete="off" />
+                            </mat-form-field>
+                            <mat-form-field class="half">
+                                <input matInput placeholder="User Limit" formControlName="userLimit"
+                                    autocomplete="off" />
+                            </mat-form-field>
+                            <mat-form-field class="half">
+                                <input matInput placeholder="Token" formControlName="token" autocomplete="off" />
+                            </mat-form-field>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <mat-accordion class="example-headers-align">
+                        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <mat-icon>add</mat-icon> Attributes
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div formArrayName="attributes"
+                                *ngFor="let assign of myform.get('attributes')['controls']; let i = index">
+                                <div [formArrayName]="i">
+                                    <mat-form-field class="half">
+                                        <input trim="blur" matInput placeholder="Name" formControlName="name"
+                                            autocomplete="off" />
+                                    </mat-form-field>
+
+                                    <mat-form-field class="half">
+                                        <input trim="blur" matInput placeholder="Value" formControlName="value"
+                                            autocomplete="off" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <button (click)="addassignTicket()">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions class="button">
+        <button class="button" mat-stroked-button color="primary" (click)="updateUser()" class="btn-block">
+            Update
+        </button>
+        <p>Note: Field marked with * is Mandatory</p>
+    </mat-card-actions>
+</mat-card>

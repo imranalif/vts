@@ -7,10 +7,11 @@ import { MaterialModule } from '../../shared/material/material.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { SidemenuComponent } from './sidemenu/sidemenu.component';
 import { TopmenuComponent } from './topmenu/topmenu.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
-  declarations: [SidemenuComponent, TopmenuComponent],
+  declarations: [SidemenuComponent, TopmenuComponent, DashboardComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

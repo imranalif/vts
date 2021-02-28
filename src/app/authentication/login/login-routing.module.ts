@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
+
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 const routes: Routes = [
@@ -11,7 +12,8 @@ const routes: Routes = [
   {
     path: 'deny',
     component: AccessDeniedComponent
-  }
+  },
+  
 ];
 
 @NgModule({

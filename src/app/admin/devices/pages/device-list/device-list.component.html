@@ -1,0 +1,66 @@
+<div class="custom-style">
+    <div class="table-title">
+      <h3>Device Table</h3>
+    </div>
+    <div class="search-div">
+      <mat-form-field class="filter">
+        <input matInput placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
+      </mat-form-field>
+    </div>
+  
+    <table mat-table matTableExporter  [dataSource]="dataSource" matSort  class="mat-elevation-z8">
+  
+      <ng-container matColumnDef="action" >
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button *ngIf="assigedRole.includes('device_edit')==true" >
+            <mat-icon  (click)="editDevice(row)">edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" *ngIf="assigedRole.includes('device_delete')==true" >
+            <mat-icon (click)="deleteDevice(row)">delete_outline</mat-icon>
+          </button>
+          <button mat-icon-button [matMenuTriggerFor]="setting" color="info" *ngIf="assigedRole.includes('device_setting')==true" >
+            <mat-icon >settings</mat-icon>
+          </button>
+          <mat-menu #setting="matMenu">
+            <button mat-menu-item  (click)="openDriverModal()">Drivers</button>
+            <button mat-menu-item routerLink="">Notifications</button>
+            <button mat-menu-item routerLink="">Maintenance</button>
+          </mat-menu>
+
+          <!-- <button mat-button [matMenuTriggerFor]="department">Department</button>
+          <mat-menu #department="matMenu">
+            <button mat-menu-item routerLink="">Add Department</button>
+            <button mat-menu-item routerLink="">
+              All Departments
+            </button>
+          </mat-menu> -->
+        
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="identifier">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Identifer</th>
+        <td mat-cell *matCellDef="let element">{{ element.unique_id }}</td>
+      </ng-container>
+  
+  
+
+  
+      <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[25, 50, 100]" [pageSize]="25"></mat-paginator>
+  </div>
+

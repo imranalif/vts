@@ -143,6 +143,167 @@ data1: any = [];
         }
       ]
     },
+    {
+      displayName: 'Drivers',
+      iconName: 'speaker_notes',
+      route: 'admin/driver',
+      permission: 'driver_link',
+      children: [
+        {
+          displayName: 'Driver List',
+          iconName: 'star_rate',
+          route: 'admin/driver/list',
+          color: '#2471A3',
+          permission:'driver_list',
+
+        },
+        {
+          displayName: 'Driver Add',
+          iconName: 'star_rate',
+          route: 'admin/driver/add',
+          color: '#2471A3',
+          permission:'driver_add',
+        }
+      ]
+    },
+    {
+      displayName: 'Groups',
+      iconName: 'speaker_notes',
+      route: 'admin/group',
+      permission: 'group_link',
+      children: [
+        {
+          displayName: 'Group List',
+          iconName: 'star_rate',
+          route: 'admin/group/list',
+          color: '#2471A3',
+          permission:'group_list',
+
+        },
+        {
+          displayName: 'Group Add',
+          iconName: 'star_rate',
+          route: 'admin/group/add',
+          color: '#2471A3',
+          permission:'group_add',
+        }
+      ]
+    },
+    {
+      displayName: 'Notifications',
+      iconName: 'speaker_notes',
+      route: 'admin/notification',
+      permission: 'notification_link',
+      children: [
+        {
+          displayName: 'Notification List',
+          iconName: 'star_rate',
+          route: 'admin/notification/list',
+          color: '#2471A3',
+          permission:'notification_list',
+
+        },
+        {
+          displayName: 'Notification Add',
+          iconName: 'star_rate',
+          route: 'admin/notification/add',
+          color: '#2471A3',
+          permission:'notification_add',
+        }
+      ]
+    },
+    {
+      displayName: 'Devices',
+      iconName: 'speaker_notes',
+      route: 'admin/devices',
+      permission: 'device_link',
+      children: [
+        {
+          displayName: 'Device List',
+          iconName: 'star_rate',
+          route: 'admin/devices/list',
+          color: '#2471A3',
+          permission:'device_list',
+
+        },
+        {
+          displayName: 'Device Add',
+          iconName: 'star_rate',
+          route: 'admin/devices/add',
+          color: '#2471A3',
+          permission:'device_add',
+        }
+      ]
+    },
+    {
+      displayName: 'Maintenance',
+      iconName: 'speaker_notes',
+      route: 'admin/maintenance',
+      permission: 'maintenance_link',
+      children: [
+        {
+          displayName: 'Maintenance List',
+          iconName: 'star_rate',
+          route: 'admin/maintenance/list',
+          color: '#2471A3',
+          permission:'maintenance_list',
+
+        },
+        {
+          displayName: 'Maintenance Add',
+          iconName: 'star_rate',
+          route: 'admin/maintenance/add',
+          color: '#2471A3',
+          permission:'maintenance_add',
+        }
+      ]
+    },
+    {
+      displayName: 'Saved Commands',
+      iconName: 'speaker_notes',
+      route: 'admin/commands',
+      permission: 'command_link',
+      children: [
+        {
+          displayName: 'Commands List',
+          iconName: 'star_rate',
+          route: 'admin/commands/list',
+          color: '#2471A3',
+          permission:'command_list',
+
+        },
+        {
+          displayName: 'Commands Add',
+          iconName: 'star_rate',
+          route: 'admin/commands/add',
+          color: '#2471A3',
+          permission:'command_add',
+        }
+      ]
+    },
+    {
+      displayName: 'Computed Attributes',
+      iconName: 'speaker_notes',
+      route: 'admin/attributes',
+      permission: 'attribute_link',
+      children: [
+        {
+          displayName: 'Attributes List',
+          iconName: 'star_rate',
+          route: 'admin/attributes/list',
+          color: '#2471A3',
+          permission:'attribute_list',
+
+        },
+        {
+          displayName: 'Attribute Add',
+          iconName: 'star_rate',
+          route: 'admin/attributes/add',
+          color: '#2471A3',
+          permission:'attribute_add',
+        }
+      ]
+    }
   ]
 
   ngOnInit(): void {

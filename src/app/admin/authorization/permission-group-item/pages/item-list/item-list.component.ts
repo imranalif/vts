@@ -57,6 +57,10 @@ export class ItemListComponent implements OnInit {
     this.router.navigate(['admin/users/roles/role-permission', data.id]);
   }
 
+  goAddItem(){
+    this.router.navigate(['/admin/authorization/item/add']);
+  }
+
   deleteItem(data): void {
     this.dialogService.openConfirmDialog()
     .afterClosed().subscribe(res => {

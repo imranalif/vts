@@ -16,14 +16,14 @@
 
 
         <mat-form-field class="full">
-            <input matInput placeholder="Description" formControlName="description" autocomplete="off" />
+            <textarea matInput placeholder="Description" formControlName="description" autocomplete="off" ></textarea>
         </mat-form-field>
 
 
 
         <mat-form-field class="full">
             <mat-label>Status</mat-label>
-            <mat-select formControlName="status" >
+            <mat-select formControlName="status" required>
                 <mat-option *ngFor="let state of states" [value]="state.id">
                     {{ state.value }}
                 </mat-option>

@@ -85,7 +85,7 @@ export class RolePermissionComponent implements OnInit {
       this.groupData.push(res);
       this.groups.forEach(element => {
         this.itemService.getPermissionItemById(element.id).subscribe(data => {
-          this.permission[element.id - 2] = data;
+          this.permission[element.id] = data;
           data.forEach(element => {
             this.allPermission.push(element.permission);
           });
@@ -101,7 +101,7 @@ export class RolePermissionComponent implements OnInit {
   checkAllByGroup(e: any, id): void {
 
     if (e) {
-      id = id + 2;
+      id = id;
       this.roleService.getPermissionByGroup(id).subscribe(res => {
         console.log(res);
         res.forEach(element => {
@@ -141,7 +141,7 @@ export class RolePermissionComponent implements OnInit {
     if (e) {
       console.log(id, name);
       const permissionName = name;
-      this.gId = id + 1;
+      this.gId = id;
       this.permissionGroup.push(this.gId);
       const x = { id: this.gId };
       const y = { item: permissionName };

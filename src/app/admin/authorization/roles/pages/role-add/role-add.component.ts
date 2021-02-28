@@ -26,7 +26,7 @@ export class RoleAddComponent implements OnInit {
       name: ['', [Validators.required]],
       created_by: [''],
       description: [''],
-      status: []
+      status: [ ,[Validators.required]]
     });
     this.test();
   }
@@ -53,6 +53,7 @@ export class RoleAddComponent implements OnInit {
 
   addRole(){
     this.submitted = true;
+    this.myform.markAllAsTouched();
     if (this.myform.invalid) {
       return;
   }

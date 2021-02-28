@@ -11,6 +11,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { AdminModule } from './admin/admin.module';
 import { AdminMenuModule } from './theme/admin/admin.module';
 import { MatDialogComponent } from './shared/mat-dialog/mat-dialog.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { MatDialogComponent } from './shared/mat-dialog/mat-dialog.component';
     HttpClientModule,
     AdminModule,
     AdminMenuModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatTableExporterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

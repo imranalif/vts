@@ -1,0 +1,65 @@
+mat-card{
+    width: 100%;
+    top: 0px;
+}
+.main{width: 100%;}
+.mainContent{
+  width: 50%;
+ 
+}
+
+.optionalContent{
+  width: 50%;
+  margin-top: -280px;
+  float: right;
+}
+
+.customStyle{
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 5px 10px 15px #1A237E;
+    .title-style{
+      color:#1A237E ;
+      text-align: center !important;
+     
+    }
+    .warning{
+      color: red;
+      margin-left: 30px;
+    }
+    .error_message{
+      color: red;
+      margin-left: 20px;
+      margin-top: -10px;
+      font-size: 12px;
+    }
+}
+
+.mat-stroked-button{
+  
+    width:120px;  border: 1px solid blue;
+  }
+
+  .sidenav-content{
+    height: 120%;
+  }
+
+  .image{
+      margin-right: 10px;
+  }
+
+  .checkbox{
+    margin-left: 15px;
+  }
+
+  mat-grid-tile {
+    background: lightblue;
+  }
+
+  .button{
+    margin-top: 35px;
+  }
+
+  .filterBox{
+      width: 100px;
+      height: 20px;
+  }

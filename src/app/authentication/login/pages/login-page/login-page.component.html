@@ -3,14 +3,14 @@
 
     </div>
 
-    <div class="content">
+    <!-- <div class="content">
 
         <a href="hrefs://www.bdcom.com/" class="logo">
             <img class="im" src="assets/admin/images/ac.png" style="width: 200.984px;  max-height: 50px;">
 
         </a>
 
-    </div>
+    </div> -->
 
 
     <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center ">
@@ -54,6 +54,9 @@
                 <div class="submitButton">
                     <button mat-raised-button color="primary" class="btn-block" (click)="login()">Log in</button>
                 </div>
+                <div class="link">
+                <a class="bdlink" href="https://www.bdcom.com/">Developed By BDCOM Online Ltd</a>
+            </div>
             </form>
             <div *ngIf="this.show">
                 <p class="red">Authentic Email and Password Required</p>

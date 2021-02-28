@@ -13,15 +13,15 @@
     // font-family: 'Roboto', sans-serif;
       }
 
-.welcome-logo{
-    width: 100%;
-    height: 120px;
-    background-color: 	#F5F5F5;
-    background-image: linear-gradient(141deg,  #F0FFF0  0%, 	#F5F5F5 51%, #7986CB  75%);
-    transform:rotate(-4deg);
-    border-radius: 10px 10px 10px 50px;
-    margin-top: -60px;
-    }
+// .welcome-logo{
+//     width: 100%;
+//     height: 120px;
+//     background-color: 	#F5F5F5;
+//     background-image: linear-gradient(141deg,  #F0FFF0  0%, 	#F5F5F5 51%, #7986CB  75%);
+//     transform:rotate(-4deg);
+//     border-radius: 10px 10px 10px 50px;
+//     margin-top: -60px;
+//     }
     
 .content{
     position: relative;
@@ -74,7 +74,8 @@ span{
             
     margin-left: 30%;
     position: relative;
-    top:-70px;
+    //top:-70px;
+    top:-30px;
     opacity: 1;
     float: left;
     padding: 60px 50px 40px 50px;
@@ -136,7 +137,7 @@ span{
   }
         
 .login-wrapper .mat-card {
-    padding: 40px 70px 50px;
+    padding: 40px 70px 20px;
   }
         
 .login-wrapper .mat-stroked-button {
@@ -163,4 +164,14 @@ h1{
 
 .submitButton{
     margin-top: 30px;
+}
+
+.link{
+  text-align: right;
+  margin-top: 20px;
+  text-decoration: none;
+}
+
+.bdlink{
+  text-decoration: none;
 }

@@ -6,6 +6,10 @@
       <mat-form-field class="filter">
         <input matInput placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
       </mat-form-field>
+
+      <button class="add_button" mat-button class="mat-raised-button mat-primary" (click)="goAddItem()">
+        <mat-icon>add</mat-icon>
+     </button>
     </div>
   
     <table mat-table matTableExporter  [dataSource]="dataSource" matSort  class="mat-elevation-z8">

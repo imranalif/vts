@@ -16,7 +16,7 @@ export class LoginPageComponent implements OnInit {
   token;
   object
   submitted = false;
-  roles=[];
+  roles = [];
   constructor(private fb: FormBuilder,
     private loginService: LoginService,
     private roleService: RoleService,
@@ -38,19 +38,20 @@ export class LoginPageComponent implements OnInit {
       return;
     }
     this.loginService.login(this.myform.value).subscribe(res => {
-      this.roleService.getPermissionByRole(res.data.role).subscribe(data=>{
+      this.roleService.getPermissionByRole(res.data.role).subscribe(data => {
         data.forEach(element => {
           this.roles.push(element.permission);
           localStorage.setItem('rolesData', JSON.stringify(this.roles));
           localStorage.setItem('token', res.token);
           localStorage.setItem('userData', JSON.stringify(res.data));
-          this.router.navigate(['/admin/authorization/roles/list']);
+          this.router.navigate(['admin/dashboard']);
           //console.log(this.roles)
         });
       })
      
+
     },
-    err => {this.show = true; }
+      err => { this.show = true; }
     )
   }
 

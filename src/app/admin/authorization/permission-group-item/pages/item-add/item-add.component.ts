@@ -15,6 +15,7 @@ import { UniqueItemValidator } from '../../services/unique-item.directive';
 })
 export class ItemAddComponent implements OnInit {
   groups
+  filterGroups
   submitted = false;
   myform: FormGroup;
   userData;
@@ -47,6 +48,7 @@ export class ItemAddComponent implements OnInit {
   getAllGroup(): void {
     this.groupService.getAllGroup().subscribe(res => {
       this.groups = res;
+      this.filterGroups=this.groups
     });
   }
 
@@ -56,6 +58,10 @@ export class ItemAddComponent implements OnInit {
       verticalPosition: 'top',
       horizontalPosition: 'end',
     });
+  }
+
+  applyFilter(val): void {
+    this.groups = this.filterGroups.filter((unit) => unit.name.toLowerCase().indexOf(val) > -1);
   }
 
   addItem(){

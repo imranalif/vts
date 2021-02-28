@@ -14,18 +14,23 @@
 
 
             <mat-form-field class="full">
-                <input trim="blur" matInput placeholder="Permission" formControlName="permission" UniqueItem autocomplete="off"
-                    required />
+                <input trim="blur" matInput placeholder="Permission" formControlName="permission" UniqueItem
+                    autocomplete="off" required />
             </mat-form-field>
 
             <div class="error_message" *ngIf="myform.get('permission').errors?.UniqueItem ">
                 item already exist
-              </div>
+            </div>
 
 
             <mat-form-field class="full">
                 <mat-label>Permission Group</mat-label>
-                <mat-select formControlName="group_id" required>
+                <mat-select formControlName="group_id" required #sl>
+                    <input class="filterBox" placeholder="search" autocomplete="off"
+                        (keyup)="applyFilter($event.target.value)" />
+                    <a>
+                        <mat-icon class="closeButton" (click)="sl.close()">clear</mat-icon>
+                    </a>
                     <mat-option *ngFor="let state of groups" [value]="state.id">
                         {{ state.name }}
                     </mat-option>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../shared/material/material.module';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 
 import { RolesRoutingModule } from './roles-routing.module';
@@ -20,7 +21,8 @@ import { RolePermissionComponent } from './pages/role-permission/role-permission
     RolesRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatTableExporterModule
   ]
 })
 export class RolesModule { }

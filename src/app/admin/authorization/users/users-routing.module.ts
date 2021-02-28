@@ -6,6 +6,7 @@ import { ResetPasswordComponent } from './pages/reset-password/reset-password.co
 import { UserAddComponent } from './pages/user-add/user-add.component';
 import { UserEditComponent } from './pages/user-edit/user-edit.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
   {
     path: 'change-password',
     component: ChangePasswordComponent
+  },
+  {
+    path: 'user-profile',
+    component: UserProfileComponent
   }
 ];
 

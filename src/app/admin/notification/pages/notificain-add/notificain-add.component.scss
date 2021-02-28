@@ -1,0 +1,57 @@
+mat-card{
+    width: 45%;
+    top: 0px;
+}
+// .main{width: 90%;}
+// .mainContent{
+//   width: 45%;
+ 
+// }
+
+// .optionalContent{
+//     width: 45%;
+//     margin-top: -200px;
+//     float: right;
+//   }
+.customStyle{
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 5px 10px 15px #1A237E;
+    .title-style{
+      color:#1A237E ;
+      text-align: center !important;
+     
+    }
+    .warning{
+      color: red;
+      margin-left: 30px;
+    }
+    .error_message{
+      color: red;
+      margin-left: 20px;
+      margin-top: -10px;
+      font-size: 12px;
+    }
+}
+
+.mat-stroked-button{
+    width:120px;  border: 1px solid blue;
+  }
+
+  .sidenav-content{
+    height: 120%;
+  }
+.button{
+    margin-top: 100px;
+}
+
+.half{
+    width: 40%;
+}
+
+.delAssigns{
+    margin-top: 25px;
+}
+a{
+   
+    cursor: pointer;
+}

@@ -1,0 +1,42 @@
+<mat-card class="customStyle">
+    <div class="title-style">
+        <mat-card-title >Command Update Form</mat-card-title>
+</div>
+<mat-card-content>
+    <form [formGroup]="myform">
+        
+        <mat-form-field class="full">
+            <textarea trim="blur" matInput placeholder="Description" formControlName="description" autocomplete="off" required ></textarea>
+        </mat-form-field>
+        <div *ngIf="submitted && myform.get('description').errors" class="feedback">
+            <div *ngIf=" myform.get('description').errors.required" class="red"> Name is required</div>
+        </div>
+
+        <div class="checkbox" class="full">
+            <mat-checkbox class="checkbox" formControlName="sms" labelPosition="before" required>
+               Send SMS*
+            </mat-checkbox>
+        </div> 
+
+        <mat-form-field class="full"  required>
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="type" required>
+                <mat-option *ngFor="let state of types" [value]="state.value">
+                    {{ state.value }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+   
+
+    </form>
+</mat-card-content>
+
+<mat-card-actions class="button">
+    <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="updateCommand()">
+        Update
+    </button>
+    <p>Note: Field marked with * is Mandatory</p>
+</mat-card-actions>
+</mat-card>
+

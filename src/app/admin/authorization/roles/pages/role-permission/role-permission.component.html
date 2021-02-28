@@ -10,17 +10,17 @@
                 <mat-divider></mat-divider>
             </div>
 
-            <div *ngFor="let state of this.groups;  let i=index " class="space" style="clear:both">
+            <div *ngFor="let state of groups;  let i=index " class="space" style="clear:both">
 
-                <mat-checkbox (change)="checkAllByGroup($event.checked,i)" class="group" formControlName="groupId" labelPosition="before" [value]="state.id"
+                <mat-checkbox (change)="checkAllByGroup($event.checked,state.id)" class="group" formControlName="groupId" labelPosition="before" [value]="state.id"
                     [checked]="allComplete">
 
                     {{state.name}}
                 </mat-checkbox>
-                <div *ngFor="let val of permission[i]; let l=index  ">
+                <div *ngFor="let val of permission[state.id]; let l=index  ">
 
                     <div class="item">
-                        <mat-checkbox [checked]="checkState(val.permission)" (change)="getPermission($event.checked,val.permission,i)">
+                        <mat-checkbox [checked]="checkState(val.permission)" (change)="getPermission($event.checked,val.permission,state.id)">
                             {{val.name}}
                         </mat-checkbox>
                         <!-- <mat-checkbox formControlName="permission" 
