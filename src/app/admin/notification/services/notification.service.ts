@@ -33,4 +33,40 @@ export class NotificationService {
   deleteNotification(id: string): Observable<object> {
     return this.http.delete(this.url + id + '/deleteNotification');
   }
+
+  addNotificationWithDevice(data){
+    return this.http.post(this.url + '/addDeviceNotification', data);
+  }
+
+  deleteDeviceNotification(data): Observable<object> {
+    return this.http.post(this.url + '/deleteDeviceNotification',data);
+  }
+
+  getNotificationByDeviceId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getNotificationByDevice');
+  }
+
+  addNotificationWithGroup(data){
+    return this.http.post(this.url + '/addGroupNotification', data);
+  }
+
+  deleteGroupNotification(data): Observable<object> {
+    return this.http.post(this.url + '/deleteGroupNotification',data);
+  }
+
+  getNotificationByGroupId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getNotificationByGroup');
+  }
+
+  addNotificationWithUser(data){
+    return this.http.post(this.url + '/addUserNotification', data);
+  }
+
+  deleteUserNotification(data): Observable<object> {
+    return this.http.post(this.url + '/deleteUserNotification',data);
+  }
+
+  getNotificationByUserId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getNotificationByUser');
+  }
 }

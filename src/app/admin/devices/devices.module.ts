@@ -7,10 +7,11 @@ import { DevicesRoutingModule } from './devices-routing.module';
 import { DeviceAddComponent } from './pages/device-add/device-add.component';
 import { DeviceListComponent } from './pages/device-list/device-list.component';
 import { DeviceEditComponent } from './pages/device-edit/device-edit.component';
+import { DeviceUserComponent } from './pages/device-user/device-user.component';
 
 
 @NgModule({
-  declarations: [DeviceAddComponent, DeviceListComponent, DeviceEditComponent],
+  declarations: [DeviceAddComponent, DeviceListComponent, DeviceEditComponent, DeviceUserComponent],
   imports: [
     CommonModule,
     DevicesRoutingModule,

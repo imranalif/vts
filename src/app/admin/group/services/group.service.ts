@@ -31,4 +31,16 @@ export class GroupService {
   deleteGroup(id: string): Observable<object> {
     return this.http.delete(this.url + id + '/deleteGroup');
   }
+
+  addGroupWithUser(data){
+    return this.http.post(this.url + '/addUserGroup', data);
+  }
+
+  deleteUserGroup(data): Observable<object> {
+    return this.http.post(this.url + '/deleteUserGroup',data);
+  }
+
+  getGroupByUserId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getGroupByUser');
+  }
 }

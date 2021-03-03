@@ -20,12 +20,14 @@
             <mat-icon (click)="deleteDevice(row)">delete_outline</mat-icon>
           </button>
           <button mat-icon-button [matMenuTriggerFor]="setting" color="info" *ngIf="assigedRole.includes('device_setting')==true" >
-            <mat-icon >settings</mat-icon>
+            <mat-icon (click)="settingDevice(row)">settings</mat-icon>
           </button>
           <mat-menu #setting="matMenu">
-            <button mat-menu-item  (click)="openDriverModal()">Drivers</button>
-            <button mat-menu-item routerLink="">Notifications</button>
-            <button mat-menu-item routerLink="">Maintenance</button>
+            <button mat-menu-item  (click)="openDriverModal(row)">Drivers</button>
+            <button mat-menu-item (click)="openNotificationModal(row)">Notifications</button>
+            <button mat-menu-item (click)="openMaintenanceModal(row)">Maintenance</button>
+            <button mat-menu-item (click)="openAttributeModal(row)">Computed Attributes</button>
+            <button mat-menu-item (click)="openCommandModal(row)">Saved Commands</button>
           </mat-menu>
 
           <!-- <button mat-button [matMenuTriggerFor]="department">Department</button>

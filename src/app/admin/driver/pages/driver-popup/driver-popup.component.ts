@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Optional, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -17,6 +17,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog/";
 })
 export class DriverPopupComponent implements OnInit {
   drivers
+  deviceDrivers;
+  Id
+  object
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -25,10 +28,14 @@ export class DriverPopupComponent implements OnInit {
     private router: Router,
     private dialogService: DialogService,
     private dialogRef: MatDialogRef<DriverPopupComponent>,
-    private dialog: MatDialog) { }
-    displayedColumns = [ 'name', 'identifier',];
+    private dialog: MatDialog,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.Id = data.pageValue
+  }
+  displayedColumns = ['select', 'name', 'identifier',];
   ngOnInit(): void {
     this.getAllDriver();
+    this.getAllDriverByDevice();
   }
 
   getAllDriver(): void {
@@ -40,8 +47,35 @@ export class DriverPopupComponent implements OnInit {
     });
   }
 
+  getAllDriverByDevice(){
+    this.driverService.getDriverByDeviceId(this.Id).subscribe(res=>{
+      console.log(res);
+      this.deviceDrivers=res;
+      this.deviceDrivers.forEach(element => {
+        this.deviceDrivers.push(element.driver_id)
+      });
+    })
+  }
+
   close() {
     this.dialogRef.close();
+  }
+
+  public checkState(id: string): boolean {
+    if(this.deviceDrivers){
+    return this.deviceDrivers.indexOf(id) > -1;}
+  }
+
+
+  check(e, data) {
+    if (e) {
+      this.object = { deviceId: this.Id, driverId: data.id }
+      this.driverService.addDriverWithDevice(this.object).subscribe()
+    }
+    else{
+      this.object = { deviceId: this.Id, driverId: data.id }
+      this.driverService.deleteDeviceDriver(this.object).subscribe()
+    }
   }
 
 }

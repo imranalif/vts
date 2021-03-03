@@ -5,7 +5,13 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from 'src/app/shared/services/dialog.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GroupService } from '../../services/group.service';
+import { DriverGroupComponent } from 'src/app/admin/driver/pages/driver-group/driver-group.component';
+import { NotificationGroupComponent } from 'src/app/admin/notification/pages/notification-group/notification-group.component';
+import { MaintenanceGroupComponent } from 'src/app/admin/maintenance/pages/maintenance-group/maintenance-group.component';
+import { AttributeGroupComponent } from 'src/app/admin/attributes/pages/attribute-group/attribute-group.component';
+import { CommandGroupComponent } from 'src/app/admin/commands/pages/command-group/command-group.component';
 
 @Component({
   selector: 'app-group-list',
@@ -27,7 +33,8 @@ export class GroupListComponent implements OnInit {
   constructor(private groupService:GroupService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private dialogService: DialogService) {
+    private dialogService: DialogService,
+    private dialog: MatDialog) {
     this.assigedRole = JSON.parse(localStorage.getItem('rolesData'));
   }
 
@@ -79,6 +86,82 @@ export class GroupListComponent implements OnInit {
     applyFilter(filterValue: string): void {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
+
+    openDriverModal(data) {
+      console.log(data.id)
+      const dialogCofig = new MatDialogConfig();
+      dialogCofig.disableClose = true;
+      dialogCofig.width = "600px";
+      dialogCofig.height = "480px";
+    
+      this.dialog.open(DriverGroupComponent,  {
+        width: '580px',
+        height: '460px',
+        data: { pageValue: data.id }
+      }).afterClosed()
+      .subscribe(response => {});
+    }
+
+    openNotificationModal(data) {
+      console.log(data.id)
+      const dialogCofig = new MatDialogConfig();
+      dialogCofig.disableClose = true;
+      dialogCofig.width = "600px";
+      dialogCofig.height = "480px";
+    
+      this.dialog.open(NotificationGroupComponent,  {
+        width: '580px',
+        height: '460px',
+        data: { pageValue: data.id }
+      }).afterClosed()
+      .subscribe(response => {});
+    }
+
+    openMaintenanceModal(data) {
+      console.log(data.id)
+      const dialogCofig = new MatDialogConfig();
+      dialogCofig.disableClose = true;
+      dialogCofig.width = "600px";
+      dialogCofig.height = "480px";
+    
+      this.dialog.open(MaintenanceGroupComponent,  {
+        width: '580px',
+        height: '460px',
+        data: { pageValue: data.id }
+      }).afterClosed()
+      .subscribe(response => {});
+    }
+
+    openAttributeModal(data) {
+      console.log(data.id)
+      const dialogCofig = new MatDialogConfig();
+      dialogCofig.disableClose = true;
+      dialogCofig.width = "600px";
+      dialogCofig.height = "480px";
+    
+      this.dialog.open(AttributeGroupComponent,  {
+        width: '580px',
+        height: '460px',
+        data: { pageValue: data.id }
+      }).afterClosed()
+      .subscribe(response => {});
+    }
+
+    openCommandModal(data) {
+      console.log(data.id)
+      const dialogCofig = new MatDialogConfig();
+      dialogCofig.disableClose = true;
+      dialogCofig.width = "600px";
+      dialogCofig.height = "480px";
+    
+      this.dialog.open(CommandGroupComponent,  {
+        width: '580px',
+        height: '460px',
+        data: { pageValue: data.id }
+      }).afterClosed()
+      .subscribe(response => {});
+    }
+
 
 
 

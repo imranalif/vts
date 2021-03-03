@@ -9,10 +9,12 @@ import { DriverAddComponent } from './pages/driver-add/driver-add.component';
 import { DriverListComponent } from './pages/driver-list/driver-list.component';
 import { DriverEditComponent } from './pages/driver-edit/driver-edit.component';
 import { DriverPopupComponent } from './pages/driver-popup/driver-popup.component';
+import { DriverGroupComponent } from './pages/driver-group/driver-group.component';
+import { DriverUserComponent } from './pages/driver-user/driver-user.component';
 
 
 @NgModule({
-  declarations: [DriverAddComponent, DriverListComponent, DriverEditComponent, DriverPopupComponent],
+  declarations: [DriverAddComponent, DriverListComponent, DriverEditComponent, DriverPopupComponent, DriverGroupComponent, DriverUserComponent],
   imports: [
     CommonModule,
     DriverRoutingModule,

@@ -7,10 +7,13 @@ import { NotificationRoutingModule } from './notification-routing.module';
 import { NotificainAddComponent } from './pages/notificain-add/notificain-add.component';
 import { NotificainListComponent } from './pages/notificain-list/notificain-list.component';
 import { NotificainEditComponent } from './pages/notificain-edit/notificain-edit.component';
+import { NotificationPopupComponent } from './pages/notification-popup/notification-popup.component';
+import { NotificationGroupComponent } from './pages/notification-group/notification-group.component';
+import { NotificationUserComponent } from './pages/notification-user/notification-user.component';
 
 
 @NgModule({
-  declarations: [NotificainAddComponent, NotificainListComponent, NotificainEditComponent],
+  declarations: [NotificainAddComponent, NotificainListComponent, NotificainEditComponent, NotificationPopupComponent, NotificationGroupComponent, NotificationUserComponent],
   imports: [
     CommonModule,
     NotificationRoutingModule,

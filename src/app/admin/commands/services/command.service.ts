@@ -31,4 +31,40 @@ export class CommandService {
   deleteCommand(id: string): Observable<object> {
     return this.http.delete(this.url + id + '/deleteCommand');
   }
+
+  addCommandWithDevice(data){
+    return this.http.post(this.url + '/addDeviceCommand', data);
+  }
+
+  deleteDeviceCommand(data): Observable<object> {
+    return this.http.post(this.url + '/deleteDeviceCommand',data);
+  }
+
+  getCommandByDeviceId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getCommandByDevice');
+  }
+
+  addCommandWithGroup(data){
+    return this.http.post(this.url + '/addGroupCommand', data);
+  }
+
+  deleteGroupCommand(data): Observable<object> {
+    return this.http.post(this.url + '/deleteGroupCommand',data);
+  }
+
+  getCommandByGroupId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getCommandByGroup');
+  }
+
+  addCommandWithUser(data){
+    return this.http.post(this.url + '/addUserCommand', data);
+  }
+
+  deleteUserCommand(data): Observable<object> {
+    return this.http.post(this.url + '/deleteUserCommand',data);
+  }
+
+  getCommandByUserId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getCommandByUser');
+  }
 }

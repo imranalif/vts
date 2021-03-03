@@ -15,6 +15,9 @@ export class UserEditComponent implements OnInit {
   d
   attr
   createdBy
+  image
+  password
+  userData
   Id: string;
   imgurl: string=null
   fileUpload: File = null;
@@ -171,6 +174,8 @@ export class UserEditComponent implements OnInit {
       status:data.status,
     });
     this.createdBy=data.created_by;
+    this.image=data.image;
+    this.password=data.password
     this.setAttributes();
   }
 
@@ -186,6 +191,26 @@ export class UserEditComponent implements OnInit {
   }
 
   updateUser(){
+    this.myform.markAllAsTouched();
+    this.submitted = true;
+    if (this.myform.invalid) {
+      return;
+    }
+
+    this.myform.value.attributes.forEach(element => {
+      const b = element.value
+      this.object[element.name] = b;
+    });
+    this.myform.value.attributes = this.object;
+    this.userData = JSON.parse(localStorage.getItem('userData'));
+    this.myform.value.updated_by = this.userData.id;
+    this.myform.value.updated_time = new Date();
+    this.myform.value.created_by = this.createdBy;
+
+    this.userService.updateUser(this.Id, this.myform.value).subscribe(data => {
+      this.openSnackBar();
+      this.router.navigate(['admin/authorization/users/list']); 
+    });
 
   }
 

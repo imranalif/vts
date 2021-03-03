@@ -7,10 +7,11 @@ import { GroupRoutingModule } from './group-routing.module';
 import { GroupAddComponent } from './pages/group-add/group-add.component';
 import { GroupListComponent } from './pages/group-list/group-list.component';
 import { GroupEditComponent } from './pages/group-edit/group-edit.component';
+import { GroupUserComponent } from './pages/group-user/group-user.component';
 
 
 @NgModule({
-  declarations: [GroupAddComponent, GroupListComponent, GroupEditComponent],
+  declarations: [GroupAddComponent, GroupListComponent, GroupEditComponent, GroupUserComponent],
   imports: [
     CommonModule,
     GroupRoutingModule,

@@ -31,4 +31,16 @@ export class DeviceService {
   deleteDevice(id: string): Observable<object> {
     return this.http.delete(this.url + id + '/deleteDevice');
   }
+
+  addDeviceWithUser(data){
+    return this.http.post(this.url + '/addUserDevice', data);
+  }
+
+  deleteUserDevice(data): Observable<object> {
+    return this.http.post(this.url + '/deleteUserDevice',data);
+  }
+
+  getDeviceByUserId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getDeviceByUser');
+  }
 }

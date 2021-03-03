@@ -9,6 +9,10 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { DeviceService } from '../../services/device.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DriverPopupComponent } from 'src/app/admin/driver/pages/driver-popup/driver-popup.component';
+import { NotificationPopupComponent } from 'src/app/admin/notification/pages/notification-popup/notification-popup.component';
+import { MaintenanceDeviceComponent } from 'src/app/admin/maintenance/pages/maintenance-device/maintenance-device.component';
+import { AttributeDeviceComponent } from 'src/app/admin/attributes/pages/attribute-device/attribute-device.component';
+import { CommandDeviceComponent } from 'src/app/admin/commands/pages/command-device/command-device.component';
 
 @Component({
   selector: 'app-device-list',
@@ -84,14 +88,84 @@ export class DeviceListComponent implements OnInit {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-    openDriverModal() {
+    openDriverModal(data) {
+      console.log(data.id)
       const dialogCofig = new MatDialogConfig();
       dialogCofig.disableClose = true;
       dialogCofig.width = "600px";
       dialogCofig.height = "480px";
     
-      this.dialog.open(DriverPopupComponent, dialogCofig).afterClosed()
+      this.dialog.open(DriverPopupComponent,  {
+        width: '580px',
+        height: '460px',
+        data: { pageValue: data.id }
+      }).afterClosed()
       .subscribe(response => {});
+    }
+
+    openNotificationModal(data) {
+      console.log(data.id)
+      const dialogCofig = new MatDialogConfig();
+      dialogCofig.disableClose = true;
+      dialogCofig.width = "600px";
+      dialogCofig.height = "480px";
+    
+      this.dialog.open(NotificationPopupComponent,  {
+        width: '580px',
+        height: '460px',
+        data: { pageValue: data.id }
+      }).afterClosed()
+      .subscribe(response => {});
+    }
+
+    openMaintenanceModal(data) {
+      console.log(data.id)
+      const dialogCofig = new MatDialogConfig();
+      dialogCofig.disableClose = true;
+      dialogCofig.width = "600px";
+      dialogCofig.height = "480px";
+    
+      this.dialog.open(MaintenanceDeviceComponent,  {
+        width: '580px',
+        height: '460px',
+        data: { pageValue: data.id }
+      }).afterClosed()
+      .subscribe(response => {});
+    }
+
+    openAttributeModal(data) {
+      console.log(data.id)
+      const dialogCofig = new MatDialogConfig();
+      dialogCofig.disableClose = true;
+      dialogCofig.width = "600px";
+      dialogCofig.height = "480px";
+    
+      this.dialog.open(AttributeDeviceComponent,  {
+        width: '580px',
+        height: '460px',
+        data: { pageValue: data.id }
+      }).afterClosed()
+      .subscribe(response => {});
+    }
+
+    openCommandModal(data) {
+      console.log(data.id)
+      const dialogCofig = new MatDialogConfig();
+      dialogCofig.disableClose = true;
+      dialogCofig.width = "600px";
+      dialogCofig.height = "480px";
+    
+      this.dialog.open(CommandDeviceComponent,  {
+        width: '580px',
+        height: '460px',
+        data: { pageValue: data.id }
+      }).afterClosed()
+      .subscribe(response => {});
+    }
+
+
+    settingDevice(data){
+   console.log(data.id)
     }
 
 

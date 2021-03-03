@@ -7,10 +7,13 @@ import { MaintenanceRoutingModule } from './maintenance-routing.module';
 import { MaintenanceAddComponent } from './pages/maintenance-add/maintenance-add.component';
 import { MaintenanceListComponent } from './pages/maintenance-list/maintenance-list.component';
 import { MaintenanceEditComponent } from './pages/maintenance-edit/maintenance-edit.component';
+import { MaintenanceDeviceComponent } from './pages/maintenance-device/maintenance-device.component';
+import { MaintenanceGroupComponent } from './pages/maintenance-group/maintenance-group.component';
+import { MaintenanceUserComponent } from './pages/maintenance-user/maintenance-user.component';
 
 
 @NgModule({
-  declarations: [MaintenanceAddComponent, MaintenanceListComponent, MaintenanceEditComponent],
+  declarations: [MaintenanceAddComponent, MaintenanceListComponent, MaintenanceEditComponent,  MaintenanceDeviceComponent, MaintenanceGroupComponent, MaintenanceUserComponent],
   imports: [
     CommonModule,
     MaintenanceRoutingModule,

@@ -31,4 +31,28 @@ export class MaintenanceService {
   deleteMaintenance(id: string): Observable<object> {
     return this.http.delete(this.url + id + '/deleteMaintenance');
   }
+
+  addMaintenanceWithDevice(data){
+    return this.http.post(this.url + '/addDeviceMaintenance', data);
+  }
+
+  deleteDeviceMaintenance(data): Observable<object> {
+    return this.http.post(this.url + '/deleteDeviceMaintenance',data);
+  }
+
+  getMaintenanceByDeviceId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getMaintenanceByDevice');
+  }
+
+  addMaintenanceWithUser(data){
+    return this.http.post(this.url + '/addUserMaintenance', data);
+  }
+
+  deleteUserMaintenance(data): Observable<object> {
+    return this.http.post(this.url + '/deleteUserMaintenance',data);
+  }
+
+  getMaintenanceByUserId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getMaintenanceByUser');
+  }
 }
