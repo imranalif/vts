@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../shared/material/material.module';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 import { NotificationRoutingModule } from './notification-routing.module';
 import { NotificainAddComponent } from './pages/notificain-add/notificain-add.component';
@@ -19,7 +20,8 @@ import { NotificationUserComponent } from './pages/notification-user/notificatio
     NotificationRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatTableExporterModule
   ]
 })
 export class NotificationModule { }

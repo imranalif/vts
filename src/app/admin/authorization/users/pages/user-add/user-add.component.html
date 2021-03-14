@@ -45,7 +45,7 @@
 
                     <mat-form-field class="half">
                         <mat-label>Gender</mat-label>
-                        <mat-select formControlName="gender">
+                        <mat-select formControlName="gender" >
                             <mat-option *ngFor="let state of gend" [value]="state.value">
                                 {{ state.value }}
                             </mat-option>
@@ -54,7 +54,11 @@
 
                     <mat-form-field class="half">
                         <mat-label>User Role</mat-label>
-                        <mat-select formControlName="userRole" required>
+                        <mat-select formControlName="userRole" required #sl>
+                            <input class="filterBox" placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
+                            <a>
+                                <mat-icon class="closeButton" (click)="sl.close()">clear</mat-icon>
+                              </a>
                             <mat-option *ngFor="let state of userRoles" [value]="state.id">
                                 {{ state.name }}
                             </mat-option>
@@ -80,7 +84,7 @@
 
 
                     <div class="full">
-                        <img type="hide" [src]="imgurl" style="width:100px" *ngIf="imgurl">   
+                        <img type="hide" [src]="imgurl" style="width:100px;height:50px" *ngIf="imgurl">   
                         <mat-label class="image">Image *</mat-label>
                         <input type="file" formControlName="image" (change)="onFileSelected($event)"
                             enctype="multipart/form-data" required />
@@ -90,9 +94,9 @@
 
 
 
-                    <mat-form-field class="full" required>
+                    <mat-form-field class="full" >
                         <mat-label>Status</mat-label>
-                        <mat-select formControlName="status">
+                        <mat-select formControlName="status" required>
                             <mat-option *ngFor="let state of states" [value]="state.id">
                                 {{ state.value }}
                             </mat-option>

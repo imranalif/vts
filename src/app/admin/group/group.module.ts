@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../shared/material/material.module';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 import { GroupRoutingModule } from './group-routing.module';
 import { GroupAddComponent } from './pages/group-add/group-add.component';
@@ -17,7 +18,8 @@ import { GroupUserComponent } from './pages/group-user/group-user.component';
     GroupRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatTableExporterModule
   ]
 })
 export class GroupModule { }

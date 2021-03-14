@@ -1,0 +1,93 @@
+<mat-card class="customStyle">
+    <div class="title-style">
+        <mat-card-title>Query Form</mat-card-title>
+    </div>
+    <mat-card-content>
+        <form [formGroup]="myform">
+
+            <mat-form-field class="half">
+                <input trim="blur" matInput placeholder="Name" formControlName="name" autocomplete="off" required />
+            </mat-form-field>
+            <div *ngIf="submitted && myform.get('name').errors" class="feedback">
+                <div *ngIf=" myform.get('name').errors.required" class="red"> Name is required</div>
+            </div>
+
+            <mat-form-field class="half">
+                <input  matInput placeholder="Phone" formControlName="phone" autocomplete="off" required />
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <input  matInput placeholder="Email" formControlName="email" autocomplete="off" required />
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <mat-label>Type</mat-label>
+                <mat-select formControlName="type" >
+                    <mat-option *ngFor="let state of states" [value]="state.value">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <mat-label>Priority</mat-label>
+                <mat-select formControlName="priority" >
+                    <mat-option *ngFor="let state of priorities" [value]="state.value">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <mat-label>Source</mat-label>
+                <mat-select formControlName="source" >
+                    <mat-option *ngFor="let state of sources" [value]="state.value">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+            <mat-form-field class="full">
+                <textarea matInput placeholder="Address" formControlName="address"
+                    autocomplete="off"></textarea>
+            </mat-form-field>
+
+
+          
+
+            <div class="full"> Products:</div>
+
+            <mat-form-field class="full">
+                <input  matInput placeholder="model" formControlName="model" autocomplete="off"  />
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <input  matInput placeholder="Quantity" formControlName="quantity" autocomplete="off"  />
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <input  matInput placeholder="Price" formControlName="price" autocomplete="off"  />
+            </mat-form-field>
+
+           <div class="full">MRC:</div> 
+
+            <mat-form-field class="half">
+                <input  matInput placeholder="Title" formControlName="title" autocomplete="off"  />
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <input  matInput placeholder="Amount" formControlName="amount" autocomplete="off"  />
+            </mat-form-field>
+        
+
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="addQuery()">
+            Submit
+        </button>
+        <p>Note: Field marked with * is Mandatory</p>
+    </mat-card-actions>
+</mat-card>

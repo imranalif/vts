@@ -144,6 +144,83 @@ data1: any = [];
       ]
     },
     {
+      displayName: 'Inventory',
+      iconName: 'speaker_notes',
+      route: 'admin/inventory',
+      permission: 'inventory_link',
+      children: [
+        {
+          displayName: 'Category',
+          iconName: 'speaker_notes',
+          route: 'admin/inventory/category',
+          permission: 'category_link',
+          children: [
+            {
+              displayName: 'Category List',
+              iconName: 'star_rate',
+              route: 'admin/inventory/category/list',
+              color: '#2471A3',
+              permission:'category_list',
+
+            },
+            {
+              displayName: 'Category Add',
+              iconName: 'star_rate',
+              route: 'admin/inventory/category/add',
+              color: '#2471A3',
+              permission:'category_add',
+            }
+          ]
+        },
+        {
+          displayName: 'Product',
+          iconName: 'speaker_notes',
+          route: 'admin/inventory/product',
+          permission: 'product_link',
+          children: [
+            {
+              displayName: 'Product List',
+              iconName: 'star_rate',
+              route: 'admin/inventory/product/list',
+              color: '#2471A3',
+              permission:'product_list',
+
+            },
+            {
+              displayName: 'Product Add',
+              iconName: 'star_rate',
+              route: 'admin/inventory/product/add',
+              color: '#2471A3',
+              permission:'product_add',
+            }
+          ]
+        }
+      ]
+    },
+    {
+      displayName: 'Customer Query',
+      iconName: 'speaker_notes',
+      route: 'admin/query',
+      permission: 'query_link',
+      children: [
+        {
+          displayName: 'Query Details',
+          iconName: 'star_rate',
+          route: 'admin/query/list',
+          color: '#2471A3',
+          permission:'query_list',
+
+        },
+        {
+          displayName: 'Query Add',
+          iconName: 'star_rate',
+          route: 'admin/query/add',
+          color: '#2471A3',
+          permission:'query_add',
+        }
+      ]
+    },
+    {
       displayName: 'Drivers',
       iconName: 'speaker_notes',
       route: 'admin/driver',
@@ -166,6 +243,7 @@ data1: any = [];
         }
       ]
     },
+
     {
       displayName: 'Groups',
       iconName: 'speaker_notes',

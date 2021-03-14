@@ -57,8 +57,8 @@ export class UserEditComponent implements OnInit {
       lastName: ['', [Validators.required]],
       mobile: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      address: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
+      address: [''],
+      gender: [''],
       userRole: ['', [Validators.required]],
       mapLayer:[''],
       latitude:[''],
@@ -78,7 +78,7 @@ export class UserEditComponent implements OnInit {
       token:[],
       created_by: [''],
       status: [ ,[Validators.required]],
-      attributes: this.fb.array ([this.assignAttributes()]),
+      attributes: this.fb.array ([]),
     });
     this.route.paramMap.subscribe(params => {
       this.Id = params.get('id');
@@ -206,6 +206,8 @@ export class UserEditComponent implements OnInit {
     this.myform.value.updated_by = this.userData.id;
     this.myform.value.updated_time = new Date();
     this.myform.value.created_by = this.createdBy;
+    this.myform.value.password = this.userData.password;
+    this.myform.value.image = this.userData.image;
 
     this.userService.updateUser(this.Id, this.myform.value).subscribe(data => {
       this.openSnackBar();

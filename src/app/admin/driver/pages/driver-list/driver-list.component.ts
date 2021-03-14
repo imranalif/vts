@@ -31,7 +31,6 @@ export class DriverListComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private dialogService: DialogService,
-    private dialogRef: MatDialogRef<DriverListComponent>,
     private dialog: MatDialog,) {
     this.assigedRole = JSON.parse(localStorage.getItem('rolesData'));
   }

@@ -43,6 +43,14 @@ const routes: Routes = [
       {
         path: 'attributes',
         loadChildren: () => import('../../admin/attributes/attributes.module').then(m => m.AttributesModule),
+      },
+      {
+        path: 'inventory',
+        loadChildren: () => import('../../admin/inventory/inventory.module').then(m => m.InventoryModule),
+      },
+      {
+        path: 'query',
+        loadChildren: () => import('../../admin/query/query.module').then(m => m.QueryModule),
       }
     ]
 

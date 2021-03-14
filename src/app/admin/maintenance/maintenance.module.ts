@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../shared/material/material.module';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 import { MaintenanceRoutingModule } from './maintenance-routing.module';
 import { MaintenanceAddComponent } from './pages/maintenance-add/maintenance-add.component';
@@ -19,7 +20,8 @@ import { MaintenanceUserComponent } from './pages/maintenance-user/maintenance-u
     MaintenanceRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatTableExporterModule
   ]
 })
 export class MaintenanceModule { }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../shared/material/material.module';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 import { PermissionGroupRoutingModule } from './permission-group-routing.module';
 import { GroupListComponent } from './pages/group-list/group-list.component';
@@ -16,7 +17,8 @@ import { GroupEditComponent } from './pages/group-edit/group-edit.component';
     PermissionGroupRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatTableExporterModule
   ]
 })
 export class PermissionGroupModule { }

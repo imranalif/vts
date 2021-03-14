@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../shared/material/material.module';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 import { PermissionGroupItemRoutingModule } from './permission-group-item-routing.module';
 import { ItemListComponent } from './pages/item-list/item-list.component';
@@ -17,7 +18,8 @@ import { UniqueItemDirective } from './services/unique-item.directive';
     PermissionGroupItemRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatTableExporterModule
   ]
 })
 export class PermissionGroupItemModule { }

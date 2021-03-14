@@ -15,7 +15,7 @@
     }
 ],
 "compilerOptions": {
-  "experimentalDecorators": true,
+  "javascript.implicitProjectConfig.experimentalDecorators":true,
   "allowJs": true
 }
 }

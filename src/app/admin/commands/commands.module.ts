@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 
 import { CommandsRoutingModule } from './commands-routing.module';
@@ -20,7 +21,8 @@ import { CommandUserComponent } from './pages/command-user/command-user.componen
     CommandsRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatTableExporterModule
   ]
 })
 export class CommandsModule { }

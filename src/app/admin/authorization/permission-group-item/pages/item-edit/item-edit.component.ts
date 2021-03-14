@@ -15,6 +15,7 @@ export class ItemEditComponent implements OnInit {
   Id: string;
   createdBy
   groups
+  filterGroups
   submitted = false;
   myform: FormGroup;
   userData;
@@ -53,7 +54,12 @@ export class ItemEditComponent implements OnInit {
   getAllGroup(): void {
     this.groupService.getAllGroup().subscribe(res => {
       this.groups = res;
+      this.filterGroups=this.groups
     });
+  }
+
+  applyFilter(val): void {
+    this.groups = this.filterGroups.filter((unit) => unit.name.toLowerCase().indexOf(val) > -1);
   }
 
   edit(id): void {

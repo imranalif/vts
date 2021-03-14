@@ -21,6 +21,7 @@ export class UserAddComponent implements OnInit {
   submitted = false;
   show: boolean;
   userRoles
+  filterRoles
   myform: FormGroup;
   mapTypes = [{id: 1,  value: 'OpenStree Map' }, {id: 2,  value: 'Bing Map' }, {id: 3,  value: 'Baidu Map' }];
   formats = [{id: 1,  value: 'Decimal Degrees' }, {id: 2,  value: 'Degress Decimal Minutes' }, {id: 3,  value: 'Degrees Minutes Seconds' }];
@@ -49,8 +50,8 @@ export class UserAddComponent implements OnInit {
       lastName: ['', [Validators.required]],
       mobile: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      address: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
+      address: [''],
+      gender: [''],
       userRole: ['', [Validators.required]],
       image: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -73,7 +74,7 @@ export class UserAddComponent implements OnInit {
       token:[],
       created_by: [''],
       status: [ ,[Validators.required]],
-      attributes: this.fb.array ([this.assignAttributes()]),
+      attributes: this.fb.array ([]),
     });
     this.getAllRole();
   }
@@ -97,7 +98,12 @@ export class UserAddComponent implements OnInit {
   getAllRole(): void {
     this.rolesService.getAllRole().subscribe(res => {
       this.userRoles = res;
+      this.filterRoles=this.userRoles
     });
+  }
+
+  applyFilter(val): void {
+    this.userRoles = this.filterRoles.filter((unit) => unit.name.toLowerCase().indexOf(val) > -1);
   }
 
   onFileSelected(event): void {
@@ -137,12 +143,14 @@ export class UserAddComponent implements OnInit {
     if (this.myform.invalid) {
       return;
     }
-
+if(this.myform.value.attributes){
     this.myform.value.attributes.forEach(element => {
       const b = element.value
       this.object[element.name] = b;
     });
-    this.myform.value.attributes = this.object;
+    
+  }
+  this.myform.value.attributes = this.object; 
 
     const formData = new FormData();
     formData.append('image', this.images);
@@ -170,7 +178,7 @@ export class UserAddComponent implements OnInit {
     formData.append('expiration', this.myform.get('expiration').value);
     formData.append('deviceLimit', this.myform.get('deviceLimit').value);
     formData.append('userLimit', this.myform.get('userLimit').value);
-    formData.append('attributes',  this.object);
+    formData.append('attributes', JSON.stringify(this.object));
     formData.append('token', this.myform.get('token').value);
 
     
@@ -180,7 +188,7 @@ export class UserAddComponent implements OnInit {
 
     this.userService.addUser(formData).subscribe(data => {
       this.openSnackBar();
-       //this.router.navigate(['admin/users/user/user-list']);
+       this.router.navigate(['admin/users/user/user-list']);
     },
       error => {
         this.errorMessage();
