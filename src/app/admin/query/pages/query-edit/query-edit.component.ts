@@ -11,9 +11,9 @@ import { UserService } from 'src/app/admin/authorization/users/services/user.ser
   styleUrls: ['./query-edit.component.scss']
 })
 export class QueryEditComponent implements OnInit {
+  fileurl: string = null
   d
   files
-  fileurl
   queryID
   users
   queryData
@@ -26,25 +26,24 @@ export class QueryEditComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
-    private queryService:QueryService,
-    private route:ActivatedRoute,
+    private queryService: QueryService,
+    private route: ActivatedRoute,
     private userService: UserService,
   ) { }
 
   ngOnInit(): void {
     this.myform = this.fb.group({
-      remark: [''],
-      document: [''],
-      file: [''],
-      states: [''],
-      
+      remarks: [''],
+      file: ['', [Validators.required]],
+      states: ['', [Validators.required]],
+
     });
 
     this.route.paramMap.subscribe(params => {
       this.Id = params.get('id');
       this.edit(this.Id);
     });
-    
+
   }
 
   getAllUser(): void {
@@ -60,7 +59,7 @@ export class QueryEditComponent implements OnInit {
 
   edit(id): void {
     this.queryService.getQueryById(id).subscribe(data => {
-      this.queryData=data;
+      this.queryData = data;
       this.getAllUser();
       //this.setData(data);
     });
@@ -89,23 +88,44 @@ export class QueryEditComponent implements OnInit {
   // }
 
   openSnackBar(): void {
-    this.snackBar.open('Updated Successfully!!', 'Close', {
+    this.snackBar.open('Customer Created Successfully!!', 'Close', {
       duration: 2000,
       verticalPosition: 'top',
       horizontalPosition: 'end',
-    }); }
+    });
+  }
 
-    addQueryAction(): void{
+  errorMessage(): void {
+    this.snackBar.open('Something is error!!', 'Close', {
+      duration: 2000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+    });
+  }
+
+  addQueryAction(): void {
     this.submitted = true;
     if (this.myform.invalid) {
       return;
-  }
-    this.myform.value.queryID = this.Id;
-    this.queryService.addQueryAction( this.myform.value).subscribe(data => {
+    }
+    //this.myform.value.queryID = this.Id;
+
+    const formData = new FormData();
+    formData.append('queryID', this.Id);
+    formData.append('file', this.files);
+    formData.append('remarks', this.myform.get('remarks').value);
+    formData.append('states', this.myform.get('states').value);
+
+    this.queryService.addQueryAction(formData).subscribe(data => {
       console.log("aaaaaaa")
       this.openSnackBar();
-      this.router.navigate(['/admin/query/list']); 
-    });
+      this.router.navigate(['/admin/query/list']);
+    }
+      ,
+      error => {
+        this.errorMessage();
+      }
+    );
   }
 
 

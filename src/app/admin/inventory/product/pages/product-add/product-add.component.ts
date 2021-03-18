@@ -17,7 +17,7 @@ export class ProductAddComponent implements OnInit {
   categories
   userData;
   states = [{ id: 1, value: 'GPS Device' }, { id: 0, value: 'Camera' }, { id: 0, value: 'Burzer' }];
-  types = [{ id: 1, value: '2G' }, { id: 0, value: '3G' }, { id: 0, value: '4G' }];
+  types = [{ id: 0, value: '2G' }, { id: 1, value: '3G' }, { id: 2, value: '4G' }];
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -33,7 +33,7 @@ export class ProductAddComponent implements OnInit {
       company: [''],
       input_quantity: [''],
       output_quantity: [''],
-      fleet_management: [''],
+      fleet_management: [],
       network_type: [''],
       price: [''],
       feature: [''],
@@ -58,6 +58,14 @@ export class ProductAddComponent implements OnInit {
     });
   }
 
+  errorMessage(): void {
+    this.snackBar.open('Something is error!!', 'Close', {
+      duration: 2000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+    });
+  }
+
   addProduct(){
     this.submitted = true;
     this.myform.markAllAsTouched();
@@ -68,10 +76,14 @@ export class ProductAddComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.myform.value.created_by = this.userData.id;
     this.productService.addProduct(this.myform.value).subscribe(res=>{
-      console.log(this.myform.value)
       this.openSnackBar();
       this.router.navigate(['/admin/inventory/product/list']);
-    })
+    }
+    ,
+      error => {
+        this.errorMessage();
+      }
+    )
   }
 
 

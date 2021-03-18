@@ -1,1 +1,41 @@
-<p>category-edit works!</p>
+<mat-card class="customStyle">
+    <div class="title-style">
+        <mat-card-title>Category Update Form</mat-card-title>
+    </div>
+    <mat-card-content>
+        <form [formGroup]="myform">
+
+            <mat-form-field class="full">
+                <input trim="blur" matInput placeholder="Name" formControlName="name" autocomplete="off" required />
+            </mat-form-field>
+            <div *ngIf="submitted && myform.get('name').errors" class="feedback">
+                <div *ngIf=" myform.get('name').errors.required" class="red"> Name is required</div>
+            </div>
+
+
+
+            <mat-form-field class="full">
+                <textarea matInput placeholder="Description" formControlName="description"
+                    autocomplete="off"></textarea>
+            </mat-form-field>
+
+
+            <mat-form-field class="full">
+                <mat-label>Type</mat-label>
+                <mat-select formControlName="type" required>
+                    <mat-option *ngFor="let state of states" [value]="state.id">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="updateCategory()">
+            Update
+        </button>
+        <p>Note: Field marked with * is Mandatory</p>
+    </mat-card-actions>
+</mat-card>

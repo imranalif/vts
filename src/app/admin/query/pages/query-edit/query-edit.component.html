@@ -1,5 +1,7 @@
-<mat-card *ngIf="users">
-    
+<mat-card *ngIf="users" class="customStyle">
+    <div class="title-style">
+        <mat-card-title>Query Details</mat-card-title>
+    </div>
     <b>Action:</b><br>
     By: {{users[queryData?.created_by -1]?.full_name}}<br>
     Time: {{queryData?.created_time|date:'medium'}}<br>
@@ -9,20 +11,21 @@
     <b>Form:</b><br>
     <form [formGroup]="myform">
         <mat-form-field class="full">
-            <textarea matInput placeholder="Remarks" formControlName="remark"
+            <textarea matInput placeholder="Remarks" formControlName="remarks"
                 autocomplete="off"></textarea>
         </mat-form-field>
 
         <div class="full">  
-            <mat-label class="image">File</mat-label>
+            <img type="hide" [src]="fileurl" style="width:100px;height:50px" *ngIf="fileurl"> 
+            <mat-label class="image">File *</mat-label>
             <input type="file" formControlName="file" (change)="onFileSelected($event)"
                 enctype="multipart/form-data" required /><br>
         </div>
 <div>
         <mat-form-field class="full" >
             <mat-label>States</mat-label>
-            <mat-select formControlName="states" >
-                <mat-option *ngFor="let state of states" [value]="state.value">
+            <mat-select formControlName="states" required>
+                <mat-option *ngFor="let state of states" [value]="state.value" >
                     {{ state.value }}
                 </mat-option>
             </mat-select>
@@ -33,6 +36,7 @@
             <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="addQueryAction()">
                 Submit
             </button>
+            <p>Note: Field marked with * is Mandatory</p>
         </mat-card-actions>
     </div>
     </form>

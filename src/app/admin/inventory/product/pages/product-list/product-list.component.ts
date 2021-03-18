@@ -49,8 +49,8 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  editCategory(data): void{
-    this.router.navigate(['admin/inventory/category/edit', data.id]);
+  editProduct(data): void{
+    this.router.navigate(['admin/inventory/product/edit', data.id]);
   }
 
 
