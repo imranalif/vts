@@ -16,6 +16,7 @@ export class ProductEditComponent implements OnInit {
   submitted = false;
   myform: FormGroup;
   categories
+  filterCategories
   userData;
   states = [{ id: 1, value: 'GPS Device' }, { id: 0, value: 'Camera' }, { id: 0, value: 'Burzer' }];
   types = [{ id: 0, value: '2G' }, { id: 1, value: '3G' }, { id: 2, value: '4G' }];
@@ -54,6 +55,7 @@ export class ProductEditComponent implements OnInit {
   getAllCategory(): void {
     this.categoryService.getAllCategory().subscribe(res => {
       this.categories = res;
+      this.filterCategories=this.categories
     });
   }
   edit(id): void {
@@ -87,6 +89,10 @@ export class ProductEditComponent implements OnInit {
       verticalPosition: 'top',
       horizontalPosition: 'end',
     });
+  }
+
+  applyFilter(val): void {
+    this.categories = this.filterCategories.filter((unit) => unit.name.toLowerCase().indexOf(val) > -1);
   }
 
   updateProduct(): void{

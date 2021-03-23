@@ -82,6 +82,7 @@ var getShapes = function(drawnItems) {
      // Therefore, all of them are instances of Polyline
      if (layer instanceof L.Polyline) {
          shapes.push(layer.getLatLngs())
+         console.log(shapes)
          console.log(shapes[0][0])
      }
 

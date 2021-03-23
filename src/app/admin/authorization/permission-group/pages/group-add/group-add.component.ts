@@ -39,6 +39,7 @@ export class GroupAddComponent implements OnInit {
   }
 
   addGroup(){
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

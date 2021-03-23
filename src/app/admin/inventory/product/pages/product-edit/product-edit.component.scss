@@ -30,3 +30,16 @@ mat-card{
   .sidenav-content{
     height: 120%;
   }
+
+  .filterBox{
+    width: 150px;
+    height: 25px;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px 10px 10px 10px;
+    border: 2px solid black;
+}
+  .closeButton{
+    margin-top: 20px;
+  }

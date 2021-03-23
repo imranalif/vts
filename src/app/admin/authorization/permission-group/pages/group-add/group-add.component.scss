@@ -1,9 +1,11 @@
 .customStyle{
-    border-radius: 10px 10px 10px 10px;
+    border-radius: 20px 20px 20px 20px;
     box-shadow: 5px 10px 15px #1A237E;
     .title-style{
       color:#1A237E ;
       text-align: center !important;
+      font-weight: 600;
+      margin-bottom: 25px;
      
     }
     .warning{
@@ -18,10 +20,15 @@
     }
 }
 
-.mat-stroked-button{
+.mat-raised-button{
+  border-radius:20px 20px 20px 20px;
     width:120px;  border: 1px solid blue;
   }
 
   .sidenav-content{
     height: 120%;
   }
+
+  h1{
+    font-weight: 600;
+  }  

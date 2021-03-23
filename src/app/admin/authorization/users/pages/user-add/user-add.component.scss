@@ -15,7 +15,7 @@ mat-card{
 }
 
 .customStyle{
-    border-radius: 10px 10px 10px 10px;
+    border-radius: 20px 20px 20px 20px;
     box-shadow: 5px 10px 15px #1A237E;
     .title-style{
       color:#1A237E ;
@@ -60,6 +60,11 @@ mat-card{
   }
 
   .filterBox{
-    width: 100px;
-    height: 20px;
+    width: 150px;
+    height: 25px;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px 10px 10px 10px;
+    border: 2px solid black;
 }

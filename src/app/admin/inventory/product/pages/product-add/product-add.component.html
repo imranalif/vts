@@ -7,7 +7,11 @@
 
             <mat-form-field class="half">
                 <mat-label>Category</mat-label>
-                <mat-select formControlName="category" required>
+                <mat-select formControlName="category" required #sl>
+                    <input matInput class="filterBox" placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
+                    <a class="closeButton">
+                        <mat-icon  (click)="sl.close()">clear</mat-icon>
+                      </a>
                     <mat-option *ngFor="let state of categories" [value]="state.id">
                         {{ state.name }}
                     </mat-option>

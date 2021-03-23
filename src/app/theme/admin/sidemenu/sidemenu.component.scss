@@ -10,14 +10,14 @@
   
     .mat-list-item.active {
       // background-color: #a5c5e1 !important;
-      color:#66FF00 ;
+      color:blue ;
       
     } 
     
     .mat-list-item {
       width: auto;
   
-      color: wheat;
+      color: black;
       border-radius: 10px 10px 10px 10px;
       font-size: 12px;
      
@@ -25,7 +25,7 @@
       margin-bottom: 1px;
    
       &:hover{
-        color: blue !important;
+        color: #80CBC4 !important;
         background-color: gray !important;
       }
   
@@ -44,7 +44,8 @@
     // }
   
     .menu-expand{
-     background-color:  #305a9c;
+     //background-color:  #305a9c;
+     background-color:  #f1f1f1;
      width: 100%;
      opacity: 0;
      animation: load 1s forwards;
@@ -59,7 +60,30 @@
   opacity:1;
       }
     }
+
+    .menu-collapse{
+      //background-color:  #305a9c;
+      background-color:  #f1f1f1;
+      width: 100%;
+      opacity: 1;
+      animation: l 1s forwards;
+     }
+
+     @keyframes l{
+      100%{
+  opacity:1;
+      }
+    }
+   
+     .smenu{
+      width: 100%;
+       transition: max-height 0.9s;
+       max-height: 0;
+     }
   
+  .item:target .smenu{
+    max-height: 50em;
+  }
     
   
     .routeIcon {

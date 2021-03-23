@@ -1,9 +1,9 @@
 import { Component, OnInit ,  HostBinding, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, state, style, transition, trigger,AUTO_STYLE } from '@angular/animations';
 import { NavItem } from '../shared/menu';
 import { MenuService } from '../shared/menu.service';
-
+const DEFAULT_DURATION = 300;
 @Component({
   selector: 'app-sidemenu',
   templateUrl: './sidemenu.component.html',
@@ -16,8 +16,19 @@ import { MenuService } from '../shared/menu.service';
         animate('350ms cubic-bezier(0.4,0.0,0.2,1)')
       ),
     ]),
+
+    trigger('fadeInOut', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition('void <=> *', animate(1000)),
+    ]),
+  
+
   ]
 })
+
+
 export class SidemenuComponent implements OnInit {
   assigedRole=[];
   expanded: boolean;
@@ -33,6 +44,20 @@ export class SidemenuComponent implements OnInit {
     this.isOpen = !this.isOpen;
   }
 
+  public sideMenuSettings = {
+		accordionMode: true,
+		showSelectedOption: true,
+		selectedOptionClass: 'my-selected-option',
+    subOptionIndentation: {
+      md: '56px',
+      ios: '64px',
+      wp: '56px'
+    }
+	};
+
+ 
+ 
+
   constructor(public navService: MenuService,
               public router: Router) {
     if (this.depth === undefined) {
@@ -40,6 +65,11 @@ export class SidemenuComponent implements OnInit {
     }
     this.assigedRole = JSON.parse(localStorage.getItem('rolesData'));
     //console.log(this.assigedRole)
+  }
+
+  step = 0;
+  setStep(index: number) {
+    this.step = index;
   }
 
   ngOnInit(): void {

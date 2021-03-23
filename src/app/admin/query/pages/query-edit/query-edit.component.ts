@@ -12,7 +12,7 @@ import { UserService } from 'src/app/admin/authorization/users/services/user.ser
 })
 export class QueryEditComponent implements OnInit {
   fileurl: string = null
-  d
+  usersIndex = [];
   files
   queryID
   users
@@ -51,7 +51,8 @@ export class QueryEditComponent implements OnInit {
       this.users = res;
       console.log(this.users[6]?.full_name)
       this.users.forEach((elem, i) => {
-        //this.d[elem.id] = this.users[i];
+        this.usersIndex[elem.id] = this.users[i];
+        console.log(this.usersIndex[6]?.full_name)
       }
       );
     });
@@ -101,6 +102,10 @@ export class QueryEditComponent implements OnInit {
       verticalPosition: 'top',
       horizontalPosition: 'end',
     });
+  }
+
+  goBack(){
+    this.router.navigate(['/admin/query/list']);
   }
 
   addQueryAction(): void {

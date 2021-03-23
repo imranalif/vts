@@ -41,7 +41,7 @@ data1: any = [];
       children: [
         {
           displayName: 'User',
-          iconName: 'person',
+          iconName: 'manage_accounts',
           route: 'admin/authorization/users',
           permission: 'user_link',
           children: [
@@ -49,7 +49,7 @@ data1: any = [];
               displayName: 'User List',
               iconName: 'list',
               route: 'admin/authorization/users/list',
-              color: '#2471A3 ',
+              color: '#c1c1c1 ',
               //permission:['user_list'],
               permission:'user_list',
             },
@@ -57,15 +57,15 @@ data1: any = [];
               displayName: 'User Add',
               iconName: 'person_add',
               route: 'admin/authorization/users/add',
-              color: '#2471A3 ',
+              color: '#c1c1c1 ',
               permission:'user_add',
             }
             ,
             {
               displayName: 'Reset Password',
-              iconName: 'person_add',
+              iconName: 'enhanced_encryption',
               route: 'admin/authorization/users/reset-password',
-              color: '#2471A3 ',
+              color: '#c1c1c1 ',
               permission: 'user_password_reset',
 
             }
@@ -73,23 +73,23 @@ data1: any = [];
         },
         {
           displayName: 'Roles',
-          iconName: 'speaker_notes',
+          iconName: 'admin_panel_settings',
           route: 'admin/authorization/roles',
           permission: 'role_link',
           children: [
             {
               displayName: 'Role List',
-              iconName: 'star_rate',
+              iconName: 'list',
               route: 'admin/authorization/roles/list',
-              color: '#2471A3',
+              color: '#c1c1c1',
               permission:'role_list',
 
             },
             {
               displayName: 'Role Add',
-              iconName: 'star_rate',
+              iconName: 'add',
               route: 'admin/authorization/roles/add',
-              color: '#2471A3',
+              color: '#c1c1c1',
               permission:'role_add',
             }
           ]
@@ -103,16 +103,16 @@ data1: any = [];
           children: [
             {
               displayName: 'Permission Group List',
-              iconName: 'star_rate',
+              iconName: 'list',
               route: 'admin/authorization/group/list',
-              color: '#2471A3',
+              color: '#c1c1c1',
               permission: 'group_list',
             },
             {
               displayName: 'Permission Group Add',
-              iconName: 'star_rate',
+              iconName: 'add',
               route: 'admin/authorization/group/add',
-              color: '#2471A3',
+              color: '#c1c1c1',
               permission: 'group_add',
             },
 
@@ -121,22 +121,22 @@ data1: any = [];
         ,
         {
           displayName: 'Permission Group Item',
-          iconName: 'speaker_notes',
+          iconName: 'perm_data_setting',
           route: 'admin/authorization/item',
           permission: 'item_link',
           children: [
             {
               displayName: 'Permission Group Item List',
-              iconName: 'star_rate',
+              iconName: 'list',
               route: 'admin/authorization/item/list',
-              color: '#2471A3',
+              color: '#c1c1c1',
               permission: 'item_list',
             },
             {
               displayName: 'Permission Group Item Add',
-              iconName: 'star_rate',
+              iconName: 'add',
               route: 'admin/authorization/item/add',
-              color: '#2471A3',
+              color: '#c1c1c1',
               permission: 'item_add',
             },
           ]
@@ -145,52 +145,52 @@ data1: any = [];
     },
     {
       displayName: 'Inventory',
-      iconName: 'speaker_notes',
+      iconName: 'inventory',
       route: 'admin/inventory',
       permission: 'inventory_link',
       children: [
         {
           displayName: 'Category',
-          iconName: 'speaker_notes',
+          iconName: 'category',
           route: 'admin/inventory/category',
           permission: 'category_link',
           children: [
             {
               displayName: 'Category List',
-              iconName: 'star_rate',
+              iconName: 'list',
               route: 'admin/inventory/category/list',
-              color: '#2471A3',
+              color: '#c1c1c1',
               permission:'category_list',
 
             },
             {
               displayName: 'Category Add',
-              iconName: 'star_rate',
+              iconName: 'add',
               route: 'admin/inventory/category/add',
-              color: '#2471A3',
+              color: '#c1c1c1',
               permission:'category_add',
             }
           ]
         },
         {
           displayName: 'Product',
-          iconName: 'speaker_notes',
+          iconName: 'production_quantity_limits',
           route: 'admin/inventory/product',
           permission: 'product_link',
           children: [
             {
               displayName: 'Product List',
-              iconName: 'star_rate',
+              iconName: 'list',
               route: 'admin/inventory/product/list',
-              color: '#2471A3',
+              color: '#c1c1c1',
               permission:'product_list',
 
             },
             {
               displayName: 'Product Add',
-              iconName: 'star_rate',
+              iconName: 'add',
               route: 'admin/inventory/product/add',
-              color: '#2471A3',
+              color: '#c1c1c1',
               permission:'product_add',
             }
           ]
@@ -199,46 +199,46 @@ data1: any = [];
     },
     {
       displayName: 'Customer Query',
-      iconName: 'speaker_notes',
+      iconName: 'query_stats',
       route: 'admin/query',
       permission: 'query_link',
       children: [
         {
           displayName: 'Query Details',
-          iconName: 'star_rate',
+          iconName: 'list',
           route: 'admin/query/list',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'query_list',
 
         },
         {
           displayName: 'Query Add',
-          iconName: 'star_rate',
+          iconName: 'add',
           route: 'admin/query/add',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'query_add',
         }
       ]
     },
     {
       displayName: 'Drivers',
-      iconName: 'speaker_notes',
+      iconName: 'handyman',
       route: 'admin/driver',
       permission: 'driver_link',
       children: [
         {
           displayName: 'Driver List',
-          iconName: 'star_rate',
+          iconName: 'list',
           route: 'admin/driver/list',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'driver_list',
 
         },
         {
           displayName: 'Driver Add',
-          iconName: 'star_rate',
+          iconName: 'add',
           route: 'admin/driver/add',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'driver_add',
         }
       ]
@@ -246,138 +246,138 @@ data1: any = [];
 
     {
       displayName: 'Groups',
-      iconName: 'speaker_notes',
+      iconName: 'groups',
       route: 'admin/group',
       permission: 'group_link',
       children: [
         {
           displayName: 'Group List',
-          iconName: 'star_rate',
+          iconName: 'list',
           route: 'admin/group/list',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'group_list',
 
         },
         {
           displayName: 'Group Add',
-          iconName: 'star_rate',
+          iconName: 'add',
           route: 'admin/group/add',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'group_add',
         }
       ]
     },
     {
       displayName: 'Notifications',
-      iconName: 'speaker_notes',
+      iconName: 'notifications',
       route: 'admin/notification',
       permission: 'notification_link',
       children: [
         {
           displayName: 'Notification List',
-          iconName: 'star_rate',
+          iconName: 'list',
           route: 'admin/notification/list',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'notification_list',
 
         },
         {
           displayName: 'Notification Add',
-          iconName: 'star_rate',
+          iconName: 'add',
           route: 'admin/notification/add',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'notification_add',
         }
       ]
     },
     {
       displayName: 'Devices',
-      iconName: 'speaker_notes',
+      iconName: 'commute',
       route: 'admin/devices',
       permission: 'device_link',
       children: [
         {
           displayName: 'Device List',
-          iconName: 'star_rate',
+          iconName: 'list',
           route: 'admin/devices/list',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'device_list',
 
         },
         {
           displayName: 'Device Add',
-          iconName: 'star_rate',
+          iconName: 'add',
           route: 'admin/devices/add',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'device_add',
         }
       ]
     },
     {
       displayName: 'Maintenance',
-      iconName: 'speaker_notes',
+      iconName: 'engineering',
       route: 'admin/maintenance',
       permission: 'maintenance_link',
       children: [
         {
           displayName: 'Maintenance List',
-          iconName: 'star_rate',
+          iconName: 'list',
           route: 'admin/maintenance/list',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'maintenance_list',
 
         },
         {
           displayName: 'Maintenance Add',
-          iconName: 'star_rate',
+          iconName: 'add',
           route: 'admin/maintenance/add',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'maintenance_add',
         }
       ]
     },
     {
       displayName: 'Saved Commands',
-      iconName: 'speaker_notes',
+      iconName: 'touch_app',
       route: 'admin/commands',
       permission: 'command_link',
       children: [
         {
           displayName: 'Commands List',
-          iconName: 'star_rate',
+          iconName: 'list',
           route: 'admin/commands/list',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'command_list',
 
         },
         {
           displayName: 'Commands Add',
-          iconName: 'star_rate',
+          iconName: 'add',
           route: 'admin/commands/add',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'command_add',
         }
       ]
     },
     {
       displayName: 'Computed Attributes',
-      iconName: 'speaker_notes',
+      iconName: 'edit_attributes',
       route: 'admin/attributes',
       permission: 'attribute_link',
       children: [
         {
           displayName: 'Attributes List',
-          iconName: 'star_rate',
+          iconName: 'list',
           route: 'admin/attributes/list',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'attribute_list',
 
         },
         {
           displayName: 'Attribute Add',
-          iconName: 'star_rate',
+          iconName: 'add',
           route: 'admin/attributes/add',
-          color: '#2471A3',
+          color: '#c1c1c1',
           permission:'attribute_add',
         }
       ]

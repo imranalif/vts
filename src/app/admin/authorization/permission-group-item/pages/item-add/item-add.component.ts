@@ -20,6 +20,7 @@ export class ItemAddComponent implements OnInit {
   myform: FormGroup;
   userData;
   weights=[];
+  filterWeights=[]
 
   states = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   constructor(private fb: FormBuilder,
@@ -29,7 +30,6 @@ export class ItemAddComponent implements OnInit {
     private groupService:GroupService) {
       for (let i = 1; i < 45; i++) {
         this.weights.push(i);
-  
       }
      }
 

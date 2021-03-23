@@ -1,12 +1,20 @@
 <mat-card *ngIf="users" class="customStyle">
+    <div><button class="back_button" mat-button class=" mat-primary" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+     </button></div>
     <div class="title-style">
+       
+        <div>
         <mat-card-title>Query Details</mat-card-title>
     </div>
+    </div>
+    <div>
     <b>Action:</b><br>
-    By: {{users[queryData?.created_by -1]?.full_name}}<br>
+    By: {{usersIndex[queryData?.created_by]?.full_name}}<br>
     Time: {{queryData?.created_time|date:'medium'}}<br>
     States:<br>
     Document:<br>
+</div>
 <div class="form">
     <b>Form:</b><br>
     <form [formGroup]="myform">

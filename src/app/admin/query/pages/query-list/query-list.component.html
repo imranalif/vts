@@ -17,9 +17,9 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let row">
-          <button mat-icon-button *ngIf="assigedRole.includes('query_edit')==true">
+          <!-- <button mat-icon-button *ngIf="assigedRole.includes('query_edit')==true">
             <mat-icon (click)="editQuery(row)">edit</mat-icon>
-          </button>
+          </button> -->
           <button mat-icon-button color="warn" *ngIf="assigedRole.includes('query_delete')==true">
             <mat-icon (click)="deleteQuery(row)">delete_outline</mat-icon>
           </button>

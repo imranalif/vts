@@ -44,7 +44,7 @@
                         <mat-label>User Role</mat-label>
 
                         <mat-select formControlName="userRole" required #sl>
-                            <input class="filterBox" placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
+                            <input matInput class="filterBox" placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
                             <a>
                                 <mat-icon class="closeButton" (click)="sl.close()">clear</mat-icon>
                               </a>
