@@ -1,6 +1,12 @@
 mat-card{
-    width: 50%;
+  
+    width: 80%;
     top: 0px;
+}
+
+.fl{
+  position: relative;
+  display: flex;
 }
 
 .customStyle{
@@ -30,3 +36,52 @@ mat-card{
   .sidenav-content{
     height: 120%;
   }
+
+  .filterBox{
+    width: 150px;
+    height: 25px;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px 10px 10px 10px;
+    border: 2px solid black;
+}
+.product{
+  margin-left: 3%;
+  float: left;
+}
+.quater{
+  width: 14%;
+  margin-left: 2%;
+}
+
+.semi{
+  width: 35%;
+  margin-left: 5%;
+}
+
+.semiType{
+  width: 35%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.addbutton{
+  float: right;
+  margin-top: -45px;
+  margin-right: 80px;
+}
+
+.delAssigns{
+  margin-left: 10px;
+  margin-top: -20px;
+}
+
+// .delbutton{
+//   margin-right: 50px;
+// }
+
+.image{
+  width: 25%;
+}
+

@@ -1,0 +1,44 @@
+.content{
+    position: relative;
+    display: flex;
+    margin-left: 30px;
+  }
+
+  h3{
+      float: left;
+
+  }
+  .bt{
+      margin-bottom: 5px;
+    margin-left: 90%;
+  }
+
+  .percent{
+   width: 200px;
+   //margin-left: -70px;
+   background-color: cyan;
+  }
+
+  .alerts{
+    width: 200px;
+    margin-left: 30px;
+    background-color: cyan;
+   }
+
+   .devices{
+    width: 200px;
+    margin-left: 30px;
+    background-color: cyan;
+   }
+
+   .tasks{
+    width: 200px;
+    margin-left: 30px;
+    background-color: cyan;
+   }
+
+   .distance{
+       margin-top: 30px;
+    width: 80%;
+    background-color: rgb(133, 216, 236);
+   }

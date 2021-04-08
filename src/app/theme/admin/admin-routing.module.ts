@@ -2,46 +2,47 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TopmenuComponent } from './topmenu/topmenu.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { Dashboard2Component } from './dashboard2/dashboard2.component';
 
 const routes: Routes = [
   {
     path: 'admin',
     component: TopmenuComponent,
     children : [
-      { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboard', component: Dashboard2Component },
       
       {
         path: 'authorization',
         loadChildren: () => import('../../admin/authorization/authorization.module').then(m => m.AuthorizationModule),
       },
       {
-        path: 'driver',
+        path: 'traccar/driver',
         loadChildren: () => import('../../admin/driver/driver.module').then(m => m.DriverModule),
       }
       ,
       {
-        path: 'group',
+        path: 'traccar/group',
         loadChildren: () => import('../../admin/group/group.module').then(m => m.GroupModule),
       },
       {
-        path: 'notification',
+        path: 'traccar/notification',
         loadChildren: () => import('../../admin/notification/notification.module').then(m => m.NotificationModule),
       },
       {
-        path: 'devices',
+        path: 'traccar/devices',
         loadChildren: () => import('../../admin/devices/devices.module').then(m => m.DevicesModule),
       },
       {
-        path: 'maintenance',
+        path: 'traccar/maintenance',
         loadChildren: () => import('../../admin/maintenance/maintenance.module').then(m => m.MaintenanceModule),
       },
       {
-        path: 'commands',
+        path: 'traccar/commands',
         loadChildren: () => import('../../admin/commands/commands.module').then(m => m.CommandsModule),
       },
       
       {
-        path: 'attributes',
+        path: 'traccar/attributes',
         loadChildren: () => import('../../admin/attributes/attributes.module').then(m => m.AttributesModule),
       },
       {

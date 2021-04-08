@@ -36,24 +36,52 @@
                 <input matInput placeholder="Model BDCOM" formControlName="model_bdcom" autocomplete="off" required />
             </mat-form-field>
 
-            <mat-form-field class="full">
+            <mat-form-field class="half">
                 <input matInput placeholder="Company" formControlName="company" autocomplete="off" required />
             </mat-form-field>
 
             <mat-form-field class="half">
-                <input matInput placeholder="Input Quantity" formControlName="input_quantity" autocomplete="off"
+                <input matInput placeholder="Price" formControlName="price" autocomplete="off"
                     required />
+            </mat-form-field>
+
+          
+            <mat-form-field class="half">
+                <mat-label>Input Quantity</mat-label>
+                <mat-select formControlName="input_quantity" required>
+                    <mat-option *ngFor="let state of quantity" [value]="state.value">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field class="half">
-                <input matInput placeholder="Output Quantity" formControlName="output_quantity" autocomplete="off"
-                    required />
+                <mat-label>Output Quantity</mat-label>
+                <mat-select formControlName="output_quantity" required>
+                    <mat-option *ngFor="let state of quantity" [value]="state.value">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
+<div class="checkbox">
 
+    
             <mat-checkbox class="checkbox" formControlName="fleet_management" labelPosition="before">
                 Fleet management
             </mat-checkbox>
 
+            <!-- <img type="hide"  > 
+            <mat-label class="image">File *</mat-label>
+            <input type="file" formControlName="file" (change)="onFileSelected($event)"
+                enctype="multipart/form-data" required /><br> -->
+
+                <img type="hide"  > 
+                <mat-label class="image">File </mat-label>
+                <input type="file" formControlName="file" (change)="onFileSelected($event)"
+                    enctype="multipart/form-data"  /><br>
+
+            
+        </div>
             <mat-form-field class="half">
                 <mat-label>Network Type</mat-label>
                 <mat-select formControlName="network_type" required>
@@ -63,11 +91,17 @@
                 </mat-select>
             </mat-form-field>
 
-
-            <mat-form-field class="full">
-                <input matInput placeholder="Price" formControlName="price" autocomplete="off"
-                    required />
+            <mat-form-field class="half">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status" required>
+                    <mat-option *ngFor="let state of status" [value]="state.id">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
+
+
+          
 
             <mat-form-field class="half">
                 <textarea matInput placeholder="Feature" formControlName="feature" autocomplete="off"></textarea>
@@ -77,14 +111,21 @@
                 <textarea matInput placeholder="Remark" formControlName="remark" autocomplete="off"></textarea>
             </mat-form-field>
 
-
+            <!-- <mat-form-field class="full">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status" required>
+                    <mat-option *ngFor="let state of status" [value]="state.id">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field> -->
             
 
         </form>
     </mat-card-content>
 
     <mat-card-actions>
-        <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="addProduct()">
+        <button class="button" [disabled]="!myform.valid" mat-stroked-button color="primary" class="btn-block" (click)="addProduct()">
             Add
         </button>
         <p>Note: Field marked with * is Mandatory</p>

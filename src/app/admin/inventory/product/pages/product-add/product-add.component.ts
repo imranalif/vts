@@ -11,14 +11,17 @@ import { CategoryService } from '../../../category/services/category.service';
   styleUrls: ['./product-add.component.scss']
 })
 export class ProductAddComponent implements OnInit {
-
+  files
+  fileurl: string = null
   submitted = false;
   myform: FormGroup;
   categories
   filterCategories
   userData;
+  status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   states = [{ id: 1, value: 'GPS Device' }, { id: 0, value: 'Camera' }, { id: 0, value: 'Burzer' }];
-  types = [{ id: 0, value: '2G' }, { id: 1, value: '3G' }, { id: 2, value: '4G' }];
+  types = [{ id: 0, value: '2G' }, { id: 1, value: '3G' }, { id: 2, value: '4G' }, { id: 3, value: '5G' }];
+  quantity=[{value:2},{value:4},{value:6},{value:8}]
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -41,6 +44,8 @@ export class ProductAddComponent implements OnInit {
       remark: [''],
       file: [''],
       created_by: [''],
+      status:[]
+
     });
     this.getAllCategory();
   }
@@ -72,16 +77,53 @@ export class ProductAddComponent implements OnInit {
     this.categories = this.filterCategories.filter((unit) => unit.name.toLowerCase().indexOf(val) > -1);
   }
 
+  onFileSelected(event): void {
+    if (event.target.files.length > 0) {
+      const image = event.target.files[0];
+      this.files = image;
+
+      const reader = new FileReader();
+      // tslint:disable-next-line: no-shadowed-variable
+      reader.onload = (event: any) => {
+        this.fileurl = event.target.result;
+      };
+      reader.readAsDataURL(this.files);
+    }
+    
+  }
+
   addProduct(){
+    console.log("test")
     this.submitted = true;
     this.myform.markAllAsTouched();
     if (this.myform.invalid) {
+      console.log("return")
       return;
   }
-    
+  console.log("test    ====") 
+  console.log(this.myform.value)
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.myform.value.created_by = this.userData.id;
-    this.productService.addProduct(this.myform.value).subscribe(res=>{
+    console.log(this.myform.value)
+
+    const formData = new FormData();
+    formData.append('file', this.files);
+    formData.append('category', this.myform.get('category').value);
+    formData.append('name', this.myform.get('name').value);
+    formData.append('model_company', this.myform.get('model_company').value);
+    formData.append('model_bdcom', this.myform.get('model_bdcom').value);
+    formData.append('company', this.myform.get('company').value);
+    formData.append('input_quantity', this.myform.get('input_quantity').value);
+    formData.append('output_quantity', this.myform.get('output_quantity').value);
+    formData.append('fleet_management', this.myform.get('fleet_management').value);
+    formData.append('network_type', this.myform.get('network_type').value);
+    formData.append('price', this.myform.get('price').value);
+    formData.append('feature', this.myform.get('feature').value);
+    formData.append('remark', this.myform.get('remark').value);
+    formData.append('created_by', this.myform.value.created_by);
+    formData.append('status',  this.myform.get('status').value);
+
+    this.productService.addProduct(formData).subscribe(res=>{
       this.openSnackBar();
       this.router.navigate(['/admin/inventory/product/list']);
     }

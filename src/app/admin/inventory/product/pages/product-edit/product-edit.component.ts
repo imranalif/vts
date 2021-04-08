@@ -12,14 +12,17 @@ import { CategoryService } from '../../../category/services/category.service';
 })
 export class ProductEditComponent implements OnInit {
   Id
+  file
   createdBy
   submitted = false;
   myform: FormGroup;
   categories
   filterCategories
   userData;
+  status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   states = [{ id: 1, value: 'GPS Device' }, { id: 0, value: 'Camera' }, { id: 0, value: 'Burzer' }];
-  types = [{ id: 0, value: '2G' }, { id: 1, value: '3G' }, { id: 2, value: '4G' }];
+  types = [{ id: 0, value: '2G' }, { id: 1, value: '3G' }, { id: 2, value: '4G' }, { id: 2, value: '5G' }];
+  quantity=[{value:2},{value:4},{value:6},{value:8}]
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -78,8 +81,9 @@ export class ProductEditComponent implements OnInit {
       price: data.price,
       feature: data.feature,
       remark: data.remark,
-      file: data.file
+      //file: data.file
     });
+    this.file=data.file;
     this.createdBy = data.created_by;
   }
 
@@ -105,6 +109,7 @@ export class ProductEditComponent implements OnInit {
     this.myform.value.updated_by = this.userData.id;
     this.myform.value.updated_time = new Date();
     this.myform.value.created_by = this.createdBy;
+    this.myform.value.file = this.file;
     console.log(this.myform.value);
     this.productService.updateProduct(this.Id, this.myform.value).subscribe(data => {
       this.openSnackBar();

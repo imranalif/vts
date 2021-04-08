@@ -1,39 +1,73 @@
 mat-card{
-    width: 50%;
-    min-height: 400px;
-}
-
-.form{
-margin-top: 30px;
+  width: 80%;
+  top: 0px;
 }
 
 .customStyle{
-    border-radius: 10px 10px 10px 10px;
-    box-shadow: 5px 10px 15px #1A237E;
-    .title-style{
-      color:#1A237E ;
-      text-align: center !important;
-  
-     
-    }
-    .warning{
-      color: red;
-      margin-left: 30px;
-    }
-    .error_message{
-      color: red;
-      margin-left: 20px;
-      margin-top: -10px;
-      font-size: 12px;
-    }
+  border-radius: 10px 10px 10px 10px;
+  box-shadow: 5px 10px 15px #1A237E;
+  .title-style{
+    color:#1A237E ;
+    text-align: center !important;
+   
+  }
+  .warning{
+    color: red;
+    margin-left: 30px;
+  }
+  .error_message{
+    color: red;
+    margin-left: 20px;
+    margin-top: -10px;
+    font-size: 12px;
+  }
 }
 
 .mat-stroked-button{
-    width:120px;  border: 1px solid blue;
-  }
+  width:120px;  border: 1px solid blue;
+}
 
-  .sidenav-content{
-    height: 120%;
-  }
+.sidenav-content{
+  height: 120%;
+}
+
+.filterBox{
+  width: 150px;
+  height: 25px;
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 10px 10px 10px 10px;
+  border: 2px solid black;
+}
+.product{
+margin-left: 3%;
+float: left;
+}
+.quater{
+width: 14%;
+margin-left: 2%;
+}
+
+.semi{
+width: 35%;
+margin-left: 5%;
+}
+
+.addbutton{
+float: right;
+margin-top: -45px;
+margin-right: 80px;
+}
+
+.delAssigns{
+margin-left: 10px;
+margin-top: -20px;
+}
+mat-card-title{
+  margin-top: -25px;
+  margin-bottom: 20px;
+}
+
 
  

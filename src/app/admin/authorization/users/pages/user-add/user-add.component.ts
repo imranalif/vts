@@ -163,7 +163,7 @@ if(this.myform.value.attributes){
     formData.append('address', this.myform.get('address').value);
     formData.append('gender', this.myform.get('gender').value);
     formData.append('status', this.myform.get('status').value);
-
+    
     formData.append('mapLayer', this.myform.get('mapLayer').value);
     formData.append('latitude', this.myform.get('latitude').value);
     formData.append('longitude', this.myform.get('longitude').value);

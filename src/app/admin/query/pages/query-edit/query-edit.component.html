@@ -1,54 +1,188 @@
-<mat-card *ngIf="users" class="customStyle">
+
+<mat-card class="customStyle">
     <div><button class="back_button" mat-button class=" mat-primary" (click)="goBack()">
         <mat-icon>arrow_back</mat-icon>
      </button></div>
     <div class="title-style">
-       
-        <div>
-        <mat-card-title>Query Details</mat-card-title>
+        <mat-card-title>Query Update Form</mat-card-title>
     </div>
-    </div>
-    <div>
-    <b>Action:</b><br>
-    By: {{usersIndex[queryData?.created_by]?.full_name}}<br>
-    Time: {{queryData?.created_time|date:'medium'}}<br>
-    States:<br>
-    Document:<br>
-</div>
-<div class="form">
-    <b>Form:</b><br>
-    <form [formGroup]="myform">
-        <mat-form-field class="full">
-            <textarea matInput placeholder="Remarks" formControlName="remarks"
-                autocomplete="off"></textarea>
-        </mat-form-field>
+    <mat-card-content>
+        <form [formGroup]="myform">
 
-        <div class="full">  
-            <img type="hide" [src]="fileurl" style="width:100px;height:50px" *ngIf="fileurl"> 
-            <mat-label class="image">File *</mat-label>
-            <input type="file" formControlName="file" (change)="onFileSelected($event)"
-                enctype="multipart/form-data" required /><br>
-        </div>
-<div>
-        <mat-form-field class="full" >
-            <mat-label>States</mat-label>
-            <mat-select formControlName="states" required>
-                <mat-option *ngFor="let state of states" [value]="state.value" >
-                    {{ state.value }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>    
-<div>
-        <mat-card-actions >
-            <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="addQueryAction()">
-                Submit
-            </button>
-            <p>Note: Field marked with * is Mandatory</p>
-        </mat-card-actions>
-    </div>
-    </form>
-</div>
+            <mat-form-field class="half">
+                <input trim="blur" matInput placeholder="Name" formControlName="name" autocomplete="off" required />
+            </mat-form-field>
+            <!-- <div *ngIf="submitted && myform.get('name').errors" class="feedback">
+                <div *ngIf=" myform.get('name').errors.required" class="red"> Name is required</div>
+            </div> -->
 
+            <mat-form-field class="half">
+                <input matInput placeholder="Phone" formControlName="phone" autocomplete="off" required />
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <input matInput placeholder="Email" formControlName="email" autocomplete="off" required />
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <mat-label>Type</mat-label>
+                <mat-select formControlName="type" required>
+                    <mat-option *ngFor="let state of states" [value]="state.value">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <mat-label>Priority</mat-label>
+                <mat-select formControlName="priority" required>
+                    <mat-option *ngFor="let state of priorities" [value]="state.value">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <mat-label>Source</mat-label>
+                <mat-select formControlName="source" required>
+                    <mat-option *ngFor="let state of sources" [value]="state.value">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+            <mat-form-field class="half">
+                <textarea matInput placeholder="Contact Address" formControlName="contact_address" autocomplete="off" required></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="half">
+                <textarea matInput placeholder="Billing Address" formControlName="billing_address" autocomplete="off" required></textarea>
+            </mat-form-field>
+
+
+
+
+            <div class="full"> Products:</div>
+            <div class="product">
+
+                <div formArrayName="products" *ngFor="let assign of myform.get('products')['controls']; let i = index">
+                    <div [formArrayName]="i">
+
+                        <mat-form-field class="first" class="quater">
+                            <mat-label>Category</mat-label>
+                            <mat-select formControlName="category" #sl (ngModelChange)="onChangeV($event,i)" >
+                                <input matInput class="filterBox" placeholder="search" autocomplete="off"
+                                    (keyup)="applyFilter($event.target.value)" />
+                                <a class="closeButton">
+                                    <mat-icon (click)="sl.close()">clear</mat-icon>
+                                </a>
+                                <mat-option *ngFor="let state of categories" (change)="change(state.id)" [value]="state.id">
+                                    {{ state.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="first" class="quater">
+                            <mat-label>Model</mat-label>
+                            <mat-select formControlName="model" #cl [id]="'model' + i" (ngModelChange)="onChangeModel($event,i)">
+                                <input matInput class="filterBox" placeholder="search" autocomplete="off"
+                                    (keyup)="applyFilterP($event.target.value)" />
+                                <a class="closeButton">
+                                    <mat-icon (click)="cl.close()">clear</mat-icon>
+                                </a>
+                        
+                                <mat-option *ngFor="let state of this.productIndex[i]" [(value)]="state.model_bdcom">
+                                    {{ state.model_bdcom }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <!-- <mat-form-field class="quater">
+                            <input matInput placeholder="model" formControlName="model" autocomplete="off" />
+                        </mat-form-field> -->
+
+                        <mat-form-field class="quater">
+                            <input matInput placeholder="Quantity" formControlName="quantity" autocomplete="off" />
+                        </mat-form-field>
+
+                        <mat-form-field class="quater">
+                            <input matInput placeholder="Unit Price" formControlName="unit_price" [id]="'unit_price' + i" [(ngModel)]="unitPriceIndex[i]"  autocomplete="off" />
+                        </mat-form-field>
+
+                        <mat-checkbox class="checkbox" formControlName="complementary" labelPosition="before">
+                            Complementary
+                        </mat-checkbox>
+
+
+                        <span *ngIf="myform.get('products').length >1">
+                            <a class="delAssigns">
+                                <mat-icon (click)="removeAttributes(i)">clear</mat-icon>
+                            </a>
+                        </span>
+
+
+                    </div>
+
+                </div>
+                <span class="addbutton">
+                    <button class="back_button" mat-button class=" mat-primary">
+                        <mat-icon (click)="addMoreProducts()">add</mat-icon>
+                    </button>
+                </span>
+            </div>
+
+            <div class="full">MRC:</div>
+            <div class="mrc">
+            <div formArrayName="mrc" *ngFor="let assign of myform.get('mrc')['controls']; let i = index">
+                <div [formArrayName]="i">
+                    
+                        <mat-form-field class="semi">
+                            <input matInput placeholder="Title" formControlName="title" autocomplete="off" />
+                        </mat-form-field>
+
+                        <mat-form-field class="semi">
+                            <input matInput placeholder="Amount" formControlName="amount" autocomplete="off" />
+                        </mat-form-field>
+
+                        <span *ngIf="myform.get('mrc').length >1">
+                            <a class="delAssigns">
+                                <mat-icon (click)="removeMrc(i)">clear</mat-icon>
+                            </a>
+                        </span>
+
+                        <!-- <button class="back_button" mat-button class=" mat-primary">
+                    <mat-icon>add</mat-icon>
+                </button> -->
+                    </div>
+
+                </div>
+                <span class="addbutton">
+                    <button class="back_button" mat-button class=" mat-primary">
+                        <mat-icon (click)="addMoreMrc()">add</mat-icon>
+                    </button>
+                </span>
+            </div>
+
+            <mat-form-field class="full">
+                <textarea matInput placeholder="Remarks" formControlName="remarks" autocomplete="off" required></textarea>
+            </mat-form-field>
+
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="updateQuery()">
+            Submit
+        </button>
+        <p>Note: Field marked with * is Mandatory</p>
+    </mat-card-actions>
 </mat-card>
 
+<mat-card *ngIf="isLoading" 
+style="display:flex; justify-content: center; align-items: center">
+  <mat-progress-spinner 
+    color="primary" 
+    mode="indeterminate">
+  </mat-progress-spinner>
+</mat-card>

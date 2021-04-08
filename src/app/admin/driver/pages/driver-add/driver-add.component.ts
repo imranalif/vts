@@ -78,7 +78,7 @@ export class DriverAddComponent implements OnInit {
     if (this.myform.invalid) {
       return;
     }
-
+console.log( this.myform.value.attributes)
     this.myform.value.attributes.forEach(element => {
       //const a = element.name
       const b = element.value
@@ -90,10 +90,10 @@ export class DriverAddComponent implements OnInit {
     this.myform.value.attributes = this.object;
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.myform.value.created_by = this.userData.id;
-    this.driverService.addDriver(this.myform.value).subscribe(res=>{
-      this.openSnackBar();
-      this.router.navigate(['/admin/driver/list']);
-    })
+    // this.driverService.addDriver(this.myform.value).subscribe(res=>{
+    //   this.openSnackBar();
+    //   this.router.navigate(['/admin/driver/list']);
+    // })
   }
 
 

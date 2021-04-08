@@ -36,23 +36,28 @@
                 <input matInput placeholder="Model BDCOM" formControlName="model_bdcom" autocomplete="off" required />
             </mat-form-field>
 
-            <mat-form-field class="full">
+            <mat-form-field class="half">
                 <input matInput placeholder="Company" formControlName="company" autocomplete="off" required />
             </mat-form-field>
 
             <mat-form-field class="half">
-                <input matInput placeholder="Input Quantity" formControlName="input_quantity" autocomplete="off"
-                    required />
+                <mat-label>Input Quantity</mat-label>
+                <mat-select formControlName="input_quantity" required>
+                    <mat-option *ngFor="let state of quantity" [value]="state.value">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field class="half">
-                <input matInput placeholder="Output Quantity" formControlName="output_quantity" autocomplete="off"
-                    required />
+                <mat-label>Output Quantity</mat-label>
+                <mat-select formControlName="output_quantity" required>
+                    <mat-option *ngFor="let state of quantity" [value]="state.value">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
-
-            <mat-checkbox class="checkbox" formControlName="fleet_management" labelPosition="before">
-                Fleet management
-            </mat-checkbox>
+         
 
             <mat-form-field class="half">
                 <mat-label>Network Type</mat-label>
@@ -63,11 +68,28 @@
                 </mat-select>
             </mat-form-field>
 
-
-            <mat-form-field class="full">
+            <mat-form-field class="half">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status" required>
+                    <mat-option *ngFor="let state of status" [value]="state.id">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field class="half">
                 <input matInput placeholder="Price" formControlName="price" autocomplete="off"
                     required />
             </mat-form-field>
+
+            <div>
+                <mat-checkbox class="checkbox" formControlName="fleet_management" labelPosition="before">
+                    Fleet management
+                </mat-checkbox>
+            </div>
+
+
+          
 
             <mat-form-field class="half">
                 <textarea matInput placeholder="Feature" formControlName="feature" autocomplete="off"></textarea>

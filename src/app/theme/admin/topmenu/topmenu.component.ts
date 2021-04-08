@@ -173,6 +173,29 @@ data1: any = [];
           ]
         },
         {
+          displayName: 'Document Type',
+          iconName: 'article',
+          route: 'admin/inventory/document-type',
+          permission: 'document_type_link',
+          children: [
+            {
+              displayName: 'Type List',
+              iconName: 'list',
+              route: 'admin/inventory/document-type/list',
+              color: '#c1c1c1',
+              permission:'document_type_list',
+
+            },
+            {
+              displayName: 'Type Add',
+              iconName: 'add',
+              route: 'admin/inventory/document-type/add',
+              color: '#c1c1c1',
+              permission:'document_type_add',
+            }
+          ]
+        },
+        {
           displayName: 'Product',
           iconName: 'production_quantity_limits',
           route: 'admin/inventory/product',
@@ -204,7 +227,7 @@ data1: any = [];
       permission: 'query_link',
       children: [
         {
-          displayName: 'Query Details',
+          displayName: 'Query List',
           iconName: 'list',
           route: 'admin/query/list',
           color: '#c1c1c1',
@@ -220,16 +243,28 @@ data1: any = [];
         }
       ]
     },
+
+
+    {
+      displayName: 'Traccar',
+      iconName: 'commute',
+      route: 'admin/traccar',
+      permission: 'traccar_link',
+      children: [
+
+
+
+
     {
       displayName: 'Drivers',
       iconName: 'handyman',
-      route: 'admin/driver',
+      route: 'admin/traccar/driver',
       permission: 'driver_link',
       children: [
         {
           displayName: 'Driver List',
           iconName: 'list',
-          route: 'admin/driver/list',
+          route: 'admin/traccar/driver/list',
           color: '#c1c1c1',
           permission:'driver_list',
 
@@ -237,7 +272,7 @@ data1: any = [];
         {
           displayName: 'Driver Add',
           iconName: 'add',
-          route: 'admin/driver/add',
+          route: 'admin/traccar/driver/add',
           color: '#c1c1c1',
           permission:'driver_add',
         }
@@ -247,13 +282,13 @@ data1: any = [];
     {
       displayName: 'Groups',
       iconName: 'groups',
-      route: 'admin/group',
+      route: 'admin/traccar/group',
       permission: 'group_link',
       children: [
         {
           displayName: 'Group List',
           iconName: 'list',
-          route: 'admin/group/list',
+          route: 'admin/traccar/group/list',
           color: '#c1c1c1',
           permission:'group_list',
 
@@ -261,7 +296,7 @@ data1: any = [];
         {
           displayName: 'Group Add',
           iconName: 'add',
-          route: 'admin/group/add',
+          route: 'admin/traccar/group/add',
           color: '#c1c1c1',
           permission:'group_add',
         }
@@ -270,13 +305,13 @@ data1: any = [];
     {
       displayName: 'Notifications',
       iconName: 'notifications',
-      route: 'admin/notification',
+      route: 'admin/traccar/notification',
       permission: 'notification_link',
       children: [
         {
           displayName: 'Notification List',
           iconName: 'list',
-          route: 'admin/notification/list',
+          route: 'admin/traccar/notification/list',
           color: '#c1c1c1',
           permission:'notification_list',
 
@@ -284,7 +319,7 @@ data1: any = [];
         {
           displayName: 'Notification Add',
           iconName: 'add',
-          route: 'admin/notification/add',
+          route: 'admin/traccar/notification/add',
           color: '#c1c1c1',
           permission:'notification_add',
         }
@@ -293,13 +328,13 @@ data1: any = [];
     {
       displayName: 'Devices',
       iconName: 'commute',
-      route: 'admin/devices',
+      route: 'admin/traccar/devices',
       permission: 'device_link',
       children: [
         {
           displayName: 'Device List',
           iconName: 'list',
-          route: 'admin/devices/list',
+          route: 'admin/traccar/devices/list',
           color: '#c1c1c1',
           permission:'device_list',
 
@@ -307,7 +342,7 @@ data1: any = [];
         {
           displayName: 'Device Add',
           iconName: 'add',
-          route: 'admin/devices/add',
+          route: 'admin/traccar/devices/add',
           color: '#c1c1c1',
           permission:'device_add',
         }
@@ -316,13 +351,13 @@ data1: any = [];
     {
       displayName: 'Maintenance',
       iconName: 'engineering',
-      route: 'admin/maintenance',
+      route: 'admin/traccar/maintenance',
       permission: 'maintenance_link',
       children: [
         {
           displayName: 'Maintenance List',
           iconName: 'list',
-          route: 'admin/maintenance/list',
+          route: 'admin/traccar/maintenance/list',
           color: '#c1c1c1',
           permission:'maintenance_list',
 
@@ -330,7 +365,7 @@ data1: any = [];
         {
           displayName: 'Maintenance Add',
           iconName: 'add',
-          route: 'admin/maintenance/add',
+          route: 'admin/traccar/maintenance/add',
           color: '#c1c1c1',
           permission:'maintenance_add',
         }
@@ -339,13 +374,13 @@ data1: any = [];
     {
       displayName: 'Saved Commands',
       iconName: 'touch_app',
-      route: 'admin/commands',
+      route: 'admin/traccar/commands',
       permission: 'command_link',
       children: [
         {
           displayName: 'Commands List',
           iconName: 'list',
-          route: 'admin/commands/list',
+          route: 'admin/traccar/commands/list',
           color: '#c1c1c1',
           permission:'command_list',
 
@@ -353,7 +388,7 @@ data1: any = [];
         {
           displayName: 'Commands Add',
           iconName: 'add',
-          route: 'admin/commands/add',
+          route: 'admin/traccar/commands/add',
           color: '#c1c1c1',
           permission:'command_add',
         }
@@ -362,13 +397,13 @@ data1: any = [];
     {
       displayName: 'Computed Attributes',
       iconName: 'edit_attributes',
-      route: 'admin/attributes',
+      route: 'admin/traccar/attributes',
       permission: 'attribute_link',
       children: [
         {
           displayName: 'Attributes List',
           iconName: 'list',
-          route: 'admin/attributes/list',
+          route: 'admin/traccar/attributes/list',
           color: '#c1c1c1',
           permission:'attribute_list',
 
@@ -376,12 +411,16 @@ data1: any = [];
         {
           displayName: 'Attribute Add',
           iconName: 'add',
-          route: 'admin/attributes/add',
+          route: 'admin/traccar/attributes/add',
           color: '#c1c1c1',
           permission:'attribute_add',
         }
       ]
     }
+  
+  ]}
+
+
   ]
 
   ngOnInit(): void {

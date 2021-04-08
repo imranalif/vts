@@ -20,8 +20,9 @@ export class CategoryListComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   states = [{ id: 0, value: 'GPS Device' }, { id: 1, value: 'Camera' }, { id: 2, value: 'Burzer' }];
-  displayedColumns = [ 'action', 'id', 'name', 'description', 'type', ];
+  displayedColumns = [ 'action', 'id', 'name', 'description', 'type','status' ];
   constructor(private categoryService:CategoryService,
     private snackBar: MatSnackBar,
     private router: Router,
@@ -36,7 +37,7 @@ export class CategoryListComponent implements OnInit {
 
   removeColumn(){
     if(this.assigedRole.includes('category_edit')==false && this.assigedRole.includes('category_delete')==false ){
-      this.displayedColumns = [ 'id', 'name', 'description', 'type', ];
+      this.displayedColumns = [ 'id', 'name', 'description', 'type','status' ];
     }
   }
 

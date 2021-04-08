@@ -14,7 +14,9 @@ export class CategoryAddComponent implements OnInit {
   submitted = false;
   myform: FormGroup;
   userData;
-  states = [{ id: 0, value: 'GPS Device' }, { id: 1, value: 'Camera' }, { id: 2, value: 'Burzer' }];
+  status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
+
+  states = [{ id: 0, value: 'GPS Device' }, { id: 1, value: 'Camera' }, { id: 2, value: 'Buzzer' }];
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -25,7 +27,8 @@ export class CategoryAddComponent implements OnInit {
       name: ['', [Validators.required]],
       created_by: [''],
       description: [''],
-      type: [ ,[Validators.required]]
+      type: [ ,[Validators.required]],
+      status: [ ,[Validators.required]]
     });
   }
 

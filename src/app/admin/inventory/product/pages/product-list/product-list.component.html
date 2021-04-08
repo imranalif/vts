@@ -36,7 +36,26 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
         <td mat-cell *matCellDef="let element">{{ element.name }}</td>
       </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+        <td mat-cell *matCellDef="let element">{{ categoryIndex[element?.category]?.name }}</td>
+      </ng-container>
   
+      <ng-container matColumnDef="model.company">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Comapany Model</th>
+        <td mat-cell *matCellDef="let element">{{ element.model_company }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="model.bdcom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Bdcom Model</th>
+        <td mat-cell *matCellDef="let element">{{ element.model_bdcom }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Network Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.network_type }}</td>
+      </ng-container>
   
       <ng-container matColumnDef="company">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Company</th>
@@ -44,9 +63,36 @@
       </ng-container>
   
   
+      <ng-container matColumnDef="input">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Input Quantity</th>
+        <td mat-cell *matCellDef="let element">{{element.input_quantity }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="output">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Output Quantity</th>
+        <td mat-cell *matCellDef="let element">{{element.output_quantity }}</td>
+      </ng-container>
+
       <ng-container matColumnDef="price">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
         <td mat-cell *matCellDef="let element">{{element.price }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="created">
+        <th class="long-text" mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
+        <td class="long-text" mat-cell *matCellDef="let element">
+          Time:{{ element.created_time|date:'medium' }}, By:{{ this.usersIndex[element.created_by]?.full_name }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="updated">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated</th>
+        <td mat-cell *matCellDef="let element">
+          Time:{{ element.updated_time|date:'medium' }}, By:{{ this.usersIndex[element.updated_by]?.full_name  }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let element">{{states[element.status]?.value }}</td>
       </ng-container>
   
   
@@ -56,5 +102,13 @@
     </table>
     <mat-paginator [pageSizeOptions]="[25, 50, 100]" [pageSize]="25"></mat-paginator>
   </div>
+
+  <mat-card *ngIf="isLoading" 
+style="display:flex; justify-content: center; align-items: center">
+  <mat-progress-spinner 
+    color="primary" 
+    mode="indeterminate">
+  </mat-progress-spinner>
+</mat-card>
 
 

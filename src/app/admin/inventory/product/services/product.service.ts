@@ -24,6 +24,10 @@ export class ProductService {
     return this.http.get(this.url + id + '/editProduct');
   }
 
+  getProductByCategory(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getProductByCategory');
+  }
+
   updateProduct(id: string, data): Observable<object> {
     return this.http.put(this.url + id + '/updateProduct', data);
   }

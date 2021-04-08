@@ -29,6 +29,15 @@
                 </mat-select>
             </mat-form-field>
 
+            <mat-form-field class="full">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status" required>
+                    <mat-option *ngFor="let state of status" [value]="state.id">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
         </form>
     </mat-card-content>
 

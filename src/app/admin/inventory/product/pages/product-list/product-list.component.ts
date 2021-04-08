@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProductService } from '../../services/product.service';
 import { DialogService } from '../../../../../shared/services/dialog.service';
+import { CategoryService } from '../../../category/services/category.service';
+import { UserService } from 'src/app/admin/authorization/users/services/user.service';
 
 @Component({
   selector: 'app-product-list',
@@ -13,25 +15,43 @@ import { DialogService } from '../../../../../shared/services/dialog.service';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-
+  categories
+  categoryIndex=[]
+  users
+  usersIndex=[]
   private idColumn = 'id';
   products;
   assigedRole=[];
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  isLoading = true;
   states = [{id: 0, value: 'Inactive' }, {id: 1, value: 'Active' }];
-  displayedColumns = [ 'action', 'id', 'name', 'company', 'price', ];
+  displayedColumns = [ 'action', 'id', 'name',"model.company","model.bdcom","category", 'company','type', 'price','input','output','created','updated','status' ];
   constructor(private productService:ProductService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private dialogService:DialogService) {
+    private dialogService:DialogService,
+    private categoryService:CategoryService,
+   private userService:UserService) {
       this.assigedRole = JSON.parse(localStorage.getItem('rolesData'));
      }
 
   ngOnInit(): void {
     this.getAllProduct();
     this.removeColumn();
+    this.getAllCategory();
+    this.getAllUser();
+  }
+
+  getAllCategory(): void {
+    this.categoryService.getAllCategory().subscribe(res => {
+      this.categories = res;
+      this.categories.forEach((elem, i) => {
+        this.categoryIndex[elem.id] = this.categories[i];
+      }
+      );
+    });
   }
 
   removeColumn(){
@@ -40,8 +60,19 @@ export class ProductListComponent implements OnInit {
     }
   }
 
+  getAllUser(): void {
+    this.userService.getAllUser().subscribe(res => {
+      this.users = res;
+      this.users.forEach((elem, i) => {
+        this.usersIndex[elem.id] = this.users[i];
+      }
+      );
+    });
+  }
+
   getAllProduct(): void {
     this.productService.getAllProduct().subscribe(res => {
+      this.isLoading = false;
       this.products = res;
       this.dataSource = new MatTableDataSource( res as any);
       setTimeout(() => (this.dataSource.sort = this.sort));

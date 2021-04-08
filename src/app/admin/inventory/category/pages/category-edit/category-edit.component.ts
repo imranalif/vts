@@ -15,6 +15,7 @@ export class CategoryEditComponent implements OnInit {
   submitted = false;
   myform: FormGroup;
   userData;
+  status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   states = [{ id: 0, value: 'GPS Device' }, { id: 1, value: 'Camera' }, { id: 2, value: 'Burzer' }];
   constructor(private fb: FormBuilder,
     private router: Router,
@@ -27,7 +28,8 @@ export class CategoryEditComponent implements OnInit {
       name: ['', [Validators.required]],
       created_by: [''],
       description: [''],
-      type: [ ,[Validators.required]]
+      type: [ ,[Validators.required]],
+      status: [ ,[Validators.required]]
     });
 
     this.route.paramMap.subscribe(params => {
@@ -47,7 +49,8 @@ export class CategoryEditComponent implements OnInit {
     this.myform.patchValue({
       name: data.name,
       description: data.description,
-      type: data.type
+      type: data.type,
+      status: data.status
     });
     this.createdBy = data.created_by;
     console.log(this.createdBy);

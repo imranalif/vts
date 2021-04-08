@@ -8,10 +8,11 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { SidemenuComponent } from './sidemenu/sidemenu.component';
 import { TopmenuComponent } from './topmenu/topmenu.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { Dashboard2Component } from './dashboard2/dashboard2.component';
 
 
 @NgModule({
-  declarations: [SidemenuComponent, TopmenuComponent, DashboardComponent],
+  declarations: [SidemenuComponent, TopmenuComponent, DashboardComponent, Dashboard2Component],
   imports: [
     CommonModule,
     AdminRoutingModule,

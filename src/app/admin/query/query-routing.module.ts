@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../../shared/auth.guard';
 import { QueryAddComponent } from './pages/query-add/query-add.component';
+import { QueryDetailsComponent } from './pages/query-details/query-details.component';
 import { QueryEditComponent } from './pages/query-edit/query-edit.component';
 import { QueryListComponent } from './pages/query-list/query-list.component';
 
@@ -23,6 +24,12 @@ const routes: Routes = [
     component: QueryEditComponent,
     canActivate: [AuthGuard],
     data: {roles: 'query_edit'}
+  },
+  {
+    path: 'details/:id',
+    component: QueryDetailsComponent,
+    canActivate: [AuthGuard],
+    data: {roles: 'query_details'}
   }
 ];
 

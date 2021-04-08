@@ -103,7 +103,7 @@ export class UserListComponent implements OnInit {
     dialogCofig.height = "480px";
   
     this.dialog.open(DriverUserComponent,  {
-      width: '580px',
+      width: '680px',
       height: '460px',
       data: { pageValue: data.id }
     }).afterClosed()
