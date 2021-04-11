@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MaterialModule } from 'src/app/shared/material/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 import { ProductRoutingModule } from './product-routing.module';
@@ -19,7 +20,8 @@ import { ProductEditComponent } from './pages/product-edit/product-edit.componen
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    MatTableExporterModule
+    MatTableExporterModule,
+    FlexLayoutModule
   ]
 })
 export class ProductModule { }

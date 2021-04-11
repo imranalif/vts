@@ -2,3 +2,74 @@
     width: 15%;
     margin-right: 50%;
 }
+
+.filterBox{
+    width: 150px;
+    height: 25px;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px 10px 10px 10px;
+    border: 2px solid black;
+}
+  .closeButton{
+    margin-top: 20px;
+  }
+
+.search_field{
+    margin-left: 1%;
+    width: 10%;
+    float: left;
+}
+.mat-stroked-button{
+    width: 8%;
+    border-radius:20px 20px 20px 20px;
+      border: 1px solid blue;
+       margin-left: .5%;
+    }
+
+    .mat-raised-button{
+        width: 8%;
+        margin-left: .5%;
+    }
+
+
+     
+  .pagination {
+    display: inline-block;
+  }
+  
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+  }
+  
+  // .pagination a:active {
+  //   background-color: #29abe2;
+  //   background: royalblue;
+  //   color: red;
+  //   // color: white;
+  //   border: 1px solid #4CAF50;
+  // }
+
+  .active{
+    background-color: #29abe2;
+    background: royalblue;
+    color: red;
+    // color: white;
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;}
+  
+  .middle{
+    margin-left: 50%
+  }
+
+  a{
+      cursor: pointer;
+  }
+  

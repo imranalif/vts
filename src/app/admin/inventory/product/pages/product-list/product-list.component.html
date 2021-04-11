@@ -2,15 +2,64 @@
     <div class="table-title">
       <h3>Product Table</h3>
     </div>
-    <div class="search-div">
-      <mat-form-field class="filter">
-        <input matInput placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
-      </mat-form-field>
+   
+      <div class="search-div">
+      <form [formGroup]="myform">
+       
 
-      <button class="export_button" mat-button class="mat-raised-button mat-primary " (click)="exporter.exportTable('csv',{fileName:'category'})">
+        <mat-form-field  class="search_field">
+          <input matInput placeholder="Name" formControlName="name"  autocomplete="off"/>
+        </mat-form-field >
+    
+        <mat-form-field  class="search_field">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category"  #sl>
+              <input matInput class="filterBox" placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
+              <a class="closeButton">
+                  <mat-icon  (click)="sl.close()">clear</mat-icon>
+                </a>
+              <mat-option *ngFor="let state of categories" [value]="state.id">
+                  {{ state.name }}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+        <mat-form-field  class="search_field">
+          <input matInput placeholder="Company Model" formControlName="model_company" autocomplete="off" />
+        </mat-form-field>
+        <mat-form-field  class="search_field">
+          <input matInput placeholder="BDCOM Model" formControlName="model_bdcom" autocomplete="off" />
+        </mat-form-field>
+        <mat-form-field  class="search_field">
+          <input matInput placeholder="Status" formControlName="status" autocomplete="off" />
+        </mat-form-field>
+        <mat-form-field  class="search_field">
+          <input matInput placeholder="Company" formControlName="company"  autocomplete="off"/>
+        </mat-form-field>
+     
+
+      </form>
+      <button  mat-button class="search_button" class="mat-stroked-button mat-primary "  (click)="getProductBySearch()" >
+       Search
+     </button>
+     <button  mat-button class="search_button" class="mat-stroked-button mat-primary "  (click)="getBack()" >
+      Back
+    </button>
+      <!-- <mat-form-field class="filter">
+        <input matInput placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
+      </mat-form-field> -->
+
+      <button class="export_button" mat-button class="mat-raised-button mat-primary " (click)="exporter.exportTable('csv',{fileName:'product'})">
         CSV
      </button>
-    </div>
+    
+     <!-- <span class="addButton">
+     <button class="export_button" mat-button class="mat-raised-button mat-primary " (click)="goAppPage()">
+      Add
+   </button> -->
+  <!-- </span> -->
+
+</div>
+
   
     <table mat-table matTableExporter  [dataSource]="dataSource" matSort #exporter="matTableExporter" [hiddenColumns]="[0]"  class="mat-elevation-z8">
   
@@ -100,8 +149,27 @@
       <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[25, 50, 100]" [pageSize]="25"></mat-paginator>
+    <!-- <mat-paginator [pageSizeOptions]="[25, 50, 100]" [pageSize]="25"></mat-paginator> -->
   </div>
+
+
+  <div class="middle" >
+    <ul *ngIf="this.pager.pages && this.pager.pages.length" class="pagination">
+  
+        <li [ngClass]="{disabled:pager.currentPage === 1}" class="pagination">
+            <a  (click)="getProductByPage(this.pager.currentPage - 1)">&laquo;</a>
+        </li>
+  
+    <li *ngFor="let page of pager.pages"  [ngClass]="{'active':pager.currentPage === page}"  class="pagination"  >
+      <a (click)="getProductByPage(page)">{{page}}</a>
+    </li>
+  
+    <li  [ngClass]="{disabled:pager.currentPage === 2}" class="pagination" >
+        <a  (click)="getProductByPage(this.pager.currentPage + 1)">&raquo;</a>
+    </li>
+  </ul>
+  </div>
+
 
   <mat-card *ngIf="isLoading" 
 style="display:flex; justify-content: center; align-items: center">

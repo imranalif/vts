@@ -111,7 +111,7 @@
             <a  (click)="getQueryByPage(this.pager.currentPage - 1)">&laquo;</a>
         </li>
   
-    <li *ngFor="let page of pager.pages"  [ngClass]="{active:pager.currentPage === page}" class="b" class="pagination"  >
+    <li *ngFor="let page of pager.pages"  [ngClass]="{'active':pager.currentPage === page}"  class="pagination"  >
       <a (click)="getQueryByPage(page)">{{page}}</a>
     </li>
   

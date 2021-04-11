@@ -43,12 +43,19 @@
     border: 1px solid #ddd;
   }
   
-  .pagination a:active {
+  // .pagination a:active {
+  //   background-color: #29abe2;
+  //   background: royalblue;
+  //   color: red;
+  //   // color: white;
+  //   border: 1px solid #4CAF50;
+  // }
+
+  .active{
     background-color: #29abe2;
     background: royalblue;
     color: red;
     // color: white;
-    border: 1px solid #4CAF50;
   }
   
   .pagination a:hover:not(.active) {background-color: #ddd;}

@@ -131,7 +131,7 @@
 
   </div>
   </div>
-  <div *ngIf="reopen==1"><button class="back_button" mat-button class=" mat-primary" mat-raised-button (click)="reopenForm()">Form</button></div>
+  <div *ngIf="reopen==1"><button class="back_button" mat-button class=" mat-primary" mat-raised-button (click)="reopenForm()">Reopen</button></div>
   <div class="form" *ngIf=" queryData.status!='Canceled' && queryData.status!='Successful' && queryData.status!='Failed' && queryData.status!='Hold'">
     <b>Form:</b><br>
     <form [formGroup]="myform">
