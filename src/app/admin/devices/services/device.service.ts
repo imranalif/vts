@@ -43,4 +43,8 @@ export class DeviceService {
   getDeviceByUserId(id: string): Observable<object> {
     return this.http.get(this.url + id + '/getDeviceByUser');
   }
+
+  getDeviceByAllUser(): Observable<object> {
+    return this.http.get(this.url +  '/getDeviceByAllUser');
+  }
 }

@@ -106,9 +106,10 @@ export class QueryEditComponent implements OnInit {
       phone: data.phone,
       email: data.email,
       contact_address: data.contact_address,
-      biling_address: data.biling_address,
+      billing_address: data.billing_address,
       source: data.source,
       type: data.type,
+      remarks: data.remarks,
       priority: data.priority,
     });
     this.createdBy = data.created_by;

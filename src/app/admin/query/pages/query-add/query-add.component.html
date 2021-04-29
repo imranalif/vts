@@ -135,7 +135,7 @@
                 <div [formArrayName]="i">
                     
                         <mat-form-field class="semi">
-                            <input matInput placeholder="Title" formControlName="title" autocomplete="off" />
+                            <input matInput placeholder="Title" formControlName="title" autocomplete="off" (ngModelChange)="onCheck($event)"/>
                         </mat-form-field>
 
                         <mat-form-field class="semi">

@@ -6,9 +6,9 @@
             </a></span>
     </div>
 
+    <!-- *ngIf="dataSource.data.length !== 0" -->
 
-
-    <table mat-table matTableExporter [dataSource]="dataSource" class="mat-elevation-z8">
+    <table  mat-table matTableExporter [dataSource]="dataSource"  class="mat-elevation-z8">
 
         <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef ></th>
@@ -32,12 +32,14 @@
         </ng-container>
 
     
-
-
-
+       
 
         <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+
+    <div  *ngIf="dataSource.data.length === 0">
+        No Records Found!
+        </div>
 </div>
 

@@ -12,7 +12,7 @@ import { CategoryService } from 'src/app/admin/inventory/category/services/categ
   styleUrls: ['./query-details.component.scss']
 })
 export class QueryDetailsComponent implements OnInit {
-  reopen: Number=0;
+  reopen: Number = 0;
   queryStatus: string;
   queryStatusObject = {};
   customerObject = {};
@@ -89,8 +89,8 @@ export class QueryDetailsComponent implements OnInit {
   edit(id): void {
     this.queryService.getQueryById(id).subscribe(data => {
       this.queryData = data;
-      if(this.queryData.status=='Hold'){
-        this.reopen=1;
+      if (this.queryData.status == 'Hold') {
+        this.reopen = 1;
       }
       this.getAllUser();
       this.queryService.getQueryProductById(id).subscribe(res => {
@@ -180,9 +180,9 @@ export class QueryDetailsComponent implements OnInit {
       this.queryStatus = data;
   }
 
-  reopenForm(){
-    this.queryData.status='HoldingOut';
-    this.reopen=0;
+  reopenForm() {
+    this.queryData.status = 'HoldingOut';
+    this.reopen = 0;
   }
 
   addQueryAction(): void {
@@ -202,7 +202,10 @@ export class QueryDetailsComponent implements OnInit {
     formData.append('hold_date', this.myform.get('hold_date').value);
 
     this.queryStatusObject = { status: this.queryStatus }
-    this.queryService.updateQueryStaus(this.Id, this.queryStatusObject).subscribe();
+    if (this.queryData.status != 'Prosessing') {
+      this.queryService.updateQueryStaus(this.Id, this.queryStatusObject).subscribe();
+    }
+    
 
     if (this.queryStatus == 'Successful') {
       console.log('status testing');

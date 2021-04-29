@@ -85,9 +85,9 @@
 
                     <div class="full">
                         <img type="hide" [src]="imgurl" style="width:100px;height:50px" *ngIf="imgurl">   
-                        <mat-label class="image">Image *</mat-label>
+                        <mat-label class="image">Image </mat-label>
                         <input type="file" formControlName="image" (change)="onFileSelected($event)"
-                            enctype="multipart/form-data" required />
+                            enctype="multipart/form-data"  />
                     </div>
 
 
@@ -243,7 +243,7 @@
     </mat-card-content>
 
     <mat-card-actions class="button">
-        <button class="button" mat-stroked-button color="primary" (click)="addUser()" class="btn-block">
+        <button class="button" [disabled]="!myform.valid" mat-stroked-button color="primary" (click)="addUser()" class="btn-block">
             Submit
         </button>
         <p>Note: Field marked with * is Mandatory</p>

@@ -53,7 +53,7 @@ export class UserAddComponent implements OnInit {
       address: [''],
       gender: [''],
       userRole: ['', [Validators.required]],
-      image: ['', [Validators.required]],
+      image: [''],
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required, compareValidators('password')]],
       mapLayer:[''],
@@ -188,7 +188,7 @@ if(this.myform.value.attributes){
 
     this.userService.addUser(formData).subscribe(data => {
       this.openSnackBar();
-       this.router.navigate(['admin/users/user/user-list']);
+       this.router.navigate(['admin/authorization/users/list']);
     },
       error => {
         this.errorMessage();

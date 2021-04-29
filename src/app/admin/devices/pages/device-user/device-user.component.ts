@@ -17,7 +17,7 @@ import { DeviceService } from '../../services/device.service';
   styleUrls: ['./device-user.component.scss']
 })
 export class DeviceUserComponent implements OnInit {
-
+  source = []
   commands
   userDevices;
   Id
@@ -39,25 +39,47 @@ export class DeviceUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllDevice();
+    this.getAllDeviceByAllUser();
     this.getAllDeviceByUser();
   }
 
   getAllDevice(): void {
     this.devcieService.getAllDevice().subscribe(res => {
       this.commands = res;
-      this.dataSource = new MatTableDataSource(res as any);
-      setTimeout(() => (this.dataSource.sort = this.sort));
-      setTimeout(() => (this.dataSource.paginator = this.paginator));
+      this.commands.forEach(element => {
+        this.source.push({ id: element.id, name: element.name, identifier: element.unique_id })
+        this.dataSource = new MatTableDataSource(this.source as any);
+        setTimeout(() => (this.dataSource.sort = this.sort));
+        setTimeout(() => (this.dataSource.paginator = this.paginator));
+      });
     });
   }
 
-  getAllDeviceByUser(){
-    this.devcieService.getDeviceByUserId(this.Id).subscribe(res=>{
+  getAllDeviceByUser() {
+    this.devcieService.getDeviceByUserId(this.Id).subscribe(res => {
       console.log(res);
-      this.userDevices=res;
-      this.userDevices.forEach(element => {
-        this.userDevices.push(element.device_id)
-      });
+      this.userDevices = res;
+      if (this.userDevices) {
+        this.userDevices.forEach(element => {
+          this.source.push({ id: element.id, name: element.name, identifier: element.unique_id })
+          this.dataSource = new MatTableDataSource(this.source as any);
+          setTimeout(() => (this.dataSource.sort = this.sort));
+          setTimeout(() => (this.dataSource.paginator = this.paginator));
+          this.userDevices.push(element.id)
+        });
+      }
+    })
+  }
+
+  getAllDeviceByAllUser() {
+    this.devcieService.getDeviceByAllUser().subscribe(res => {
+      console.log(res);
+      this.userDevices = res;
+      // this.userDevices.forEach(element => {
+
+      //   console.log(this.source)
+      //   this.userDevices.push(element.device_id)
+      // });
     })
   }
 
@@ -66,8 +88,9 @@ export class DeviceUserComponent implements OnInit {
   }
 
   public checkState(id: string): boolean {
-    if(this.userDevices){
-    return this.userDevices.indexOf(id) > -1;}
+    if (this.userDevices) {
+      return this.userDevices.indexOf(id) > -1;
+    }
   }
 
 
@@ -76,7 +99,7 @@ export class DeviceUserComponent implements OnInit {
       this.object = { userId: this.Id, deviceId: data.id }
       this.devcieService.addDeviceWithUser(this.object).subscribe()
     }
-    else{
+    else {
       this.object = { userId: this.Id, deviceId: data.id }
       this.devcieService.deleteUserDevice(this.object).subscribe()
     }

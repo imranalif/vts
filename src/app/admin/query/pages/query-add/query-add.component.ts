@@ -12,6 +12,7 @@ import { ProductService } from 'src/app/admin/inventory/product/services/product
   styleUrls: ['./query-add.component.scss']
 })
 export class QueryAddComponent implements OnInit {
+  groupItems:any=[]
   files
   fileurl: string = null
   object
@@ -153,10 +154,26 @@ export class QueryAddComponent implements OnInit {
       console.log(this.products)
       this.filterProducts = this.products;
     })
+console.log("test validate")
+    let groupItems:any = (this.myform.get("products") as FormArray).controls
+    // this.groupItems = this.myform.controls["products"];
+    // this.myform.controls["email"].setValidators(Validators.required);
+    // this.groupItems.controls["model"].setValidators(Validators.required);
+    // console.log(this.groupItems)
+    for(let item of groupItems) {
+      item.controls["model"].setValidators(Validators.required);
+      item.controls["quantity"].setValidators(Validators.required);
+      item.controls["model"].updateValueAndValidity();
+      item.controls["quantity"].updateValueAndValidity();
+  }
+  }
 
-    const model = this.myform.get('products');
-    model.setValidators(Validators.required);
-    model.updateValueAndValidity();
+  onCheck(e){
+    let Items:any = (this.myform.get("mrc") as FormArray).controls
+    for(let item of Items) {
+      item.controls["amount"].setValidators(Validators.required);
+      item.controls["amount"].updateValueAndValidity();
+  }
   }
 
   isActive(e): void {
@@ -212,7 +229,7 @@ export class QueryAddComponent implements OnInit {
       element.totalPrice = element.price * element.quantity;
       element.queryID = this.queryID;
       this.queryService.addQueryProduct(element).subscribe();
-      console.log(element)
+      //console.log(element)
     });
 
     this.myform.value.mrc.forEach(element => {

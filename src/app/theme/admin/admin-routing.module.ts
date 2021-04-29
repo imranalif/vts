@@ -53,6 +53,11 @@ const routes: Routes = [
         path: 'query',
         loadChildren: () => import('../../admin/query/query.module').then(m => m.QueryModule),
       }
+      ,
+      {
+        path: 'customer',
+        loadChildren: () => import('../../admin/customer/customer.module').then(m => m.CustomerModule),
+      }
     ]
 
   }

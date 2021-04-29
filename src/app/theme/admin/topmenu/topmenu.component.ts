@@ -3,6 +3,8 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { MenuService } from '../shared/menu.service';
 import { Router } from '@angular/router';
 import { NavItem } from '../shared/menu';
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -14,7 +16,9 @@ export class TopmenuComponent implements OnInit {
 
   data2;
 data1: any = [];
-  constructor(private navService: MenuService, private router: Router) { }
+mediaSub: Subscription;
+  constructor(private navService: MenuService, private router: Router,
+    private mediaObserver: MediaObserver) { }
   opened = true;
   @ViewChild('appDrawer') appDrawer: ElementRef;
 
@@ -172,29 +176,29 @@ data1: any = [];
             }
           ]
         },
-        {
-          displayName: 'Document Type',
-          iconName: 'article',
-          route: 'admin/inventory/document-type',
-          permission: 'document_type_link',
-          children: [
-            {
-              displayName: 'Type List',
-              iconName: 'list',
-              route: 'admin/inventory/document-type/list',
-              color: '#c1c1c1',
-              permission:'document_type_list',
+        // {
+        //   displayName: 'Document Type',
+        //   iconName: 'article',
+        //   route: 'admin/inventory/document-type',
+        //   permission: 'document_type_link',
+        //   children: [
+        //     {
+        //       displayName: 'Type List',
+        //       iconName: 'list',
+        //       route: 'admin/inventory/document-type/list',
+        //       color: '#c1c1c1',
+        //       permission:'document_type_list',
 
-            },
-            {
-              displayName: 'Type Add',
-              iconName: 'add',
-              route: 'admin/inventory/document-type/add',
-              color: '#c1c1c1',
-              permission:'document_type_add',
-            }
-          ]
-        },
+        //     },
+        //     {
+        //       displayName: 'Type Add',
+        //       iconName: 'add',
+        //       route: 'admin/inventory/document-type/add',
+        //       color: '#c1c1c1',
+        //       permission:'document_type_add',
+        //     }
+        //   ]
+        // },
         {
           displayName: 'Product',
           iconName: 'production_quantity_limits',
@@ -241,6 +245,30 @@ data1: any = [];
           color: '#c1c1c1',
           permission:'query_add',
         }
+      ]
+    },
+
+    {
+      displayName: 'Customer ',
+      iconName: 'people_alt',
+      route: 'admin/customer',
+      permission: 'customer_link',
+      children: [
+        {
+          displayName: 'Customer List',
+          iconName: 'list',
+          route: 'admin/customer/list',
+          color: '#c1c1c1',
+          permission:'customer_list',
+
+        },
+        // {
+        //   displayName: 'Query Add',
+        //   iconName: 'add',
+        //   route: 'admin/query/add',
+        //   color: '#c1c1c1',
+        //   permission:'query_add',
+        // }
       ]
     },
 
@@ -425,6 +453,16 @@ data1: any = [];
 
   ngOnInit(): void {
     this.navService.appDrawer = this.appDrawer;
+    this.mediaSub = this.mediaObserver.media$.subscribe(
+      (result: MediaChange) => {
+        if(result.mqAlias=='xs')
+        this.opened=false;
+
+        if(result.mqAlias=='xl')
+        this.opened=true;
+        console.log(result.mqAlias)
+      }
+    )
   }
 
   logout(): void{

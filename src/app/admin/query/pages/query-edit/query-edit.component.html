@@ -64,6 +64,11 @@
 
 
             <div class="full"> Products:</div>
+            <div class="addbutton">
+                <button  class="back_button" mat-button class=" mat-primary">
+                    <mat-icon (click)="addMoreProducts()">add</mat-icon>
+                </button>
+            </div>
             <div class="product">
 
                 <div formArrayName="products" *ngFor="let assign of myform.get('products')['controls']; let i = index">
@@ -125,17 +130,22 @@
                     </div>
 
                 </div>
-                <span class="addbutton">
+                <!-- <span class="addbutton">
                     <button class="back_button" mat-button class=" mat-primary">
                         <mat-icon (click)="addMoreProducts()">add</mat-icon>
                     </button>
-                </span>
+                </span> -->
             </div>
+            <!-- <div class="addbutton">
+                <button class="back_button" mat-button class=" mat-primary">
+                    <mat-icon (click)="addMoreProducts()">add</mat-icon>
+                </button>
+            </div> -->
 
             <div class="full">MRC:</div>
-            <div class="mrc">
-            <div formArrayName="mrc" *ngFor="let assign of myform.get('mrc')['controls']; let i = index">
-                <div [formArrayName]="i">
+            <div  class="mrc">
+            <div  formArrayName="mrc" *ngFor="let assign of myform.get('mrc')['controls']; let i = index">
+                <div *ngIf="queryMrc" [formArrayName]="i">
                     
                         <mat-form-field class="semi">
                             <input matInput placeholder="Title" formControlName="title" autocomplete="off" />
