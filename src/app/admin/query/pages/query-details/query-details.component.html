@@ -17,6 +17,7 @@
         <mat-grid-tile><div><b>Type:</b> {{queryData.type}}</div></mat-grid-tile>
         <mat-grid-tile><div><b>Priority:</b> {{queryData.priority}}</div></mat-grid-tile>
         <mat-grid-tile><div><b>Source:</b> {{queryData.source}}</div></mat-grid-tile>
+        <mat-grid-tile><b>Status :</b>{{queryData?.status}}</mat-grid-tile>
         <mat-grid-tile><div><b>
             Created :
           </b> By: {{usersIndex[queryData?.created_by]?.full_name}}<br>
@@ -25,7 +26,7 @@
     </mat-grid-tile>
     <mat-grid-tile><div><b>Updated :</b> By: {{usersIndex[queryData?.created_by]?.full_name}}<br>
       Time: {{queryData?.created_time|date:'medium'}}</div></mat-grid-tile>
-    <mat-grid-tile><b>Status :</b>{{queryData?.status}}</mat-grid-tile>
+   
     </mat-grid-list>
 
   </div>
@@ -112,9 +113,9 @@
   <div *ngIf="queryAction !='' " class="actionSection">
     <b>Query Action </b><br>
     <div *ngFor="let queryAction1 of queryAction">
-    <mat-grid-list cols="2" rowHeight="100px">
+    <mat-grid-list cols="8" rowHeight="100px">
       <!-- <p> Action:</p><br> -->
-      <mat-grid-tile>
+      <mat-grid-tile  [colspan]="3">
         <div>
           <b> By:</b> {{usersIndex[queryAction1?.created_by]?.full_name}}<br>
           <b> Time:</b> {{queryAction1?.created_time|date:'medium'}}<br>
@@ -123,7 +124,7 @@
         </div>
       </mat-grid-tile>
 
-      <mat-grid-tile> {{queryAction1?.remark}}</mat-grid-tile>
+      <mat-grid-tile [colspan]="5"> {{queryAction1?.remark}}</mat-grid-tile>
       <mat-divider></mat-divider>
     </mat-grid-list>
    

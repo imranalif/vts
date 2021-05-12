@@ -246,7 +246,7 @@ this.filterProducts=this.products;
     this.myform.value.created_by = this.userData.id;
     this.object={queryID:this.Id,name:this.myform.value.name,email:this.myform.value.email,
     phone:this.myform.value.phone,address:this.myform.value.address,source:this.myform.value.source,
-  type:this.myform.value.type,priority:this.myform.value.priority,created_by:this.createdBy}
+  type:this.myform.value.type,priority:this.myform.value.priority,created_by:this.createdBy,remarks:this.myform.value.remarks}
     this.myform.value.products.forEach(element => {
       element.totalPrice=element.unit_price*element.quantity;
       //element.queryID=this.queryID;

@@ -39,7 +39,7 @@ export class ProductListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isLoading = true;
   states = [{id: 0, value: 'Inactive' }, {id: 1, value: 'Active' }];
-  displayedColumns = [ 'action', 'id', 'name',"model.company","model.bdcom","category", 'company','type', 'price','input','output','created','updated','status' ];
+  displayedColumns = [ 'action', 'id', 'name',"model.company","model.bdcom","category", 'company','type', 'price','status' ];
   constructor(
     private fb: FormBuilder,
     private productService:ProductService,
@@ -175,6 +175,11 @@ export class ProductListComponent implements OnInit {
 
   editProduct(data): void{
     this.router.navigate(['admin/inventory/product/edit', data.id]);
+  }
+
+  productDetails(data){
+    console.log(data)
+    this.router.navigate(['admin/inventory/product/details', data]); 
   }
 
 

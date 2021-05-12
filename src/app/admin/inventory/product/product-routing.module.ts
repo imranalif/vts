@@ -4,6 +4,7 @@ import { AuthGuard } from '../../../shared/auth.guard';
 import { ProductAddComponent } from './pages/product-add/product-add.component';
 import { ProductEditComponent } from './pages/product-edit/product-edit.component';
 import { ProductListComponent } from './pages/product-list/product-list.component';
+import { ProductsDetailsComponent } from './pages/products-details/products-details.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,12 @@ const routes: Routes = [
     component: ProductListComponent,
     canActivate: [AuthGuard],
     data: {roles: 'product_list'}
+  },
+  {
+    path: 'details/:id',
+    component: ProductsDetailsComponent,
+    canActivate: [AuthGuard],
+    data: {roles: 'product_details'}
   },
   {
     path: 'edit/:id',

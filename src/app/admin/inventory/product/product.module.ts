@@ -10,10 +10,11 @@ import { ProductRoutingModule } from './product-routing.module';
 import { ProductAddComponent } from './pages/product-add/product-add.component';
 import { ProductListComponent } from './pages/product-list/product-list.component';
 import { ProductEditComponent } from './pages/product-edit/product-edit.component';
+import { ProductsDetailsComponent } from './pages/products-details/products-details.component';
 
 
 @NgModule({
-  declarations: [ProductAddComponent, ProductListComponent, ProductEditComponent],
+  declarations: [ProductAddComponent, ProductListComponent, ProductEditComponent, ProductsDetailsComponent],
   imports: [
     CommonModule,
     ProductRoutingModule,

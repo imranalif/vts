@@ -33,7 +33,8 @@ export class QueryListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isLoading = true;
   states = [{id: 0, value: 'Inactive' }, {id: 1, value: 'Active' }];
-  displayedColumns = [ 'action', 'id','queryID', 'name', 'email', 'phone','source', 'status', ];
+  exist = [{id: 0, value: 'No' }, {id: 1, value: 'Yes' }];
+  displayedColumns = [ 'action', 'id','queryID', 'name', 'email', 'phone','source','existing', 'status', ];
   constructor(
     private fb: FormBuilder,
     private queryService:QueryService,

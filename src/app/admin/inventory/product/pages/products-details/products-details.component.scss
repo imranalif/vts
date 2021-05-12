@@ -1,0 +1,54 @@
+mat-card{
+    top: 0px;
+    width: 80%;
+    min-height: 400px;
+}
+
+.form{
+margin-top: 30px;
+}
+
+.customStyle{
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 5px 10px 15px #1A237E;
+    .title-style{
+      color:#1A237E ;
+      text-align: center !important;
+  
+     
+    }
+    .warning{
+      color: red;
+      margin-left: 30px;
+    }
+    .error_message{
+      color: red;
+      margin-left: 20px;
+      margin-top: -10px;
+      font-size: 12px;
+    }
+}
+
+.mat-stroked-button{
+    width:120px;  border: 1px solid blue;
+  }
+
+  .sidenav-content{
+    height: 120%;
+  }
+
+  mat-grid-tile {
+    background: lightblue;
+  }
+
+  mat-card-title{
+      margin-top: -25px;
+      margin-bottom: 20px;
+  }
+
+  .actionSection{
+    margin-top: 20px;
+    mat-grid-tile {
+      background: #E8F8F5;
+    }
+  }

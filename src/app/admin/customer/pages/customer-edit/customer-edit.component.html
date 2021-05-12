@@ -1,0 +1,67 @@
+<div class="main" fxFlex="50%" fxFlex.xs="100%" >
+    
+    
+    <mat-card fxLayout="column" class="customStyle"  >
+        <form [formGroup]="myform">
+        <mat-card-header>
+            <div>
+                <button mat-button (click)="goBack()">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div>
+            <div class="ab">
+    
+                <h2>Customer Update</h2>
+    
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+        <!-- <mat-form-field class="full">
+
+            <input matInput [readonly]="true" placeholder="Name" formControlName="hospital_name" autocomplete="off"
+                required />
+        </mat-form-field> -->
+ 
+    
+        <!-- <mat-form-field class="full">
+            <input matInput [readonly]="true" placeholder="Number" formControlName="contact_number"
+                autocomplete="off" required />
+        </mat-form-field> --> 
+
+
+        <!-- <mat-form-field class="full">
+            <input matInput placeholder="Total Icu Bed" formControlName="total_icu_bed" autocomplete="off" />
+        </mat-form-field> -->
+
+        <mat-form-field class="full">
+            <input matInput placeholder="Name" formControlName="name" autocomplete="off" />
+        </mat-form-field>
+   
+
+    <mat-form-field class="full">
+        <input matInput placeholder="Email" formControlName="email" autocomplete="off" />
+    </mat-form-field>
+
+    <mat-form-field class="full">
+        <input matInput placeholder="Phone" formControlName="phone" autocomplete="off" />
+    </mat-form-field>
+    <mat-form-field class="full">
+        <input matInput placeholder="Contact Address" formControlName="contact_address" autocomplete="off" />
+    </mat-form-field>
+
+    <mat-form-field class="full">
+        <input matInput placeholder="Billing Address" formControlName="billing_address" autocomplete="off" />
+    </mat-form-field>
+</mat-card-content>
+
+    <mat-card-actions>
+        <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="updateCustomer()">
+            Update
+        </button>
+        <!-- <p>Note:<span style="color:red"> Field marked with * is Not Editable</span></p> -->
+    </mat-card-actions>
+</form> 
+</mat-card>
+
+</div>
+

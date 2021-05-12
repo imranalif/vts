@@ -80,4 +80,8 @@ export class QueryService {
   addQueryCustomer(data){
     return this.http.post(this.url + '/addQueryCustomer', data);
   }
+
+  filterSearch(data){
+    return this.http.post(this.url + '/filterSearch', data);
+  }
 }

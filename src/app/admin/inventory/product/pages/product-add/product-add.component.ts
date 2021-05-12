@@ -22,6 +22,8 @@ export class ProductAddComponent implements OnInit {
   states = [{ id: 1, value: 'GPS Device' }, { id: 0, value: 'Camera' }, { id: 0, value: 'Burzer' }];
   types = [{ id: 0, value: '2G' }, { id: 1, value: '3G' }, { id: 2, value: '4G' }, { id: 3, value: '5G' }];
   quantity=[{value:2},{value:4},{value:6},{value:8}]
+  Outquantity=[{value:0},{value:2},{value:4},{value:6},{value:8}];
+  selected=0;
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,

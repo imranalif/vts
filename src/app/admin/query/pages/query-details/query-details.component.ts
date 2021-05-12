@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,6 +12,7 @@ import { CategoryService } from 'src/app/admin/inventory/category/services/categ
   styleUrls: ['./query-details.component.scss']
 })
 export class QueryDetailsComponent implements OnInit {
+  checkStatus
   reopen: Number = 0;
   queryStatus: string;
   queryStatusObject = {};
@@ -44,6 +45,7 @@ export class QueryDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private categoryService: CategoryService,
+    private changeDetectorRefs:ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -89,6 +91,8 @@ export class QueryDetailsComponent implements OnInit {
   edit(id): void {
     this.queryService.getQueryById(id).subscribe(data => {
       this.queryData = data;
+      this.changeDetectorRefs.detectChanges()
+      console.log(this.queryData)
       if (this.queryData.status == 'Hold') {
         this.reopen = 1;
       }
@@ -168,13 +172,18 @@ export class QueryDetailsComponent implements OnInit {
       this.queryStatus = 'Prosessing';
     }
     else if (data == 'Work Order') {
-      this.queryStatus = 'Prosessing';
+      //this.checkStatus=data;
+      this.queryStatus = 'Work Order';
     }
     else if (data == 'Requsition') {
       this.queryStatus = 'Prosessing';
     }
     else if (data == 'Negotiality') {
       this.queryStatus = 'Prosessing';
+    }
+  
+    else if (data == 'Successful') {
+      this.queryStatus = 'Successful';
     }
     else
       this.queryStatus = data;
@@ -202,15 +211,20 @@ export class QueryDetailsComponent implements OnInit {
     formData.append('hold_date', this.myform.get('hold_date').value);
 
     this.queryStatusObject = { status: this.queryStatus }
-    if (this.queryData.status != 'Prosessing') {
-      this.queryService.updateQueryStaus(this.Id, this.queryStatusObject).subscribe();
-    }
-    
+    //if (this.queryData.status != 'Prosessing') {
+      this.queryService.updateQueryStaus(this.Id, this.queryStatusObject).subscribe(data=>{
+        this.edit(this.Id);
+      }
+        
+      );
+    //}
+    console.log(this.queryData.existing_customer)
 
-    if (this.queryStatus == 'Successful') {
+    if (this.queryStatus == 'Work Order' && this.queryData.existing_customer==0 && this.queryData.customer_id==0 ) {
       console.log('status testing');
+      var num = Math.floor(Math.random() * 90000) + 10000;
       this.customerObject = {
-        customer_id: this.Id, name: this.queryData.name, phone: this.queryData.phone, created_by: this.myform.value.created_by,
+        queryId:this.Id,customer_id: num, name: this.queryData.name, phone: this.queryData.phone, created_by: this.myform.value.created_by,
         email: this.queryData.email, contact_address: this.queryData.contact_address, billing_address: this.queryData.billing_address
       }
       this.queryService.addQueryCustomer(this.customerObject).subscribe(data => {
@@ -221,7 +235,10 @@ export class QueryDetailsComponent implements OnInit {
     this.queryService.addQueryAction(formData).subscribe(data => {
       console.log(formData)
       //this.openSnackBar();
-      this.router.navigate(['/admin/query/list']);
+     
+      this.changeDetectorRefs.detectChanges()
+      //this.myform.reset();
+      //this.router.navigate(['/admin/query/list']);
     },
       error => {
         this.errorMessage();

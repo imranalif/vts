@@ -1,6 +1,17 @@
+.table_container{
+  //height: 400px;
+  width: 100%;
+  overflow: auto;
+}
+
 .filter{
     width: 15%;
     margin-right: 50%;
+}
+
+.header{
+  width:100% ;
+  position: static;
 }
 
 .filterBox{

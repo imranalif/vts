@@ -6,6 +6,7 @@ $alignment:left;
 
 @mixin placcement {
   position: relative;
+  
   width: $width;
   margin: auto;
 }

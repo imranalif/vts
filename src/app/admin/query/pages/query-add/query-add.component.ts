@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,6 +12,21 @@ import { ProductService } from 'src/app/admin/inventory/product/services/product
   styleUrls: ['./query-add.component.scss']
 })
 export class QueryAddComponent implements OnInit {
+  c
+  typeFlag
+  search_type
+  existing_customer
+  name
+  phone
+  email
+  type
+  priority
+  source
+  contact_address
+  billing_address
+  searchFlag=0;
+  searchData;
+  searchDataIndex;
   groupItems:any=[]
   files
   fileurl: string = null
@@ -32,12 +47,15 @@ export class QueryAddComponent implements OnInit {
   priorities = [{ id: 1, value: 'Low' }, { id: 0, value: 'High' }, { id: 0, value: 'Medium' }];
   sources = [{ id: 1, value: 'Phone' }, { id: 0, value: 'Email' }, { id: 0, value: 'Web' }];
   types = [{ id: 1, value: 'Document' }, { id: 0, value: 'Image' }, { id: 0, value: 'Binary' }];
+  searchTypes = [{ id: 1, value: 'Customer ID' }, { id: 2, value: 'Name' }, { id: 3, value: 'Email' }, { id: 4, value: 'Phone' }];
+  selected = 1;
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
     private queryService: QueryService,
     private categoryService: CategoryService,
-    private productService: ProductService) { }
+    private productService: ProductService,
+    private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.myform = this.fb.group({
@@ -62,6 +80,11 @@ export class QueryAddComponent implements OnInit {
       products: this.fb.array([this.moreProducts()]),
       mrc: this.fb.array([this.moreMrc()]),
       files: this.fb.array([this.moreFile()]),
+
+      existing_customer:[],
+      search:[''],
+      item:[''],
+      search_type:[''],
     });
     this.getAllCategory();
   }
@@ -210,6 +233,61 @@ console.log("test validate")
 
   }
 
+  check(e){
+   
+    if(e){
+      this.existing_customer=1;
+      this.c = this.myform.get('search');
+      this.c.setValidators(Validators.required);
+      this.searchFlag=1;
+    }
+    else{
+      this.c.clearValidators();
+      this.searchFlag=0;
+    }
+    console.log("tttttttttt")
+   
+  }
+
+  applySearch(e){
+   const ob={name:e}
+    this.queryService.filterSearch(ob).subscribe(res=>{
+      this.searchData=res;
+      console.log(this.searchData)
+    })
+  }
+
+  onChangeCustomer(e){
+    const t=this.searchData.map(item => item.id).indexOf(e);
+    console.log(t)
+    if(e){
+this.name=this.searchData[t].name;
+this.phone=this.searchData[t].phone;
+this.email=this.searchData[t].email;
+this.type=this.searchData[t].type;
+this.priority=this.searchData[t].priority;
+this.source=this.searchData[t].source;
+this.contact_address=this.searchData[t].contact_address;
+this.billing_address=this.searchData[t].billing_address;}
+  }
+
+  searchType(e){
+this.typeFlag=e;
+const  l= e-1
+console.log(this.searchTypes[l].value)
+this.search_type=this.searchTypes[l].value
+this.cdr.detectChanges();
+  }
+
+  errorMessage(): void {
+    this.snackBar.open('Something is error!!', 'Close', {
+      duration: 2000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+    });
+  }
+
+
   addQuery() {
     this.submitted = true;
     this.myform.markAllAsTouched();
@@ -221,17 +299,19 @@ console.log("test validate")
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.myform.value.created_by = this.userData.id;
     this.object = {
+      existing_customer:this.existing_customer,search_type:this.search_type,
       queryID: this.queryID, name: this.myform.value.name, email: this.myform.value.email,remarks: this.myform.value.remarks,
       phone: this.myform.value.phone, contact_address: this.myform.value.contact_address, billing_address: this.myform.value.billing_address, source: this.myform.value.source,
       type: this.myform.value.type, priority: this.myform.value.priority, created_by: this.myform.value.created_by, status: 'New'
     }
+    if(this.myform.value.products){
     this.myform.value.products.forEach(element => {
       element.totalPrice = element.price * element.quantity;
       element.queryID = this.queryID;
       this.queryService.addQueryProduct(element).subscribe();
       //console.log(element)
     });
-
+  }
     this.myform.value.mrc.forEach(element => {
       element.queryID = this.queryID;
       this.queryService.addQueryMrc(element).subscribe();
@@ -252,7 +332,11 @@ console.log("test validate")
     this.queryService.addQuery(this.object).subscribe(res => {
       this.openSnackBar();
       this.router.navigate(['/admin/query/list']);
-    })
+    },
+      error => {
+        this.errorMessage();
+      }
+    )
   }
 
 

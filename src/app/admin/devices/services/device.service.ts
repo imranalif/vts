@@ -47,4 +47,16 @@ export class DeviceService {
   getDeviceByAllUser(): Observable<object> {
     return this.http.get(this.url +  '/getDeviceByAllUser');
   }
+
+  addDeviceWithCustomer(data){
+    return this.http.post(this.url + '/addCustomerDevice', data);
+  }
+
+  deleteCustomerDevice(data): Observable<object> {
+    return this.http.post(this.url + '/deleteCustomerDevice',data);
+  }
+
+  getDeviceByCustomer(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getDeviceByCustomer');
+  }
 }
