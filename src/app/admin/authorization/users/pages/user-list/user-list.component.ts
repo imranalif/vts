@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -14,6 +15,8 @@ import { AttributeUserComponent } from 'src/app/admin/attributes/pages/attribute
 import { CommandUserComponent } from 'src/app/admin/commands/pages/command-user/command-user.component';
 import { DeviceUserComponent } from 'src/app/admin/devices/pages/device-user/device-user.component';
 import { GroupUserComponent } from 'src/app/admin/group/pages/group-user/group-user.component';
+import { PaginationService } from 'src/app/shared/services/pagination.service';
+import { CustomerService } from 'src/app/admin/customer/services/customer.service';
 
 
 @Component({
@@ -22,37 +25,130 @@ import { GroupUserComponent } from 'src/app/admin/group/pages/group-user/group-u
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
+  myform: FormGroup;
   assigedRole=[];
+  currentPage = 1;
+  params = {}
+  pager: any = [];
+  record: any = [];
+  page
   users;
+  customers
+  customerIndex=[]
   private idColumn = 'id';
   groups;
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   states = [{ id: 0, value: 'Inactive' }, { id: 1, value: 'Active' }];
-  displayedColumns = ['action', 'id', 'name', 'mobile', 'email', 'status',];
+  displayedColumns = ['action', 'id', 'name','customer_id', 'customer_name', 'mobile', 'email', 'status',];
+  isLoading = true;
   constructor(private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router,
     private dialogService: DialogService,
-    private dialog: MatDialog,) {
+    private dialog: MatDialog,
+    private pagination: PaginationService,
+    private fb: FormBuilder,
+    private customerService: CustomerService,
+    ) {
       this.assigedRole = JSON.parse(localStorage.getItem('rolesData'));
      }
 
   ngOnInit(): void {
+    this.myform = this.fb.group({
+      name: [''],
+      email: [''],
+      phone: [''],
+      customer_id: [''],
+
+    });
+    this.getAllCustomer();
     this.getAllUser();
+   
+  }
+
+  // getAllUser(): void {
+  //   this.userService.getAllUser().subscribe(res => {
+  //     this.users = res;
+  //     this.dataSource = new MatTableDataSource(res as any);
+  //     setTimeout(() => (this.dataSource.sort = this.sort));
+  //     setTimeout(() => (this.dataSource.paginator = this.paginator));
+  //   });
+
+  //   this.removeColumn();
+  // }
+
+  getAllCustomer(){
+    this.customerService.getAllCustomerList().subscribe(res=>{
+      this.customers=res;
+      console.log(this.customers)
+      this.customers.forEach((elem, i) => {
+        this.customerIndex[elem.customer_id] = this.customers[i];
+      }
+      );
+    })
   }
 
   getAllUser(): void {
-    this.userService.getAllUser().subscribe(res => {
-      this.users = res;
-      this.dataSource = new MatTableDataSource(res as any);
+    this.params = { currentPage: this.currentPage };
+    this.userService.getAllUserByPage(this.params).subscribe(res => {
+      this.users = res.rows;
+      this.record = res.count;
+      console.log(res.count)
+      this.pager = this.pagination.paginate(this.record);
+      console.log(this.pager.totalPages)
+      this.dataSource = new MatTableDataSource(this.users as any);
+      setTimeout(() => (this.dataSource.sort = this.sort));
+      setTimeout(() => (this.dataSource.paginator = this.paginator));
+      this.isLoading = false;
+
+    });
+    this.removeColumn();
+  }
+
+  getUserByPage(currentPage): void {
+    this.page = currentPage;
+    if (this.page > this.pager.totalPages) {
+      return;
+    }
+    this.params = {
+      currentPage: currentPage, name: this.myform.value.name,
+       email: this.myform.value.email, phone: this.myform.value.phone,
+       customer_id: this.myform.value.customer_id,
+    };
+    this.userService.getAllUserByPage(this.params).subscribe(res => {
+      this.isLoading = false;
+      this.users = res.rows;
+      // this.record = res.count;
+      console.log(this.record);
+      this.pager = this.pagination.paginate(this.record, currentPage);
+      this.dataSource = new MatTableDataSource(this.users as any);
       setTimeout(() => (this.dataSource.sort = this.sort));
       setTimeout(() => (this.dataSource.paginator = this.paginator));
     });
-
-    this.removeColumn();
   }
+
+  getUserBySearch(): void {
+    this.params = {
+      currentPage: this.currentPage, name: this.myform.value.name,
+       email: this.myform.value.email, phone: this.myform.value.phone,
+       customer_id: this.myform.value.customer_id,
+    };
+    console.log(this.params);
+    this.userService.getAllUserByPage(this.params).subscribe(res => {
+      this.isLoading = false;
+      this.users = res.rows;
+      this.record = res.count;
+      this.pager = this.pagination.paginate(this.record);
+
+      this.dataSource = new MatTableDataSource(this.users as any);
+      setTimeout(() => (this.dataSource.sort = this.sort));
+      setTimeout(() => (this.dataSource.paginator = this.paginator));
+    }
+    );
+  }
+
 
   removeColumn(){
     if(this.assigedRole.includes('role_edit')==false && this.assigedRole.includes('role_delete')==false ){
@@ -91,6 +187,11 @@ export class UserListComponent implements OnInit {
     });
   }
 
+  getBack() {
+    this.getAllUser();
+    this.myform.reset();
+  }
+
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -105,7 +206,7 @@ export class UserListComponent implements OnInit {
     this.dialog.open(DriverUserComponent,  {
       width: '680px',
       height: '460px',
-      data: { pageValue: data.id }
+      data: { user_id: data.id,customer_id: data.customer_id }
     }).afterClosed()
     .subscribe(response => {});
   }
@@ -171,7 +272,7 @@ export class UserListComponent implements OnInit {
   }
 
   openDeviceModal(data) {
-    console.log(data.id)
+    console.log(data.customer_id)
     const dialogCofig = new MatDialogConfig();
     dialogCofig.disableClose = true;
     dialogCofig.width = "600px";
@@ -180,7 +281,7 @@ export class UserListComponent implements OnInit {
     this.dialog.open(DeviceUserComponent,  {
       width: '580px',
       height: '460px',
-      data: { pageValue: data.id }
+      data: {user_id:data.id, customer_id: data.customer_id }
     }).afterClosed()
     .subscribe(response => {});
   }

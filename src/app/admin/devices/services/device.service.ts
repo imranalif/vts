@@ -12,6 +12,11 @@ export class DeviceService {
   constructor(private http: HttpClient) { }
   private url = environment.apiUrl + '/device/';
 
+  getAllDevices(): Observable<any> {
+    return this.http.get(this.url + '/listDevices');
+  }
+
+
   addDevice(data){
     return this.http.post(this.url + '/addDevice', data);
   }
@@ -56,7 +61,7 @@ export class DeviceService {
     return this.http.post(this.url + '/deleteCustomerDevice',data);
   }
 
-  getDeviceByCustomer(id: string): Observable<object> {
-    return this.http.get(this.url + id + '/getDeviceByCustomer');
+  getDeviceByCustomerId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getDeviceByCustomerId');
   }
 }

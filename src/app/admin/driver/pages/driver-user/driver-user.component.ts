@@ -16,8 +16,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog/";
   styleUrls: ['./driver-user.component.scss']
 })
 export class DriverUserComponent implements OnInit {
-
-  drivers
+  user_id
+  customerDrivers
   userDrivers;
   Id
   object
@@ -31,53 +31,101 @@ export class DriverUserComponent implements OnInit {
     private dialogRef: MatDialogRef<DriverUserComponent>,
     private dialog: MatDialog,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.Id = data.pageValue
+      this.Id = data.customer_id;
+      this.user_id=data.user_id;
   }
   displayedColumns = ['select', 'name', 'identifier',];
 
   ngOnInit(): void {
-    this.getAllDriver();
-    this.getAllDriverByUser();
+    // this.getAllDriver();
+    // this.getAllDriverByUser();
+    this.getAllDriverByCustomer();
+    this.getAllDeviceByUser();
   }
 
-  getAllDriver(): void {
-    this.driverService.getAllDriver().subscribe(res => {
-      this.drivers = res;
-      this.dataSource = new MatTableDataSource(res as any);
-      setTimeout(() => (this.dataSource.sort = this.sort));
-      setTimeout(() => (this.dataSource.paginator = this.paginator));
+  // getAllDriver(): void {
+  //   this.driverService.getAllDriver().subscribe(res => {
+  //     this.drivers = res;
+  //     this.dataSource = new MatTableDataSource(res as any);
+  //     setTimeout(() => (this.dataSource.sort = this.sort));
+  //     setTimeout(() => (this.dataSource.paginator = this.paginator));
+  //   });
+  // }
+
+  // getAllDriverByUser(){
+  //   this.driverService.getDriverByUserId(this.Id).subscribe(res=>{
+  //     console.log(res);
+  //     this.userDrivers=res;
+  //     this.userDrivers.forEach(element => {
+  //       this.userDrivers.push(element.driver_id)
+  //     });
+  //   })
+  // }
+
+  // close() {
+  //   this.dialogRef.close();
+  // }
+
+  // public checkState(id: string): boolean {
+  //   if(this.userDrivers){
+  //   return this.userDrivers.indexOf(id) > -1;}
+  // }
+
+
+  // check(e, data) {
+  //   if (e) {
+  //     this.object = { userId: this.Id, driverId: data.id }
+  //     this.driverService.addDriverWithUser(this.object).subscribe()
+  //   }
+  //   else{
+  //     this.object = { userId: this.Id, driverId: data.id }
+  //     this.driverService.deleteUserDriver(this.object).subscribe()
+  //   }
+  // }
+
+  getAllDriverByCustomer(): void {
+    this.driverService.getDriverByCustomerId(this.Id).subscribe(res => {
+      this.customerDrivers = res;
+        this.dataSource = new MatTableDataSource(this.customerDrivers as any);
+        setTimeout(() => (this.dataSource.sort = this.sort));
+        setTimeout(() => (this.dataSource.paginator = this.paginator));
     });
   }
 
-  getAllDriverByUser(){
-    this.driverService.getDriverByUserId(this.Id).subscribe(res=>{
-      console.log(res);
-      this.userDrivers=res;
-      this.userDrivers.forEach(element => {
-        this.userDrivers.push(element.driver_id)
-      });
+  getAllDeviceByUser() {
+    this.driverService.getDriverByUserId(this.user_id).subscribe(res => {
+      this.userDrivers = res;
+      if (this.userDrivers) {
+        this.userDrivers.forEach(element => {
+          this.userDrivers.push(element.device_id)
+        });
+      }
     })
   }
+
+  
 
   close() {
     this.dialogRef.close();
   }
 
   public checkState(id: string): boolean {
-    if(this.userDrivers){
-    return this.userDrivers.indexOf(id) > -1;}
+    if (this.userDrivers) {
+      return this.userDrivers.indexOf(id) > -1;
+    }
   }
 
 
   check(e, data) {
     if (e) {
-      this.object = { userId: this.Id, driverId: data.id }
+      this.object = { userId: this.user_id, driverId: data.id }
       this.driverService.addDriverWithUser(this.object).subscribe()
     }
-    else{
-      this.object = { userId: this.Id, driverId: data.id }
+    else {
+      this.object = { userId: this.user_id, driverId: data.id }
       this.driverService.deleteUserDriver(this.object).subscribe()
     }
   }
+
 
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../shared/material/material.module';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { UserEditComponent } from './pages/user-edit/user-edit.component';
@@ -21,7 +22,8 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    MatTableExporterModule
+    MatTableExporterModule,
+    FlexLayoutModule
   ]
 })
 export class UsersModule { }

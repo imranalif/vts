@@ -13,14 +13,14 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./topmenu.component.scss']
 })
 export class TopmenuComponent implements OnInit {
-
+sideMode="side"
   data2;
 data1: any = [];
 mediaSub: Subscription;
   constructor(private navService: MenuService, private router: Router,
     private mediaObserver: MediaObserver) { }
   opened = true;
-  @ViewChild('appDrawer') appDrawer: ElementRef;
+  @ViewChild('appDrawer', { static: true }) appDrawer: ElementRef;
 
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
@@ -455,9 +455,15 @@ mediaSub: Subscription;
     this.navService.appDrawer = this.appDrawer;
     this.mediaSub = this.mediaObserver.media$.subscribe(
       (result: MediaChange) => {
-        if(result.mqAlias=='xs')
-        this.opened=false;
-
+        if(result.mqAlias=='xs'){
+          this.opened=false;
+          this.sideMode="over"
+        }
+       
+else{
+  this.opened=true;
+  this.sideMode="side"
+}
         if(result.mqAlias=='xl')
         this.opened=true;
         console.log(result.mqAlias)

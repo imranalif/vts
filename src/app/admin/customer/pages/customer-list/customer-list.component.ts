@@ -10,6 +10,7 @@ import { CustomerService } from '../../services/customer.service';
 import { PaginationService } from 'src/app/shared/services/pagination.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CustomerDeviceComponent } from 'src/app/admin/devices/pages/customer-device/customer-device.component';
+import { CustomerDriverComponent } from 'src/app/admin/driver/pages/customer-driver/customer-driver.component';
 
 
 
@@ -150,7 +151,17 @@ export class CustomerListComponent implements OnInit {
   }
 
   openDriverModal(data){
-
+    const dialogCofig = new MatDialogConfig();
+    dialogCofig.disableClose = true;
+    dialogCofig.width = "600px";
+    dialogCofig.height = "480px";
+  
+    this.dialog.open(CustomerDriverComponent,  {
+      width: '580px',
+      height: '460px',
+      data: { pageValue: data.customer_id }
+    }).afterClosed()
+    .subscribe(response => {});
   }
 
 }

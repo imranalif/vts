@@ -55,6 +55,41 @@
                         </mat-select>
                     </mat-form-field>
 
+                    <!-- <mat-form-field *ngIf="customer_id!=0" class="half">
+                        <mat-label >{{"Customer"}}{{ customerIndex[customer_id]?.name }}</mat-label>
+                        <input matInput placeholder="Customer" [matAutocomplete]="auto" formControlName="customer_id"
+                            (keyup)="applySearch($event.target.value)" />
+                    </mat-form-field> -->
+
+                    <mat-form-field  class="half">
+
+                        <input matInput placeholder="Customer" [matAutocomplete]="auto" formControlName="customer_id"
+                         [(ngModel)]="customer_id"   (keyup)="applySearch($event.target.value)" />
+                    </mat-form-field>
+
+
+                    <mat-autocomplete #auto="matAutocomplete">
+
+                        <mat-option *ngFor="let option of customerData" 
+                            [value]="option.name">
+                            <!-- {{ customerIndex[option?.customer_id]?.name }} -->
+                            <mat-list>
+                                <mat-list-item (click)="onChangeCustomer( option.id)">
+                                    {{ option.name }}
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <mat-form-field class="half" required>
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option *ngFor="let state of states" [value]="state.id">
+                                {{ state.value }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
                     <mat-form-field class="full">
                         <textarea matInput placeholder="Address" formControlName="address"
@@ -79,14 +114,7 @@
 
 
 
-                    <mat-form-field class="full" required>
-                        <mat-label>Status</mat-label>
-                        <mat-select formControlName="status" required>
-                            <mat-option *ngFor="let state of states" [value]="state.id">
-                                {{ state.value }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                   
                     <!-- <div *ngIf="submitted && myform.get('status').errors" class="feedback">
             <div *ngIf=" myform.get('status').errors.required" class="red"> Status is required</div>
         </div> -->

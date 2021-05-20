@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { compareValidators } from '../../services/confirm-password.directive';
 import { UserService } from '../../services/user.service';
 import { RoleService } from '../../../roles/services/role.service';
+import { CustomerService } from 'src/app/admin/customer/services/customer.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -12,6 +13,11 @@ import { RoleService } from '../../../roles/services/role.service';
   styleUrls: ['./user-edit.component.scss']
 })
 export class UserEditComponent implements OnInit {
+  t
+  customerData
+  customer_id
+  customers
+  customerIndex=[]
   d
   attr
   createdBy
@@ -39,7 +45,8 @@ export class UserEditComponent implements OnInit {
     private snackBar: MatSnackBar,
     private userService: UserService,
     private rolesService:RoleService,
-    private route:ActivatedRoute) { }
+    private route:ActivatedRoute,
+    private customerService: CustomerService,) { }
 
     // stepp = 0;
     // setStepp(index: number) {
@@ -58,6 +65,7 @@ export class UserEditComponent implements OnInit {
       mobile: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       address: [''],
+      customer_id: [''],
       gender: [''],
       userRole: ['', [Validators.required]],
       mapLayer:[''],
@@ -85,6 +93,7 @@ export class UserEditComponent implements OnInit {
       this.edit(this.Id);
     });
     this.getAllRole();
+    this.getAllCustomer();
   }
 
   assignAttributes() {
@@ -152,6 +161,7 @@ export class UserEditComponent implements OnInit {
       lastName: data.last_name,
       mobile: data.mobile,
       email: data.email,
+      //customer_id: data.customer_id,
       address: data.address,
       gender: data.gender,
       userRole: data.user_role,
@@ -173,6 +183,13 @@ export class UserEditComponent implements OnInit {
       token:data.token,
       status:data.status,
     });
+    if(data.customer_id==0){
+      this.customer_id=''
+    }
+    if(data.customer_id!=0){
+      this.customer_id=data.customer_id
+    }
+    
     this.createdBy=data.created_by;
     this.image=data.image;
     this.password=data.password
@@ -188,6 +205,34 @@ export class UserEditComponent implements OnInit {
 
   applyFilter(val): void {
     this.userRoles = this.filterRoles.filter((unit) => unit.name.toLowerCase().indexOf(val) > -1);
+  }
+
+  getAllCustomer(){
+    this.customerService.getAllCustomerList().subscribe(res=>{
+      this.customers=res;
+      console.log(this.customers)
+      this.customers.forEach((elem, i) => {
+        this.customerIndex[elem.customer_id] = this.customers[i];
+      }
+      );
+    })
+  }
+
+  applySearch(e){
+    const ob={name:e}
+     this.customerService.customerSearch(ob).subscribe(res=>{
+       this.customerData=res;
+       console.log(this.customerData)
+     })
+   }
+
+   onChangeCustomer(e){
+    this.t=this.customerData.map(item => item.id).indexOf(e);
+    console.log(this.t)
+    if(e){
+this.customer_id=this.customerData[this.t].customer_id;
+console.log(this.customer_id)
+}
   }
 
   updateUser(){
@@ -208,6 +253,9 @@ export class UserEditComponent implements OnInit {
     this.myform.value.created_by = this.createdBy;
     this.myform.value.password = this.userData.password;
     this.myform.value.image = this.userData.image;
+    
+    this.customer_id=this.customerData[this.t].customer_id;
+    this.myform.value.customer_id = this.customer_id;
 
     this.userService.updateUser(this.Id, this.myform.value).subscribe(data => {
       this.openSnackBar();

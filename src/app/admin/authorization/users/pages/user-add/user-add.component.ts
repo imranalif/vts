@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { compareValidators } from '../../services/confirm-password.directive';
 import { UserService } from '../../services/user.service';
 import { RoleService } from '../../../roles/services/role.service';
+import { CustomerService } from 'src/app/admin/customer/services/customer.service';
 
 
 @Component({
@@ -13,6 +14,8 @@ import { RoleService } from '../../../roles/services/role.service';
   styleUrls: ['./user-add.component.scss']
 })
 export class UserAddComponent implements OnInit {
+  customerData
+  customer_id
   imgurl: string=null
   fileUpload: File = null;
   object: any = {}
@@ -32,7 +35,8 @@ export class UserAddComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private userService: UserService,
-    private rolesService:RoleService) { }
+    private rolesService:RoleService,
+    private customerService: CustomerService,) { }
 
     // stepp = 0;
     // setStepp(index: number) {
@@ -50,6 +54,7 @@ export class UserAddComponent implements OnInit {
       lastName: ['', [Validators.required]],
       mobile: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
+      customer_id: [''],
       address: [''],
       gender: [''],
       userRole: ['', [Validators.required]],
@@ -136,6 +141,23 @@ export class UserAddComponent implements OnInit {
     });
   }
 
+  applySearch(e){
+    const ob={name:e}
+     this.customerService.customerSearch(ob).subscribe(res=>{
+       this.customerData=res;
+       console.log(this.customerData)
+     })
+   }
+
+   onChangeCustomer(e){
+    const t=this.customerData.map(item => item.id).indexOf(e);
+    console.log(t)
+    if(e){
+this.customer_id=this.customerData[t].customer_id;
+console.log(this.customer_id)
+}
+  }
+
 
   addUser() {
     this.myform.markAllAsTouched();
@@ -158,6 +180,7 @@ if(this.myform.value.attributes){
     formData.append('lastName', this.myform.get('lastName').value);
     formData.append('mobile', this.myform.get('mobile').value);
     formData.append('email', this.myform.get('email').value);
+    formData.append('customer_id', this.customer_id);
     formData.append('password', this.myform.get('password').value);
     formData.append('userRole', this.myform.get('userRole').value);
     formData.append('address', this.myform.get('address').value);

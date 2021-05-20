@@ -21,4 +21,11 @@ export class CustomerService {
   updateCustomer(id: string, data): Observable<object> {
     return this.http.put(this.url + id + '/updateCustomer', data);
   }
+  getAllCustomerList(): Observable<any> {
+    return this.http.get(this.url + '/allCustomerList');
+  }
+
+  customerSearch(data){
+    return this.http.post(this.url + '/customerSearch', data);
+  }
 }

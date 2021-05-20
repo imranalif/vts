@@ -1,8 +1,9 @@
-<mat-card class="customStyle">
+<mat-card fxFlex=50% fxFlex.xs=100%  class="customStyle">
     <div class="title-style">
         <h1 >Role Add Form</h1>
 </div>
 <mat-card-content>
+   
     <form [formGroup]="myform">
 
         <mat-form-field class="full">
@@ -33,6 +34,7 @@
             <div *ngIf=" myform.get('status').errors.required" class="red"> Status is required</div>
         </div> -->
     </form>
+    
 </mat-card-content>
 
 <mat-card-actions>

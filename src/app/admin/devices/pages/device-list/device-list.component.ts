@@ -44,7 +44,7 @@ export class DeviceListComponent implements OnInit {
   }
 
   getAllDevice(): void {
-    this.deviceService.getAllDevice().subscribe(res => {
+    this.deviceService.getAllDevices().subscribe(res => {
       this.devices = res;
       this.dataSource = new MatTableDataSource(res as any);
       setTimeout(() => (this.dataSource.sort = this.sort));

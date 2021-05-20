@@ -30,6 +30,29 @@
                     </mat-form-field>
 
                     <mat-form-field class="half">
+                        <input matInput placeholder="Customer" [matAutocomplete]="auto" formControlName="customer_id"
+                            (keyup)="applySearch($event.target.value)" />
+                    </mat-form-field>
+
+
+                    <mat-autocomplete #auto="matAutocomplete">
+
+                        <mat-option *ngFor="let option of customerData" 
+                            [value]="option.name">
+
+                            <mat-list>
+                                <mat-list-item (click)="onChangeCustomer( option.id)">
+                                    {{ option.name }}
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+                        </mat-option>
+                    </mat-autocomplete>
+
+
+
+
+                    <mat-form-field class="half">
                         <input matInput type="password" placeholder="Password" formControlName="password"
                             autocomplete="off" required />
 
@@ -45,7 +68,7 @@
 
                     <mat-form-field class="half">
                         <mat-label>Gender</mat-label>
-                        <mat-select formControlName="gender" >
+                        <mat-select formControlName="gender">
                             <mat-option *ngFor="let state of gend" [value]="state.value">
                                 {{ state.value }}
                             </mat-option>
@@ -55,12 +78,22 @@
                     <mat-form-field class="half">
                         <mat-label>User Role</mat-label>
                         <mat-select formControlName="userRole" required #sl>
-                            <input matInput class="filterBox" placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
+                            <input matInput class="filterBox" placeholder="search" autocomplete="off"
+                                (keyup)="applyFilter($event.target.value)" />
                             <a>
                                 <mat-icon class="closeButton" (click)="sl.close()">clear</mat-icon>
-                              </a>
+                            </a>
                             <mat-option *ngFor="let state of userRoles" [value]="state.id">
                                 {{ state.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="half">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status" required>
+                            <mat-option *ngFor="let state of states" [value]="state.id">
+                                {{ state.value }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -84,24 +117,17 @@
 
 
                     <div class="full">
-                        <img type="hide" [src]="imgurl" style="width:100px;height:50px" *ngIf="imgurl">   
+                        <img type="hide" [src]="imgurl" style="width:100px;height:50px" *ngIf="imgurl">
                         <mat-label class="image">Image </mat-label>
                         <input type="file" formControlName="image" (change)="onFileSelected($event)"
-                            enctype="multipart/form-data"  />
+                            enctype="multipart/form-data" />
                     </div>
 
 
 
 
 
-                    <mat-form-field class="full" >
-                        <mat-label>Status</mat-label>
-                        <mat-select formControlName="status" required>
-                            <mat-option *ngFor="let state of states" [value]="state.id">
-                                {{ state.value }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                    
                     <!-- <div *ngIf="submitted && myform.get('status').errors" class="feedback">
             <div *ngIf=" myform.get('status').errors.required" class="red"> Status is required</div>
         </div> -->
@@ -243,7 +269,8 @@
     </mat-card-content>
 
     <mat-card-actions class="button">
-        <button class="button" [disabled]="!myform.valid" mat-stroked-button color="primary" (click)="addUser()" class="btn-block">
+        <button class="button" [disabled]="!myform.valid" mat-stroked-button color="primary" (click)="addUser()"
+            class="btn-block">
             Submit
         </button>
         <p>Note: Field marked with * is Mandatory</p>

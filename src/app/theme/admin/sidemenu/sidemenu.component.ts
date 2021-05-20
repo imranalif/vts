@@ -129,7 +129,7 @@ export class SidemenuComponent implements OnInit {
   onItemSelected(item: NavItem): void {
     if (!item.children || !item.children.length) {
       this.router.navigate([item.route]);
-
+      this.navService.closeNav();
     }
     if (item.children && item.children.length) {
 

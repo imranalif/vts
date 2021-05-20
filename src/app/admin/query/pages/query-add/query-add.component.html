@@ -20,7 +20,7 @@
                 </mat-form-field>
                
                 <mat-form-field  *ngIf="searchFlag==1" class="search_field" appearance="outline">
-                    <input  matInput placeholder="Search" [matAutocomplete]="auto" formControlName="search" (keyup)="applySearch($event.target.value)"  />
+                    <input  matInput placeholder="Input Text" [matAutocomplete]="auto" formControlName="search" (keyup)="applySearch($event.target.value)"  />
                     <mat-hint>Searching and selecting field is mandatory</mat-hint>
                 </mat-form-field>
 

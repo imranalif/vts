@@ -18,9 +18,10 @@ import { DeviceService } from '../../services/device.service';
 })
 export class DeviceUserComponent implements OnInit {
   source = []
-  commands
+  customerDevices
   userDevices;
   Id
+  user_id
   object
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;
@@ -32,40 +33,45 @@ export class DeviceUserComponent implements OnInit {
     private dialogRef: MatDialogRef<DeviceUserComponent>,
     private dialog: MatDialog,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.Id = data.pageValue
+    this.Id = data.customer_id;
+    this.user_id=data.user_id;
   }
   displayedColumns = ['select', 'name', 'identifier'];
   sms = [{ id: 1, value: 'true' }, { id: 0, value: 'false' }];
 
   ngOnInit(): void {
-    this.getAllDevice();
-    this.getAllDeviceByAllUser();
+    this.getAllDeviceByCustomer();
+    //this.getAllDeviceByAllUser();
     this.getAllDeviceByUser();
   }
 
-  getAllDevice(): void {
-    this.devcieService.getAllDevice().subscribe(res => {
-      this.commands = res;
-      this.commands.forEach(element => {
-        this.source.push({ id: element.id, name: element.name, identifier: element.unique_id })
-        this.dataSource = new MatTableDataSource(this.source as any);
+  // getAllDeviceByCustomer(): void {
+  //   this.devcieService.getAllDevice().subscribe(res => {
+  //     this.commands = res;
+  //     this.commands.forEach(element => {
+  //       this.source.push({ id: element.id, name: element.name, identifier: element.unique_id })
+  //       this.dataSource = new MatTableDataSource(this.source as any);
+  //       setTimeout(() => (this.dataSource.sort = this.sort));
+  //       setTimeout(() => (this.dataSource.paginator = this.paginator));
+  //     });
+  //   });
+  // }
+
+  getAllDeviceByCustomer(): void {
+    this.devcieService.getDeviceByCustomerId(this.Id).subscribe(res => {
+      this.customerDevices = res;
+        this.dataSource = new MatTableDataSource(this.customerDevices as any);
         setTimeout(() => (this.dataSource.sort = this.sort));
         setTimeout(() => (this.dataSource.paginator = this.paginator));
-      });
     });
   }
 
   getAllDeviceByUser() {
-    this.devcieService.getDeviceByUserId(this.Id).subscribe(res => {
-      console.log(res);
+    this.devcieService.getDeviceByUserId(this.user_id).subscribe(res => {
       this.userDevices = res;
       if (this.userDevices) {
         this.userDevices.forEach(element => {
-          this.source.push({ id: element.id, name: element.name, identifier: element.unique_id })
-          this.dataSource = new MatTableDataSource(this.source as any);
-          setTimeout(() => (this.dataSource.sort = this.sort));
-          setTimeout(() => (this.dataSource.paginator = this.paginator));
-          this.userDevices.push(element.id)
+          this.userDevices.push(element.device_id)
         });
       }
     })
@@ -96,11 +102,11 @@ export class DeviceUserComponent implements OnInit {
 
   check(e, data) {
     if (e) {
-      this.object = { userId: this.Id, deviceId: data.id }
+      this.object = { userId: this.user_id, deviceId: data.id }
       this.devcieService.addDeviceWithUser(this.object).subscribe()
     }
     else {
-      this.object = { userId: this.Id, deviceId: data.id }
+      this.object = { userId: this.user_id, deviceId: data.id }
       this.devcieService.deleteUserDevice(this.object).subscribe()
     }
   }

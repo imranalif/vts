@@ -67,4 +67,23 @@ export class DriverService {
     return this.http.get(this.url + id + '/getDriverByUser');
   }
 
+  getAllCustomerDriver(): Observable<any> {
+    return this.http.get(this.url + '/listCustomerDriver');
+  }
+
+  getDriverByCustomerId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getDriverByCustomerId');
+  }
+
+  addDriverWithCustomer(data){
+    return this.http.post(this.url + '/addCustomerDriver', data);
+  }
+
+  deleteCustomerDriver(data): Observable<object> {
+    return this.http.post(this.url + '/deleteCustomerDriver',data);
+  }
+
+ 
+  
+
 }

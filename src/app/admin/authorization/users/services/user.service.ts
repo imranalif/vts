@@ -19,6 +19,10 @@ export class UserService {
     return this.http.get(this.url + '/listUser');
   }
 
+  getAllUserByPage(data): Observable<any> {
+    return this.http.post(this.url + '/listUserByPage',data);
+  }
+
   getUserById(id: string): Observable<object> {
     return this.http.get(this.url + id + '/editUser');
   }
