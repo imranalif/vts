@@ -1,8 +1,10 @@
-import { Component, OnInit ,  HostBinding, Input } from '@angular/core';
+import { Component, OnInit, HostBinding, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { animate, state, style, transition, trigger,AUTO_STYLE } from '@angular/animations';
+import { animate, state, style, transition, trigger, AUTO_STYLE } from '@angular/animations';
 import { NavItem } from '../shared/menu';
 import { MenuService } from '../shared/menu.service';
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
+import { Subscription } from 'rxjs';
 const DEFAULT_DURATION = 300;
 @Component({
   selector: 'app-sidemenu',
@@ -23,14 +25,14 @@ const DEFAULT_DURATION = 300;
       })),
       transition('void <=> *', animate(1000)),
     ]),
-  
+
 
   ]
 })
 
 
 export class SidemenuComponent implements OnInit {
-  assigedRole=[];
+  assigedRole = [];
   expanded: boolean;
   rolesArray = ['admin', 'superAdmin', 'agent'];
   @HostBinding('attr.aria-expanded') ariaExpanded = this.expanded;
@@ -38,28 +40,28 @@ export class SidemenuComponent implements OnInit {
   @Input() depth: number;
 
   isOpen = true;
-  s=true;
+  s = true;
 
   toggle(): void {
     this.isOpen = !this.isOpen;
   }
 
   public sideMenuSettings = {
-		accordionMode: true,
-		showSelectedOption: true,
-		selectedOptionClass: 'my-selected-option',
+    accordionMode: true,
+    showSelectedOption: true,
+    selectedOptionClass: 'my-selected-option',
     subOptionIndentation: {
       md: '56px',
       ios: '64px',
       wp: '56px'
     }
-	};
+  };
 
- 
- 
 
-  constructor(public navService: MenuService,
-              public router: Router) {
+  mediaSub: Subscription;
+
+  constructor(public navService: MenuService, private mediaObserver: MediaObserver,
+    public router: Router) {
     if (this.depth === undefined) {
       this.depth = 0;
     }
@@ -83,19 +85,18 @@ export class SidemenuComponent implements OnInit {
     });
   }
 
-  testt(item) :boolean{
-    if(item){
+  testt(item): boolean {
+    if (item) {
 
       //console.log(this.assigedRole.indexOf(item))
       //this.assigedRole.indexOf(item.permission) > -2
       //console.log(item.filter(value => this.assigedRole.includes(value)).length>0)
-      if(item.filter(value => this.assigedRole.includes(value)) != [])
-      {
+      if (item.filter(value => this.assigedRole.includes(value)) != []) {
         //console.log("start  ////////")
         //console.log(item.filter(value => this.assigedRole.includes(value)))
 
         //console.log("end  ////////")
-        this.s=true;
+        this.s = true;
         //return true
       }
 
@@ -108,34 +109,53 @@ export class SidemenuComponent implements OnInit {
       //   this.s=false;
       //   //return false
       // }
-     //return item.filter(value => this.assigedRole.includes(value)) > 0; 
-     return true;
-     
-    
+      //return item.filter(value => this.assigedRole.includes(value)) > 0; 
+      return true;
 
-    //  console.log(filteredArray)
-    //  if(filteredArray!=[]){
-    //  this.s='1'
-    //  return true;
-    //    console.log(this.s);
-    // }
-  
+
+
+      //  console.log(filteredArray)
+      //  if(filteredArray!=[]){
+      //  this.s='1'
+      //  return true;
+      //    console.log(this.s);
+      // }
+
       //console.log(item.filter(value => this.assigedRole.includes(value)))
     }
- 
+
   }
 
 
   onItemSelected(item: NavItem): void {
     if (!item.children || !item.children.length) {
       this.router.navigate([item.route]);
-      this.navService.closeNav();
+
+      this.mediaSub = this.mediaObserver.media$.subscribe(
+        (result: MediaChange) => {
+          if (result.mqAlias == 'xs') {
+            this.navService.closeNav();
+          }
+        }
+      )
+
+
     }
     if (item.children && item.children.length) {
 
       this.expanded = !this.expanded;
 
     }
+  }
+
+  a() {
+    this.mediaSub = this.mediaObserver.media$.subscribe(
+      (result: MediaChange) => {
+        if (result.mqAlias == 'xs') {
+
+        }
+      }
+    )
   }
 
 }
