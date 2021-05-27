@@ -227,12 +227,13 @@ export class UserEditComponent implements OnInit {
    }
 
    onChangeCustomer(e){
-    this.t=this.customerData.map(item => item.id).indexOf(e);
-    console.log(this.t)
-    if(e){
-this.customer_id=this.customerData[this.t].customer_id;
-console.log(this.customer_id)
-}
+    this.customer_id=e;
+//     this.t=this.customerData.map(item => item.id).indexOf(e);
+//     console.log(this.t)
+//     if(e){
+// this.customer_id=this.customerData[this.t].customer_id;
+// console.log(this.customer_id)
+// }
   }
 
   updateUser(){
@@ -254,7 +255,7 @@ console.log(this.customer_id)
     this.myform.value.password = this.userData.password;
     this.myform.value.image = this.userData.image;
     
-    this.customer_id=this.customerData[this.t].customer_id;
+    //this.customer_id=this.customerData[this.t].customer_id;
     this.myform.value.customer_id = this.customer_id;
 
     this.userService.updateUser(this.Id, this.myform.value).subscribe(data => {

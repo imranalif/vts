@@ -150,12 +150,13 @@ export class UserAddComponent implements OnInit {
    }
 
    onChangeCustomer(e){
-    const t=this.customerData.map(item => item.id).indexOf(e);
-    console.log(t)
-    if(e){
-this.customer_id=this.customerData[t].customer_id;
-console.log(this.customer_id)
-}
+    this.customer_id=e;
+//     const t=this.customerData.map(item => item.id).indexOf(e);
+//     console.log(t)
+//     if(e){
+// this.customer_id=this.customerData[t].customer_id;
+// console.log(this.customer_id)
+// }
   }
 
 

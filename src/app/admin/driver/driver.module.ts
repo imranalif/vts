@@ -24,6 +24,7 @@ import { CustomerDriverComponent } from './pages/customer-driver/customer-driver
     ReactiveFormsModule,
     FormsModule,
     MatTableExporterModule
-  ]
+  ],
+  exports: [DriverListComponent],
 })
 export class DriverModule { }

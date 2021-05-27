@@ -4,8 +4,8 @@
     </div>
     <mat-card-content>
         <form [formGroup]="myform">
-            <div class="main">
-                <div class="mainContent">
+            <div class="main" fxLayout="row" fxLayout.xs="column">
+                <div fxFlex=50%>
                     <mat-form-field class="half">
                         <input trim="blur" matInput placeholder="First Name" formControlName="firstName"
                             autocomplete="off" required />
@@ -61,21 +61,21 @@
                             (keyup)="applySearch($event.target.value)" />
                     </mat-form-field> -->
 
-                    <mat-form-field  class="half">
+                    <mat-form-field class="half">
 
                         <input matInput placeholder="Customer" [matAutocomplete]="auto" formControlName="customer_id"
-                         [(ngModel)]="customer_id"   (keyup)="applySearch($event.target.value)" />
+                            [(ngModel)]="customer_id" (keyup)="applySearch($event.target.value)" />
+                        <mat-hint align="end">Please input customer id</mat-hint>
                     </mat-form-field>
 
 
                     <mat-autocomplete #auto="matAutocomplete">
 
-                        <mat-option *ngFor="let option of customerData" 
-                            [value]="option.name">
+                        <mat-option *ngFor="let option of customerData" [value]="option.customer_id">
                             <!-- {{ customerIndex[option?.customer_id]?.name }} -->
                             <mat-list>
-                                <mat-list-item (click)="onChangeCustomer( option.id)">
-                                    {{ option.name }}
+                                <mat-list-item (click)="onChangeCustomer( option.customer_id)">
+                                    {{ option.name }}({{ option.customer_id }})
                                 </mat-list-item>
                                 <mat-divider></mat-divider>
                             </mat-list>
@@ -114,12 +114,12 @@
 
 
 
-                   
+
                     <!-- <div *ngIf="submitted && myform.get('status').errors" class="feedback">
             <div *ngIf=" myform.get('status').errors.required" class="red"> Status is required</div>
         </div> -->
                 </div>
-                <div class="optionalContent">
+                <div fxFlex=50%>
                     <mat-accordion class="example-headers-align">
                         <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
                             <mat-expansion-panel-header>
