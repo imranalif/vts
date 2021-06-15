@@ -64,4 +64,8 @@ export class DeviceService {
   getDeviceByCustomerId(id: string): Observable<object> {
     return this.http.get(this.url + id + '/getDeviceByCustomerId');
   }
+
+  getAllPostion(): Observable<any> {
+    return this.http.get(this.url + '/listPositions');
+  }
 }

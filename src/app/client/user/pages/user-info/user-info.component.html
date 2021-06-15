@@ -1,77 +1,114 @@
 <!-- <mat-toolbar class="mi">
 <mat-toolbar-row fxLayoutAlign="space-between center"> -->
-    
-<div id="t" class="mi" fxLayout="row" fxLayout.xs="column" color="primary">
+
+  <div id="t" class="mi" fxLayout="row" fxLayout.xs="column" color="primary">
 
 
     <div fxFlex="70%" fxLayout="row" fxLayout.xs="100%">
-        <div fxFlex="80%">
-            <img src="assets/client/images/traccar.png" width="130" alt="avatar" />
-        </div>
-        <div *ngIf="deviceXs" fxFlex="20%">
-            <a id="r" mat-button [matMenuTriggerFor]="menu">
-                <!-- <span class="image-border"> -->
-                <img class="logout-image" src="assets/client/images/avatar.png"  width="35" alt="avatar" />
-                <!-- </span> -->
-                <!-- <div class="pname">{{this.data2.fullName}}</div> assets/images/avatar.png -->
-                <span class="align-middle"></span>
-              </a>
-        </div>
-        
+      <div fxFlex="80%">
+        <img src="assets/client/images/traccar.png" width="130" alt="avatar" />
+
+        <a class="menu-button" id="appDrawer" (click)="openMenuModal()">
+          <mat-icon>menu</mat-icon>
+        </a>
+      </div>
+      <div *ngIf="deviceXs" fxFlex="20%">
+        <a id="r" mat-button [matMenuTriggerFor]="menu">
+          <!-- <span class="image-border"> -->
+          <img class="logout-image" src="assets/client/images/avatar.png" width="35" alt="avatar" />
+          <!-- </span> -->
+          <!-- <div class="pname">{{this.data2.fullName}}</div> assets/images/avatar.png -->
+          <span class="align-middle"></span>
+        </a>
+      </div>
+
     </div>
     <div fxFlex="25%" fxLayout.xs="100%">
-        <div >
-         
-            <button class="menu" mat-button [matMenuTriggerFor]="hospital"><span class="col">Tools</span>
-                <mat-icon class="col">arrow_drop_down</mat-icon>
-            </button>
-       
-        
-            <button mat-button class="col" routerLink="/">Setup</button>
-           
-            <button mat-button class="col" routerLink="/">Chat</button>
-       
-            <mat-menu #hospital="matMenu">
-                <button mat-menu-item routerLink="/">Hospital List</button>
+      <div>
 
-                <button mat-menu-item routerLink="info/map">
-                    Hospital Map
-                </button>
+        <button class="menu" mat-button [matMenuTriggerFor]="hospital"><span class="col">Tools</span>
+          <mat-icon class="col">arrow_drop_down</mat-icon>
+        </button>
 
-            </mat-menu>
-            <a *ngIf="!deviceXs" mat-button [matMenuTriggerFor]="menu">
-                <!-- <span class="image-border"> -->
-                <img class="logout-image" src="assets/client/images/avatar.png"  width="35" alt="avatar" />
-                <!-- </span> -->
-                <!-- <div class="pname">{{this.data2.fullName}}</div> assets/images/avatar.png -->
-                <span class="align-middle"></span>
-              </a>
-            <mat-menu #menu="matMenu">
-                <a routerLink="authorization/users/user-profile" mat-menu-item>
-                  <mat-icon>account_circle</mat-icon>
-                  <span>Profile</span>
-                </a>
-            
-                <a routerLink="authorization/users/change-password" mat-menu-item>
-                  <mat-icon>settings</mat-icon>
-                  <span>Change Pass
-            
-                  </span>
-                </a>
-            
-                <a mat-menu-item>
-                  <mat-icon>exit_to_app</mat-icon>
-                  <span (click)="logout()">Logout</span>
-                </a>
-              </mat-menu>
-        </div>
+
+        <button mat-button class="col" routerLink="/">Setup</button>
+
+        <button mat-button class="col" routerLink="/">Chat</button>
+
+        <mat-menu #hospital="matMenu">
+          <button mat-menu-item routerLink="/">Hospital List</button>
+
+          <button mat-menu-item routerLink="info/map">
+            Hospital Map
+          </button>
+
+        </mat-menu>
+        <a *ngIf="!deviceXs" mat-button [matMenuTriggerFor]="menu">
+          <!-- <span class="image-border"> -->
+          <img class="logout-image" src="assets/client/images/avatar.png" width="35" alt="avatar" />
+          <!-- </span> -->
+          <!-- <div class="pname">{{this.data2.fullName}}</div> assets/images/avatar.png -->
+          <span class="align-middle"></span>
+        </a>
+        <mat-menu #menu="matMenu">
+          <a routerLink="authorization/users/user-profile" mat-menu-item>
+            <mat-icon>account_circle</mat-icon>
+            <span>Profile</span>
+          </a>
+
+          <a routerLink="authorization/users/change-password" mat-menu-item>
+            <mat-icon>settings</mat-icon>
+            <span>Change Pass
+
+            </span>
+          </a>
+
+          <a mat-menu-item>
+            <mat-icon>exit_to_app</mat-icon>
+            <span (click)="logout()">Logout</span>
+          </a>
+        </mat-menu>
+      </div>
 
     </div>
-
-
-</div>
+    <mat-sidenav-container class="example-sidenav-container">
+      <mat-sidenav #appDrawer class="example-sidenav" [(mode)]="sideMode" [(opened)]="opened">
+        <div class="menu-header">
+  
+        </div>
+        
+        <mat-nav-list class="dashboard">
+          <app-slide-menu>
+  
+          </app-slide-menu>
+  
+  
+  
+  
+        </mat-nav-list>
+  
+      </mat-sidenav>
+  
+      <div class="sidenav-content">
+        <div id="mapid" style=" width: 100%; height: 90%;"></div>
+      </div>
+    </mat-sidenav-container>
+  </div>
+  
 
 <!-- </mat-toolbar-row>
 </mat-toolbar> -->
-<div  id="mapid" style=" width: 100%; height: 90%;"></div>
+<div id="mapid" style=" width: 100%; height: 90%;">
+  <div id="sidebar">
+    <app-slide-menu>
+  
+    </app-slide-menu>
+  </div>
+  <!-- <div class="leaflet-top leaflet-left">
+    <input type="button" id="Btn1" value="Btn1" onclick="" class="btnStyle span3" />
+    <input type="button" id="Btn2" value="Btn2" onclick="SaveRoutes()" class="btnStyle span3 leaflet-control" /> 
+    <input type="button" id="Btn3" value="Btn3" onclick="editRoutes()" class="btnStyle span3 leaflet-control" />
+    <span id="studentsCount" class="lblStyle span3 leaflet-control"> Ikke rutesat: </span>
+</div> -->
+</div>
 <!-- <app-driver-list></app-driver-list> -->

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient,HttpEventType } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,6 +15,7 @@ import { CustomerService } from 'src/app/admin/customer/services/customer.servic
   styleUrls: ['./user-add.component.scss']
 })
 export class UserAddComponent implements OnInit {
+  progress
   customerData
   customer_id
   imgurl: string=null
@@ -210,9 +212,16 @@ if(this.myform.value.attributes){
 
     console.log(this.myform.value)
 
-    this.userService.addUser(formData).subscribe(data => {
-      this.openSnackBar();
-       this.router.navigate(['admin/authorization/users/list']);
+    this.userService.addUser(formData).subscribe(event => {
+      if(event.type===HttpEventType.UploadProgress){
+        console.log('Upload Progress:'+ Math.round(event.loaded/event.total*100)+'%')
+        this.progress=Math.round(event.loaded/event.total*100);
+      }
+      else if(event.type===HttpEventType.Response){
+        console.log(event)
+      }
+      //this.openSnackBar();
+       //this.router.navigate(['admin/authorization/users/list']);
     },
       error => {
         this.errorMessage();

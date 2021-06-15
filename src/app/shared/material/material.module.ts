@@ -25,6 +25,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 const matComponent = [
   MatFormFieldModule,
@@ -53,7 +54,8 @@ const matComponent = [
    MatGridListModule,
    MatExpansionModule,
    MatSnackBarModule,
-   MatTabsModule
+   MatTabsModule,
+   MatProgressBarModule
 
 ];
 

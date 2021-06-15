@@ -121,7 +121,7 @@
                         <img type="hide" [src]="imgurl" style="width:100px;height:50px" *ngIf="imgurl">
                         <mat-label class="image">Image </mat-label>
                         <input type="file" formControlName="image" (change)="onFileSelected($event)"
-                            enctype="multipart/form-data" />
+                            enctype="multipart/form-data" accept=".csv,.mp4" max-size="2" />
                     </div>
 
 
@@ -267,6 +267,9 @@
                 </div>
             </div>
         </form>
+        <div *ngIf="progress">
+            <mat-progress-bar  [value]="progress"></mat-progress-bar>
+        </div>
     </mat-card-content>
 
     <mat-card-actions class="button">
