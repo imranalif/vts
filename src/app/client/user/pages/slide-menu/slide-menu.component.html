@@ -1,1 +1,113 @@
-<p>slide-menu works!</p>
+<div class="container">
+    <mat-tab-group #allTabs>
+        <mat-tab label="Objects">
+
+            <div *ngIf="dataSource">
+                <div class="search-div">
+                    <mat-form-field class="filter">
+                        <input matInput placeholder="search" autocomplete="off"
+                            (keyup)="applyFilter($event.target.value)" />
+                    </mat-form-field>
+
+                    <button class="btn">
+                        +
+                    </button>
+                    <button class="btn">
+                        -
+                    </button>
+                </div>
+
+                <table mat-table matTableExporter [dataSource]="dataSource" class="mat-elevation-z8">
+
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (change)="check($event.checked,row)" [checked]="checkState(row.id)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element"><a (click)="getLocation()">{{ element.name }}</a></td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="identifier">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">{{ element.unique_id }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="more">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">
+                            <a [matMenuTriggerFor]="hospital">
+                                <mat-icon>more_vert</mat-icon>
+                            </a>
+                        </td>
+                    </ng-container>
+                   
+                        <mat-menu class="dropdown-content" #hospital="matMenu">
+                            <button mat-menu-item routerLink="/">Hospital List</button>
+    
+                            <button mat-menu-item routerLink="info/map">
+                                Hospital Map
+                            </button>
+    
+                        </mat-menu>
+    
+    
+              
+                    
+                    <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+
+            </div>
+        </mat-tab>
+        <mat-tab label="Events"> Content 2 </mat-tab>
+        <mat-tab label="History">
+<div *ngIf="devices">
+            <form [formGroup]="myform">
+
+
+                <mat-form-field class="half">
+                    <mat-label>Device</mat-label>
+                    <mat-select formControlName="id"  #sl>
+                        <input matInput class="filterBox" placeholder="search" autocomplete="off"
+                            (keyup)="applyFilter($event.target.value)" />
+                        <a class="closeButton">
+                            <mat-icon (click)="sl.close()">clear</mat-icon>
+                        </a>
+                        <mat-option *ngFor="let state of devices" [value]="state.id">
+                            {{ state.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>From Date</mat-label>
+                    <input formControlName="from_date" matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>To Date</mat-label>
+                    <input formControlName="to_date" matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+
+          
+
+            </form>
+            <button class="button"  mat-raised-button color="primary" class="btn-block" >
+                Load History
+            </button>
+        </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

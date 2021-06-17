@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs';
 import * as L from 'leaflet';
 import 'leaflet-slidemenu';
 import 'leaflet-sidebar';
+ import 'leaflet-easybutton';
+
 import 'leaflet-arrowheads'
 import '/var/projects/angular/VTSApp/angular/node_modules/leaflet-slidemenu/src/L.Control.SlideMenu.js'
 import { DriverListComponent } from 'src/app/admin/driver/pages/driver-list/driver-list.component';
@@ -14,6 +16,7 @@ import { DeviceService } from 'src/app/admin/devices/services/device.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SlideMenuComponent } from '../slide-menu/slide-menu.component';
+import { MapService } from '../../services/map.service';
 
 @Component({
   selector: 'app-user-info',
@@ -24,6 +27,7 @@ import { SlideMenuComponent } from '../slide-menu/slide-menu.component';
 
 
 export class UserInfoComponent implements OnInit {
+  updateData
   timeArray=[]
   overlayMaps
   baseMaps
@@ -65,6 +69,7 @@ history
   constructor(private mediaObserver: MediaObserver,
     private deviceService: DeviceService,
     private dialog: MatDialog,
+    private mapService:MapService
    ) {
     this.getAllDevice();
     
@@ -88,7 +93,7 @@ history
       iconUrl: './assets/client/images/mm.png',
       iconSize: [20, 40],
       iconAnchor: [12, 39],
-      color: 'blue',
+      color: 'green',
       className: 'icon'
   
     });
@@ -97,7 +102,7 @@ history
       iconUrl: './assets/client/images/nn.png',
       iconSize: [20, 40],
       iconAnchor: [12, 39],
-      color: 'blue',
+      color: 'green',
       className: 'icon'
   
     });
@@ -137,14 +142,29 @@ history
       "Google Map": googleStreets
     }
 
+   
+
     //L.control.layers(baseMaps,this.overlayMaps).addTo(this.map);
 
 
-  //   var sidebar = L.control.sidebar('sidebar', {
-  //     position: 'left'
-  // });
-  // this.map.addControl(sidebar);
-  // sidebar.toggle();
+    var sidebar = L.control.sidebar('sidebar').addTo(this.map);
+
+    L.easyButton('fa-exchange', function(btn, map){
+      sidebar.toggle()
+  }).addTo( this.map );
+
+  //this.map.addControl(sidebar);
+  //sidebar.toggle();
+
+  this.mapService.share.subscribe(res => {
+    console.log(res)
+    this.updateData = res;
+    if(res){
+      //this.map.removeLayer(this.markerArray[1]);
+      this.map.panTo(new L.LatLng(res.lat, res.lng));
+    }
+    
+  })
 
     var c = '<app-driver-list></app-driver-list>'
 
@@ -175,7 +195,7 @@ history
         var time=this.timeArray[i]-this.timeArray[i-1]
         if(time>10){
           console.log("=====")
-          this.park=this.marker=L.marker([element.latitude, element.longitude],{icon:this.myIcon2}).bindTooltip(element.latitude);
+          this.park=L.marker([element.latitude, element.longitude],{icon:this.myIcon2}).bindTooltip(element.latitude);
           this.parkArray.push(this.park)
           this.parking = L.layerGroup(this.parkArray);
         }
@@ -195,7 +215,7 @@ this.parking.addTo(this.map)
         "Route": this.route,
         "Engine": this.history,
         //"Arrow": this.arrow,
-        "Parking": this.park,
+        "Parking": this.parking,
 
       };
   
@@ -240,6 +260,7 @@ this.cities.addTo(this.map)
       setTimeout(() => {
         var g=this.cities
         console.log(this.devices)
+        var check = document.getElementsByClassName("check");
         var leftbar = document.getElementsByClassName("left_bar");
         var filter = document.getElementsByClassName("filter");
 
@@ -247,6 +268,10 @@ this.cities.addTo(this.map)
         var info = document.getElementsByClassName("view-info");
         console.log(submit)
 
+
+        var submitCheck = function () {
+          console.log("check")
+        }
 
         var filterFunction = function (event) {
           console.log(this.dev)
@@ -279,10 +304,11 @@ this.cities.addTo(this.map)
           var name = this.getAttribute("data-name");
           if (e.target.checked) {
             console.log(g)
-            t.map.removeLayer(t.markerArray[101]);
+            t.map.addLayer(t.markerArray[1]);
             console.log(name, "Checked");
           } else {
-            t.map.addLayer(t.markerArray[101]);
+            
+            t.map.removeLayer(t.markerArray[1]);
             console.log(name, "Unchecked");
           }
         };
@@ -305,6 +331,10 @@ this.cities.addTo(this.map)
         for (var i = 0; i < info.length; i++) {
           info[i].addEventListener('click', infoFunction, false);
         }
+
+        for (var i = 0; i < check.length; i++) {
+          info[i].addEventListener('click', submitCheck, false);
+        }
         console.log("BBBBBBBBBBB");
       }, 500);
 
@@ -326,7 +356,7 @@ this.cities.addTo(this.map)
 
         this.devices.forEach((element, ind) => {
           this.html += '<tr style="height:30px;font-size:16px">';
-          this.html += '<td style="width:18px">    <input data-name="' + element.unique_id + '" type="checkbox" class="left_bar" name="vehicle1" value="Bike" /></td>';
+          this.html += '<td style="width:18px">    <input data-name="' + element.unique_id + '" type="checkbox" class="left_bar" name="vehicle1" value="Bike" checked /></td>';
           this.html += '<td style="font-size:18px"><a info-name="' + element.unique_id + '" class="view-info">' + element.name + '</a></td>';
           this.html += '<td>' + '<a><i style="color:red" class="fa fa-circle" aria-hidden="true"></i></a>' + '</td>';
           this.html += '<td>' + '<a><i style="font-size:12px" class="fa">&#xf142;</i></a>' + '</td>';
@@ -349,7 +379,7 @@ this.cities.addTo(this.map)
         this.bottomHtml += '</table>';
       }
       console.log(this.html)
-      L.control.slideMenu(this.html, { position: 'topleft', menuposition: 'topleft', width: '25%', height: '100%', direction: 'horizontal', icon: 'fa-chevron-right' }).addTo(this.map);
+      //L.control.slideMenu(this.html, { position: 'topleft', menuposition: 'topleft', width: '25%', height: '100%', direction: 'horizontal', icon: 'fa-chevron-right' }).addTo(this.map);
       //L.control.slideMenu(this.bottomHtml, { position: 'bottomright', menuposition: 'bottomright', width: '75%', height: '170px', icon: 'fa-chevron-left' }).addTo(this.map);
       this.k.push(this.devices[0])
       console.log(this.k)
@@ -409,5 +439,9 @@ call(){
 openMenuModal() {
   this.opened=true
 }
+Action(){
+
+}
+
 
 }

@@ -67,3 +67,8 @@ p{
 a{
   cursor: pointer;
 }
+
+.cdk-overlay-container {
+  position: fixed !important;
+  z-index: 3000 !important;
+}

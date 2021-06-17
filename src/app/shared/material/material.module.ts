@@ -26,6 +26,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {OverlayModule} from '@angular/cdk/overlay';
 
 const matComponent = [
   MatFormFieldModule,
@@ -55,7 +56,8 @@ const matComponent = [
    MatExpansionModule,
    MatSnackBarModule,
    MatTabsModule,
-   MatProgressBarModule
+   MatProgressBarModule,
+   OverlayModule
 
 ];
 
