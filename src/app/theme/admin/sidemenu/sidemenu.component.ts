@@ -130,7 +130,7 @@ export class SidemenuComponent implements OnInit {
   onItemSelected(item: NavItem): void {
     if (!item.children || !item.children.length) {
       this.router.navigate([item.route]);
-
+      //this.navService.closeNav();
       this.mediaSub = this.mediaObserver.media$.subscribe(
         (result: MediaChange) => {
           if (result.mqAlias == 'xs') {

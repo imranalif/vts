@@ -7,10 +7,10 @@
     <div fxFlex="70%" fxLayout="row" fxLayout.xs="100%">
       <div fxFlex="80%">
         <img src="assets/client/images/traccar.png" width="130" alt="avatar" />
-
+<!-- 
         <a class="menu-button" id="appDrawer" (click)="openMenuModal()">
           <mat-icon>menu</mat-icon>
-        </a>
+        </a> -->
       </div>
       <div *ngIf="deviceXs" fxFlex="20%">
         <a id="r" mat-button [matMenuTriggerFor]="menu">
@@ -71,28 +71,8 @@
       </div>
 
     </div>
-    <mat-sidenav-container class="example-sidenav-container">
-      <mat-sidenav #appDrawer class="example-sidenav" [(mode)]="sideMode" [(opened)]="opened">
-        <div class="menu-header">
-  
-        </div>
+    
         
-        <mat-nav-list class="dashboard">
-          <app-slide-menu>
-  
-          </app-slide-menu>
-  
-  
-  
-  
-        </mat-nav-list>
-  
-      </mat-sidenav>
-  
-      <div class="sidenav-content">
-        <div id="mapid" style=" width: 100%; height: 90%;"></div>
-      </div>
-    </mat-sidenav-container>
   </div>
   
 
@@ -109,5 +89,11 @@
 <div id="sidebar" style=" width: 100%; height: 100%;">
   <app-slide-menu>
   </app-slide-menu>
+</div>
+
+<div id="menu" style=" height: 150px;">
+  <app-bottom-menu>
+  </app-bottom-menu>
+
 </div>
 <!-- <app-driver-list></app-driver-list> -->

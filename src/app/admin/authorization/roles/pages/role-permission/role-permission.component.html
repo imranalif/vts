@@ -1,26 +1,28 @@
 <mat-card>
     <div class="title-style">
-        <h3 >Role Permission Table</h3>
-  </div>
+        <h3>Role Permission Table</h3>
+    </div>
     <mat-card-content>
 
         <form [formGroup]="myform">
             <div class="allCheck">
-                <mat-checkbox  [indeterminate]="someComplete()"  (change)="checkAll($event.checked)" class="heading"> All Permission</mat-checkbox>
+                <mat-checkbox [indeterminate]="someComplete()" (change)="checkAll($event.checked)" class="heading"> All
+                    Permission</mat-checkbox>
                 <mat-divider></mat-divider>
             </div>
 
             <div *ngFor="let state of groups;  let i=index " class="space" style="clear:both">
 
-                <mat-checkbox (change)="checkAllByGroup($event.checked,state.id)" class="group" formControlName="groupId" labelPosition="before" [value]="state.id"
-                    [checked]="allComplete">
+                <mat-checkbox (change)="checkAllByGroup($event.checked,state.id)" class="group"
+                    formControlName="groupId" labelPosition="before" [value]="state.id"  [(ngModel)]="allComplete">
 
                     {{state.name}}
                 </mat-checkbox>
                 <div *ngFor="let val of permission[state.id]; let l=index  ">
 
                     <div class="item">
-                        <mat-checkbox [checked]="checkState(val.permission)" (change)="getPermission($event.checked,val.permission,state.id)">
+                        <mat-checkbox [checked]="checkState(val.permission)"
+                            (change)="getPermission($event.checked,val.permission,state.id)">
                             {{val.name}}
                         </mat-checkbox>
                         <!-- <mat-checkbox formControlName="permission" 

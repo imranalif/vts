@@ -1,0 +1,24 @@
+.container{ width: 100%;
+background-color: gray;}
+
+mat-grid-tile {
+    background: lightblue;
+  }
+.f{
+    width: 30%;
+    height: 100%;
+    float: left;
+    background-color: burlywood;
+}
+.s{
+    width: 70% !important;
+    height: 100%;
+    background-color: burlywood;
+}
+
+.vertical {
+    width: 0px;
+    height: 100%;
+    color: #000;
+    /* or height in PX */
+  }

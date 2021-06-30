@@ -28,4 +28,8 @@ export class CustomerService {
   customerSearch(data){
     return this.http.post(this.url + '/customerSearch', data);
   }
+
+  DeviceByCustomer(id: string):Observable<any[]>{
+    return this.http.get<any[]>(this.url + id + '/getDeviceByCustomer');
+  }
 }

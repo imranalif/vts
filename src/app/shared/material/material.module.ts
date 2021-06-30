@@ -15,7 +15,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -27,6 +27,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {OverlayModule} from '@angular/cdk/overlay';
+
+
+
+import { MatDatetimepickerModule, MatNativeDatetimeModule } from "@mat-datetimepicker/core";
 
 const matComponent = [
   MatFormFieldModule,
@@ -45,7 +49,7 @@ const matComponent = [
   MatSidenavModule,
   MatListModule,
   MatAutocompleteModule,
-  // OwlDateTimeModule, OwlNativeDateTimeModule,
+   OwlDateTimeModule, OwlNativeDateTimeModule,
   MatProgressSpinnerModule,
   // MatDatetimepickerModule,
 
@@ -57,7 +61,9 @@ const matComponent = [
    MatSnackBarModule,
    MatTabsModule,
    MatProgressBarModule,
-   OverlayModule
+   OverlayModule,
+   MatDatetimepickerModule, MatNativeDatetimeModule,
+
 
 ];
 
