@@ -101,7 +101,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"
+              "https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js",
+              "/var/projects/angular/VTSApp/angular/node_modules/leaflet.motion/src/leaflet.motion.js"
             ]
           }
         },

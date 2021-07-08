@@ -1,9 +1,9 @@
 .container{ width: 100%;
-background-color: gray;}
+background-color: whitesmoke;}
 
-mat-grid-tile {
-    background: lightblue;
-  }
+// mat-grid-tile {
+//     background: lightblue;
+//   }
 .f{
     width: 30%;
     height: 100%;
@@ -17,8 +17,8 @@ mat-grid-tile {
 }
 
 .vertical {
-    width: 0px;
-    height: 100%;
-    color: #000;
+    width: 3px;
+    // height: 100%;
+    background-color: gray;
     /* or height in PX */
   }

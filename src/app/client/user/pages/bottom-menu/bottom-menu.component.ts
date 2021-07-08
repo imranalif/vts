@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MapService } from '../../services/map.service';
 
 @Component({
   selector: 'app-bottom-menu',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./bottom-menu.component.scss']
 })
 export class BottomMenuComponent implements OnInit {
-
-  constructor() { }
+deviceData
+  constructor(private mapService:MapService) { }
 
   ngOnInit(): void {
+
+    this.mapService.selectedDeviceData.subscribe(res => {
+      if (res) {
+        console.log(res)
+       this.deviceData=res;
+       console.log(this.deviceData)
+      }
+    })
   }
 
 }

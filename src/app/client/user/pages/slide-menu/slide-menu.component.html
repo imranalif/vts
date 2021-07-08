@@ -65,12 +65,13 @@
                     <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                 </table> -->
 
-                <form [formGroup]="myform">
+                <div>
                     <!-- <div class="allCheck">
                         <mat-checkbox  (change)="checkAll($event.checked)" class="heading"> All
                             Permission</mat-checkbox>
                         <mat-divider></mat-divider>
                     </div> -->
+                    <form [formGroup]="myform">
                     <mat-accordion>
                         <mat-expansion-panel [expanded]="false" *ngFor="let state of customers;  let i=index "
                             class="space" style="clear:both">
@@ -78,7 +79,7 @@
                             <mat-expansion-panel-header>
                                 <mat-checkbox (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"
                                     (change)="checkAllByGroup($event.checked,state.customer_id)" class="group"
-                                    formControlName="customer_id" [value]="state.customer_id" [(ngModel)]="allComplete">
+                                    formControlName="customer_id" [value]="state.customer_id" >
 
                                     {{state.name}}
                                 </mat-checkbox>
@@ -111,9 +112,55 @@
                         </mat-expansion-panel>
                     </mat-accordion>
                 </form>
+                </div>
             </div>
         </mat-tab>
-        <mat-tab label="Events"> Content 2 </mat-tab>
+        <mat-tab label="Events">
+             <table mat-table matTableExporter [dataSource]="dataSource" class="mat-elevation-z8">
+
+                  
+
+                    <ng-container matColumnDef="time">
+                        <th mat-header-cell *matHeaderCellDef>Time</th>
+                        <td mat-cell *matCellDef="let element"><a>{{ element.time }}</a></td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="device_id">
+                        <th mat-header-cell *matHeaderCellDef>Name</th>
+                        <td mat-cell *matCellDef="let element">{{ element.device_id }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="event">
+                        <th mat-header-cell *matHeaderCellDef>Events</th>
+                        <td mat-cell *matCellDef="let element">{{ element.event }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="more">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">
+                            <a [matMenuTriggerFor]="hospital">
+                                <mat-icon>more_vert</mat-icon>
+                            </a>
+                        </td>
+                    </ng-container>
+                   
+                        <mat-menu class="dropdown-content" #hospital="matMenu">
+                            <button mat-menu-item routerLink="/">Alert</button>
+    
+                            <button mat-menu-item routerLink="info/map">
+                               Delete
+                            </button>
+    
+                        </mat-menu>
+    
+    
+              
+                    
+                    <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+            </mat-tab>
         <mat-tab label="History">
             <div *ngIf="devices">
                 <form [formGroup]="myform">
@@ -152,10 +199,7 @@
                         <mat-datetimepicker #dtt type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
                     </mat-form-field>
 
-                    <mat-form-field class="filter">
-                        <input matInput placeholder="search"  autocomplete="off" formControlName="d" required
-                             />
-                    </mat-form-field>
+                  
 
 
                     <!-- <mat-form-field appearance="fill">

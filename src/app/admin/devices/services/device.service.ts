@@ -68,4 +68,13 @@ export class DeviceService {
   getAllPostion(): Observable<any> {
     return this.http.get(this.url + '/listPositions');
   }
+
+  getAllPostionBySearch(data): Observable<any> {
+    console.log(data)
+    return this.http.post(this.url + '/listSearchPositions',data);
+  }
+
+  getAllEvents(): Observable<any> {
+    return this.http.get(this.url + '/listEvents');
+  }
 }

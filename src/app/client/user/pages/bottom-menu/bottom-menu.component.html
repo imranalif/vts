@@ -6,18 +6,18 @@
 </mat-grid-list> -->
 
 <div fxFlex=30%>
-    <h3>Name</h3>
+  <h3 *ngIf="!deviceData">Name</h3><h3>{{deviceData?.name}}</h3>
     <hr>
     <mat-grid-list cols="1" rowHeight="20px">
     <mat-grid-tile >
-        <mat-label><b> Address:</b></mat-label>Name
+        <mat-label><b> Address:</b></mat-label> {{deviceData?.contact}}
       </mat-grid-tile>
-      <mat-grid-tile >
+      <!-- <mat-grid-tile >
         <mat-label><b> Address:</b></mat-label>
       </mat-grid-tile>
       <mat-grid-tile >
         <mat-label><b> Address:</b></mat-label>
-      </mat-grid-tile>
+      </mat-grid-tile> -->
     </mat-grid-list>
 </div>
 <div class="vertical" ></div>
@@ -26,16 +26,16 @@
     <hr>
     <mat-grid-list cols="4" rowHeight="20px">
         <mat-grid-tile >
-            <mat-label><b> Address:</b></mat-label>Name
+            <mat-label><b> Phone:</b></mat-label> {{deviceData?.contact}}
           </mat-grid-tile>
           <mat-grid-tile >
-            <mat-label><b> Address:</b></mat-label>
+            <mat-label><b> Model:</b></mat-label> {{deviceData?.model}}
           </mat-grid-tile>
           <mat-grid-tile >
-            <mat-label><b> Address:</b></mat-label>
+            <mat-label><b> Category:</b></mat-label> {{deviceData?.category}}
           </mat-grid-tile>
           <mat-grid-tile >
-            <mat-label><b> Address:</b></mat-label>
+            <mat-label><b> Identification:</b></mat-label> {{deviceData?.unique_id}}
           </mat-grid-tile>
         </mat-grid-list>
 </div>

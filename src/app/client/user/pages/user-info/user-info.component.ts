@@ -9,6 +9,8 @@ import 'leaflet-slidemenu';
 import 'leaflet-sidebar';
 import 'leaflet-control-bar';
 import 'leaflet-easybutton';
+import '/var/projects/angular/VTSApp/angular/node_modules/leaflet.motion/src/leaflet.motion.js';
+import '/var/projects/angular/VTSApp/angular/node_modules/leaflet.motion/dist/leaflet.motion.min.js';
 
 import 'leaflet-arrowheads'
 import '/var/projects/angular/VTSApp/angular/node_modules/leaflet-slidemenu/src/L.Control.SlideMenu.js'
@@ -20,6 +22,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SlideMenuComponent } from '../slide-menu/slide-menu.component';
 import { MapService } from '../../services/map.service';
+import { reduce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-info',
@@ -30,6 +33,11 @@ import { MapService } from '../../services/map.service';
 
 
 export class UserInfoComponent implements OnInit {
+  storeLatlng=[]
+  polylineMotion
+  viewHistory = 0;
+  historyBar
+  controlBar
   updateData
   timeArray = []
   overlayMaps
@@ -38,6 +46,7 @@ export class UserInfoComponent implements OnInit {
   a
   myIcon
   myIcon2
+  myIcon3
   cities
   positions
 
@@ -52,7 +61,7 @@ export class UserInfoComponent implements OnInit {
 
   marker = []
   markerArray = []
-  markerArrayIndex=[]
+  markerArrayIndex = []
   nameArray = []
   names
   k = []
@@ -113,6 +122,15 @@ export class UserInfoComponent implements OnInit {
 
     });
 
+    this.myIcon3 = L.icon({
+      iconUrl: './assets/client/images/123.png',
+      iconSize: [40, 80],
+      iconAnchor: [12, 69],
+      color: 'green',
+      className: 'icon'
+
+    });
+
     this.map = L.map('mapid', {
       center: [23.73885035844803365, 90.39647340774536],
       zoom: 15,
@@ -165,22 +183,40 @@ export class UserInfoComponent implements OnInit {
     //   bottommenu.toggle()
     // }).addTo(this.map);
 
-    var controlBar = L.control.bar('menu',{
-      position:'bottom',
-      visible:false
-  }).addTo(this.map);;
-  controlBar.show();
-  //controlBar.toggle()
-  L.easyButton('fa-exchange', function (btn, map) {
-    controlBar.toggle()
-  }).addTo(this.map);
+    var controlBar = L.control.bar('menu', {
+      position: 'bottom',
+      visible: false
+    }).addTo(this.map);;
+    controlBar.show();
+    //this.controlBar.toggle()
+  var myButton= L.easyButton('fa-exchange', function (btn, map) {
+      controlBar.toggle()
+    },{ position: 'bottomright' }).addTo(this.map);
   
 
+  //   L.easyButton({    states: [{
+  //     stateName: 'zoom-to-forest',        // name the state
+  //     icon:      'fa-exchange',  
+  //     position: 'topright',             // and define its properties
+  //     title:     'zoom to a forest',      // like its title
+  //     onClick: function(btn, map) {       // and its callback
+  //       controlBar.toggle()   // change state on click!
+  //     }
+  // }]}).addTo(this.map);
+
+this.historyBar = L.control.bar('history', {
+      position: 'bottom',
+      visible: false
+    }).addTo(this.map);;
+    
+
+// add device
 
     this.mapService.share.subscribe(res => {
       console.log(this.markerArray)
       this.updateData = res;
       if (res) {
+       
         res.forEach(element => {
           console.log(element.name)
           var item = this.markerArray.findIndex(item => item._tooltip._content === element.name);
@@ -198,13 +234,16 @@ export class UserInfoComponent implements OnInit {
     this.mapService.remove.subscribe(res => {
       if (res) {
         res.forEach(element => {
-         console.log(element)
-        var item = this.markerArray.findIndex(item => item._tooltip._content === element.name);
-        //this.map.addLayer(this.markerArray[1]);
-        this.map.removeLayer(this.markerArray[item]);
-      });
+          console.log(element)
+          var item = this.markerArray.findIndex(item => item._tooltip._content === element.name);
+          //this.map.addLayer(this.markerArray[1]);
+         console.log(this.markerArray[item])
+          this.map.removeLayer(this.markerArray[item]);
+        });
       }
     })
+
+    // center position
 
     this.mapService.s.subscribe(res => {
       if (res) {
@@ -212,8 +251,12 @@ export class UserInfoComponent implements OnInit {
       }
     })
 
+
+    // add device grouply
+
     this.mapService.deviesMove.subscribe(res => {
       if (res) {
+        
         console.log("test")
         console.log(res)
         //this.map.addLayer(this.markerArray[1]);
@@ -249,8 +292,109 @@ export class UserInfoComponent implements OnInit {
       }
     })
 
+// history show
 
-    this.getAllPosition();
+    this.mapService.historyData.subscribe(res => {
+      if (res) {
+        myButton.disable();
+       controlBar.hide();
+        this.historyBar.show();
+        this.viewHistory=1
+        var polyline = L.polyline([]).addTo(this.map);
+        this.positions = res;
+        this.positions.forEach((element, i) => {
+          if (element.power == 'off') {
+            this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.device_id + " <br> Address: " + element.latitude
+            + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.power, { closeOnClick: false, autoClose: false }).openPopup();;
+            this.engineArray.push(this.engine)
+            this.history = L.layerGroup(this.engineArray);
+          }
+          this.timeArray.push(element.timestamp)
+          var time = this.timeArray[i] - this.timeArray[i - 1]
+          if (time > 10) {
+            //console.log("=====")
+            this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindTooltip(element.latitude);
+            this.parkArray.push(this.park)
+            this.parking = L.layerGroup(this.parkArray);
+          }
+          //console.log(time);
+          this.route = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
+
+          this.arrow = this.route.arrowheads({color:'green', fill: true, frequency: 5 });
+          //this.marker.setLatLng([element.latitude,element.longitude]).bindTooltip("Loc:"+element.latitude+", "+element.longitude).addTo(this.map);
+          this.storeLatlng.push([element.latitude,element.longitude])
+         
+        });
+        this.n = {
+          "Objects": this.history
+        };
+        this.history.addTo(this.map)
+        this.parking.addTo(this.map)
+        this.a = {
+          "Route": this.route,
+          "Engine": this.history,
+          //"Arrow": this.arrow,
+          "Parking": this.parking,
+
+        };
+      
+        L.control.layers(this.baseMaps, this.a).addTo(this.map);
+        this.polylineMotion = L.motion
+        .polyline(this.storeLatlng,
+          {
+            color: ' '
+          },
+          {
+            auto: false,
+            duration: 10000,
+            easing: L.Motion.Ease.easeInOutQuart
+          },
+          {
+            removeOnEnd: true,
+            //showMarker: true,
+            icon:this.myIcon3
+          }
+        ).addTo(this.map);
+      }
+    })
+
+    this.mapService.startDevice.subscribe(res => {
+      if (res) {
+        this.polylineMotion.motionStart();
+      }
+    })
+    this.mapService.toggleDevice.subscribe(res => {
+      if (res) {
+        this.polylineMotion.motionToggle();
+      }
+    })
+
+    this.mapService.indexHistoryView.subscribe(res => {
+      console.log(res)
+      if (res) {
+        console.log(this.markerArray[0])
+        this.map.removeLayer(this.markerArray[0]);
+        //this.map.panTo(new L.LatLng(res.lat, res.lng));
+      }
+    })
+
+    this.mapService.indexDetailsView.subscribe(res => {
+      console.log(res)
+      if (res) {
+        if(this.history){
+          this.map.removeLayer(this.history);
+          this.map.removeLayer(this.route);
+          this.map.removeLayer(this.parking);
+        }
+        controlBar.show();
+        this.historyBar.hide();
+        //this.map.panTo(new L.LatLng(res.lat, res.lng));
+      }
+    })
+
+
+
+    //this.getAllPosition();
   }
 
 
@@ -260,7 +404,8 @@ export class UserInfoComponent implements OnInit {
       this.positions = res;
       this.positions.forEach((element, i) => {
         if (element.power == 'off') {
-          this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindTooltip(element.latitude);
+          this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.device_id + " <br> Address: " + element.latitude
+          + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.power, { closeOnClick: false, autoClose: false }).openPopup();
           this.engineArray.push(this.engine)
           this.history = L.layerGroup(this.engineArray);
         }
@@ -309,9 +454,10 @@ export class UserInfoComponent implements OnInit {
       var dev = res
 
       this.devices.forEach((element, i) => {
-        this.marker[element.unique_id] = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup( element.name, { closeOnClick: false, autoClose: false }).openPopup().bindTooltip(element.name, {
-          permanent: true
-      });
+        this.marker[element.unique_id] = L.marker([element.latitude, element.longitude], { icon: this.myIcon3 }).bindPopup(element.name + " <br> Address: " + element.contact
+          + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false }).openPopup().bindTooltip(element.name, {
+            permanent: true
+          });
         this.markerArray.push(this.marker[element.unique_id])
         this.names = this.marker[element.unique_id].openPopup();
         //this.cities = L.layerGroup(this.markerArray);
@@ -324,12 +470,12 @@ export class UserInfoComponent implements OnInit {
       this.cities = L.layerGroup(this.markerArray);
       //this.names = L.layerGroup(this.nameArray);
       //this.cities.addTo(this.map)
-      this.names.addTo(this.map)
+      //this.names.addTo(this.map)
       //this.map.removeLayer(this.markerArray[1]);
       this.overlayMaps = {
-        "Objects": this.cities,
+        "Objects": this.cities
 
-        "Names": this.names
+        //"Names": this.names
       };
 
       // var m = {
@@ -374,7 +520,7 @@ export class UserInfoComponent implements OnInit {
           })
 
           this.checkData = result
-          t.testFunction(result);
+          //t.testFunction(result);
           //console.log(this.checkData)
         }
 
@@ -417,75 +563,13 @@ export class UserInfoComponent implements OnInit {
 
       }, 500);
 
-      this.html = '<div style="height:30px; class="tab">'
-      this.html = '<button class="tablinks">London</button>'
-      this.html = '<button class="tablinks" ">Paris</button>'
-      this.html = '<button class="tablinks" ">Tokyo</button>'
-      this.html = '</div>'
 
-
-      this.html = '<h3>Object<h3>';
-      this.html = '<table  class="content">';
-      // 
-      this.html += '<input style="margin:5px;width:60%" class="filter" id="filter"  type="text"   >';
-      this.html += '<button class="submit" type="button" id="btn" >+</button>'
-      this.html += '<button class="submit" type="button" id="btn" >#</button>'
-
-      if (this.devices) {
-
-        this.devices.forEach((element, ind) => {
-          this.html += '<tr style="height:30px;font-size:16px">';
-          this.html += '<td style="width:18px">    <input data-name="' + element.unique_id + '" type="checkbox" class="left_bar" name="vehicle1" value="Bike" checked /></td>';
-          this.html += '<td style="font-size:18px"><a info-name="' + element.unique_id + '" class="view-info">' + element.name + '</a></td>';
-          this.html += '<td>' + '<a><i style="color:red" class="fa fa-circle" aria-hidden="true"></i></a>' + '</td>';
-          this.html += '<td>' + '<a><i style="font-size:12px" class="fa">&#xf142;</i></a>' + '</td>';
-
-          this.html += '</tr>';
-        });
-      }
-
-      this.html += '</table>';
-
-      if (this.devices) {
-        console.log(this.checkData)
-        this.bottomHtml = '<table  class="content">';
-        this.bottomHtml += '<tr style="height:30px;font-size:16px">';
-        this.bottomHtml += '<td style="font-size:18px"><a info-name="' + this.devices[0].unique_id + '" class="view-info">' + this.devices[0].name + '</a></td>';
-        this.bottomHtml += '<td>' + '<a><i style="color:red" class="fa fa-circle" aria-hidden="true"></i></a>' + '</td>';
-        this.bottomHtml += '<td>' + '<a><i style="font-size:12px" class="fa">&#xf142;</i></a>' + '</td>';
-
-        this.bottomHtml += '</tr>';
-        this.bottomHtml += '</table>';
-      }
-      //console.log(this.html)
-      //L.control.slideMenu(this.html, { position: 'topleft', menuposition: 'topleft', width: '25%', height: '100%', direction: 'horizontal', icon: 'fa-chevron-right' }).addTo(this.map);
-      //L.control.slideMenu(this.bottomHtml, { position: 'bottomright', menuposition: 'bottomright', width: '75%', height: '170px', icon: 'fa-chevron-left' }).addTo(this.map);
-      this.k.push(this.devices[0])
-      //console.log(this.k)
-      this.testFunction(this.k)
     });
 
 
 
   }
 
-
-  testFunction(e) {
-    if (e) {
-      this.bottomHtml = '<table  class="content">';
-      this.bottomHtml += '<tr style="height:30px;font-size:16px">';
-      this.bottomHtml += '<td style="font-size:18px"><a info-name="' + e[0].unique_id + '" class="view-info">' + e[0].name + '</a></td>';
-      this.bottomHtml += '<td>' + '<a><i style="color:red" class="fa fa-circle" aria-hidden="true"></i></a>' + '</td>';
-      this.bottomHtml += '<td>' + '<a><i style="font-size:12px" class="fa">&#xf142;</i></a>' + '</td>';
-
-      this.html += '</tr>';
-      this.bottomHtml += '</table>';
-    }
-    // var s = L.control.slideMenu('', { position: 'bottomright', menuposition: 'bottomright', width: '75%', height: '170px', icon: 'fa-chevron-left' }).addTo(this.map);
-
-    // s.setContents(this.bottomHtml);
-
-  }
 
   logout() { }
 
