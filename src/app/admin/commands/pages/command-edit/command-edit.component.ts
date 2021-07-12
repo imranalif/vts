@@ -49,7 +49,7 @@ export class CommandEditComponent implements OnInit {
     this.myform.patchValue({
       type: data.type,
       description: data.description,
-      sms: data.text_channel
+      sms: data.textchannel
     });
     this.createdBy = data.created_by;
   }

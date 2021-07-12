@@ -57,6 +57,13 @@ status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
     //   //customer_id:[''],
 
     // });
+    var b={
+      Cause: '16',
+        'Cause-txt': 'Normal Clearing',
+        '$time': 1626072648105
+      }
+      console.log(b['$time'])
+      console.log(b['Cause-txt'])
     this.getAllCustomer();
     this.getAllDevice();
     this.getAllEvents();

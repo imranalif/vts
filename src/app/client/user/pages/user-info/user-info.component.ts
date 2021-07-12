@@ -296,20 +296,20 @@ this.historyBar = L.control.bar('history', {
 
     this.mapService.historyData.subscribe(res => {
       if (res) {
-        myButton.disable();
+       // myButton.disable();
        controlBar.hide();
         this.historyBar.show();
         this.viewHistory=1
         var polyline = L.polyline([]).addTo(this.map);
         this.positions = res;
         this.positions.forEach((element, i) => {
-          if (element.power == 'off') {
-            this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.device_id + " <br> Address: " + element.latitude
-            + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.power, { closeOnClick: false, autoClose: false }).openPopup();;
+          if (element.course == 'off') {
+            this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.deviceid + " <br> Address: " + element.latitude
+            + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup();;
             this.engineArray.push(this.engine)
             this.history = L.layerGroup(this.engineArray);
           }
-          this.timeArray.push(element.timestamp)
+          this.timeArray.push(element.altitude)
           var time = this.timeArray[i] - this.timeArray[i - 1]
           if (time > 10) {
             //console.log("=====")
@@ -386,7 +386,7 @@ this.historyBar = L.control.bar('history', {
           this.map.removeLayer(this.route);
           this.map.removeLayer(this.parking);
         }
-        controlBar.show();
+        //controlBar.show();
         this.historyBar.hide();
         //this.map.panTo(new L.LatLng(res.lat, res.lng));
       }

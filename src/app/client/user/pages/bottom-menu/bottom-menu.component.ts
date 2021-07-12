@@ -11,6 +11,8 @@ deviceData
   constructor(private mapService:MapService) { }
 
   ngOnInit(): void {
+    
+    //const department= JSON.parse(req.body.department)
 
     this.mapService.selectedDeviceData.subscribe(res => {
       if (res) {
