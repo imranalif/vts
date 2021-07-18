@@ -12,7 +12,8 @@
           <mat-icon>menu</mat-icon>
         </a> -->
       </div>
-      <div *ngIf="deviceXs" fxFlex="20%">
+      <div *ngIf="deviceXs" fxLayout="row" fxFlex="30%">
+        <button  mat-button  routerLink="/admin/dashboard">Admin</button>
         <a id="r" mat-button [matMenuTriggerFor]="menu">
           <!-- <span class="image-border"> -->
           <img class="logout-image" src="assets/client/images/avatar.png" width="35" alt="avatar" />
@@ -23,8 +24,12 @@
       </div>
 
     </div>
+    <div class="admin_button" *ngIf="!deviceXs"> <button mat-button class="col" routerLink="/admin/dashboard">Admin</button></div>
     <div fxFlex="25%" fxLayout.xs="100%">
-      <div>
+     
+      <div class="position">
+
+        
 
         <button class="menu" mat-button [matMenuTriggerFor]="hospital"><span class="col">Tools</span>
           <mat-icon class="col">arrow_drop_down</mat-icon>

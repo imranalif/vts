@@ -56,7 +56,7 @@ export class NotificationGroupComponent implements OnInit {
       console.log(res);
       this.deviceNotifications=res;
       this.deviceNotifications.forEach(element => {
-        this.deviceNotifications.push(element.notification_id)
+        this.deviceNotifications.push(element.notificationid)
       });
     })
   }

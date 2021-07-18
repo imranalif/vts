@@ -52,7 +52,7 @@ export class GroupListComponent implements OnInit {
   }
 
   editGroup(data): void{
-    this.router.navigate(['admin/group/edit', data.id]);
+    this.router.navigate(['admin/traccar/group/edit', data.id]);
   }
 
 

@@ -81,7 +81,7 @@ export class AttributeEditComponent implements OnInit {
     console.log(this.myform.value)
     this.attributeService.updateAttribute(this.Id,this.myform.value).subscribe(res=>{
       this.openSnackBar();
-      this.router.navigate(['/admin/attributes/list']);
+      this.router.navigate(['/admin/traccar/attributes/list']);
     })
   }
 

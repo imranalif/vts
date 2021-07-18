@@ -47,7 +47,7 @@ devices
       console.log(res)
       this.devices = res;
       this.devices.forEach(element => {
-        this.source.push({ id: element.id, name: element.name, identifier: element.unique_id })
+        this.source.push({ id: element.id, name: element.name, identifier: element.uniqueid })
         this.dataSource = new MatTableDataSource(this.source as any);
         setTimeout(() => (this.dataSource.sort = this.sort));
         setTimeout(() => (this.dataSource.paginator = this.paginator));
@@ -61,7 +61,7 @@ devices
       this.customerDevices = res;
       if (this.customerDevices.length > 0) {
         this.customerDevices.forEach(element => {
-          this.source.push({ id: element.id, name: element.name, identifier: element.unique_id })
+          this.source.push({ id: element.id, name: element.name, identifier: element.uniqueid })
           console.log(this.source)
           this.dataSource = new MatTableDataSource(this.source as any);
           setTimeout(() => (this.dataSource.sort = this.sort));

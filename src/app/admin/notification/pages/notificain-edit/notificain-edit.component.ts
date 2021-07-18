@@ -89,8 +89,8 @@ export class NotificainEditComponent implements OnInit {
     this.myform.patchValue({
       type: data.type,
       all_devices: data.always,
-      channels: data.notificator,
-      calender: data.calender,
+      channels: data.notificators,
+      calender: data.calenderid,
     });
     this.createdBy=data.created_by;
     this.setAttributes();
@@ -129,7 +129,7 @@ export class NotificainEditComponent implements OnInit {
     console.log(this.myform.value)
     this.notificationService.updateNotification(this.Id,this.myform.value).subscribe(res=>{
       this.openSnackBar();
-      this.router.navigate(['/admin/notification/list']);
+      this.router.navigate(['/admin/traccar/notification/list']);
     })
   }
 

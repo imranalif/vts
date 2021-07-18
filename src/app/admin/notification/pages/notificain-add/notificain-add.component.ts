@@ -83,7 +83,7 @@ export class NotificainAddComponent implements OnInit {
     console.log(this.myform.value);
     this.notificationService.addNotification(this.myform.value).subscribe(res => {
       this.openSnackBar();
-      this.router.navigate(['/admin/notification/list']);
+      this.router.navigate(['/admin/traccar/notification/list']);
     },
     err=>{
       console.log(err)

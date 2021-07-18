@@ -86,7 +86,7 @@ export class GroupEditComponent implements OnInit {
   setData(data): void {
     this.myform.patchValue({
       groupName: data.name,
-      groupid: data.group_id,
+      groupid: data.groupid,
     });
     this.createdBy=data.created_by;
     this.setAttributes();
@@ -125,7 +125,7 @@ export class GroupEditComponent implements OnInit {
     console.log(this.myform.value)
     this.groupService.updateGroup(this.Id,this.myform.value).subscribe(res=>{
       this.openSnackBar();
-      this.router.navigate(['/admin/devices/list']);
+      this.router.navigate(['/admin/traccar/group/list']);
     })
   }
 

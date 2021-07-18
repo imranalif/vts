@@ -87,14 +87,14 @@
                             <div *ngFor="let val of permission[state.customer_id]; let l=index  ">
 
                                 <div class="item">
-                                    <mat-checkbox class="name" [checked]="checkState(val.device_id)"
-                                        (change)="check($event.checked,devicesIndex[val.device_id])">
+                                    <mat-checkbox class="name" [checked]="checkState(val.deviceid)"
+                                        (change)="check($event.checked,devicesIndex[val.deviceid])">
 
 
                                     </mat-checkbox>
                                     <a class="devicename"
-                                        (click)=getLocation(devicesIndex[val.device_id])>{{devicesIndex[val.device_id]?.name}}</a>
-                                    <a class="b1">{{devicesIndex[val.device_id]?.unique_id}} </a>
+                                        (click)=getLocation(devicesIndex[val.deviceid])>{{devicesIndex[val.deviceid]?.name}}</a>
+                                    <a class="b1">{{devicesIndex[val.deviceid]?.uniqueid}} </a>
                                     <a class="b2" [matMenuTriggerFor]="hospital">
                                         <mat-icon>more_vert</mat-icon>
                                     </a>
@@ -122,18 +122,18 @@
 
                     <ng-container matColumnDef="time">
                         <th mat-header-cell *matHeaderCellDef>Time</th>
-                        <td mat-cell *matCellDef="let element"><a>{{ element.time }}</a></td>
+                        <td mat-cell *matCellDef="let element"><a>{{ element.eventtime }}</a></td>
                     </ng-container>
 
 
                     <ng-container matColumnDef="device_id">
                         <th mat-header-cell *matHeaderCellDef>Name</th>
-                        <td mat-cell *matCellDef="let element">{{ element.device_id }}</td>
+                        <td mat-cell *matCellDef="let element">{{ element.deviceid }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="event">
                         <th mat-header-cell *matHeaderCellDef>Events</th>
-                        <td mat-cell *matCellDef="let element">{{ element.event }}</td>
+                        <td mat-cell *matCellDef="let element">{{ element.geofenceid }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="more">

@@ -56,7 +56,7 @@ export class GroupUserComponent implements OnInit {
       console.log(res);
       this.userGroups=res;
       this.userGroups.forEach(element => {
-        this.userGroups.push(element.group_id)
+        this.userGroups.push(element.groupid)
       });
     })
   }

@@ -54,7 +54,7 @@ export class AttributeDeviceComponent implements OnInit {
       console.log(res);
       this.deviceAttributes=res;
       this.deviceAttributes.forEach(element => {
-        this.deviceAttributes.push(element.attribute_id)
+        this.deviceAttributes.push(element.attributeid)
       });
     })
   }

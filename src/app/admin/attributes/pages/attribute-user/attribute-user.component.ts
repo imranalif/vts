@@ -54,7 +54,7 @@ export class AttributeUserComponent implements OnInit {
       console.log(res);
       this.userAttributes=res;
       this.userAttributes.forEach(element => {
-        this.userAttributes.push(element.attribute_id)
+        this.userAttributes.push(element.attributeid)
       });
     })
   }

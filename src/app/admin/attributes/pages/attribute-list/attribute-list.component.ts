@@ -47,7 +47,7 @@ export class AttributeListComponent implements OnInit {
   }
 
   editAttribute(data): void{
-    this.router.navigate(['admin/attributes/edit', data.id]);
+    this.router.navigate(['admin/traccar/attributes/edit', data.id]);
   }
 
 

@@ -55,7 +55,7 @@ export class CommandUserComponent implements OnInit {
       console.log(res);
       this.userCommands=res;
       this.userCommands.forEach(element => {
-        this.userCommands.push(element.command_id)
+        this.userCommands.push(element.commandid)
       });
     })
   }

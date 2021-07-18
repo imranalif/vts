@@ -189,11 +189,11 @@
                             left: 205px; }
                           .leaflet-sidebar.bottom.visible ~ .leaflet-bottom {
                             right: 205px; } } */
-    @media (min-width: 768px) and (max-width: 991px) {
+    @media (min-width: 368px) and (max-width: 591px) {
       .leaflet-sidebar {
-        width: 205px; }
+        width: 305px; }
         .leaflet-sidebar.left.visible ~ .leaflet-left {
-          left: 205px; }
+          left: 305px; }
         .leaflet-sidebar.bottom.visible ~ .leaflet-bottom {
           right: 205px; } }
     @media (min-width: 992px) and (max-width: 1199px) {

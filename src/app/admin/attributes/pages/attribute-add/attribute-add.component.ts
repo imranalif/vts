@@ -53,7 +53,7 @@ export class AttributeAddComponent implements OnInit {
     console.log(this.myform.value);
     this.attributeService.addAttribute(this.myform.value).subscribe(res => {
       this.openSnackBar();
-      this.router.navigate(['/admin/attributes/list']);
+      this.router.navigate(['/admin/traccar/attributes/list']);
     },
     err=>{
       console.log(err)

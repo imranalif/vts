@@ -85,7 +85,7 @@ export class GroupAddComponent implements OnInit {
     console.log(this.myform.value);
     this.groupService.addGroup(this.myform.value).subscribe(res => {
       this.openSnackBar();
-      this.router.navigate(['/admin/group/list']);
+      this.router.navigate(['/admin/traccar/group/list']);
     },
     err=>{
       console.log(err)

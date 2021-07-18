@@ -46,7 +46,7 @@ export class NotificainListComponent implements OnInit {
   }
 
   editNotification(data): void{
-    this.router.navigate(['admin/notification/edit', data.id]);
+    this.router.navigate(['admin/traccar/notification/edit', data.id]);
   }
 
 

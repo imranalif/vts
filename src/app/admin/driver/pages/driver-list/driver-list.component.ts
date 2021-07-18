@@ -49,7 +49,7 @@ export class DriverListComponent implements OnInit {
   }
 
   editDriver(data): void{
-    this.router.navigate(['admin/driver/edit', data.id]);
+    this.router.navigate(['admin/traccar/driver/edit', data.id]);
   }
 
 

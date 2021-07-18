@@ -54,7 +54,7 @@ export class CommandDeviceComponent implements OnInit {
       console.log(res);
       this.deviceCommands=res;
       this.deviceCommands.forEach(element => {
-        this.deviceCommands.push(element.command_id)
+        this.deviceCommands.push(element.commandid)
       });
     })
   }

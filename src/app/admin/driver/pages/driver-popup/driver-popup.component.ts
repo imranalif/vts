@@ -52,7 +52,7 @@ export class DriverPopupComponent implements OnInit {
       console.log(res);
       this.deviceDrivers=res;
       this.deviceDrivers.forEach(element => {
-        this.deviceDrivers.push(element.driver_id)
+        this.deviceDrivers.push(element.driverid)
       });
     })
   }

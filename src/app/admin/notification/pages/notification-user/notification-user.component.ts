@@ -56,7 +56,7 @@ export class NotificationUserComponent implements OnInit {
       console.log(res);
       this.userNotifications=res;
       this.userNotifications.forEach(element => {
-        this.userNotifications.push(element.notification_id)
+        this.userNotifications.push(element.notificationid)
       });
     })
   }

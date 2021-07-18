@@ -53,7 +53,7 @@ export class DeviceListComponent implements OnInit {
   }
 
   editDevice(data): void{
-    this.router.navigate(['admin/devices/edit', data.id]);
+    this.router.navigate(['admin/traccar/devices/edit', data.id]);
   }
 
 

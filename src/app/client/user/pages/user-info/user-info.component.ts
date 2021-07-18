@@ -132,7 +132,7 @@ export class UserInfoComponent implements OnInit {
     });
 
     this.map = L.map('mapid', {
-      center: [23.73885035844803365, 90.39647340774536],
+      center: [23.767776299452247, 90.40417671203615],
       zoom: 15,
       zoomControl: false
     });
@@ -320,25 +320,25 @@ this.historyBar = L.control.bar('history', {
           //console.log(time);
           this.route = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
 
-          this.arrow = this.route.arrowheads({color:'green', fill: true, frequency: 5 });
+          this.arrow = this.route.arrowheads({size: '20px',color:'red',yawn: 40, frequency: 5 });
           //this.marker.setLatLng([element.latitude,element.longitude]).bindTooltip("Loc:"+element.latitude+", "+element.longitude).addTo(this.map);
           this.storeLatlng.push([element.latitude,element.longitude])
          
         });
-        this.n = {
-          "Objects": this.history
-        };
-        this.history.addTo(this.map)
-        this.parking.addTo(this.map)
-        this.a = {
-          "Route": this.route,
-          "Engine": this.history,
-          //"Arrow": this.arrow,
-          "Parking": this.parking,
+        // this.n = {
+        //   "Objects": this.history
+        // };
+        // this.history.addTo(this.map)
+        // this.parking.addTo(this.map)
+        // this.a = {
+        //   "Route": this.route,
+        //   "Engine": this.history,
+          
+        //   "Parking": this.parking,
 
-        };
-      
-        L.control.layers(this.baseMaps, this.a).addTo(this.map);
+        // };
+      //"Arrow": this.arrow,
+        //L.control.layers(this.baseMaps, this.a).addTo(this.map);
         this.polylineMotion = L.motion
         .polyline(this.storeLatlng,
           {
@@ -381,10 +381,10 @@ this.historyBar = L.control.bar('history', {
     this.mapService.indexDetailsView.subscribe(res => {
       console.log(res)
       if (res) {
-        if(this.history){
-          this.map.removeLayer(this.history);
+        if(this.route){
+          //this.map.removeLayer(this.history);
           this.map.removeLayer(this.route);
-          this.map.removeLayer(this.parking);
+          //this.map.removeLayer(this.parking);
         }
         //controlBar.show();
         this.historyBar.hide();

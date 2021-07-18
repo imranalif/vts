@@ -90,10 +90,10 @@ console.log( this.myform.value.attributes)
     this.myform.value.attributes = this.object;
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.myform.value.created_by = this.userData.id;
-    // this.driverService.addDriver(this.myform.value).subscribe(res=>{
-    //   this.openSnackBar();
-    //   this.router.navigate(['/admin/driver/list']);
-    // })
+    this.driverService.addDriver(this.myform.value).subscribe(res=>{
+      this.openSnackBar();
+      this.router.navigate(['/admin/traccar/driver/list']);
+    })
   }
 
 

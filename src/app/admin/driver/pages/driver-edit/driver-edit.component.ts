@@ -86,7 +86,7 @@ export class DriverEditComponent implements OnInit {
   setData(data): void {
     this.myform.patchValue({
       driverName: data.name,
-      identifier: data.identifier,
+      identifier: data.uniqueid,
       driving_license: data.driving_license,
       phone: data.phone,
       email: data.email,
@@ -153,7 +153,7 @@ export class DriverEditComponent implements OnInit {
     console.log(this.myform.value)
     this.driverService.updateDriver(this.Id,this.myform.value).subscribe(res=>{
       this.openSnackBar();
-      this.router.navigate(['/admin/driver/list']);
+      this.router.navigate(['/admin/traccar/driver/list']);
     })
   }
 

@@ -97,7 +97,7 @@ this.groups=res;
     console.log(this.myform.value);
     this.deviceService.addDevice(this.myform.value).subscribe(res => {
       this.openSnackBar();
-      this.router.navigate(['/admin/devices/list']);
+      this.router.navigate(['/admin/traccar/devices/list']);
     },
     err=>{
       console.log(err)

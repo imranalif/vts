@@ -48,7 +48,7 @@ export class CustomerDriverComponent implements OnInit {
       console.log(res)
       this.drivers = res;
       this.drivers.forEach(element => {
-        this.source.push({ id: element.id, name: element.name, identifier: element.identifier })
+        this.source.push({ id: element.id, name: element.name, identifier: element.uniqueid })
         this.dataSource = new MatTableDataSource(this.source as any);
       
         setTimeout(() => (this.dataSource.sort = this.sort));
@@ -64,7 +64,7 @@ export class CustomerDriverComponent implements OnInit {
       this.customerDrivers = res;
       if (this.customerDrivers.length > 0) {
         this.customerDrivers.forEach(element => {
-          this.source.push({ id: element.id, name: element.name, identifier: element.unique_id })
+          this.source.push({ id: element.id, name: element.name, identifier: element.uniqueid })
           console.log(this.source)
           this.dataSource = new MatTableDataSource(this.source as any);
           setTimeout(() => (this.dataSource.sort = this.sort));

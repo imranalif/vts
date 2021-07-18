@@ -86,7 +86,7 @@ status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
           console.log(this.permission)
           
             data.forEach(element => {
-              this.allDevices.push(element.device_id);
+              this.allDevices.push(element.deviceid);
               console.log(this.allDevices)
             });
           }
@@ -203,14 +203,14 @@ console.log(id)
     //this.mapService.DeviceMoveUpdate(data);
     data.forEach((element, i) => {
       this.groupDevice.push(element)
-      var v=this.devices.find(x => x.id === element.device_id);
+      var v=this.devices.find(x => x.id === element.deviceid);
       console.log(v)
       this.mapService.updateData([v]);
       //console.log(this.DeviceView)
        this.DeviceItem.push(v.id);
        this.DeviceView.push(v);
        
-      this.reserve.push({customer_id:element.customer_id,device_id:element.device_id,name:v.name});
+      this.reserve.push({customer_id:element.customer_id,deviceid:element.deviceid,name:v.name});
       // this.groupItemCompare.push(element.permission);
       // this.permissionGroup.push(element.group_id);
     });
@@ -224,7 +224,7 @@ else{
     //var n = this.reserve.find(m => m.customer_id=== id);
     if(element.customer_id==id)
     {
-      this.DeviceItem = this.DeviceItem.filter(m => m !== element.device_id);
+      this.DeviceItem = this.DeviceItem.filter(m => m !== element.deviceid);
       //this.DeviceRemove.push(element);
       this.mapService.removeData([element])
     }

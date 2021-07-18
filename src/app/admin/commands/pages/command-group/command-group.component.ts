@@ -55,7 +55,7 @@ export class CommandGroupComponent implements OnInit {
       console.log(res);
       this.groupCommands=res;
       this.groupCommands.forEach(element => {
-        this.groupCommands.push(element.command_id)
+        this.groupCommands.push(element.commandid)
       });
     })
   }

@@ -97,7 +97,7 @@ export class DriverUserComponent implements OnInit {
       this.userDrivers = res;
       if (this.userDrivers) {
         this.userDrivers.forEach(element => {
-          this.userDrivers.push(element.device_id)
+          this.userDrivers.push(element.driverid)
         });
       }
     })

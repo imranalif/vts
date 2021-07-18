@@ -54,7 +54,7 @@ export class DriverGroupComponent implements OnInit {
       console.log(res);
       this.groupDrivers=res;
       this.groupDrivers.forEach(element => {
-        this.groupDrivers.push(element.driver_id)
+        this.groupDrivers.push(element.driverid)
       });
     })
   }

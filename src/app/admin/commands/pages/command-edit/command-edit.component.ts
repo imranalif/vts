@@ -75,7 +75,7 @@ export class CommandEditComponent implements OnInit {
     console.log(this.myform.value)
     this.commandService.updateCommand(this.Id,this.myform.value).subscribe(res=>{
       this.openSnackBar();
-      this.router.navigate(['/admin/commands/list']);
+      this.router.navigate(['/admin/traccar/commands/list']);
     })
   }
 

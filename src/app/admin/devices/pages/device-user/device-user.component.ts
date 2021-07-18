@@ -71,7 +71,7 @@ export class DeviceUserComponent implements OnInit {
       this.userDevices = res;
       if (this.userDevices) {
         this.userDevices.forEach(element => {
-          this.userDevices.push(element.device_id)
+          this.userDevices.push(element.deviceid)
         });
       }
     })

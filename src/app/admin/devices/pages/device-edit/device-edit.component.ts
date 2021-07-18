@@ -88,8 +88,8 @@ this.groups=res;
   setData(data): void {
     this.myform.patchValue({
       deviceName: data.name,
-      identifier: data.unique_id,
-      group: data.group_id,
+      identifier: data.uniqueid,
+      group: data.groupid,
       phone: data.phone,
       model: data.model,
       contact: data.contact,
@@ -153,7 +153,7 @@ this.groups=res;
     console.log(this.myform.value)
     this.deviceService.updateDevice(this.Id,this.myform.value).subscribe(res=>{
       this.openSnackBar();
-      this.router.navigate(['/admin/devices/list']);
+      this.router.navigate(['/admin/traccar/devices/list']);
     })
   }
 
