@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NavItem } from '../shared/menu';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
+import { LoginService } from 'src/app/authentication/login/services/login.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ sideMode="side"
 data1: any = [];
 mediaSub: Subscription;
   constructor(private navService: MenuService, private router: Router,
-    private mediaObserver: MediaObserver) { }
+    private mediaObserver: MediaObserver,private loginService:LoginService) { }
   opened = true;
   @ViewChild('appDrawer', { static: true }) appDrawer: ElementRef;
 
@@ -472,10 +473,14 @@ else{
   }
 
   logout(): void{
-    localStorage.removeItem('token');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('rolesData');
-    this.router.navigate(['/']);
+    this.loginService.logout().subscribe(res=>{
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('userData');
+      localStorage.removeItem('rolesData');
+      this.router.navigate(['/']);
+    })
+  
 }
 
 }

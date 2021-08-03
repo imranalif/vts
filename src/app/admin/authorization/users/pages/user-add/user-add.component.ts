@@ -56,7 +56,7 @@ export class UserAddComponent implements OnInit {
       lastName: ['', [Validators.required]],
       mobile: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      customer_id: [''],
+      customer_id: [],
       address: [''],
       gender: [''],
       userRole: ['', [Validators.required]],
@@ -69,7 +69,7 @@ export class UserAddComponent implements OnInit {
       zoom:[],
       hourFormat:[],
       cordinatesFormat:[''],
-      poiLayer:[],
+      poiLayer:[''],
       disabled:[],
       admin:[],
       readonly:[],
@@ -152,7 +152,7 @@ export class UserAddComponent implements OnInit {
    }
 
    onChangeCustomer(e){
-    this.customer_id=e;
+    this.myform.value.customer_id=e;
 //     const t=this.customerData.map(item => item.id).indexOf(e);
 //     console.log(t)
 //     if(e){
@@ -168,6 +168,7 @@ export class UserAddComponent implements OnInit {
     if (this.myform.invalid) {
       return;
     }
+    console.log(this.myform.value.attributes)
 if(this.myform.value.attributes){
     this.myform.value.attributes.forEach(element => {
       const b = element.value
@@ -183,7 +184,7 @@ if(this.myform.value.attributes){
     formData.append('lastName', this.myform.get('lastName').value);
     formData.append('mobile', this.myform.get('mobile').value);
     formData.append('email', this.myform.get('email').value);
-    formData.append('customer_id', this.customer_id);
+    formData.append('customer_id', this.myform.value.customer_id);
     formData.append('password', this.myform.get('password').value);
     formData.append('userRole', this.myform.get('userRole').value);
     formData.append('address', this.myform.get('address').value);
@@ -213,15 +214,15 @@ if(this.myform.value.attributes){
     console.log(this.myform.value)
 
     this.userService.addUser(formData).subscribe(event => {
-      if(event.type===HttpEventType.UploadProgress){
-        console.log('Upload Progress:'+ Math.round(event.loaded/event.total*100)+'%')
-        this.progress=Math.round(event.loaded/event.total*100);
-      }
-      else if(event.type===HttpEventType.Response){
-        console.log(event)
-      }
-      //this.openSnackBar();
-       //this.router.navigate(['admin/authorization/users/list']);
+      // if(event.type===HttpEventType.UploadProgress){
+      //   console.log('Upload Progress:'+ Math.round(event.loaded/event.total*100)+'%')
+      //   this.progress=Math.round(event.loaded/event.total*100);
+      // }
+      // else if(event.type===HttpEventType.Response){
+      //   console.log(event)
+      // }
+      this.openSnackBar();
+       this.router.navigate(['admin/authorization/users/list']);
     },
       error => {
         this.errorMessage();

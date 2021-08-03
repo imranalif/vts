@@ -12,7 +12,8 @@ export class UserService {
   private url = environment.apiUrl + '/user/';
 
   addUser(data){
-    return this.http.post(this.url + '/addUser', data,{reportProgress:true,observe:'events'});
+    return this.http.post(this.url + '/addUser', data);
+    //return this.http.post(this.url + '/addUser', data,{reportProgress:true,observe:'events'});
   }
 
   getAllUser(): Observable<any> {

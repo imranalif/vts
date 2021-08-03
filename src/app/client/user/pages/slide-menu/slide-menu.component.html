@@ -81,7 +81,7 @@
                                     (change)="checkAllByGroup($event.checked,state.customer_id)" class="group"
                                     formControlName="customer_id" [value]="state.customer_id" >
 
-                                    {{state.name}}
+                                    {{state.name}}  
                                 </mat-checkbox>
                             </mat-expansion-panel-header>
                             <div *ngFor="let val of permission[state.customer_id]; let l=index  ">
@@ -94,7 +94,7 @@
                                     </mat-checkbox>
                                     <a class="devicename"
                                         (click)=getLocation(devicesIndex[val.deviceid])>{{devicesIndex[val.deviceid]?.name}}</a>
-                                    <a class="b1">{{devicesIndex[val.deviceid]?.uniqueid}} </a>
+                                   
                                     <a class="b2" [matMenuTriggerFor]="hospital">
                                         <mat-icon>more_vert</mat-icon>
                                     </a>

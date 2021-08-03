@@ -13,7 +13,7 @@
         </a> -->
       </div>
       <div *ngIf="deviceXs" fxLayout="row" fxFlex="30%">
-        <button  mat-button  routerLink="/admin/dashboard">Admin</button>
+       <span > <button  mat-button  routerLink="/admin/dashboard">Admin</button></span>
         <a id="r" mat-button [matMenuTriggerFor]="menu">
           <!-- <span class="image-border"> -->
           <img class="logout-image" src="assets/client/images/avatar.png" width="35" alt="avatar" />
@@ -24,7 +24,7 @@
       </div>
 
     </div>
-    <div class="admin_button" *ngIf="!deviceXs"> <button mat-button class="col" routerLink="/admin/dashboard">Admin</button></div>
+    <div class="admin_button" *ngIf="!deviceXs"> <button  mat-button class="col" routerLink="/admin/dashboard">Admin</button></div>
     <div fxFlex="25%" fxLayout.xs="100%">
      
       <div class="position">

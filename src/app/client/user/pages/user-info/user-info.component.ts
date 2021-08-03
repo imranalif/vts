@@ -23,6 +23,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SlideMenuComponent } from '../slide-menu/slide-menu.component';
 import { MapService } from '../../services/map.service';
 import { reduce } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-info',
@@ -77,6 +78,7 @@ export class UserInfoComponent implements OnInit {
   sideMode = "over"
   dataSource = new MatTableDataSource<any>([]);
   map
+  //admin=1;
   devices = []
   mediaSub: Subscription;
   deviceXs: boolean;
@@ -84,9 +86,10 @@ export class UserInfoComponent implements OnInit {
   constructor(private mediaObserver: MediaObserver,
     private deviceService: DeviceService,
     private dialog: MatDialog,
-    private mapService: MapService
+    private mapService: MapService,
+    private router: Router,
   ) {
-    this.getAllDevice();
+    //this.getAllDevice();
 
   }
 
@@ -94,7 +97,6 @@ export class UserInfoComponent implements OnInit {
 
 
   ngOnInit(): void {
-
 
     this.mediaSub = this.mediaObserver.media$.subscribe(
       (result: MediaChange) => {
@@ -571,7 +573,12 @@ this.historyBar = L.control.bar('history', {
   }
 
 
-  logout() { }
+  logout() { 
+    localStorage.removeItem('token');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('rolesData');
+    this.router.navigate(['/']);
+  }
 
 
   call() {

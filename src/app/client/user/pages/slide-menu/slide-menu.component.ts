@@ -7,6 +7,7 @@ import { DeviceService } from 'src/app/admin/devices/services/device.service';
 import { MapService } from '../../services/map.service';
 import { CustomerService } from 'src/app/admin/customer/services/customer.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { LoginService } from 'src/app/authentication/login/services/login.service';
 
 @Component({
   selector: 'app-slide-menu',
@@ -41,7 +42,8 @@ status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
     private fb: FormBuilder,
     private deviceService: DeviceService,
     private mapService:MapService,
-    private customerService:CustomerService
+    private customerService:CustomerService,
+    private loginService:LoginService
   ) { }
 
   ngOnInit(): void {
@@ -70,6 +72,26 @@ status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
     // this.myform.value.d=3;
     // this.myform.patchValue({d: 7})
     // this.myform.get('d').setValue(4);
+    this.loginService.customerPermission.subscribe(res => {
+      if (res) {
+        console.log(res)
+        this.customers = [res];
+        console.log(res.customer_id)
+        this.customerService.DeviceByCustomerWithPosition(res.customer_id).subscribe(data => {
+          console.log(data)
+          if(data){
+          this.permission[res.customer_id] = data;
+          console.log(this.permission[res.customer_id])
+          
+            data.forEach(element => {
+              this.allDevices.push(element.deviceid);
+              console.log(this.allDevices)
+            });
+          }
+         
+        })
+      }
+    })
   }
 
 

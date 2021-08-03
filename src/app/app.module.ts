@@ -13,6 +13,7 @@ import { ClientModule } from './client/client.module';
 import { AdminMenuModule } from './theme/admin/admin.module';
 import { MatDialogComponent } from './shared/mat-dialog/mat-dialog.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { TokenInterceptorService } from './shared/services/token-interceptor.service';
 
 
 @NgModule({
@@ -35,7 +36,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     MatTableExporterModule,
   
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
