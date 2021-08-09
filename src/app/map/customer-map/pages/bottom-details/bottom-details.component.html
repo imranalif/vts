@@ -1,0 +1,43 @@
+<div class="container" fxLayout="row">
+    <!-- <mat-grid-list cols="8" rowHeight="100px">
+      <mat-grid-tile [colspan]="3">Name</mat-grid-tile>
+      <mat-grid-tile [colspan]="5">Sensors</mat-grid-tile>
+
+</mat-grid-list> -->
+
+<div fxFlex=30%>
+  <h3 *ngIf="!deviceData">Name</h3><h3>{{deviceData?.name}}</h3>
+    <hr>
+    <mat-grid-list cols="1" rowHeight="20px">
+    <mat-grid-tile >
+        <mat-label><b> Address:</b></mat-label> {{deviceData?.contact}}
+      </mat-grid-tile>
+      <!-- <mat-grid-tile >
+        <mat-label><b> Address:</b></mat-label>
+      </mat-grid-tile>
+      <mat-grid-tile >
+        <mat-label><b> Address:</b></mat-label>
+      </mat-grid-tile> -->
+    </mat-grid-list>
+</div>
+<div class="vertical" ></div>
+<div fxFlex=70%>
+    <h3>Sensor</h3>
+    <hr>
+    <mat-grid-list cols="4" rowHeight="20px">
+        <mat-grid-tile >
+            <mat-label><b> Phone:</b></mat-label> {{deviceData?.contact}}
+          </mat-grid-tile>
+          <mat-grid-tile >
+            <mat-label><b> Model:</b></mat-label> {{deviceData?.model}}
+          </mat-grid-tile>
+          <mat-grid-tile >
+            <mat-label><b> Category:</b></mat-label> {{deviceData?.category}}
+          </mat-grid-tile>
+          <mat-grid-tile >
+            <mat-label><b> Identification:</b></mat-label> {{deviceData?.unique_id}}
+          </mat-grid-tile>
+        </mat-grid-list>
+</div>
+</div>
+

@@ -1,0 +1,92 @@
+<div id="t" class="mi" fxLayout="row" fxLayout.xs="column" color="primary">
+
+
+    <div fxFlex="70%" fxLayout="row" fxLayout.xs="100%">
+        <div fxFlex="80%">
+            <img src="assets/client/images/traccar.png" width="130" alt="avatar" />
+        </div>
+        <div *ngIf="deviceXs" fxLayout="row" fxFlex="30%">
+  
+          <a id="r" mat-button [matMenuTriggerFor]="menu">
+            <!-- <span class="image-border"> -->
+            <img class="logout-image" src="assets/client/images/avatar.png" width="35" alt="avatar" />
+            <!-- </span> -->
+            <!-- <div class="pname">{{this.data2.fullName}}</div> assets/images/avatar.png -->
+            <span class="align-middle"></span>
+          </a>
+        </div>
+
+    </div>
+  
+    <div fxFlex="25%" fxLayout.xs="100%">
+
+        <div class="position">
+
+
+
+            <button class="menu" mat-button [matMenuTriggerFor]="hospital"><span class="col">Tools</span>
+                <mat-icon class="col">arrow_drop_down</mat-icon>
+            </button>
+
+
+            <button mat-button class="col" routerLink="/">Setup</button>
+
+            <button mat-button class="col" routerLink="/">Chat</button>
+
+            <mat-menu #hospital="matMenu">
+                <button mat-menu-item routerLink="/">Alerts</button>
+
+                <button mat-menu-item routerLink="info/map">
+                    Routes
+                </button>
+
+            </mat-menu>
+            <a *ngIf="!deviceXs" mat-button [matMenuTriggerFor]="menu">
+                <!-- <span class="image-border"> -->
+                <img class="logout-image" src="assets/client/images/avatar.png" width="35" alt="avatar" />
+                <!-- </span> -->
+                <!-- <div class="pname">{{this.data2.fullName}}</div> assets/images/avatar.png -->
+                <span class="align-middle"></span>
+            </a>
+            <mat-menu #menu="matMenu">
+                <a routerLink="authorization/users/user-profile" mat-menu-item>
+                    <mat-icon>account_circle</mat-icon>
+                    <span>Profile</span>
+                </a>
+
+                <a routerLink="authorization/users/change-password" mat-menu-item>
+                    <mat-icon>settings</mat-icon>
+                    <span>Change Pass
+
+                    </span>
+                </a>
+
+                <a mat-menu-item>
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span (click)="logout()">Logout</span>
+                </a>
+            </mat-menu>
+        </div>
+
+    </div>
+
+
+</div>
+<div id="mapid" style=" width: 100%; height: 90%;">
+
+</div>
+
+<div id="sidebar" style=" width: 100%; height: 100%;">
+    <app-side-menu>
+    </app-side-menu>
+  </div>
+
+  <div id="menu" style=" height: 150px;">
+    <app-bottom-details>
+    </app-bottom-details>
+  </div>
+
+  <div  id="history" style=" height: 150px;">
+    <app-history-info>
+    </app-history-info>
+  </div>

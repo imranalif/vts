@@ -59,13 +59,7 @@ status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
     //   //customer_id:[''],
 
     // });
-    var b={
-      Cause: '16',
-        'Cause-txt': 'Normal Clearing',
-        '$time': 1626072648105
-      }
-      console.log(b['$time'])
-      console.log(b['Cause-txt'])
+  
     this.getAllCustomer();
     this.getAllDevice();
     this.getAllEvents();
@@ -194,7 +188,7 @@ console.log(e)
   this.mapService.passDeviceData(e)
 }
 
-objectTab(tabChangeEvent: MatTabChangeEvent){
+objectTabv(tabChangeEvent: MatTabChangeEvent){
   console.log('index => ', tabChangeEvent.index); 
   var inx=tabChangeEvent.index;
   if(inx==2){
@@ -217,6 +211,30 @@ const today=new Date
   })
   console.log("1234");
 }
+
+objectTab(tabChangeEvent: MatTabChangeEvent){
+  console.log('index => ', tabChangeEvent.index); 
+  var inx=tabChangeEvent.index;
+  if(inx==2){
+    var  indexData={id:2}
+    this.mapService.hideWithIndexHistory(indexData);
+    const today=new Date
+    var requiredDate=new Date(today.getFullYear(),today.getMonth(),today.getDate())
+  
+    this.myform.patchValue({
+     //id:3,
+      from_date: requiredDate,
+      to_date:new Date()
+    })
+    }
+  
+    if(inx==0 || inx==1){
+      var  indexD={id:1}
+      this.mapService.showWithIndexDetails(indexD);
+      }
+
+}
+
 
 checkAllByGroup(e: any, id){
 console.log(id)

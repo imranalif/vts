@@ -41,10 +41,11 @@ export class LoginPageComponent implements OnInit {
     }
     this.loginService.login(this.myform.value).subscribe(res => {
       if(res.data.role==3){
-        this.customerService.getCustomerById(res.data.customer_id).subscribe(res=>{
-          this.loginService.customerData(res)
-          this.router.navigate(['/user/info']);
-        })
+        this.router.navigate(['/customer-map/info',res.data.customer_id]);
+        // this.customerService.getCustomerById(res.data.customer_id).subscribe(res=>{
+        //   this.loginService.customerData(res)
+        //   this.router.navigate(['/customer-map/info']);
+        // })
       }
 
       else{

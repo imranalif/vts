@@ -170,7 +170,7 @@ export class UserInfoComponent implements OnInit {
 
 
 
-    //L.control.layers(baseMaps,this.overlayMaps).addTo(this.map);
+    L.control.layers(this.baseMaps,this.overlayMaps).addTo(this.map);
 
 
     var sidebar = L.control.sidebar('sidebar').addTo(this.map);

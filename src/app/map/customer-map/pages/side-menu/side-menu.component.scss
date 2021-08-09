@@ -1,0 +1,131 @@
+
+
+
+   .container{
+    width: 100%;
+}
+
+table{
+    width: 95% !important;
+   
+}
+
+::ng-deep.mat-tab-label, ::ng-deep.mat-tab-label-active{
+    min-width: 0!important;
+    padding: 10px!important;
+    margin: 10px!important;
+   }
+.filter{
+    margin-left: 5px !important;
+}
+
+.btn{
+    width: 30px !important;
+    background-color: blue;
+    margin-left: 5px;
+}
+
+
+// .mat-header-cell{
+//   display: none;
+//   }
+
+  .mat-column-select {
+    width: 10% !important;
+}
+.mat-column-name {
+    width: 80% !important;
+}
+// .mat-column-identifier {
+//     width: 20% !important;
+// }
+.mat-column-more {
+    width: 10% !important;
+}
+a{
+    cursor: pointer;
+}
+
+mat-menu{
+    margin-left: 50px !important;
+    position: absolute;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 20;
+  }
+
+  .cdk-overlay-container {
+    position: fixed !important;
+    z-index: 3000 !important;
+}
+
+.filterBox{
+    width: 150px;
+    height: 25px;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px 10px 10px 10px;
+    border: 2px solid black;
+}
+  .closeButton{
+    margin-top: 20px;
+  }
+
+  .space{
+    margin-bottom: 2px;
+}
+
+.group{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.item{
+    width: 120%;
+    font-size: 14px;
+    //float: left;
+    // margin-bottom: 10px;
+    // margin-right: 2px;
+}
+
+
+
+// .b1{
+//    font-size: 12px;
+//     margin-left: 20%;
+// }
+
+// .b2{
+//     margin-left: 20%;
+    
+  
+// }
+
+.devicename{
+    margin-top: 5px;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.clock{
+    width: 70% !important;
+}
+
+
+
+.mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 10px;
+    /* position: relative; */
+    height: unset; 
+}

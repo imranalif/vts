@@ -10,6 +10,7 @@ import { MaterialModule } from './shared/material/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { AdminModule } from './admin/admin.module';
 import { ClientModule } from './client/client.module';
+import { MapModule } from './map/map.module';
 import { AdminMenuModule } from './theme/admin/admin.module';
 import { MatDialogComponent } from './shared/mat-dialog/mat-dialog.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
@@ -31,6 +32,7 @@ import { TokenInterceptorService } from './shared/services/token-interceptor.ser
     HttpClientModule,
     AdminModule,
     ClientModule,
+    MapModule,
     AdminMenuModule,
     FlexLayoutModule,
     MatTableExporterModule,
