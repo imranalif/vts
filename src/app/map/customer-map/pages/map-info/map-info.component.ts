@@ -10,6 +10,8 @@ import 'leaflet-easybutton';
 import 'leaflet-arrowheads'
 import '/var/projects/angular/VTSApp/angular/node_modules/leaflet.motion/dist/leaflet.motion.min.js';
 import { CusmapService } from '../../services/cusmap.service';
+import { LoginService } from 'src/app/authentication/login/services/login.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-map-info',
@@ -44,7 +46,9 @@ export class MapInfoComponent implements OnInit {
 
   constructor(
     private mediaObserver: MediaObserver,
-    private cusmapService: CusmapService
+    private cusmapService: CusmapService,
+    private loginService:LoginService,
+    private routing:Router
 
   ) { }
 
@@ -228,6 +232,11 @@ export class MapInfoComponent implements OnInit {
   
 
   logout() {
+    this.loginService.logout().subscribe(res=>{
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      this.routing.navigate(['/']);
+    })
 
   }
 
