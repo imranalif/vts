@@ -29,13 +29,38 @@
                             required />
                     </mat-form-field>
 
+
                     <mat-form-field class="half">
+                        <mat-label>User Role</mat-label>
+                        <mat-select formControlName="userRole" required #sl>
+                            <input matInput class="filterBox" placeholder="search" autocomplete="off"
+                                (keyup)="applyFilter($event.target.value)" />
+                            <a>
+                                <mat-icon class="closeButton" (click)="sl.close()">clear</mat-icon>
+                            </a>
+                            <mat-option *ngFor="let state of userRoles" [value]="state.id">
+                                {{ state.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="half">
+                        <mat-label>User Type</mat-label>
+                        <mat-select formControlName="userType" (ngModelChange)="onChange($event)" required>
+                            <mat-option *ngFor="let state of userTypes" [value]="state.value">
+                                {{ state.value }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                <div *ngIf="showCustommerField==1">
+                    <mat-form-field class="full">
                         <input matInput placeholder="Customer" [matAutocomplete]="auto" formControlName="customer_id"
                             (keyup)="applySearch($event.target.value)" />
                             <mat-hint align="end">Please input customer id</mat-hint>
                     </mat-form-field>
 
-
+                
                     <mat-autocomplete #auto="matAutocomplete">
 
                         <mat-option *ngFor="let option of customerData" 
@@ -49,7 +74,7 @@
                             </mat-list>
                         </mat-option>
                     </mat-autocomplete>
-
+                </div>
 
 
 
@@ -76,19 +101,9 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field class="half">
-                        <mat-label>User Role</mat-label>
-                        <mat-select formControlName="userRole" required #sl>
-                            <input matInput class="filterBox" placeholder="search" autocomplete="off"
-                                (keyup)="applyFilter($event.target.value)" />
-                            <a>
-                                <mat-icon class="closeButton" (click)="sl.close()">clear</mat-icon>
-                            </a>
-                            <mat-option *ngFor="let state of userRoles" [value]="state.id">
-                                {{ state.name }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                   
+
+                   
 
                     <mat-form-field class="half">
                         <mat-label>Status</mat-label>
@@ -142,6 +157,10 @@
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
 
+                            <mat-form-field class="half">
+                                <input matInput placeholder="POI Layer" formControlName="poiLayer" autocomplete="off" />
+                            </mat-form-field>
+                            
                             <mat-form-field class="half" required>
                                 <mat-label>Map Layer</mat-label>
                                 <mat-select formControlName="mapLayer">
@@ -150,6 +169,8 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
+
+                          
 
                             <mat-form-field class="half">
                                 <input matInput placeholder="Latitude" formControlName="latitude" autocomplete="off" />
@@ -175,9 +196,7 @@
                                 </mat-select>
                             </mat-form-field>
 
-                            <mat-form-field class="half">
-                                <input matInput placeholder="POI Layer" formControlName="poiLayer" autocomplete="off" />
-                            </mat-form-field>
+                      
 
                             <mat-checkbox class="checkbox" formControlName="hourFormat" labelPosition="before">
                                 12 Hour Format

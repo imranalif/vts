@@ -11,6 +11,10 @@ export class CustomerService {
   constructor(private http: HttpClient) { }
   private url = environment.apiUrl + '/customer/';
 
+  addCustomer(data): Observable<any> {
+    return this.http.post(this.url + '/addCustomer',data);
+  }
+
   getAllCustomer(data): Observable<any> {
     return this.http.post(this.url + '/listCustomer',data);
   }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { CategoryRoutingModule } from './category-routing.module';
 import { CategoryAddComponent } from './pages/category-add/category-add.component';
@@ -18,7 +19,8 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    MatTableExporterModule
+    MatTableExporterModule,
+    FlexLayoutModule
 
   ]
 })

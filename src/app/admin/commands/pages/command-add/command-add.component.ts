@@ -51,7 +51,7 @@ export class CommandAddComponent implements OnInit {
     console.log(this.myform.value);
     this.commandService.addCommand(this.myform.value).subscribe(res => {
       this.openSnackBar();
-      this.router.navigate(['/admin/commands/list']);
+      this.router.navigate(['/admin/traccar/commands/list']);
     },
     err=>{
       console.log(err)

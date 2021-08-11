@@ -20,9 +20,10 @@ export class ProductEditComponent implements OnInit {
   filterCategories
   userData;
   status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
-  states = [{ id: 1, value: 'GPS Device' }, { id: 0, value: 'Camera' }, { id: 0, value: 'Burzer' }];
+
   types = [{ id: 0, value: '2G' }, { id: 1, value: '3G' }, { id: 2, value: '4G' }, { id: 2, value: '5G' }];
   quantity=[{value:2},{value:4},{value:6},{value:8}]
+  outquantity=[{value:0},{value:2},{value:4},{value:6},{value:8}];
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -37,8 +38,8 @@ export class ProductEditComponent implements OnInit {
       model_company: [''],
       model_bdcom: [''],
       company: [''],
-      input_quantity: [''],
-      output_quantity: [''],
+      input_quantity: [],
+      output_quantity: [],
       fleet_management: [],
       network_type: [''],
       price: [''],
@@ -46,6 +47,7 @@ export class ProductEditComponent implements OnInit {
       remark: [''],
       file: [''],
       created_by: [''],
+      status:[]
     });
     this.getAllCategory();
 
@@ -81,6 +83,7 @@ export class ProductEditComponent implements OnInit {
       price: data.price,
       feature: data.feature,
       remark: data.remark,
+      status: data.status,
       //file: data.file
     });
     this.file=data.file;

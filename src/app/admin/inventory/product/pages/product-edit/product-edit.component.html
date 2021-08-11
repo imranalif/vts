@@ -6,6 +6,13 @@
         <form [formGroup]="myform">
 
             <mat-form-field class="half">
+                <input trim="blur" matInput placeholder="Name" formControlName="name" autocomplete="off" required />
+            </mat-form-field>
+            <div *ngIf="submitted && myform.get('name').errors" class="feedback">
+                <div *ngIf=" myform.get('name').errors.required" class="red"> Name is required</div>
+            </div>
+
+            <mat-form-field class="half">
                 <mat-label>Category</mat-label>
                 <mat-select formControlName="category" required #sl>
                     <input matInput class="filterBox" placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
@@ -18,12 +25,7 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field class="half">
-                <input trim="blur" matInput placeholder="Name" formControlName="name" autocomplete="off" required />
-            </mat-form-field>
-            <div *ngIf="submitted && myform.get('name').errors" class="feedback">
-                <div *ngIf=" myform.get('name').errors.required" class="red"> Name is required</div>
-            </div>
+           
 
 
             <mat-form-field class="half">
@@ -52,7 +54,7 @@
             <mat-form-field class="half">
                 <mat-label>Output Quantity</mat-label>
                 <mat-select formControlName="output_quantity" required>
-                    <mat-option *ngFor="let state of quantity" [value]="state.value">
+                    <mat-option *ngFor="let state of outquantity" [value]="state.value">
                         {{ state.value }}
                     </mat-option>
                 </mat-select>
@@ -69,6 +71,20 @@
             </mat-form-field>
 
             <mat-form-field class="half">
+                <input matInput placeholder="Price" formControlName="price" autocomplete="off"
+                    required />
+            </mat-form-field>
+
+            <!-- <mat-form-field class="half">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status" required>
+                    <mat-option *ngFor="let state of status" [value]="state.id">
+                        {{ state.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field> -->
+
+            <mat-form-field class="half">
                 <mat-label>Status</mat-label>
                 <mat-select formControlName="status" required>
                     <mat-option *ngFor="let state of status" [value]="state.id">
@@ -77,29 +93,28 @@
                 </mat-select>
             </mat-form-field>
             
+         
+
             <mat-form-field class="half">
-                <input matInput placeholder="Price" formControlName="price" autocomplete="off"
-                    required />
+                <textarea matInput placeholder="Feature" formControlName="feature" autocomplete="off"></textarea>
             </mat-form-field>
+
+           
+            <mat-form-field class="half">
+                <textarea matInput placeholder="Remark" formControlName="remark" autocomplete="off"></textarea>
+            </mat-form-field>
+
+          
+
+           
+
+           
 
             <div>
                 <mat-checkbox class="checkbox" formControlName="fleet_management" labelPosition="before">
                     Fleet management
                 </mat-checkbox>
             </div>
-
-
-          
-
-            <mat-form-field class="half">
-                <textarea matInput placeholder="Feature" formControlName="feature" autocomplete="off"></textarea>
-            </mat-form-field>
-
-            <mat-form-field class="half">
-                <textarea matInput placeholder="Remark" formControlName="remark" autocomplete="off"></textarea>
-            </mat-form-field>
-
-
             
 
         </form>

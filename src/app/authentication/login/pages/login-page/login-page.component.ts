@@ -40,7 +40,7 @@ export class LoginPageComponent implements OnInit {
       return;
     }
     this.loginService.login(this.myform.value).subscribe(res => {
-      if(res.data.role==3){
+      if(res.data.user_type=="Customer"){
         localStorage.setItem('accessToken', res.accessToken);
         localStorage.setItem('refreshToken', res.refreshToken);
         this.router.navigate(['/customer-map/info',res.data.customer_id]);
@@ -52,6 +52,7 @@ export class LoginPageComponent implements OnInit {
 
       else{
         this.roleService.getPermissionByRole(res.data.role).subscribe(data => {
+          console.log("teesttt")
           data.forEach(element => {
             this.roles.push(element.permission);
             localStorage.setItem('rolesData', JSON.stringify(this.roles));

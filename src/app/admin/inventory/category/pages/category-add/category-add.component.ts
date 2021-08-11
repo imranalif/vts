@@ -27,7 +27,7 @@ export class CategoryAddComponent implements OnInit {
       name: ['', [Validators.required]],
       created_by: [''],
       description: [''],
-      type: [ ,[Validators.required]],
+      // type: [ ,[Validators.required]],
       status: [ ,[Validators.required]]
     });
   }
@@ -44,6 +44,7 @@ export class CategoryAddComponent implements OnInit {
     this.submitted = true;
     this.myform.markAllAsTouched();
     if (this.myform.invalid) {
+      console.log("rrrr")
       return;
   }
     

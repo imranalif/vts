@@ -20,7 +20,7 @@ export class CategoryListComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
+  status = [{ id: 0, value: 'Inactive' }, { id: 1, value: 'Active' }];
   states = [{ id: 0, value: 'GPS Device' }, { id: 1, value: 'Camera' }, { id: 2, value: 'Burzer' }];
   displayedColumns = [ 'action', 'id', 'name', 'description', 'status' ];
   constructor(private categoryService:CategoryService,

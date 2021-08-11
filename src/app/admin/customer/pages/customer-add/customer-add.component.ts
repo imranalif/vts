@@ -5,13 +5,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomerService } from '../../services/customer.service';
 
 @Component({
-  selector: 'app-customer-edit',
-  templateUrl: './customer-edit.component.html',
-  styleUrls: ['./customer-edit.component.scss']
+  selector: 'app-customer-add',
+  templateUrl: './customer-add.component.html',
+  styleUrls: ['./customer-add.component.scss']
 })
-export class CustomerEditComponent implements OnInit {
+export class CustomerAddComponent implements OnInit {
+
   myform: FormGroup;
-  Id;
+  Id
   userData;
   submitted = false;
   constructor(private fb: FormBuilder,
@@ -22,38 +23,13 @@ export class CustomerEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.myform = this.fb.group({
+      customer_id:[],
       name: ['', [Validators.required]],
       email: [''],
       phone: [''],
       billing_address: [ '',[Validators.required]],
       contact_address: ['' ,[Validators.required]]
     });
-
-    this.route.paramMap.subscribe(params => {
-      this.Id = params.get('id');
-      this.edit(this.Id);
-    });
-  }
-
-  edit(id): void {
-    console.log(id)
-    this.customerService.getCustomerById(id).subscribe(data => {
-      this.setData(data);
-    });
-  }
-
-  setData(data): void {
-    this.myform.patchValue({
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      billing_address: data.billing_address,
-      contact_address: data.contact_address
-    });
-  }
-
-  goBack(){
-    this.router.navigate(['/admin/customer/list']); 
   }
 
   openSnackBar(): void {
@@ -63,18 +39,27 @@ export class CustomerEditComponent implements OnInit {
       horizontalPosition: 'end',
     });
   }
-  updateCustomer(){
+
+  errorMessage(): void {
+    this.snackBar.open('Something is error!!', 'Close', {
+      duration: 2000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+    });
+  }
+  addCustomer(){
     this.submitted = true;
     if (this.myform.invalid) {
       return;
   }
+  this.myform.value.customer_id= Math.floor(Math.random() * 90000) + 10000;
   this.userData = JSON.parse(localStorage.getItem('userData'));
-  this.myform.value.updated_by = this.userData.id;
-  this.myform.value.updated_time = new Date();
-    this.customerService.updateCustomer(this.Id, this.myform.value).subscribe(data => {
+  this.myform.value.created_by = this.userData.id;
+    this.customerService.addCustomer( this.myform.value).subscribe(data => {
       this.openSnackBar();
       this.router.navigate(['/admin/customer/list']); 
     });
+
   }
 
 }

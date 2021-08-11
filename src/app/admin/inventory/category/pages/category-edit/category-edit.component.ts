@@ -28,7 +28,7 @@ export class CategoryEditComponent implements OnInit {
       name: ['', [Validators.required]],
       created_by: [''],
       description: [''],
-      type: [ ,[Validators.required]],
+      // type: [ ,[Validators.required]],
       status: [ ,[Validators.required]]
     });
 
@@ -49,7 +49,6 @@ export class CategoryEditComponent implements OnInit {
     this.myform.patchValue({
       name: data.name,
       description: data.description,
-      type: data.type,
       status: data.status
     });
     this.createdBy = data.created_by;

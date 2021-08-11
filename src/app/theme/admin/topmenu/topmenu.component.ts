@@ -263,13 +263,13 @@ mediaSub: Subscription;
           permission:'customer_list',
 
         },
-        // {
-        //   displayName: 'Query Add',
-        //   iconName: 'add',
-        //   route: 'admin/query/add',
-        //   color: '#c1c1c1',
-        //   permission:'query_add',
-        // }
+        {
+          displayName: 'Customer Add',
+          iconName: 'add',
+          route: 'admin/customer/add',
+          color: '#c1c1c1',
+          permission:'customer_add',
+        }
       ]
     },
 

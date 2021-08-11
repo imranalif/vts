@@ -8,10 +8,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerListComponent } from './pages/customer-list/customer-list.component';
 import { CustomerEditComponent } from './pages/customer-edit/customer-edit.component';
+import { CustomerAddComponent } from './pages/customer-add/customer-add.component';
 
 
 @NgModule({
-  declarations: [CustomerListComponent, CustomerEditComponent],
+  declarations: [CustomerListComponent, CustomerEditComponent, CustomerAddComponent],
   imports: [
     CommonModule,
     CustomerRoutingModule,

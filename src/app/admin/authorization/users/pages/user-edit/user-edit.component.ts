@@ -13,6 +13,7 @@ import { CustomerService } from 'src/app/admin/customer/services/customer.servic
   styleUrls: ['./user-edit.component.scss']
 })
 export class UserEditComponent implements OnInit {
+  showCustommerField:Number;
   t
   customerData
   customer_id
@@ -40,6 +41,7 @@ export class UserEditComponent implements OnInit {
   states = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   roles = [{ id: 1, value: 'Admin' }, { id: 0, value: 'User' }];
   gend = [{ value: 'Male' }, { value: 'Female' }];
+  userTypes = [{ value: 'Admin' }, { value: 'Reseller' }, { value: 'Customer' }];
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -68,6 +70,7 @@ export class UserEditComponent implements OnInit {
       customer_id: [''],
       gender: [''],
       userRole: ['', [Validators.required]],
+      userType: [''],
       mapLayer:[''],
       latitude:[''],
       longitude:[''],
@@ -165,6 +168,7 @@ export class UserEditComponent implements OnInit {
       address: data.address,
       gender: data.gender,
       userRole: data.user_role,
+      userType: data.user_type,
       mapLayer:data.map,
       latitude:data.latitude,
       longitude:data.longitude,
@@ -235,6 +239,15 @@ export class UserEditComponent implements OnInit {
 // console.log(this.customer_id)
 // }
   }
+
+  onChange(e){
+    console.log(e)
+    if(e=="Customer"){
+this.showCustommerField=1;
+console.log(this.showCustommerField)
+    }
+  }
+
 
   updateUser(){
     this.myform.markAllAsTouched();

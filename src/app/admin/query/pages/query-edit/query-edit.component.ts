@@ -114,6 +114,7 @@ export class QueryEditComponent implements OnInit {
     });
     this.createdBy = data.created_by;
     this.autoID=data.id;
+    this.queryID=data.queryID;
     
   }
 

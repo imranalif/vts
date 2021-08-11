@@ -15,6 +15,7 @@ import { CustomerService } from 'src/app/admin/customer/services/customer.servic
   styleUrls: ['./user-add.component.scss']
 })
 export class UserAddComponent implements OnInit {
+  showCustommerField;
   progress
   customerData
   customer_id
@@ -33,6 +34,7 @@ export class UserAddComponent implements OnInit {
   states = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   roles = [{ id: 1, value: 'Admin' }, { id: 0, value: 'User' }];
   gend = [{ value: 'Male' }, { value: 'Female' }];
+  userTypes = [{ value: 'Admin' }, { value: 'Reseller' }, { value: 'Customer' }];
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -59,6 +61,7 @@ export class UserAddComponent implements OnInit {
       customer_id: [],
       address: [''],
       gender: [''],
+      userType: [''],
       userRole: ['', [Validators.required]],
       image: [''],
       password: ['', [Validators.required]],
@@ -161,6 +164,14 @@ export class UserAddComponent implements OnInit {
 // }
   }
 
+  onChange(e){
+    console.log(e)
+    if(e=="Customer"){
+this.showCustommerField=1;
+console.log(this.showCustommerField)
+    }
+  }
+
 
   addUser() {
     this.myform.markAllAsTouched();
@@ -187,6 +198,7 @@ if(this.myform.value.attributes){
     formData.append('customer_id', this.myform.value.customer_id);
     formData.append('password', this.myform.get('password').value);
     formData.append('userRole', this.myform.get('userRole').value);
+    formData.append('userType', this.myform.get('userType').value);
     formData.append('address', this.myform.get('address').value);
     formData.append('gender', this.myform.get('gender').value);
     formData.append('status', this.myform.get('status').value);
