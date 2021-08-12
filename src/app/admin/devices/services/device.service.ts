@@ -81,4 +81,8 @@ export class DeviceService {
   getDeviceWithPositionById(id: string): Observable<object> {
     return this.http.get(this.url + id + '/getDeviceWithPositionById');
   }
+
+  getMovingPosition(data): Observable<any> {
+    return this.http.post(this.url + '/movingPositions',data);
+  }
 }

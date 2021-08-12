@@ -111,7 +111,7 @@ this.dataSource = new MatTableDataSource( res as any);
      if(a===b){
       this.DeviceItem.push(1);
      }
-       this.cusmapService.deviceDataExchange([data]);
+       this.cusmapService.deviceDataExchange(data);
     }
     else{
       // this.deleteObject.push(data)

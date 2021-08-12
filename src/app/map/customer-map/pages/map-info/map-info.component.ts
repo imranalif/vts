@@ -12,6 +12,7 @@ import '/var/projects/angular/VTSApp/angular/node_modules/leaflet.motion/dist/le
 import { CusmapService } from '../../services/cusmap.service';
 import { LoginService } from 'src/app/authentication/login/services/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DeviceService } from 'src/app/admin/devices/services/device.service';
 
 @Component({
   selector: 'app-map-info',
@@ -44,11 +45,14 @@ export class MapInfoComponent implements OnInit {
   polylineMotion
   timeArray = []
 
+  line
+
   constructor(
     private mediaObserver: MediaObserver,
     private cusmapService: CusmapService,
     private loginService:LoginService,
-    private routing:Router
+    private routing:Router,
+    private deviceService:DeviceService
 
   ) { }
 
@@ -117,11 +121,19 @@ export class MapInfoComponent implements OnInit {
       //"Names": this.names
     };
 
-    var markers = L.layerGroup()
-    const marker = L.marker([23.752942222222224,90.36127111111111], { icon: this.myIcon3 })
-    markers.addLayer(marker).addTo(this.map);
 
-    L.control.layers(this.baseMaps,overlayMaps).addTo(this.map);
+    // Vehicle Showing on Map
+var data={id:1}
+this.deviceService.getMovingPosition(data).subscribe(res=>{
+  console.log(res)
+})
+    // Vehicle Showing on Map
+
+    // var markers = L.layerGroup()
+    // const marker = L.marker([23.752942222222224,90.36127111111111], { icon: this.myIcon3 })
+    // markers.addLayer(marker).addTo(this.map);
+
+    // L.control.layers(this.baseMaps,overlayMaps).addTo(this.map);
 
     var sidebar = L.control.sidebar('sidebar').addTo(this.map);
     sidebar.show();
@@ -146,17 +158,42 @@ export class MapInfoComponent implements OnInit {
     this.cusmapService.deviceDataCatch.subscribe(res => {
 
       if (res) {
-        res.forEach(element => {
-          var markers = L.layerGroup()
-          console.log(element)
-          this.marker[element.uniqueid] = L.marker([element.latitude, element.longitude], { icon: this.myIcon3 }).bindPopup(element.name + " <br> Address: " + element.contact
-            + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false }).openPopup().bindTooltip(element.name, {
-              permanent: true
-            }).addTo(this.map);
-            markers.addLayer(this.marker)
-           //this.markerArray.push(this.marker[element.uniqueid])
-            //this.map.addLayer(this.markerArray[this.marker[element.uniqueid]]);
-        })
+        var marker= L.marker([23.752942222222224,90.36127111111111],{icon:this.myIcon3}).bindTooltip(res.name, {
+                 permanent: true
+               }).addTo(this.map);
+        var polyline = L.polyline([]).addTo(this.map);
+        setInterval(() => {
+          var data={id:1}
+         
+this.deviceService.getMovingPosition(data).subscribe(data=>{
+  console.log(res)
+  data.forEach(element => {
+    //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
+    var markers = L.layerGroup()
+    console.log(element)
+    this.marker=marker.setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
+         + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
+      this.line=polyline.addLatLng(L.latLng(element.latitude,element.longitude)).arrowheads({ fill: true, frequency: 'endonly'});
+      markers.addLayer(this.marker)
+     //this.markerArray.push(this.marker[element.uniqueid])
+      //this.map.addLayer(this.markerArray[this.marker[element.uniqueid]]);
+  })
+})
+      
+        },4*1000)
+
+
+        // res.forEach(element => {
+        //   var markers = L.layerGroup()
+        //   console.log(element)
+        //   this.marker[element.uniqueid] = L.marker([element.latitude, element.longitude], { icon: this.myIcon3 }).bindPopup(element.name + " <br> Address: " + element.contact
+        //     + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false }).openPopup().bindTooltip(element.name, {
+        //       permanent: true
+        //     }).addTo(this.map);
+        //     markers.addLayer(this.marker)
+        //    //this.markerArray.push(this.marker[element.uniqueid])
+        //     //this.map.addLayer(this.markerArray[this.marker[element.uniqueid]]);
+        // })
       }
     })
 
@@ -165,7 +202,8 @@ export class MapInfoComponent implements OnInit {
       if (data) {
         data.forEach(element => {
           console.log(element.uniqueid)
-          this.map.removeLayer(this.marker[element.uniqueid])
+          this.map.removeLayer(this.marker)
+          this.map.removeLayer(this.line)
         })
       }
     })
