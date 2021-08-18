@@ -11,6 +11,11 @@
     <mat-grid-list cols="1" rowHeight="20px">
     <mat-grid-tile >
         <mat-label><b> Address:</b></mat-label> {{deviceData?.contact}}
+        
+      </mat-grid-tile>
+      <mat-grid-tile >
+     
+        <mat-label><b> Time:</b></mat-label> {{deviceData?.servertime}}
       </mat-grid-tile>
       <!-- <mat-grid-tile >
         <mat-label><b> Address:</b></mat-label>
@@ -35,7 +40,7 @@
             <mat-label><b> Category:</b></mat-label> {{deviceData?.category}}
           </mat-grid-tile>
           <mat-grid-tile >
-            <mat-label><b> Identification:</b></mat-label> {{deviceData?.unique_id}}
+            <mat-label><b> Identification:</b></mat-label> {{deviceData?.attributes['status']}}
           </mat-grid-tile>
         </mat-grid-list>
 </div>

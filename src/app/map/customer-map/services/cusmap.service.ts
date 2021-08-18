@@ -16,15 +16,19 @@ export class CusmapService {
   private tabIndexSent = new BehaviorSubject<any>("");
   private deviceMoveSent = new BehaviorSubject<any>("");
   private deviceToggleSent = new BehaviorSubject<any>("");
+  private motionConSent = new BehaviorSubject<any>("");
+  private motionStoponSent = new BehaviorSubject<any>("");
 
   public deviceDataCatch = this.deviceDataSent.asObservable();
   public deviceRemoveFromMap = this.deviceRemoveRequest.asObservable();
   public deviceDetailsCatch = this.deviceDetailsSent.asObservable();
   public deviceLocationCatch = this.deviceLocationSent.asObservable();
   public deviceHistoryCatch = this.deviceHistorySent.asObservable();
-  public deviceIndexCatch = this.tabIndexSent.asObservable();
+  public tabIndexCatch = this.tabIndexSent.asObservable();
   public deviceMoveCatch = this.deviceMoveSent.asObservable();
   public deviceToggleCatch = this.deviceToggleSent.asObservable();
+  public motionConCatch = this.deviceToggleSent.asObservable();
+  public motionStoponCatch = this.motionStoponSent.asObservable();
 
 
   deviceDataExchange(text) {
@@ -53,7 +57,6 @@ export class CusmapService {
   }
 
   tabIndex(text) {
-    console.log(text)
     this.tabIndexSent.next(text);
   }
 
@@ -65,5 +68,15 @@ export class CusmapService {
   deviceToggle(text) {
     console.log(text)
     this.deviceToggleSent.next(text);
+  }
+
+
+  motionControl(text) {
+    console.log(text)
+    this.motionConSent.next(text);
+  }
+
+  motionStop(text) {
+    this.motionStoponSent.next(text);
   }
 }

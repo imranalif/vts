@@ -1,8 +1,19 @@
 <div class="container">
     <mat-tab-group >
         <mat-tab label="Speed">
-<a><mat-icon (click)="start()">play_arrow</mat-icon></a> <a><mat-icon (click)="toggle()">pause</mat-icon></a>
-          
+            <div class="top_margin">
+<a class="a"><mat-icon (click)="start()">play_arrow</mat-icon></a>  <a class="a"><mat-icon (click)="toggle()">pause</mat-icon></a></div>
+<div>
+<form [formGroup]="myform" class="a">
+    <mat-form-field class="space" >
+        <mat-select formControlName="motion" [(ngModel)]="selected" (ngModelChange)="onChange($event)">
+            <mat-option *ngFor="let state of speedControl" [value]="state.value">
+                {{ state.value }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>
+</div>       
 
         </mat-tab>
         <mat-tab label="Altitude">

@@ -26,6 +26,8 @@ export class SideMenuComponent implements OnInit {
   dataEvents = new MatTableDataSource<any>([]);
   //displayedColumns = ['select',  'name', 'more'];
   displayedColumns2 = ['time', 'device_id', 'event', 'more'];
+  selected=1;
+  isLoading
   constructor(
     private fb: FormBuilder,
     private route:ActivatedRoute,
@@ -60,6 +62,7 @@ console.log(data);
     })
     this.customerService.DeviceByCustomerWithPosition(id).subscribe(res=>{
 this.customerDevices=res;
+console.log(this.customerDevices)
 res.forEach((element, i) => {
 this.devicelog.push(element.deviceid)
 })
@@ -73,7 +76,7 @@ this.dataSource = new MatTableDataSource( res as any);
     var inx=tabChangeEvent.index;
     if(inx==2){
       var  indexData={id:2}
-      this.cusmapService.tabIndex(indexData);
+      //this.cusmapService.tabIndex(indexData);
       setTimeout(()=>{    
       const today=new Date
       var requiredDate=new Date(today.getFullYear(),today.getMonth(),today.getDate())
@@ -111,7 +114,7 @@ this.dataSource = new MatTableDataSource( res as any);
      if(a===b){
       this.DeviceItem.push(1);
      }
-       this.cusmapService.deviceDataExchange(data);
+       this.cusmapService.deviceDataExchange([data]);
     }
     else{
       // this.deleteObject.push(data)
@@ -132,6 +135,7 @@ this.dataSource = new MatTableDataSource( res as any);
     }
     else{
       this.DeviceItem=[]
+     
       // this.deleteObject.push(data)
        this.cusmapService.deviceRemove(this.customerDevices);
     }
@@ -158,10 +162,12 @@ this.dataSource = new MatTableDataSource( res as any);
   }
 
   loadHistory(){
-    const obj={id:1}
+    this.isLoading = true;
+    const obj={from_date:this.myform.value.from_date,to_date:this.myform.value.to_date}
      console.log(this.myform.value);
-     this.deviceService.getAllPostionBySearch(obj).subscribe(res=>{
+     this.deviceService.getHistoryPostionBySearch(obj).subscribe(res=>{
        console.log(res)
+       this.isLoading = false;
        this.cusmapService.deviceHistory(res);
      })
    

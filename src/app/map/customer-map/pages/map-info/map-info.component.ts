@@ -28,7 +28,7 @@ export class MapInfoComponent implements OnInit {
   deviceXs: boolean;
   myIcon
   myIcon2
-  myIcon3:string;
+  myIcon3: string;
   marker = []
   markerArray = []
 
@@ -41,18 +41,19 @@ export class MapInfoComponent implements OnInit {
   parkArray = []
   parking
   history
-  storeLatlng=[]
+  storeLatlng = []
   polylineMotion
   timeArray = []
 
   line
+  marking
 
   constructor(
     private mediaObserver: MediaObserver,
     private cusmapService: CusmapService,
-    private loginService:LoginService,
-    private routing:Router,
-    private deviceService:DeviceService
+    private loginService: LoginService,
+    private routing: Router,
+    private deviceService: DeviceService
 
   ) { }
 
@@ -84,7 +85,7 @@ export class MapInfoComponent implements OnInit {
 
     });
     this.myIcon3 = L.icon({
-      iconUrl: './assets/client/images/123.png',
+      iconUrl: './assets/client/images/bike.png',
       iconSize: [40, 80],
       iconAnchor: [12, 69],
       color: 'green',
@@ -115,7 +116,7 @@ export class MapInfoComponent implements OnInit {
       "Google Map": googleStreets
     }
 
-   var overlayMaps = {
+    var overlayMaps = {
       "Objects": items
 
       //"Names": this.names
@@ -123,17 +124,17 @@ export class MapInfoComponent implements OnInit {
 
 
     // Vehicle Showing on Map
-var data={id:1}
-this.deviceService.getMovingPosition(data).subscribe(res=>{
-  console.log(res)
-})
+    var data = { id: 1 }
+    this.deviceService.getMovingPosition(data).subscribe(res => {
+      console.log(res)
+    })
     // Vehicle Showing on Map
 
     // var markers = L.layerGroup()
     // const marker = L.marker([23.752942222222224,90.36127111111111], { icon: this.myIcon3 })
     // markers.addLayer(marker).addTo(this.map);
 
-    // L.control.layers(this.baseMaps,overlayMaps).addTo(this.map);
+    L.control.layers(this.baseMaps, overlayMaps).addTo(this.map);
 
     var sidebar = L.control.sidebar('sidebar').addTo(this.map);
     sidebar.show();
@@ -158,29 +159,36 @@ this.deviceService.getMovingPosition(data).subscribe(res=>{
     this.cusmapService.deviceDataCatch.subscribe(res => {
 
       if (res) {
-        var marker= L.marker([23.752942222222224,90.36127111111111],{icon:this.myIcon3}).bindTooltip(res.name, {
-                 permanent: true
-               }).addTo(this.map);
+        console.log(res);
+        res.forEach(elem => {
+        this.marker = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindTooltip(elem.name, {
+          permanent: true
+        }).bindPopup(elem.name + " <br> Address: " + elem.contact
+          + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: false, autoClose: false }).addTo(this.map)
+      })
         var polyline = L.polyline([]).addTo(this.map);
         setInterval(() => {
-          var data={id:1}
-         
-this.deviceService.getMovingPosition(data).subscribe(data=>{
-  console.log(res)
-  data.forEach(element => {
-    //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
-    var markers = L.layerGroup()
-    console.log(element)
-    this.marker=marker.setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
-         + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
-      this.line=polyline.addLatLng(L.latLng(element.latitude,element.longitude)).arrowheads({ fill: true, frequency: 'endonly'});
-      markers.addLayer(this.marker)
-     //this.markerArray.push(this.marker[element.uniqueid])
-      //this.map.addLayer(this.markerArray[this.marker[element.uniqueid]]);
-  })
-})
-      
-        },4*1000)
+          var data = { id: 1 }
+
+          this.deviceService.getMovingPosition(data).subscribe(data => {
+            console.log(res)
+            data.forEach(element => {
+              var marker
+              //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
+              var markers = L.layerGroup()
+              this.markerArray = L.layerGroup()
+              console.log(element)
+              this.marker = marker.setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
+                + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
+              this.line = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ fill: true, frequency: 'endonly' });
+              //markers.addLayer(this.marker)
+              //this.markerArray.push(this.marker[element.uniqueid])
+              //console.log( this.markerArray)
+              //this.map.addLayer(this.markerArray[this.marker[element.uniqueid]]);
+            })
+          })
+
+        }, 10 * 1000)
 
 
         // res.forEach(element => {
@@ -200,10 +208,11 @@ this.deviceService.getMovingPosition(data).subscribe(data=>{
     this.cusmapService.deviceRemoveFromMap.subscribe(data => {
 
       if (data) {
+        console.log(this.markerArray)
         data.forEach(element => {
           console.log(element.uniqueid)
           this.map.removeLayer(this.marker)
-          this.map.removeLayer(this.line)
+          //this.map.removeLayer(this.line)
         })
       }
     })
@@ -215,62 +224,113 @@ this.deviceService.getMovingPosition(data).subscribe(data=>{
     })
 
     this.cusmapService.deviceHistoryCatch.subscribe(res => {
+      console.log(res)
       if (res) {
-       // myButton.disable();
-       controlBar.hide();
+        console.log("+++++===")
+        // myButton.disable();
+        controlBar.hide();
+        this.map.removeLayer(this.marker);
         this.historyBar.show();
+
         //this.viewHistory=1
         var polyline = L.polyline([]).addTo(this.map);
         this.positions = res;
-        this.positions.forEach((element, i) => {
-          if (element.course == 'off') {
-            this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.deviceid + " <br> Address: " + element.latitude
-            + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup();;
-            this.engineArray.push(this.engine)
-            this.history = L.layerGroup(this.engineArray);
-          }
-          this.timeArray.push(element.altitude)
-          var time = this.timeArray[i] - this.timeArray[i - 1]
-          if (time > 10) {
-            //console.log("=====")
-            this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindTooltip(element.latitude);
-            this.parkArray.push(this.park)
-            this.parking = L.layerGroup(this.parkArray);
-          }
-          //console.log(time);
-          this.route = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
+        if (this.positions != "") {
 
-          this.arrow = this.route.arrowheads({size: '20px',color:'red',yawn: 40, frequency: 5 });
-          //this.marker.setLatLng([element.latitude,element.longitude]).bindTooltip("Loc:"+element.latitude+", "+element.longitude).addTo(this.map);
-          this.storeLatlng.push([element.latitude,element.longitude])
-         
-        });
-      
-        this.polylineMotion = L.motion
-        .polyline(this.storeLatlng,
-          {
-            color: ' '
-          },
-          {
-            auto: false,
-            duration: 10000,
-            easing: L.Motion.Ease.easeInOutQuart
-          },
-          {
-            removeOnEnd: true,
-            //showMarker: true,
-            icon:this.myIcon3
-          }
-        ).addTo(this.map);
+
+          this.positions.forEach((element, i) => {
+
+            let expireTime = new Date(element.servertime);
+            this.timeArray.push(expireTime)
+            var time = (this.timeArray[i] - this.timeArray[i - 1]) / (1000 * 60);
+
+            if (time > 20) {
+              this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.deviceid + " <br> Address: " + element.latitude
+                + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup();
+              this.engineArray.push(this.engine)
+              this.history = L.layerGroup(this.engineArray);
+            }
+
+            if (time < 20 && time > 5) {
+              //console.log("=====")
+              this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindPopup(element.deviceid + " <br> Address: " + element.latitude
+                + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup().addTo(this.map);
+              this.parkArray.push(this.park)
+              this.parking = L.layerGroup(this.parkArray);
+            }
+            //console.log(time);
+            this.route = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
+
+            this.arrow = this.route.arrowheads({ size: '12px', color: 'red', yawn: 40, frequency: 10 });
+            //this.marker.setLatLng([element.latitude,element.longitude]).bindTooltip("Loc:"+element.latitude+", "+element.longitude).addTo(this.map);
+            this.storeLatlng.push([element.latitude, element.longitude])
+
+          });
+          this.parking.addTo(this.map)
+          this.polylineMotion = L.motion
+            .polyline(this.storeLatlng,
+              {
+                color: ' '
+              },
+              {
+                auto: false,
+                duration: 30000,
+                easing: L.Motion.Ease.easeInOutQuart
+              },
+              {
+                removeOnEnd: true,
+                //showMarker: true,
+                icon: this.myIcon3
+              }
+            ).addTo(this.map);
+        }
       }
     })
 
+    this.cusmapService.deviceMoveCatch.subscribe(res => {
+      if (res) {
+        this.polylineMotion.motionStart();
+      }
+    })
+    this.cusmapService.deviceToggleCatch.subscribe(res => {
+      if (res) {
+        this.polylineMotion.motionToggle();
+      }
+    })
+
+    this.cusmapService.motionConCatch.subscribe(res => {
+      if (res) {
+        console.log(res)
+        this.polylineMotion.motionSpeed(res);
+      }
+    })
+
+    this.cusmapService.motionStoponCatch.subscribe(res => {
+      if (res) {
+        this.polylineMotion.motionStop();
+      }
+    })
+
+    this.cusmapService.tabIndexCatch.subscribe(res => {
+      if (res) {
+        // if (this.marker.length > 0) {
+        //   this.map.addLayer(this.marker);
+        // }
+
+        this.map.removeLayer(this.route);
+        this.map.removeLayer(this.parking);
+        controlBar.show();
+        this.historyBar.hide();
+      }
+    })
+
+
   }
 
-  
+
 
   logout() {
-    this.loginService.logout().subscribe(res=>{
+    this.loginService.logout().subscribe(res => {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       this.routing.navigate(['/']);

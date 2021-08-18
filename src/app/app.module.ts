@@ -15,6 +15,7 @@ import { AdminMenuModule } from './theme/admin/admin.module';
 import { MatDialogComponent } from './shared/mat-dialog/mat-dialog.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { TokenInterceptorService } from './shared/services/token-interceptor.service';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 
 @NgModule({
@@ -36,6 +37,8 @@ import { TokenInterceptorService } from './shared/services/token-interceptor.ser
     AdminMenuModule,
     FlexLayoutModule,
     MatTableExporterModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }],

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CusmapService } from '../../services/cusmap.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-history-info',
@@ -8,19 +9,34 @@ import { CusmapService } from '../../services/cusmap.service';
 })
 export class HistoryInfoComponent implements OnInit {
 
-  constructor( private cusmapService:CusmapService) { }
-
+  constructor( private cusmapService:CusmapService,
+    private fb: FormBuilder,) { }
+  speedControl = [{  value: 1 }, {  value: 2 }, {  value: 3 },{  value: 4 }, {  value: 5 }, { value: 6 }];
+  selected=1;
+  myform: FormGroup;
   ngOnInit(): void {
+    this.myform = this.fb.group({
+      motion: [ ],
+    });
   }
   start(){
-    var data={id:100}
+    var data={id:101}
     this.cusmapService.deviceMove(data);
  }
+
+ stop(){
+  var data={id:100}
+  this.cusmapService.motionStop(data);
+}
 
  toggle(){
    console.log('toggle')
    var data={id:101}
    this.cusmapService.deviceToggle(data);
+}
+
+onChange(e){
+this.cusmapService.motionControl(e);
 }
 
 }

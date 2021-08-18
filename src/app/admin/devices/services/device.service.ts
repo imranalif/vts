@@ -69,9 +69,14 @@ export class DeviceService {
     return this.http.get(this.url + '/listPositions');
   }
 
+  getHistoryPostionBySearch(data): Observable<any> {
+    console.log(data)
+    return this.http.post(this.url + '/listHistoryPositions',data);
+  }
+
   getAllPostionBySearch(data): Observable<any> {
     console.log(data)
-    return this.http.post(this.url + '/listSearchPositions',data);
+    return this.http.post(this.url + '/listAllPositions',data);
   }
 
   getAllEvents(): Observable<any> {
