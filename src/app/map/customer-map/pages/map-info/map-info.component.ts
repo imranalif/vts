@@ -48,6 +48,8 @@ export class MapInfoComponent implements OnInit {
   line
   marking
 
+   m:number;
+
   constructor(
     private mediaObserver: MediaObserver,
     private cusmapService: CusmapService,
@@ -156,12 +158,15 @@ export class MapInfoComponent implements OnInit {
       visible: false
     }).addTo(this.map);;
 
+    var mook
+
     this.cusmapService.deviceDataCatch.subscribe(res => {
 
       if (res) {
+        //var mook
         console.log(res);
         res.forEach(elem => {
-        this.marker = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindTooltip(elem.name, {
+          mook = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindTooltip(elem.name, {
           permanent: true
         }).bindPopup(elem.name + " <br> Address: " + elem.contact
           + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: false, autoClose: false }).addTo(this.map)
@@ -178,7 +183,7 @@ export class MapInfoComponent implements OnInit {
               var markers = L.layerGroup()
               this.markerArray = L.layerGroup()
               console.log(element)
-              this.marker = marker.setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
+              this.marker = mook.setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
                 + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
               this.line = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ fill: true, frequency: 'endonly' });
               //markers.addLayer(this.marker)
@@ -211,7 +216,7 @@ export class MapInfoComponent implements OnInit {
         console.log(this.markerArray)
         data.forEach(element => {
           console.log(element.uniqueid)
-          this.map.removeLayer(this.marker)
+          this.map.removeLayer(mook)
           //this.map.removeLayer(this.line)
         })
       }
@@ -226,10 +231,9 @@ export class MapInfoComponent implements OnInit {
     this.cusmapService.deviceHistoryCatch.subscribe(res => {
       console.log(res)
       if (res) {
-        console.log("+++++===")
         // myButton.disable();
         controlBar.hide();
-        this.map.removeLayer(this.marker);
+        this.map.removeLayer(mook);
         this.historyBar.show();
 
         //this.viewHistory=1

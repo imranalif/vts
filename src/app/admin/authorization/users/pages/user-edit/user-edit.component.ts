@@ -246,6 +246,9 @@ export class UserEditComponent implements OnInit {
 this.showCustommerField=1;
 console.log(this.showCustommerField)
     }
+    else{
+      this.showCustommerField=0; 
+    }
   }
 
 

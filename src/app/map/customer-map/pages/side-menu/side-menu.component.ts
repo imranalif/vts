@@ -21,6 +21,7 @@ export class SideMenuComponent implements OnInit {
   DeviceItem=[]
   devicelog=[]
   devicelogMatch=[]
+  historyData;
   Events
   dataSource = new MatTableDataSource<any>([]);
   dataEvents = new MatTableDataSource<any>([]);
@@ -167,6 +168,7 @@ this.dataSource = new MatTableDataSource( res as any);
      console.log(this.myform.value);
      this.deviceService.getHistoryPostionBySearch(obj).subscribe(res=>{
        console.log(res)
+       this.historyData=res;
        this.isLoading = false;
        this.cusmapService.deviceHistory(res);
      })
