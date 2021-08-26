@@ -18,6 +18,7 @@ export class CusmapService {
   private deviceToggleSent = new BehaviorSubject<any>("");
   private motionConSent = new BehaviorSubject<any>("");
   private motionStoponSent = new BehaviorSubject<any>("");
+  private detailsDataSent = new BehaviorSubject<any>("");
 
   public deviceDataCatch = this.deviceDataSent.asObservable();
   public deviceRemoveFromMap = this.deviceRemoveRequest.asObservable();
@@ -29,6 +30,7 @@ export class CusmapService {
   public deviceToggleCatch = this.deviceToggleSent.asObservable();
   public motionConCatch = this.deviceToggleSent.asObservable();
   public motionStoponCatch = this.motionStoponSent.asObservable();
+  public detailsDataCatch = this.detailsDataSent.asObservable();
 
 
   deviceDataExchange(text) {
@@ -78,5 +80,9 @@ export class CusmapService {
 
   motionStop(text) {
     this.motionStoponSent.next(text);
+  }
+
+  detailsDataExchange(text) {
+    this.detailsDataSent.next(text);
   }
 }

@@ -36,10 +36,10 @@
 
 /** BOTTOM **/
 .leaflet-control-bar-bottom.leaflet-control-bar {
-    height: 100px;
-    margin-left: 29%;
-    width: 70%;
-    bottom: -150px;
+    min-height: 100px;
+    margin-left: 26%;
+    width: 73%;
+    bottom: -140px;
     transition: bottom 0.5s;
     flex-direction: column;
 
@@ -58,6 +58,13 @@
 .leaflet-control-bar-bottom.leaflet-control-bar ~ .leaflet-bottom {
     transition: bottom 0.5s;
 }
+
+@media (min-width: 368px) and (max-width: 591px) {
+    .leaflet-control-bar-bottom.leaflet-control-bar {
+        margin-left: 0%;
+      width:100%; }
+      
+     }
 
 /** LEFT **/
 .leaflet-control-bar-left.leaflet-control-bar {

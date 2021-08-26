@@ -179,8 +179,8 @@ this.dataSource = new MatTableDataSource( res as any);
       var lat=e.latitude;
       var lng=e.longitude;
       var data={lat:lat,lng:lng}
-      this.cusmapService.deviceLocation(data);
-      this.cusmapService.deviceDetails(e)
+      this.cusmapService.deviceLocation(e);
+      //this.cusmapService.deviceDetails(e)
     }
  
 

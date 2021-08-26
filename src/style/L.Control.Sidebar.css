@@ -198,11 +198,11 @@
           right: 205px; } }
     @media (min-width: 992px) and (max-width: 1199px) {
       .leaflet-sidebar {
-        width: 390px; }
+        width: 305px; }
         .leaflet-sidebar.left.visible ~ .leaflet-left {
-          left: 390px; }
+          left: 305px; }
         .leaflet-sidebar.bottom.visible ~ .leaflet-bottom {
-          right: 390px; } }
+          right: 205px; } }
     @media (min-width: 1200px) {
       .leaflet-sidebar {
         width: 330px; }

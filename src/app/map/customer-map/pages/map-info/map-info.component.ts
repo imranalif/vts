@@ -8,6 +8,11 @@ import 'leaflet-sidebar';
 import 'leaflet-control-bar';
 import 'leaflet-easybutton';
 import 'leaflet-arrowheads'
+import 'esri-leaflet-geocoder'
+import * as esri_geo from 'esri-leaflet-geocoder';
+import * as ELG from 'esri-leaflet-geocoder';
+import * as Geocoding from 'esri-leaflet-geocoder';
+import 'leaflet-control-geocoder';
 import '/var/projects/angular/VTSApp/angular/node_modules/leaflet.motion/dist/leaflet.motion.min.js';
 import { CusmapService } from '../../services/cusmap.service';
 import { LoginService } from 'src/app/authentication/login/services/login.service';
@@ -48,7 +53,9 @@ export class MapInfoComponent implements OnInit {
   line
   marking
 
-   m:number;
+  m: number;
+  check;
+  myInterval
 
   constructor(
     private mediaObserver: MediaObserver,
@@ -97,9 +104,10 @@ export class MapInfoComponent implements OnInit {
 
 
     this.map = L.map('mapid', {
-      center: [23.767776299452247, 90.40417671203615],
-      zoom: 15,
-      zoomControl: false
+      center: [23.774252395907105, 90.41607082790188],
+      zoom: 17,
+      zoomControl: false,
+      attributionControl: false
     });
 
     var openStreet = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
@@ -136,6 +144,26 @@ export class MapInfoComponent implements OnInit {
     // const marker = L.marker([23.752942222222224,90.36127111111111], { icon: this.myIcon3 })
     // markers.addLayer(marker).addTo(this.map);
 
+    // var geocodeService =Geocoding.geocodeService();
+    var latlng = { lat: 23.774252395907105, lng: 90.41607082790188 }
+    //   geocodeService.reverseGeocode().latlng([23.774252395907105, 90.41607082790188]).run((error, result)=> {
+    //     if (error) {
+    //       console.log(error)
+    //       return;
+
+    //     }
+
+    //                 console.log(result);
+    //               });
+    //               const searchControl = new ELG.Geosearch().addTo(this.map);
+
+    const v = L.Control.Geocoder.nominatim();
+    v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
+      //console.log(results[0].name)
+    })
+
+
+
     L.control.layers(this.baseMaps, overlayMaps).addTo(this.map);
 
     var sidebar = L.control.sidebar('sidebar').addTo(this.map);
@@ -163,37 +191,51 @@ export class MapInfoComponent implements OnInit {
     this.cusmapService.deviceDataCatch.subscribe(res => {
 
       if (res) {
+        this.check = 1;
         //var mook
         console.log(res);
         res.forEach(elem => {
-          mook = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindTooltip(elem.name, {
-          permanent: true
-        }).bindPopup(elem.name + " <br> Address: " + elem.contact
-          + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: false, autoClose: false }).addTo(this.map)
-      })
+          mook = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
+            + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: false, autoClose: false }).addTo(this.map)
+        })
         var polyline = L.polyline([]).addTo(this.map);
-        setInterval(() => {
+
+
+        this.myInterval = setInterval(() => {
           var data = { id: 1 }
+          if (this.check == 1) {
+            this.deviceService.getMovingPosition(data).subscribe(data => {
+              data.forEach(element => {
+                var latlng = { lat: element.latitude, lng: element.longitude }
+                const v = L.Control.Geocoder.nominatim();
+                v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
+                  element.address = (results[0].name)
+                  console.log(element.name)
+                  this.cusmapService.detailsDataExchange(element);
+                })
 
-          this.deviceService.getMovingPosition(data).subscribe(data => {
-            console.log(res)
-            data.forEach(element => {
-              var marker
-              //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
-              var markers = L.layerGroup()
-              this.markerArray = L.layerGroup()
-              console.log(element)
-              this.marker = mook.setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
-                + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
-              this.line = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ fill: true, frequency: 'endonly' });
-              //markers.addLayer(this.marker)
-              //this.markerArray.push(this.marker[element.uniqueid])
-              //console.log( this.markerArray)
-              //this.map.addLayer(this.markerArray[this.marker[element.uniqueid]]);
+
+                var marker
+                //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
+                var markers = L.layerGroup()
+                this.markerArray = L.layerGroup()
+                console.log(element)
+                this.marker = mook.setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
+                  + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
+                  if(element){
+                    this.line = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
+                  }
+      
+                //this.map.panTo(new L.LatLng(element.latitude, element.longitude));
+                //markers.addLayer(this.marker)
+                //this.markerArray.push(this.marker[element.uniqueid])
+                //console.log( this.markerArray)
+                //this.map.addLayer(this.markerArray[this.marker[element.uniqueid]]);
+              })
             })
-          })
-
-        }, 10 * 1000)
+          }
+        }, 5 * 1000)
+        //}
 
 
         // res.forEach(element => {
@@ -211,20 +253,28 @@ export class MapInfoComponent implements OnInit {
     })
 
     this.cusmapService.deviceRemoveFromMap.subscribe(data => {
-
       if (data) {
+        this.check = 0;
+        clearInterval(this.myInterval);
         console.log(this.markerArray)
         data.forEach(element => {
           console.log(element.uniqueid)
           this.map.removeLayer(mook)
-          //this.map.removeLayer(this.line)
+          this.map.removeLayer(this.line)
         })
       }
     })
 
     this.cusmapService.deviceLocationCatch.subscribe(res => {
       if (res) {
-        this.map.panTo(new L.LatLng(res.lat, res.lng));
+        var latlng2 = { lat: res.latitude, lng: res.longitude }
+        console.log(latlng2)
+        const v = L.Control.Geocoder.nominatim();
+        v.reverse(latlng2, this.map.options.crs.scale(this.map.getZoom()), results => {
+          res.address = (results[0].name)
+          this.cusmapService.deviceDetails(res)
+        })
+        this.map.panTo(new L.LatLng(res.latitude, res.longitude));
       }
     })
 
@@ -233,7 +283,9 @@ export class MapInfoComponent implements OnInit {
       if (res) {
         // myButton.disable();
         controlBar.hide();
-        this.map.removeLayer(mook);
+        if (mook) {
+          this.map.removeLayer(mook);
+        }
         this.historyBar.show();
 
         //this.viewHistory=1
@@ -250,7 +302,7 @@ export class MapInfoComponent implements OnInit {
 
             if (time > 20) {
               this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.deviceid + " <br> Address: " + element.latitude
-                + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup();
+                + " <br> Model: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup();
               this.engineArray.push(this.engine)
               this.history = L.layerGroup(this.engineArray);
             }
@@ -258,7 +310,7 @@ export class MapInfoComponent implements OnInit {
             if (time < 20 && time > 5) {
               //console.log("=====")
               this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindPopup(element.deviceid + " <br> Address: " + element.latitude
-                + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup().addTo(this.map);
+                + " <br> Model: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup().addTo(this.map);
               this.parkArray.push(this.park)
               this.parking = L.layerGroup(this.parkArray);
             }
@@ -324,6 +376,10 @@ export class MapInfoComponent implements OnInit {
         this.map.removeLayer(this.route);
         this.map.removeLayer(this.parking);
         controlBar.show();
+        if (mook) {
+          this.map.addLayer(mook);
+        }
+
         this.historyBar.hide();
       }
     })

@@ -105,7 +105,7 @@
                 </div>
             </div>
         </mat-tab>
-        <mat-tab label="Events">
+        <mat-tab label="Events" *ngIf="customerDevices">
             <table mat-table matTableExporter [dataSource]="dataEvents" class="mat-elevation-z8">
 
 
