@@ -7,8 +7,8 @@ export class DateformateService {
 
   constructor() { }
 
-  dateTime (displayOPT='datetime') {
-    let dateObj = new Date();
+  dateTime (displayOPT='datetime',time) {
+    let dateObj = new Date(time);
     // current date
     // adjust 0 before single digit date
     let date = ("0" + dateObj.getDate()).slice(-2);

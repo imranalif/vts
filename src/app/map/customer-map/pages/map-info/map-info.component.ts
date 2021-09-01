@@ -18,6 +18,7 @@ import { CusmapService } from '../../services/cusmap.service';
 import { LoginService } from 'src/app/authentication/login/services/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceService } from 'src/app/admin/devices/services/device.service';
+import { DateformateService } from 'src/app/shared/services/dateformate.service';
 
 @Component({
   selector: 'app-map-info',
@@ -49,10 +50,13 @@ export class MapInfoComponent implements OnInit {
   storeLatlng = []
   polylineMotion
   timeArray = []
+  deviceIdArray = []
+  fixtime
 
   line
   marking
-
+  historyItem
+  overlayMaps
   m: number;
   check;
   myInterval
@@ -62,7 +66,8 @@ export class MapInfoComponent implements OnInit {
     private cusmapService: CusmapService,
     private loginService: LoginService,
     private routing: Router,
-    private deviceService: DeviceService
+    private deviceService: DeviceService,
+    private dateFormatService:DateformateService
 
   ) { }
 
@@ -126,7 +131,7 @@ export class MapInfoComponent implements OnInit {
       "Google Map": googleStreets
     }
 
-    var overlayMaps = {
+    this.overlayMaps = {
       "Objects": items
 
       //"Names": this.names
@@ -140,31 +145,18 @@ export class MapInfoComponent implements OnInit {
     })
     // Vehicle Showing on Map
 
-    // var markers = L.layerGroup()
-    // const marker = L.marker([23.752942222222224,90.36127111111111], { icon: this.myIcon3 })
-    // markers.addLayer(marker).addTo(this.map);
+  
+    // var latlng = { lat: 23.774252395907105, lng: 90.41607082790188 }
+   
 
-    // var geocodeService =Geocoding.geocodeService();
-    var latlng = { lat: 23.774252395907105, lng: 90.41607082790188 }
-    //   geocodeService.reverseGeocode().latlng([23.774252395907105, 90.41607082790188]).run((error, result)=> {
-    //     if (error) {
-    //       console.log(error)
-    //       return;
-
-    //     }
-
-    //                 console.log(result);
-    //               });
-    //               const searchControl = new ELG.Geosearch().addTo(this.map);
-
-    const v = L.Control.Geocoder.nominatim();
-    v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
-      //console.log(results[0].name)
-    })
+    // const v = L.Control.Geocoder.nominatim();
+    // v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
+    //   //console.log(results[0].name)
+    // })
 
 
 
-    L.control.layers(this.baseMaps, overlayMaps).addTo(this.map);
+    L.control.layers(this.baseMaps, this.overlayMaps).addTo(this.map);
 
     var sidebar = L.control.sidebar('sidebar').addTo(this.map);
     sidebar.show();
@@ -186,26 +178,31 @@ export class MapInfoComponent implements OnInit {
       visible: false
     }).addTo(this.map);;
 
-    var mook
+    var mook=[]
 
     this.cusmapService.deviceDataCatch.subscribe(res => {
 
       if (res) {
         this.check = 1;
+        this.deviceIdArray.push(res[0].deviceid)
+        this.fixtime=res[0].fixtime
+        this.fixtime=this.dateFormatService.dateTime('datetime',this.fixtime)
         //var mook
-        console.log(res);
+        console.log(this.fixtime);
         res.forEach(elem => {
-          mook = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
+          mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
             + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: false, autoClose: false }).addTo(this.map)
         })
         var polyline = L.polyline([]).addTo(this.map);
 
 
         this.myInterval = setInterval(() => {
-          var data = { id: 1 }
+          var data = { id: this.deviceIdArray,fixtime:this.fixtime }
+          console.log(data)
           if (this.check == 1) {
             this.deviceService.getMovingPosition(data).subscribe(data => {
               data.forEach(element => {
+                this.fixtime=element.fixtime;
                 var latlng = { lat: element.latitude, lng: element.longitude }
                 const v = L.Control.Geocoder.nominatim();
                 v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
@@ -220,7 +217,7 @@ export class MapInfoComponent implements OnInit {
                 var markers = L.layerGroup()
                 this.markerArray = L.layerGroup()
                 console.log(element)
-                this.marker = mook.setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
+                this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
                   + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
                   if(element){
                     this.line = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
@@ -258,9 +255,12 @@ export class MapInfoComponent implements OnInit {
         clearInterval(this.myInterval);
         console.log(this.markerArray)
         data.forEach(element => {
-          console.log(element.uniqueid)
-          this.map.removeLayer(mook)
-          this.map.removeLayer(this.line)
+          console.log(element.deviceid)
+          this.map.removeLayer(mook[element.deviceid])
+          if(this.line){
+            this.map.removeLayer(this.line)
+          }
+         
         })
       }
     })
@@ -322,6 +322,16 @@ export class MapInfoComponent implements OnInit {
             this.storeLatlng.push([element.latitude, element.longitude])
 
           });
+
+           this.parking.addTo(this.map)
+           this.overlayMaps = {
+          "Route": this.route,
+          "Engine": this.history,
+          
+          "Parking": this.parking,
+
+        };
+        //L.control.layers(this.baseMaps,this.overlayMaps).addTo(this.map);
           this.parking.addTo(this.map)
           this.polylineMotion = L.motion
             .polyline(this.storeLatlng,
