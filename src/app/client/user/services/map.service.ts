@@ -8,14 +8,14 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class MapService {
-  private content = new BehaviorSubject<any>("");
+  private movingDataSent = new BehaviorSubject<any>("");
   private c = new BehaviorSubject<any>("");
   private r = new BehaviorSubject<any>("");
   private devices = new BehaviorSubject<any>("");
   private deviceGroup = new BehaviorSubject<any>("");
   private history = new BehaviorSubject<any>("");
 
-  private deviceData = new BehaviorSubject<any>("");
+  private selectedDeviceDataSend = new BehaviorSubject<any>("");
 
 
   private start = new BehaviorSubject<any>("");
@@ -26,13 +26,13 @@ export class MapService {
 
  /////////////////////////////////////////
 
-  public share = this.content.asObservable();
+  public movingDataCatch = this.movingDataSent.asObservable();
   public remove = this.r.asObservable();
   public s = this.c.asObservable();
   public deviesMove = this.devices.asObservable();
   public deviceGroupRemove = this.deviceGroup.asObservable();
 
-  public selectedDeviceData = this.deviceData.asObservable();
+  public selectedDeviceDataCatch = this.selectedDeviceDataSend.asObservable();
   public historyData = this.history.asObservable();
 
 
@@ -42,9 +42,9 @@ export class MapService {
   public indexHistoryView = this.indexHistory.asObservable();
   public indexDetailsView = this.indexDetails.asObservable();
   
-  updateData(text) {
+  devicePosition(text) {
     console.log(text)
-    this.content.next(text);
+    this.movingDataSent.next(text);
   }
 
 
@@ -64,8 +64,8 @@ export class MapService {
     this.deviceGroup.next(data);
   }
 
-  passDeviceData(data) {
-    this.deviceData.next(data);
+  selectedDeviceDataExchange(data) {
+    this.selectedDeviceDataSend.next(data);
   }
 
   historyShow(data) {

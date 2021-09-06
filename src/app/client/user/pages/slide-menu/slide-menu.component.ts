@@ -15,6 +15,9 @@ import { LoginService } from 'src/app/authentication/login/services/login.servic
   styleUrls: ['./slide-menu.component.scss']
 })
 export class SlideMenuComponent implements OnInit {
+  nameDisp
+  historyData
+  isLoading:boolean
   reCheck:boolean=false;
   singleObject=[]
   deleteObject=[]
@@ -29,15 +32,18 @@ export class SlideMenuComponent implements OnInit {
   Events
   customerData=[]
   permission: any[] = [];
+  checkPermi=[]
   allDevices: any[] = [];
 devices
 devicesIndex=[]
 filterDevices
+customerjoindevices
 myform: FormGroup;
 myform2: FormGroup;
 dataSource = new MatTableDataSource<any>([]);
 displayedColumns = ['time', 'device_id', 'event', 'more'];
 status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
+selected=1;
   constructor(
     private fb: FormBuilder,
     private deviceService: DeviceService,
@@ -63,6 +69,7 @@ status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
     this.getAllCustomer();
     this.getAllDevice();
     this.getAllEvents();
+    //this.getAllCustomerWithDevices()
     // this.myform.value.d=3;
     // this.myform.patchValue({d: 7})
     // this.myform.get('d').setValue(4);
@@ -92,6 +99,7 @@ status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   getAllCustomer(): void {
     this.customerService.getAllCustomerList().subscribe(res => {
       this.customers = res;
+      this.nameDisp=res
       console.log(this.customers)
       this.customerData.push(res);
       this.customers.forEach(element => {
@@ -99,6 +107,7 @@ status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
           console.log(data)
           if(data){
           this.permission[element.customer_id] = data;
+          this.checkPermi[element.customer_id] = data;
           console.log(this.permission)
           
             data.forEach(element => {
@@ -110,6 +119,12 @@ status = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
         })
       });
     });
+  }
+  getAllCustomerWithDevices(){
+    this.customerService.getAllCustomerListJoinWithDevices().subscribe(res => {
+      console.log(res)
+      this.customerjoindevices=res
+    })
   }
 
 getAllDevice(){
@@ -158,7 +173,10 @@ check(e, data) {
   if (e) {
     console.log(data)
     this.singleObject.push(data)
-    this.mapService.updateData([data]);
+    this.deviceService.getDeviceCurrentPositionById(data.id).subscribe(res=>{
+ this.mapService.devicePosition(res);
+    })
+    //this.mapService.updateData([data]);
   
     //this.mapService.DeviceMoveUpdate(this.singleObject);
   }
@@ -174,6 +192,11 @@ check(e, data) {
 applyFilter(filterValue: string): void {
   this.dataSource.filter = filterValue.trim().toLowerCase();
 }
+filterItem(filterValue: string): void {
+  console.log(filterValue)
+  this.customers = this.nameDisp.filter((unit) => unit.name.toLowerCase().indexOf(filterValue) > -1);
+  //this.permission = this.checkPermi.filter((unit) => unit.name.toLowerCase().indexOf(filterValue) > -1);
+}
 applyDevices(val): void {
   this.devices = this.filterDevices.filter((unit) => unit.name.toLowerCase().indexOf(val) > -1);
 }
@@ -181,36 +204,17 @@ applyDevices(val): void {
 getLocation(e){
   
 console.log(e)
-  var lat=e.latitude;
-  var lng=e.longitude;
-  var data={lat:lat,lng:lng}
-  this.mapService.updateLocation(data);
-  this.mapService.passDeviceData(e)
+this.deviceService.getDeviceCurrentPositionById(e.id).subscribe(res=>{
+  console.log(e.id)
+  console.log(res)
+  this.mapService.updateLocation(res);
+     })
+  
+  //this.mapService.passDeviceData(e)
 }
 
-objectTabv(tabChangeEvent: MatTabChangeEvent){
-  console.log('index => ', tabChangeEvent.index); 
-  var inx=tabChangeEvent.index;
-  if(inx==2){
-  var  indexData={id:2}
-  this.mapService.hideWithIndexHistory(indexData);
-  }
 
-  if(inx==0 || inx==1){
-    var  indexD={id:1}
-    this.mapService.showWithIndexDetails(indexD);
-    }
 
-const today=new Date
-  var requiredDate=new Date(today.getFullYear(),today.getMonth(),today.getDate())
-
-  this.myform.patchValue({
-    id:3,
-    from_date: requiredDate,
-    to_date:new Date()
-  })
-  console.log("1234");
-}
 
 objectTab(tabChangeEvent: MatTabChangeEvent){
   console.log('index => ', tabChangeEvent.index); 
@@ -239,18 +243,19 @@ objectTab(tabChangeEvent: MatTabChangeEvent){
 checkAllByGroup(e: any, id){
 console.log(id)
   if(e){
-  this.customerService.DeviceByCustomer(id).subscribe(data => {
+  this.customerService.DeviceByCustomerWithPosition(id).subscribe(data => {
+    this.mapService.devicePosition(data);
     //this.mapService.DeviceMoveUpdate(data);
     data.forEach((element, i) => {
       this.groupDevice.push(element)
       var v=this.devices.find(x => x.id === element.deviceid);
       console.log(v)
-      this.mapService.updateData([v]);
+      //this.mapService.devicePosition(data);
       //console.log(this.DeviceView)
        this.DeviceItem.push(v.id);
        this.DeviceView.push(v);
        
-      this.reserve.push({customer_id:element.customer_id,deviceid:element.deviceid,name:v.name});
+      this.reserve.push({customer_id:element.assign_customer_id,id:element.deviceid,name:v.name});
       // this.groupItemCompare.push(element.permission);
       // this.permissionGroup.push(element.group_id);
     });
@@ -264,7 +269,7 @@ else{
     //var n = this.reserve.find(m => m.customer_id=== id);
     if(element.customer_id==id)
     {
-      this.DeviceItem = this.DeviceItem.filter(m => m !== element.deviceid);
+      this.DeviceItem = this.DeviceItem.filter(m => m !== element.id);
       //this.DeviceRemove.push(element);
       this.mapService.removeData([element])
     }
@@ -280,10 +285,13 @@ else{
 }
 
 loadHistory(){
- const obj={id:this.myform.value.id}
+  this.isLoading = true;
+ //const obj={id:this.myform.value.id}
+ const obj={id:this.myform.value.id,from_date:this.myform.value.from_date,to_date:this.myform.value.to_date}
   console.log(this.myform.value);
-  this.deviceService.getAllPostionBySearch(obj).subscribe(res=>{
+  this.deviceService.getHistoryPostionBySearch(obj).subscribe(res=>{
     console.log(res)
+    this.isLoading = false;
     this.mapService.historyShow(res);
   })
 

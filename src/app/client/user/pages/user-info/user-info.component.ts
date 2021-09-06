@@ -9,6 +9,7 @@ import 'leaflet-slidemenu';
 import 'leaflet-sidebar';
 import 'leaflet-control-bar';
 import 'leaflet-easybutton';
+import 'leaflet-control-geocoder';
 import '/var/projects/angular/VTSApp/angular/node_modules/leaflet.motion/src/leaflet.motion.js';
 import '/var/projects/angular/VTSApp/angular/node_modules/leaflet.motion/dist/leaflet.motion.min.js';
 
@@ -24,6 +25,8 @@ import { SlideMenuComponent } from '../slide-menu/slide-menu.component';
 import { MapService } from '../../services/map.service';
 import { reduce } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { DateformateService } from 'src/app/shared/services/dateformate.service';
+import { CusmapService } from 'src/app/map/customer-map/services/cusmap.service';
 
 @Component({
   selector: 'app-user-info',
@@ -34,6 +37,17 @@ import { Router } from '@angular/router';
 
 
 export class UserInfoComponent implements OnInit {
+  fixtime;
+  par=[]
+  line
+  marking
+  historyItem
+  deviceIdArray = []
+  m: number;
+  check;
+  myInterval
+
+
   storeLatlng=[]
   polylineMotion
   viewHistory = 0;
@@ -88,6 +102,8 @@ export class UserInfoComponent implements OnInit {
     private dialog: MatDialog,
     private mapService: MapService,
     private router: Router,
+    private dateFormatService: DateformateService,
+    private cusmapService: CusmapService,
   ) {
     //this.getAllDevice();
 
@@ -134,9 +150,10 @@ export class UserInfoComponent implements OnInit {
     });
 
     this.map = L.map('mapid', {
-      center: [23.767776299452247, 90.40417671203615],
-      zoom: 15,
-      zoomControl: false
+      center: [23.774252395907105, 90.41607082790188],
+      zoom: 17,
+      zoomControl: false,
+      attributionControl: false
     });
 
     var openStreet = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
@@ -163,12 +180,16 @@ export class UserInfoComponent implements OnInit {
 
     openStreet.addTo(this.map);
 
+    var layerGroup = L.layerGroup().addTo(this.map);
+
     this.baseMaps = {
       "OSM": openStreet,
       "Google Map": googleStreets
     }
 
-
+    this.overlayMaps = {
+      "Objects": layerGroup
+    }
 
     L.control.layers(this.baseMaps,this.overlayMaps).addTo(this.map);
 
@@ -214,33 +235,87 @@ this.historyBar = L.control.bar('history', {
 
 // add device
 
-    this.mapService.share.subscribe(res => {
-      console.log(this.markerArray)
+var mapDevice=[]
+ var pai = L.layerGroup()
+    this.mapService.movingDataCatch.subscribe(res => {
       this.updateData = res;
       if (res) {
-       
+        this.check = 1;
+        this.fixtime = res[0].fixtime
+        this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
         res.forEach(element => {
-          console.log(element.name)
-          var item = this.markerArray.findIndex(item => item._tooltip._content === element.name);
-          console.log(item)
-          this.map.addLayer(this.markerArray[item]);
-        });
-        // var item = this.markerArray.findIndex(item => item._popup._content === res.device_id);
-        // console.log(item)
-        // this.map.addLayer(this.markerArray[item]);
-        //this.map.removeLayer(this.markerArray[1]);
+          if(!this.deviceIdArray.includes(element.deviceid)){
+            this.deviceIdArray.push(element.deviceid)
+          
+          
+          console.log(element.deviceid)
+          mapDevice[element.deviceid] = L.marker([element.latitude, element.longitude], { icon: this.myIcon3 }).bindPopup(element.name + " <br> Address: " + element.contact
+          + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false }).addTo(this.map)
+          layerGroup.addLayer(mapDevice[element.deviceid]);
+        }}
+        );
+
+        var polyline = L.polyline([]).addTo(this.map);
+
+
+        this.myInterval = setInterval(() => {
+          var data = { id: this.deviceIdArray, fixtime: this.fixtime }
+          if (this.check == 1) {
+            this.deviceService.getMovingPosition(data).subscribe(data => {
+              data.forEach(element => {
+                this.fixtime = element.fixtime;
+                var latlng = { lat: element.latitude, lng: element.longitude }
+                const v = L.Control.Geocoder.nominatim();
+                v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
+                  element.address = (results[0].name)
+                  this.cusmapService.detailsDataExchange(element);
+                })
+
+                var marker
+                //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
+                var markers = L.layerGroup()
+                this.markerArray = L.layerGroup()
+                console.log(element)
+                this.marker = mapDevice[element.deviceid].setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
+                  + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
+                if (element) {
+                  this.line = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
+                }
+
+              })
+            })
+          }
+        }, 5 * 1000)
+     
+       
 
       }
     })
 
+    this.overlayMaps = {
+      "objects": layerGroup,
+      "Google Map": googleStreets
+    }
+
+
     this.mapService.remove.subscribe(res => {
       if (res) {
+        console.log(res)
         res.forEach(element => {
-          console.log(element)
-          var item = this.markerArray.findIndex(item => item._tooltip._content === element.name);
-          //this.map.addLayer(this.markerArray[1]);
-         console.log(this.markerArray[item])
-          this.map.removeLayer(this.markerArray[item]);
+          this.deviceIdArray = this.deviceIdArray.filter(item => item !== element.id)
+          console.log(element.id)
+          this.map.removeLayer(mapDevice[element.id])
+          if(this.line){
+            this.map.removeLayer(this.line)
+          }
+
+          console.log(this.deviceIdArray.length)
+          if(this.deviceIdArray.length<=0){
+            console.log("check")
+            this.check=0;
+            clearInterval(this.myInterval);
+          }
+          
         });
       }
     })
@@ -249,7 +324,14 @@ this.historyBar = L.control.bar('history', {
 
     this.mapService.s.subscribe(res => {
       if (res) {
-        this.map.panTo(new L.LatLng(res.lat, res.lng));
+        var latlng2 = { lat: res[0].latitude, lng: res[0].longitude }
+        console.log(latlng2)
+        const v = L.Control.Geocoder.nominatim();
+        v.reverse(latlng2, this.map.options.crs.scale(this.map.getZoom()), results => {
+          res.address = (results[0].name)
+          this.mapService.selectedDeviceDataExchange(res)
+        })
+        this.map.panTo(new L.LatLng(res[0].latitude, res[0].longitude));
       }
     })
 
@@ -282,23 +364,26 @@ this.historyBar = L.control.bar('history', {
 
 
 
-    this.mapService.deviceGroupRemove.subscribe(res => {
-      console.log(res)
+    // this.mapService.deviceGroupRemove.subscribe(res => {
+    //   console.log(res)
 
-      if (res) {
-        console.log(this.markerArrayIndex)
-        var item = this.markerArrayIndex.findIndex(item => item._popup._content === '103');
-        console.log(item)
-        this.map.removeLayer(this.markerArrayIndex[1]);
-        console.log(this.markerArrayIndex)
-      }
-    })
+    //   if (res) {
+    //     console.log(this.markerArrayIndex)
+    //     var item = this.markerArrayIndex.findIndex(item => item._popup._content === '103');
+    //     console.log(item)
+    //     this.map.removeLayer(this.markerArrayIndex[1]);
+    //     console.log(this.markerArrayIndex)
+    //   }
+    // })
 
 // history show
 
     this.mapService.historyData.subscribe(res => {
       if (res) {
        // myButton.disable();
+       this.map.removeLayer(layerGroup)
+       console.log("......")
+    
        controlBar.hide();
         this.historyBar.show();
         this.viewHistory=1
@@ -371,15 +456,7 @@ this.historyBar = L.control.bar('history', {
       }
     })
 
-    this.mapService.indexHistoryView.subscribe(res => {
-      console.log(res)
-      if (res) {
-        console.log(this.markerArray[0])
-        this.map.removeLayer(this.markerArray[0]);
-        //this.map.panTo(new L.LatLng(res.lat, res.lng));
-      }
-    })
-
+    
     this.mapService.indexDetailsView.subscribe(res => {
       console.log(res)
       if (res) {
@@ -388,6 +465,10 @@ this.historyBar = L.control.bar('history', {
           this.map.removeLayer(this.route);
           //this.map.removeLayer(this.parking);
         }
+        if(layerGroup){
+          this.map.addLayer(layerGroup)
+        }
+        
         //controlBar.show();
         this.historyBar.hide();
         //this.map.panTo(new L.LatLng(res.lat, res.lng));

@@ -6,7 +6,7 @@
                 <div class="search-div">
                     <mat-form-field class="filter">
                         <input matInput placeholder="search" autocomplete="off"
-                            (keyup)="applyFilter($event.target.value)" [checked]="box" />
+                        (keyup)="filterItem($event.target.value)" [checked]="box" />
                     </mat-form-field>
 
                     <button class="btn">
@@ -65,12 +65,16 @@
                     <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                 </table> -->
 
-                <div>
-                    <!-- <div class="allCheck">
+
+                 <!-- <div class="allCheck">
                         <mat-checkbox  (change)="checkAll($event.checked)" class="heading"> All
                             Permission</mat-checkbox>
                         <mat-divider></mat-divider>
                     </div> -->
+
+
+           <div>
+                   
                     <form [formGroup]="myform">
                     <mat-accordion>
                         <mat-expansion-panel [expanded]="false" *ngFor="let state of customers;  let i=index "
@@ -79,7 +83,8 @@
                             <mat-expansion-panel-header>
                                 <mat-checkbox (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"
                                     (change)="checkAllByGroup($event.checked,state.customer_id)" class="group"
-                                    formControlName="customer_id" [value]="state.customer_id" >
+                                    formControlName="customer_id" [value]="state.customer_id" 
+                                    >
 
                                     {{state.name}}  
                                 </mat-checkbox>
@@ -88,15 +93,17 @@
 
                                 <div class="item">
                                     <mat-checkbox class="name" [checked]="checkState(val.deviceid)"
-                                        (change)="check($event.checked,devicesIndex[val.deviceid])">
+                                        (change)="check($event.checked,devicesIndex[val.deviceid])"
+                                        (keyup)="filterItem($event.target.value)">
 
 
                                     </mat-checkbox>
                                     <a class="devicename"
                                         (click)=getLocation(devicesIndex[val.deviceid])>{{devicesIndex[val.deviceid]?.name}}</a>
                                    
-                                    <a class="b2" [matMenuTriggerFor]="hospital">
-                                        <mat-icon>more_vert</mat-icon>
+                                       
+                                    <a class="b2"  [matMenuTriggerFor]="hospital">
+                                        <mat-icon >more_vert</mat-icon>
                                     </a>
                                     <mat-menu class="dropdown-content" #hospital="matMenu">
                                         <button mat-menu-item routerLink="/">Hospital List</button>
@@ -113,6 +120,14 @@
                     </mat-accordion>
                 </form>
                 </div>
+
+ 
+
+
+              
+
+
+
             </div>
         </mat-tab>
         <mat-tab label="Events">
@@ -167,7 +182,7 @@
 
                     <mat-form-field class="half">
                         <mat-label>Device</mat-label>
-                        <mat-select formControlName="id" #sl>
+                        <mat-select formControlName="id" [(ngModel)]="selected" #sl>
                             <input matInput class="filterBox" placeholder="search" autocomplete="off"
                                 (keyup)="applyFilter($event.target.value)" />
                             <a class="closeButton">
@@ -185,7 +200,7 @@
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field> -->
-                    <mat-form-field class="clock">
+                    <!-- <mat-form-field class="clock">
                         <mat-placeholder>From DateTime</mat-placeholder>
                         <input matInput  formControlName="from_date"   [matDatetimepicker]="dts"  autocomplete="false">
                         <mat-datetimepicker-toggle [for]="dts" matSuffix></mat-datetimepicker-toggle>
@@ -197,6 +212,17 @@
                         <input matInput  formControlName="to_date" [matDatetimepicker]="dtt" required autocomplete="false">
                         <mat-datetimepicker-toggle [for]="dtt" matSuffix></mat-datetimepicker-toggle>
                         <mat-datetimepicker #dtt type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+                    </mat-form-field> -->
+
+                    <mat-form-field>
+                        <input matInput [owlDateTime]="dt1" formControlName="from_date" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+                        <owl-date-time #dt1></owl-date-time>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                    
+                        <input matInput [owlDateTime]="dt2" formControlName="to_date" [owlDateTimeTrigger]="dt2" placeholder="To Time">
+                        <owl-date-time #dt2></owl-date-time>
                     </mat-form-field>
 
                   
@@ -215,6 +241,17 @@
                 <button class="button" mat-raised-button color="primary" class="btn-block" (click)="loadHistory()">
                     Load History
                 </button>
+
+                <div>
+                    <mat-card *ngIf="isLoading" style="display:flex; justify-content: center; align-items: center">
+                        <mat-progress-spinner color="primary" mode="indeterminate">
+                        </mat-progress-spinner>
+                      </mat-card>
+                </div>
+    
+                <div  *ngIf="historyData==''">
+                    No Records Found!
+                    </div>
             </div>
         </mat-tab>
     </mat-tab-group>

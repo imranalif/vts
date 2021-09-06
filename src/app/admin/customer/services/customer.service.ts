@@ -29,6 +29,10 @@ export class CustomerService {
     return this.http.get(this.url + '/allCustomerList');
   }
 
+  getAllCustomerListJoinWithDevices(): Observable<any> {
+    return this.http.get(this.url + '/allCustomerListJoinWithDevices');
+  }
+
   customerSearch(data){
     return this.http.post(this.url + '/customerSearch', data);
   }
