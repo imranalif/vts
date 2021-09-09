@@ -38,6 +38,10 @@ devices
 devicesIndex=[]
 filterDevices
 customerjoindevices
+
+deviceCheckData
+deviceCheckDataIndex=[]
+
 myform: FormGroup;
 myform2: FormGroup;
 dataSource = new MatTableDataSource<any>([]);
@@ -93,6 +97,16 @@ selected=1;
         })
       }
     })
+
+    this.mapService.detailsDataCatch.subscribe(response => {
+      if(response){
+      this.deviceCheckData=response;
+      this.deviceCheckData.forEach((elem, i) => {
+       this.deviceCheckDataIndex[elem.deviceid] = this.deviceCheckData[i];
+     }
+     )}
+    })
+
   }
 
 
@@ -100,19 +114,15 @@ selected=1;
     this.customerService.getAllCustomerList().subscribe(res => {
       this.customers = res;
       this.nameDisp=res
-      console.log(this.customers)
       this.customerData.push(res);
       this.customers.forEach(element => {
         this.customerService.DeviceByCustomer(element.customer_id).subscribe(data => {
-          console.log(data)
           if(data){
           this.permission[element.customer_id] = data;
           this.checkPermi[element.customer_id] = data;
-          console.log(this.permission)
-          
+         
             data.forEach(element => {
               this.allDevices.push(element.deviceid);
-              console.log(this.allDevices)
             });
           }
          
@@ -122,7 +132,6 @@ selected=1;
   }
   getAllCustomerWithDevices(){
     this.customerService.getAllCustomerListJoinWithDevices().subscribe(res => {
-      console.log(res)
       this.customerjoindevices=res
     })
   }
@@ -130,9 +139,7 @@ selected=1;
 getAllDevice(){
  
   this.deviceService.getAllDevices().subscribe(res => {
-    console.log(res)
     this.devices = res;
-
     this.devices.forEach((element, i) => {
       //this.DeviceItem.push(element.id);
       // this.groupItemCompare.push(element.permission);
@@ -153,7 +160,6 @@ getAllDevice(){
 getAllEvents(){
   this.deviceService.getAllEvents().subscribe(res => {
 this.Events=res;
-console.log(res)
 this.dataSource = new MatTableDataSource( res as any);
    })
 
@@ -174,6 +180,10 @@ check(e, data) {
     console.log(data)
     this.singleObject.push(data)
     this.deviceService.getDeviceCurrentPositionById(data.id).subscribe(res=>{
+      this.deviceCheckData=res;
+      this.deviceCheckData.forEach((elem, i) => {
+       this.deviceCheckDataIndex[elem.deviceid] = this.deviceCheckData[i];
+     });
  this.mapService.devicePosition(res);
     })
     //this.mapService.updateData([data]);
@@ -208,16 +218,16 @@ this.deviceService.getDeviceCurrentPositionById(e.id).subscribe(res=>{
   console.log(e.id)
   console.log(res)
   this.mapService.updateLocation(res);
+  this.mapService.selectedDeviceDataExchange(res)
      })
   
-  //this.mapService.passDeviceData(e)
+  
 }
 
 
 
 
 objectTab(tabChangeEvent: MatTabChangeEvent){
-  console.log('index => ', tabChangeEvent.index); 
   var inx=tabChangeEvent.index;
   if(inx==2){
     var  indexData={id:2}
@@ -245,6 +255,9 @@ console.log(id)
   if(e){
   this.customerService.DeviceByCustomerWithPosition(id).subscribe(data => {
     this.mapService.devicePosition(data);
+    data.forEach((elem, i) => {
+      this.deviceCheckDataIndex[elem.deviceid] = data[i];
+    });
     //this.mapService.DeviceMoveUpdate(data);
     data.forEach((element, i) => {
       this.groupDevice.push(element)

@@ -46,7 +46,7 @@
 
                     <mat-form-field class="half">
                         <mat-label>User Type</mat-label>
-                        <mat-select formControlName="userType" (ngModelChange)="onChange($event)" required>
+                        <mat-select formControlName="userType" (ngModelChange)="onChange($event)" (ngModelChange)="isCustomer($event)" required>
                             <mat-option *ngFor="let state of userTypes" [value]="state.value">
                                 {{ state.value }}
                             </mat-option>
@@ -56,10 +56,10 @@
                 <div *ngIf="showCustommerField==1">
                     <mat-form-field class="full">
                         <input matInput placeholder="Customer" [matAutocomplete]="auto" formControlName="customer_id"
-                            (keyup)="applySearch($event.target.value)" />
-                            <mat-hint align="end">Please input customer id</mat-hint>
+                            (keyup)="applySearch($event.target.value)" required/>
+                            <mat-hint align="end">  Please input customer id</mat-hint>
                     </mat-form-field>
-
+                    <span class="customerInfo" *ngIf="customerInfo">Name: {{ customerInfo.name }} Email:{{ customerInfo.email }}</span>
                 
                     <mat-autocomplete #auto="matAutocomplete">
 
@@ -67,7 +67,7 @@
                             [value]="option.customer_id">
 
                             <mat-list>
-                                <mat-list-item (click)="onChangeCustomer( option.customer_id)">
+                                <mat-list-item (click)="onChangeCustomer( option)">
                                     {{ option.name }}({{ option.customer_id }})
                                 </mat-list-item>
                                 <mat-divider></mat-divider>
@@ -173,16 +173,16 @@
                           
 
                             <mat-form-field class="half">
-                                <input matInput placeholder="Latitude" formControlName="latitude" autocomplete="off" />
+                                <input matInput placeholder="Latitude" formControlName="latitude" [(ngModel)]="selectedLatitude" autocomplete="off" />
                             </mat-form-field>
 
                             <mat-form-field class="half">
-                                <input matInput placeholder="Longitude" formControlName="longitude"
+                                <input matInput placeholder="Longitude" formControlName="longitude" [(ngModel)]="selectedLongitude"
                                     autocomplete="off" />
                             </mat-form-field>
 
                             <mat-form-field class="half">
-                                <input matInput placeholder="Zoom" formControlName="zoom" autocomplete="off" />
+                                <input matInput placeholder="Zoom" formControlName="zoom" [(ngModel)]="selectedZoom" autocomplete="off" />
                             </mat-form-field>
 
 

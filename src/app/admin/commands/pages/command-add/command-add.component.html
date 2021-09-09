@@ -8,9 +8,9 @@
         <mat-form-field class="full">
             <textarea trim="blur" matInput placeholder="Description" formControlName="description" autocomplete="off" required ></textarea>
         </mat-form-field>
-        <div *ngIf="submitted && myform.get('description').errors" class="feedback">
+        <!-- <div *ngIf="submitted && myform.get('description').errors" class="feedback">
             <div *ngIf=" myform.get('description').errors.required" class="red"> Name is required</div>
-        </div>
+        </div> -->
 
         <div class="checkbox" class="full">
             <mat-checkbox class="checkbox" formControlName="sms" labelPosition="before" required>

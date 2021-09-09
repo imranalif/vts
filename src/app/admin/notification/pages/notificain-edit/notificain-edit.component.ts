@@ -112,6 +112,7 @@ export class NotificainEditComponent implements OnInit {
   }
 
   updateNotification() {
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

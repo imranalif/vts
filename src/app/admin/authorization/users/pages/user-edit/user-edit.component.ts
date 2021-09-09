@@ -13,6 +13,7 @@ import { CustomerService } from 'src/app/admin/customer/services/customer.servic
   styleUrls: ['./user-edit.component.scss']
 })
 export class UserEditComponent implements OnInit {
+  customerInfo
   showCustommerField:Number;
   t
   customerData
@@ -231,7 +232,8 @@ export class UserEditComponent implements OnInit {
    }
 
    onChangeCustomer(e){
-    this.customer_id=e;
+    this.myform.value.customer_id=e.customer_id;
+    this.customerInfo=e;
 //     this.t=this.customerData.map(item => item.id).indexOf(e);
 //     console.log(this.t)
 //     if(e){
@@ -250,6 +252,16 @@ console.log(this.showCustommerField)
       this.showCustommerField=0; 
     }
   }
+
+  isCustomer(e): void {
+    const camp = this.myform.get('customer_id');
+    if (e === 'Customer') {
+      camp.setValidators(Validators.required);
+    }  else {
+      camp.clearValidators();
+    }
+    camp.updateValueAndValidity();
+    }
 
 
   updateUser(){

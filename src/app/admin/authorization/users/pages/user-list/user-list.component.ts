@@ -306,7 +306,9 @@ export class UserListComponent implements OnInit {
  console.log(data.id)
   }
 
-
+  goAddPage(){
+    this.router.navigate(['admin/authorization/users/add']);
+  }
   
 
 

@@ -69,6 +69,7 @@ export class MaintenanceAddComponent implements OnInit {
   }
 
   addMaintenance() {
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

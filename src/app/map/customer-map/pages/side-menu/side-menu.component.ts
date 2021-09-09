@@ -13,6 +13,9 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./side-menu.component.scss']
 })
 export class SideMenuComponent implements OnInit {
+  deviceDataT
+  deviceData=[]
+  deviceDataIndex=[]
   myform: FormGroup;
   Id
   customer
@@ -54,16 +57,27 @@ export class SideMenuComponent implements OnInit {
     });
 
     this.getAllEvents()
+
+    this.cusmapService.deviceDetailsCatch.subscribe(res => {
+      if (res) {
+        this.deviceData=[]
+       this.deviceData.push(res);
+       this.deviceData.forEach((elem, i) => {
+        this.deviceDataIndex[elem.deviceid] = this.deviceData[i];
+      }
+      );
+       //this.deviceDataIndex[].speed=Math.round(this.deviceData.speed*1.852)
+       console.log( this.deviceData)
+      }
+    })
   }
 
   getCustomerDevices(id){
     this.customerService.getCustomerById(id).subscribe(data=>{
 this.customer=data;
-console.log(data);
     })
     this.customerService.DeviceByCustomerWithPosition(id).subscribe(res=>{
 this.customerDevices=res;
-console.log(this.customerDevices)
 res.forEach((element, i) => {
 this.devicelog.push(element.deviceid)
 })
@@ -73,7 +87,6 @@ this.dataSource = new MatTableDataSource( res as any);
   }
 
   objectTab(tabChangeEvent: MatTabChangeEvent){
-    console.log('index => ', tabChangeEvent.index); 
     var inx=tabChangeEvent.index;
     if(inx==2){
       var  indexData={id:2}
@@ -107,7 +120,6 @@ this.dataSource = new MatTableDataSource( res as any);
 
   check(e, data) {
     if (e) {
-      console.log(data)
       //this.DeviceItem.push(1);
        this.devicelogMatch.push(data.deviceid)
       var  a = this.devicelog.toString();
@@ -115,7 +127,16 @@ this.dataSource = new MatTableDataSource( res as any);
      if(a===b){
       this.DeviceItem.push(1);
      }
-       this.cusmapService.deviceDataExchange([data]);
+     this.deviceService.getDeviceCurrentPositionById(data.deviceid).subscribe(res=>{
+      this.deviceDataT=res;
+      console.log(res)
+      this.deviceDataT.forEach((elem, i) => {
+       this.deviceDataIndex[elem.deviceid] = this.deviceDataT[i];
+     }
+     );
+      this.cusmapService.deviceDataExchange(res);
+     })
+       
     }
     else{
       // this.deleteObject.push(data)
@@ -126,13 +147,23 @@ this.dataSource = new MatTableDataSource( res as any);
   
   }
 
-  checkByCustomer(e){
+  checkByCustomer(e,data){
     if (e) {
-      this.customerDevices.forEach((element, i) => {
-        this.DeviceItem.push(element.uniqueid);
+      console.log(data)
+      this.customerService.DeviceByCustomerWithPosition(data.customer_id).subscribe(res=>{
+        this.customerDevices=res;
+        this.customerDevices.forEach((element, i) => {
+          this.DeviceItem.push(element.uniqueid);
+        })
+        this.customerDevices.forEach((elem, i) => {
+          this.deviceDataIndex[elem.deviceid] = this.customerDevices[i];
+        }
+        );
+        this.cusmapService.deviceDataExchange(this.customerDevices);
       })
+      
       // this.singleObject.push(data)
-       this.cusmapService.deviceDataExchange(this.customerDevices);
+       
     }
     else{
       this.DeviceItem=[]
@@ -167,7 +198,6 @@ this.dataSource = new MatTableDataSource( res as any);
     const obj={from_date:this.myform.value.from_date,to_date:this.myform.value.to_date}
      console.log(this.myform.value);
      this.deviceService.getHistoryPostionBySearch(obj).subscribe(res=>{
-       console.log(res)
        this.historyData=res;
        this.isLoading = false;
        this.cusmapService.deviceHistory(res);
@@ -180,8 +210,10 @@ this.dataSource = new MatTableDataSource( res as any);
       var lng=e.longitude;
       var data={lat:lat,lng:lng}
       this.cusmapService.deviceLocation(e);
-      //this.cusmapService.deviceDetails(e)
+      this.cusmapService.deviceDetails(e)
     }
+
+    
  
 
 }

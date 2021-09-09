@@ -33,9 +33,10 @@
 </mat-card-content>
 
     <mat-card-actions>
-        <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="addCustomer()">
+        <button class="button" [disabled]="!myform.valid" mat-stroked-button color="primary" class="btn-block" (click)="addCustomer()">
             Add
         </button>
+        <p>Note: Field marked with * is Mandatory</p>
         <!-- <p>Note:<span style="color:red"> Field marked with * is Not Editable</span></p> -->
     </mat-card-actions>
 </form> 

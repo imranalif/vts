@@ -42,6 +42,7 @@ export class CommandAddComponent implements OnInit {
   }
 
   addCommand() {
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

@@ -45,7 +45,7 @@
 
                     <mat-form-field class="half">
                         <mat-label>User Type</mat-label>
-                        <mat-select formControlName="userType" (ngModelChange)="onChange($event)" required>
+                        <mat-select formControlName="userType" (ngModelChange)="onChange($event)" (ngModelChange)="isCustomer($event)" required>
                             <mat-option *ngFor="let state of userTypes" [value]="state.value">
                                 {{ state.value }}
                             </mat-option>
@@ -57,16 +57,16 @@
 
                             <input matInput placeholder="Customer" [matAutocomplete]="auto"
                                 formControlName="customer_id" [(ngModel)]="customer_id"
-                                (keyup)="applySearch($event.target.value)" />
+                                (keyup)="applySearch($event.target.value)" required/>
                             <mat-hint align="end">Please input customer id</mat-hint>
                         </mat-form-field>
-
+                        <span class="customerInfo" *ngIf="customerInfo">Name: {{ customerInfo.name }} Email:{{ customerInfo.email }}</span>
 
                         <mat-autocomplete #auto="matAutocomplete">
 
                             <mat-option *ngFor="let option of customerData" [value]="option.customer_id">
                                 <mat-list>
-                                    <mat-list-item (click)="onChangeCustomer( option.customer_id)">
+                                    <mat-list-item (click)="onChangeCustomer( option)">
                                         {{ option.name }}({{ option.customer_id }})
                                     </mat-list-item>
                                     <mat-divider></mat-divider>
@@ -304,7 +304,7 @@
     </mat-card-content>
 
     <mat-card-actions class="button">
-        <button class="button" mat-stroked-button color="primary" (click)="updateUser()" class="btn-block">
+        <button class="button" [disabled]="!myform.valid" mat-stroked-button color="primary" (click)="updateUser()" class="btn-block">
             Update
         </button>
         <p>Note: Field marked with * is Mandatory</p>

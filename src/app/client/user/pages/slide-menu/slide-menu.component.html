@@ -105,6 +105,11 @@
                                     <a class="b2"  [matMenuTriggerFor]="hospital">
                                         <mat-icon >more_vert</mat-icon>
                                     </a>
+                                    <span class="b21"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                    <span class="b213" *ngIf="deviceCheckDataIndex">{{deviceCheckDataIndex[val.deviceid]?.speed*1.852 | number}} km</span>
+                                    <div class="movingtime" *ngIf="deviceCheckDataIndex">
+                                        {{deviceCheckDataIndex[val.deviceid]?.servertime|date:'medium'}}
+                                    </div>
                                     <mat-menu class="dropdown-content" #hospital="matMenu">
                                         <button mat-menu-item routerLink="/">Hospital List</button>
 
@@ -137,18 +142,18 @@
 
                     <ng-container matColumnDef="time">
                         <th mat-header-cell *matHeaderCellDef>Time</th>
-                        <td mat-cell *matCellDef="let element"><a>{{ element.eventtime }}</a></td>
+                        <td mat-cell *matCellDef="let element"><a>{{ element.eventtime|date:'medium' }}</a></td>
                     </ng-container>
 
 
                     <ng-container matColumnDef="device_id">
                         <th mat-header-cell *matHeaderCellDef>Name</th>
-                        <td mat-cell *matCellDef="let element">{{ element.deviceid }}</td>
+                        <td mat-cell *matCellDef="let element">{{ devices[element.deviceid]?.name }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="event">
                         <th mat-header-cell *matHeaderCellDef>Events</th>
-                        <td mat-cell *matCellDef="let element">{{ element.geofenceid }}</td>
+                        <td mat-cell *matCellDef="let element">{{ element.type }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="more">

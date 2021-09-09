@@ -111,6 +111,7 @@ export class MaintenanceEditComponent implements OnInit {
   }
 
   updateMaintenance() {
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

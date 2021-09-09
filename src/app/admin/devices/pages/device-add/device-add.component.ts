@@ -80,6 +80,7 @@ this.groups=res;
   }
 
   addDevice() {
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

@@ -50,7 +50,8 @@ export class LoginPageComponent implements OnInit {
         // })
       }
 
-      else{
+      else if(res.data.user_type=="Admin")
+      {
         this.roleService.getPermissionByRole(res.data.role).subscribe(data => {
           console.log("teesttt")
           data.forEach(element => {

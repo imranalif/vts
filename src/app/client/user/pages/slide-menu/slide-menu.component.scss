@@ -98,12 +98,12 @@ mat-menu{
 
 
 
-.b2{
-    float: right;
-    flex: 1 1 auto;
-    //margin-left: 20%;
+// .b2{
+//     float: right;
+//     flex: 1 1 auto;
+//     //margin-left: 20%;
     
-}
+// }
 
 .devicename{
     margin-left: 20px;
@@ -112,3 +112,27 @@ mat-menu{
 .clock{
     width: 70% !important;
 }
+
+.b2{
+    float: right;
+    flex: 1 1 auto;
+    color: #0078A8 !important;
+}
+
+.b21{
+    float: right;
+    width: 10px;
+    flex: 1 1 auto;
+    color: yellow !important;
+}
+.b213{
+    float: right;
+    flex: 1 1 auto;
+    margin-right: 3px;
+}
+
+.movingtime{
+    margin-left: 10%;
+    font-size: 9px;
+}
+

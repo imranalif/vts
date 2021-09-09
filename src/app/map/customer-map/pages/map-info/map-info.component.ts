@@ -145,7 +145,7 @@ export class MapInfoComponent implements OnInit {
     this.deviceService.getMovingPosition(data).subscribe(res => {
       console.log(res)
     })
-    
+
 
 
     L.control.layers(this.baseMaps, this.overlayMaps).addTo(this.map);
@@ -176,36 +176,36 @@ export class MapInfoComponent implements OnInit {
 
       if (res) {
         this.check = 1;
-        if(!this.deviceIdArray.includes(res[0].deviceid)){
+        if (!this.deviceIdArray.includes(res[0].deviceid)) {
           this.deviceIdArray.push(res[0].deviceid)
-        
-        this.fixtime = res[0].fixtime
-        this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
-        //var mook
-        console.log(this.fixtime);
-        res.forEach(elem => {
-          mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
-            + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: false, autoClose: false }).addTo(this.map)
+
+          this.fixtime = res[0].fixtime
+          this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
+          //var mook
+          console.log(this.fixtime);
+          res.forEach(elem => {
+            mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
+              + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: false, autoClose: false }).addTo(this.map)
             layerGroup.addLayer(mook[elem.deviceid]);
-        })
-      }
+          })
+        }
         var polyline = L.polyline([]).addTo(this.map);
 
 
         this.myInterval = setInterval(() => {
           var data = { id: this.deviceIdArray, fixtime: this.fixtime }
-          console.log(data)
           if (this.check == 1) {
             this.deviceService.getMovingPosition(data).subscribe(data => {
               data.forEach(element => {
                 this.fixtime = element.fixtime;
-                var latlng = { lat: element.latitude, lng: element.longitude }
-                const v = L.Control.Geocoder.nominatim();
-                v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
-                  element.address = (results[0].name)
-                  console.log(element.name)
-                  this.cusmapService.detailsDataExchange(element);
-                })
+                this.cusmapService.detailsDataExchange(element);
+                // var latlng = { lat: element.latitude, lng: element.longitude }
+                // const v = L.Control.Geocoder.nominatim();
+                // v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
+                //   element.address = (results[0].name)
+                //    console.log(element.name)
+                //   this.cusmapService.detailsDataExchange(element);
+                // })
 
                 var marker
                 //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
@@ -228,7 +228,7 @@ export class MapInfoComponent implements OnInit {
     this.cusmapService.deviceRemoveFromMap.subscribe(data => {
       if (data) {
         this.check = 0;
-        
+
         clearInterval(this.myInterval);
         console.log(this.markerArray)
         data.forEach(element => {
@@ -245,13 +245,15 @@ export class MapInfoComponent implements OnInit {
 
     this.cusmapService.deviceLocationCatch.subscribe(res => {
       if (res) {
+
         var latlng2 = { lat: res.latitude, lng: res.longitude }
         console.log(latlng2)
-        const v = L.Control.Geocoder.nominatim();
-        v.reverse(latlng2, this.map.options.crs.scale(this.map.getZoom()), results => {
-          res.address = (results[0].name)
-          this.cusmapService.deviceDetails(res)
-        })
+        // const v = L.Control.Geocoder.nominatim();
+        // v.reverse(latlng2, this.map.options.crs.scale(this.map.getZoom()), results => {
+        //   var address = (results[0].name)
+        //  var obj={address:address}
+        //   this.cusmapService.addressDataExchange(obj)
+        // })
         this.map.panTo(new L.LatLng(res.latitude, res.longitude));
       }
     })
@@ -355,10 +357,15 @@ export class MapInfoComponent implements OnInit {
         // if (this.marker.length > 0) {
         //   this.map.addLayer(this.marker);
         // }
+        if (this.route) {
+          this.map.removeLayer(this.route);
+        }
+        if (this.parking) {
+          this.map.removeLayer(this.parking);
+        }
 
-        this.map.removeLayer(this.route);
-        this.map.removeLayer(this.parking);
-        controlBar.show();
+
+        //controlBar.show();
         this.map.addLayer(layerGroup)
         this.historyBar.hide();
       }

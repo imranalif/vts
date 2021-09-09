@@ -141,7 +141,7 @@ export class UserInfoComponent implements OnInit {
     });
 
     this.myIcon3 = L.icon({
-      iconUrl: './assets/client/images/123.png',
+      iconUrl: './assets/client/images/bike.png',
       iconSize: [40, 80],
       iconAnchor: [12, 69],
       color: 'green',
@@ -161,9 +161,9 @@ export class UserInfoComponent implements OnInit {
     //   attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     // }
 
-    this.map.on('click', function (e) {
-      alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng)
-    });
+    // this.map.on('click', function (e) {
+    //   alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng)
+    // });
 
 
     // var openStreet= L.map('mapid',{zoomControl: false}).setView([23.73885035844803365, 90.39647340774536], 15);
@@ -324,13 +324,13 @@ var mapDevice=[]
 
     this.mapService.s.subscribe(res => {
       if (res) {
-        var latlng2 = { lat: res[0].latitude, lng: res[0].longitude }
-        console.log(latlng2)
-        const v = L.Control.Geocoder.nominatim();
-        v.reverse(latlng2, this.map.options.crs.scale(this.map.getZoom()), results => {
-          res.address = (results[0].name)
-          this.mapService.selectedDeviceDataExchange(res)
-        })
+        // var latlng2 = { lat: res[0].latitude, lng: res[0].longitude }
+        // console.log(latlng2)
+        // const v = L.Control.Geocoder.nominatim();
+        // v.reverse(latlng2, this.map.options.crs.scale(this.map.getZoom()), results => {
+        //   res.address = (results[0].name)
+        //   this.mapService.selectedDeviceDataExchange(res)
+        // })
         this.map.panTo(new L.LatLng(res[0].latitude, res[0].longitude));
       }
     })

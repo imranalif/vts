@@ -164,4 +164,8 @@ export class CustomerListComponent implements OnInit {
     .subscribe(response => {});
   }
 
+  goAddPage(){
+    this.router.navigate(['admin/customer/add']);
+  }
+
 }

@@ -1,8 +1,10 @@
 
-
-
    .container{
     width: 100%;
+}
+
+.historytab{
+    margin-left: 10%;
 }
 
 table{
@@ -88,8 +90,8 @@ mat-menu{
 }
 
 .item{
-    width: 120%;
-    font-size: 14px;
+    margin-bottom: 10px;
+    margin-right: 2px;
     //float: left;
     // margin-bottom: 10px;
     // margin-right: 2px;
@@ -105,12 +107,26 @@ mat-menu{
 .b2{
     float: right;
     flex: 1 1 auto;
+    color: #0078A8 !important;
+}
+
+.b21{
+    float: right;
+    width: 10px;
+    flex: 1 1 auto;
+    color: yellow !important;
+}
+.b213{
+    float: right;
+    flex: 1 1 auto;
+    margin-right: 3px;
 }
 
 .devicename{
     margin-top: 5px;
-    margin-left: 5px;
+    margin-left: 10px;
     text-align: center;
+    color: #0078A8 !important;
 }
 
 .clock{
@@ -127,6 +143,11 @@ mat-menu{
     padding: 0 10px;
     /* position: relative; */
     height: unset; 
+}
+
+.movingtime{
+    margin-left: 10%;
+    font-size: 9px;
 }
 
 

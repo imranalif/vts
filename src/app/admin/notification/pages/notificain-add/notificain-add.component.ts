@@ -68,7 +68,8 @@ export class NotificainAddComponent implements OnInit {
     });
   }
 
-  addGroup() {
+  addGroup() {  
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

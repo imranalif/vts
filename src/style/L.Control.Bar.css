@@ -36,7 +36,7 @@
 
 /** BOTTOM **/
 .leaflet-control-bar-bottom.leaflet-control-bar {
-    min-height: 100px;
+    min-height: 160px;
     margin-left: 26%;
     width: 73%;
     bottom: -140px;

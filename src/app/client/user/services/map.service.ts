@@ -23,6 +23,7 @@ export class MapService {
 
   private indexHistory = new BehaviorSubject<any>("");
   private indexDetails = new BehaviorSubject<any>("");
+  private detailsDataSend = new BehaviorSubject<any>("");
 
  /////////////////////////////////////////
 
@@ -41,6 +42,7 @@ export class MapService {
 
   public indexHistoryView = this.indexHistory.asObservable();
   public indexDetailsView = this.indexDetails.asObservable();
+  public detailsDataCatch = this.detailsDataSend.asObservable();
   
   devicePosition(text) {
     console.log(text)
@@ -86,6 +88,10 @@ export class MapService {
 
   showWithIndexDetails(data) {
     this.indexDetails.next(data);
+  }
+
+  detailsDataExchange(data) {
+    this.detailsDataSend.next(data);
   }
 
 

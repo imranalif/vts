@@ -40,6 +40,15 @@
                         </mat-select>
                     </mat-form-field>
 
+                    <mat-form-field class="half"  required>
+                        <mat-label>Category</mat-label>
+                        <mat-select formControlName="category">
+                            <mat-option *ngFor="let state of categories" [value]="state.value">
+                                {{ state.value }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
                     <mat-form-field class="half">
                         <input matInput placeholder="Phone" formControlName="phone" autocomplete="off" />
                     </mat-form-field>
@@ -52,14 +61,7 @@
                         <input matInput placeholder="Contact" formControlName="contact" autocomplete="off" />
                     </mat-form-field>
 
-                    <mat-form-field class="half"  required>
-                        <mat-label>Category</mat-label>
-                        <mat-select formControlName="category">
-                            <mat-option *ngFor="let state of categories" [value]="state.value">
-                                {{ state.value }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                 
             <span class="checkbox">
                     <mat-checkbox class="checkbox" formControlName="disabled" labelPosition="before">
                        Disabled

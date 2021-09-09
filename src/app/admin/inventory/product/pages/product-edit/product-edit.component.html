@@ -121,7 +121,7 @@
     </mat-card-content>
 
     <mat-card-actions>
-        <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="updateProduct()">
+        <button class="button" [disabled]="!myform.valid" mat-stroked-button color="primary" class="btn-block" (click)="updateProduct()">
             Update
         </button>
         <p>Note: Field marked with * is Mandatory</p>

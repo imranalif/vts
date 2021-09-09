@@ -64,6 +64,7 @@ export class CategoryEditComponent implements OnInit {
   }
 
   updateCategory(): void{
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

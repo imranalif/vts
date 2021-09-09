@@ -213,5 +213,8 @@ export class ProductListComponent implements OnInit {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
+    goAddPage(){
+      this.router.navigate(['admin/inventory/product/add']);
+    }
 
 }

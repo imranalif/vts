@@ -15,6 +15,7 @@ import { CustomerService } from 'src/app/admin/customer/services/customer.servic
   styleUrls: ['./user-add.component.scss']
 })
 export class UserAddComponent implements OnInit {
+  customerInfo
   showCustommerField;
   progress
   customerData
@@ -29,6 +30,9 @@ export class UserAddComponent implements OnInit {
   userRoles
   filterRoles
   myform: FormGroup;
+  selectedLatitude=0
+  selectedLongitude=0
+  selectedZoom=0
   mapTypes = [{id: 1,  value: 'OpenStree Map' }, {id: 2,  value: 'Bing Map' }, {id: 3,  value: 'Baidu Map' }];
   formats = [{id: 1,  value: 'Decimal Degrees' }, {id: 2,  value: 'Degress Decimal Minutes' }, {id: 3,  value: 'Degrees Minutes Seconds' }];
   states = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
@@ -105,6 +109,16 @@ export class UserAddComponent implements OnInit {
           }
     
 
+    isCustomer(e): void {
+      const camp = this.myform.get('customer_id');
+      if (e === 'Customer') {
+        camp.setValidators(Validators.required);
+      }  else {
+        camp.clearValidators();
+      }
+      camp.updateValueAndValidity();
+      }    
+
   getAllRole(): void {
     this.rolesService.getAllRole().subscribe(res => {
       this.userRoles = res;
@@ -155,7 +169,8 @@ export class UserAddComponent implements OnInit {
    }
 
    onChangeCustomer(e){
-    this.myform.value.customer_id=e;
+    this.myform.value.customer_id=e.customer_id;
+    this.customerInfo=e;
 //     const t=this.customerData.map(item => item.id).indexOf(e);
 //     console.log(t)
 //     if(e){

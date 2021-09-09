@@ -9,9 +9,9 @@
         <mat-form-field class="half">
             <input trim="blur" matInput placeholder="Name" formControlName="mname" autocomplete="off" required />
         </mat-form-field>
-        <div *ngIf="submitted && myform.get('mname').errors" class="feedback">
+        <!-- <div *ngIf="submitted && myform.get('mname').errors" class="feedback">
             <div *ngIf=" myform.get('mname').errors.required" class="red"> Name is required</div>
-        </div>
+        </div> -->
 
         <mat-form-field class="half" required>
             <mat-label>Type</mat-label>

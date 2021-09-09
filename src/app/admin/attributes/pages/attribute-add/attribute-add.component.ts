@@ -44,6 +44,7 @@ export class AttributeAddComponent implements OnInit {
   }
 
   addAttribute() {
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

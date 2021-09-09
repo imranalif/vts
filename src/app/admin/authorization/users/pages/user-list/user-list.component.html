@@ -29,6 +29,11 @@
       <button  mat-button class="search_button" class="mat-stroked-button mat-primary "  (click)="getBack()" >
        Back
      </button>
+     <span class="addButton">
+      <button class="export_button" mat-button class="mat-raised-button mat-primary " (click)="goAddPage()">
+       Add
+    </button>
+    </span>
       <button class="export_button" mat-button class="mat-raised-button mat-primary " (click)="exporter.exportTable('csv',{fileName:'user'})">
         CSV
      </button>

@@ -22,7 +22,7 @@
 
                                 <mat-expansion-panel-header>
                                     <mat-checkbox (click)="$event.stopPropagation()"
-                                        (keydown)="$event.stopPropagation()" (change)="checkByCustomer($event.checked)"
+                                        (keydown)="$event.stopPropagation()" (change)="checkByCustomer($event.checked,customer)"
                                         [checked]="checkStateC(1)">
 
                                         {{customer?.name}}
@@ -31,18 +31,23 @@
 
                                 <!-- <div *ngFor="let val of customerDevices; let i=index  "> -->
 
-                                <mat-list-item class="item" *ngFor="let val of customerDevices; let i=index  ">
+                                <div class="item" *ngFor="let val of customerDevices; let i=index  ">
                                     <!-- <div class="item"> -->
+                                        <div class="item">
                                     <mat-checkbox class="name" [checked]="checkState(val.uniqueid)"
                                         (change)="check($event.checked,val)">
 
 
                                     </mat-checkbox>
                                     <a class="devicename" (click)=getLocation(val)>{{val.name}}</a>
-
                                     <a class="b2" [matMenuTriggerFor]="hospital">
                                         <mat-icon>more_vert</mat-icon>
                                     </a>
+                                    <span class="b21"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                    <span class="b213" *ngIf="deviceDataIndex">{{deviceDataIndex[val.deviceid]?.speed*1.852 | number}} km</span>
+                                    <div class="movingtime" *ngIf="deviceDataIndex">
+                                        {{deviceDataIndex[val.deviceid]?.servertime|date:'medium'}}
+                                    </div>
                                     <mat-menu class="dropdown-content" #hospital="matMenu">
                                         <button mat-menu-item routerLink="/">Hospital List</button>
 
@@ -51,8 +56,9 @@
                                         </button>
 
                                     </mat-menu>
+                                </div>
                                     <!-- </div> -->
-                                </mat-list-item>
+                                </div>
                                 <!-- </div> -->
 
                                 <!-- <table mat-table  [dataSource]="dataSource" class="mat-elevation-z8">
@@ -153,7 +159,7 @@
         </mat-tab>
         <mat-tab label="History">
 
-            <div *ngIf="customerDevices">
+            <div *ngIf="customerDevices" class="historytab">
                 <form [formGroup]="myform">
 
                     <mat-form-field class="half">

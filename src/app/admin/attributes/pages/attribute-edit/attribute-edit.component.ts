@@ -70,6 +70,7 @@ export class AttributeEditComponent implements OnInit {
   }
 
   updateAttribute() {
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

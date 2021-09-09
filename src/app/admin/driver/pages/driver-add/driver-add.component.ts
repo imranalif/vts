@@ -74,6 +74,7 @@ export class DriverAddComponent implements OnInit {
   }
 
   addDriver() {
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

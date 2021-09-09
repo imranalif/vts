@@ -4,7 +4,9 @@
       <mat-grid-tile [colspan]="5">Sensors</mat-grid-tile>
 
 </mat-grid-list> -->
+<div id="mapidd">
 
+</div>
   <div fxFlex=30%>
     <div class="heading">
     <h3 *ngIf="!deviceData" class="deviceName"><mat-icon>near_me</mat-icon>Name</h3>
@@ -15,7 +17,7 @@
       <mat-grid-tile class="pos">
         <mat-label class="mag"><b> Address: </b></mat-label> 
        
-        {{ (deviceData?.address.length>20)? (deviceData?.address | slice:0:20)+'..':(deviceData?.address) }} <a href={{url}} target="_blank"> <mat-icon class="eyeicon" (click)="findLocation(deviceData)">visibility</mat-icon></a>
+      {{ (address?.length>20)? (address | slice:0:20)+'..':(address) }} <a href={{url}} target="_blank"> <mat-icon class="eyeicon" (click)="findLocation(deviceData)">visibility</mat-icon></a>
       </mat-grid-tile>
   
       <!-- "https://www.google.com/maps?q=,&t=m&hl=en" -->
