@@ -8,6 +8,7 @@ import { MapService } from '../../services/map.service';
 import { CustomerService } from 'src/app/admin/customer/services/customer.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { LoginService } from 'src/app/authentication/login/services/login.service';
+import { DateformateService } from 'src/app/shared/services/dateformate.service';
 
 @Component({
   selector: 'app-slide-menu',
@@ -53,7 +54,8 @@ selected=1;
     private deviceService: DeviceService,
     private mapService:MapService,
     private customerService:CustomerService,
-    private loginService:LoginService
+    private loginService:LoginService,
+    private dateFormatService: DateformateService
   ) { }
 
   ngOnInit(): void {
@@ -300,8 +302,9 @@ else{
 loadHistory(){
   this.isLoading = true;
  //const obj={id:this.myform.value.id}
- const obj={id:this.myform.value.id,from_date:this.myform.value.from_date,to_date:this.myform.value.to_date}
-  console.log(this.myform.value);
+ var from_date = this.dateFormatService.dateTime('datetime', this.myform.value.from_date)
+ var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.to_date)
+ const obj={from_date:from_date,to_date:to_date}
   this.deviceService.getHistoryPostionBySearch(obj).subscribe(res=>{
     console.log(res)
     this.isLoading = false;

@@ -6,6 +6,7 @@ import { CustomerService } from 'src/app/admin/customer/services/customer.servic
 import { DeviceService } from 'src/app/admin/devices/services/device.service';
 import { CusmapService } from '../../services/cusmap.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { DateformateService } from 'src/app/shared/services/dateformate.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -37,7 +38,8 @@ export class SideMenuComponent implements OnInit {
     private route:ActivatedRoute,
     private customerService:CustomerService,
     private deviceService:DeviceService,
-    private cusmapService:CusmapService
+    private cusmapService:CusmapService,
+    private dateFormatService: DateformateService
   ) { }
 
   ngOnInit(): void {
@@ -195,7 +197,10 @@ this.dataSource = new MatTableDataSource( res as any);
 
   loadHistory(){
     this.isLoading = true;
-    const obj={from_date:this.myform.value.from_date,to_date:this.myform.value.to_date}
+
+    var from_date = this.dateFormatService.dateTime('datetime', this.myform.value.from_date)
+    var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.to_date)
+    const obj={from_date:from_date,to_date:to_date}
      console.log(this.myform.value);
      this.deviceService.getHistoryPostionBySearch(obj).subscribe(res=>{
        this.historyData=res;
