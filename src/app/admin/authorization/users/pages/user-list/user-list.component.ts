@@ -65,6 +65,9 @@ export class UserListComponent implements OnInit {
     });
     this.getAllCustomer();
     this.getAllUser();
+    let whiteSpace = '   ABCD ';
+    console.log( whiteSpace);
+console.log( whiteSpace.trim());
    
   }
 
@@ -108,6 +111,7 @@ export class UserListComponent implements OnInit {
   }
 
   getUserByPage(currentPage): void {
+    Object.keys(this.myform).forEach((key) => this.myform.setValue(this.myform.value.trim()));
     this.page = currentPage;
     if (this.page > this.pager.totalPages) {
       return;
@@ -130,6 +134,7 @@ export class UserListComponent implements OnInit {
   }
 
   getUserBySearch(): void {
+    //this.cleanForm(this.myform)
     this.params = {
       currentPage: this.currentPage, name: this.myform.value.name,
        email: this.myform.value.email, phone: this.myform.value.phone,
@@ -188,8 +193,9 @@ export class UserListComponent implements OnInit {
   }
 
   getBack() {
+    //this.myform.reset();
     this.getAllUser();
-    this.myform.reset();
+  
   }
 
   applyFilter(filterValue: string): void {
@@ -310,6 +316,9 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['admin/authorization/users/add']);
   }
   
+  public cleanForm(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach((key) => formGroup.get(key).setValue(formGroup.get(key).value.trim()));
+  }
 
 
 }

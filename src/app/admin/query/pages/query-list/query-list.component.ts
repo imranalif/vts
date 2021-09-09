@@ -18,7 +18,7 @@ import { PaginationService } from '../../../../shared/services/pagination.servic
 export class QueryListComponent implements OnInit {
   myform: FormGroup;
   private idColumn = 'id';
-  queries=[];
+  queries;
   assigedRole=[];
 
   currentPage= 1;
@@ -87,7 +87,7 @@ export class QueryListComponent implements OnInit {
   }
   getBack(){
     this.getAllQuery();
-    this.myform.reset();
+    //this.myform.reset();
   }
 
   getQueryByPage(currentPage): void {
@@ -111,6 +111,7 @@ export class QueryListComponent implements OnInit {
   }
 
   getQueryBySearch(): void{
+    this.cleanForm(this.myform)
     this.params = {currentPage: this.currentPage, queryID: this.myform.value.queryID, name: this.myform.value.name,
       phone: this.myform.value.phone, email: this.myform.value.email, source: this.myform.value.source,
       status: this.myform.value.status};
@@ -171,6 +172,10 @@ export class QueryListComponent implements OnInit {
     }
     goAppPage(){
       this.router.navigate(['/admin/query/add']);
+    }
+
+    public cleanForm(formGroup: FormGroup) {
+      Object.keys(formGroup.controls).forEach((key) => formGroup.get(key).setValue(formGroup.get(key).value.trim()));
     }
 
     //getIncomingByPage(currentPage): void {}

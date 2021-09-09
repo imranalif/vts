@@ -126,7 +126,7 @@ export class CustomerListComponent implements OnInit {
 
   getBack() {
     this.getAllCustomer();
-    this.myform.reset();
+    //this.myform.reset();
   }
   applyFilter(filterValue: string) {
 
@@ -166,6 +166,10 @@ export class CustomerListComponent implements OnInit {
 
   goAddPage(){
     this.router.navigate(['admin/customer/add']);
+  }
+
+  public cleanForm(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach((key) => formGroup.get(key).setValue(formGroup.get(key).value.trim()));
   }
 
 }

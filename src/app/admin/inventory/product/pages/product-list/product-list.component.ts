@@ -23,7 +23,7 @@ export class ProductListComponent implements OnInit {
   users
   usersIndex=[]
   private idColumn = 'id';
-  products=[];
+  products;
   assigedRole=[];
 
 
@@ -128,7 +128,7 @@ export class ProductListComponent implements OnInit {
   }
   getBack(){
     this.getAllProduct();
-    this.myform.reset();
+    //this.myform.reset();
   }
 
   getProductByPage(currentPage): void {
@@ -152,6 +152,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getProductBySearch(): void{
+    this.cleanForm(this.myform)
     this.params = {currentPage: this.currentPage, category: this.myform.value.category, name: this.myform.value.name,
       model_bdcom: this.myform.value.model_bdcom, model_company: this.myform.value.model_company, company: this.myform.value.company,
       status: this.myform.value.status};
@@ -215,6 +216,10 @@ export class ProductListComponent implements OnInit {
 
     goAddPage(){
       this.router.navigate(['admin/inventory/product/add']);
+    }
+
+    public cleanForm(formGroup: FormGroup) {
+      Object.keys(formGroup.controls).forEach((key) => formGroup.get(key).setValue(formGroup.get(key).value.trim()));
     }
 
 }

@@ -108,6 +108,7 @@ export class GroupEditComponent implements OnInit {
   }
 
   updateGroup() {
+    this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
       return;

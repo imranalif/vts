@@ -7,8 +7,9 @@
       <form  [formGroup]="myform">
        
         <mat-form-field fxFlex=24% fxFlex.xs=30%  class="search_field">
-          <input matInput placeholder="Name" formControlName="name" autocomplete="off" />
+          <input matInput appTrim placeholder="Name" formControlName="name" autocomplete="off" />
         </mat-form-field>
+       
         <mat-form-field fxFlex=24% class="search_field">
           <input matInput placeholder="Email" formControlName="email" autocomplete="off" />
         </mat-form-field>
@@ -23,7 +24,7 @@
       </form>
     </div>
     <div fxFlex=30% fxFlex.xs=100%>
-      <button  mat-button class="search_button" class="mat-stroked-button mat-primary "  (click)="getUserBySearch()" >
+      <button  mat-button class="search_button" class="mat-stroked-button mat-primary " (click)="cleanForm(myform)"   (click)="getUserBySearch()" >
         Search
       </button>
       <button  mat-button class="search_button" class="mat-stroked-button mat-primary "  (click)="getBack()" >
@@ -141,3 +142,6 @@ style="display:flex; justify-content: center; align-items: center">
     mode="indeterminate">
   </mat-progress-spinner>
 </mat-card>
+<mat-card  *ngIf="users==''">
+  No Records Found!
+  </mat-card>

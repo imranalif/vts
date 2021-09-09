@@ -16,12 +16,16 @@ import { MatDialogComponent } from './shared/mat-dialog/mat-dialog.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { TokenInterceptorService } from './shared/services/token-interceptor.service';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MatDialogComponent
+    MatDialogComponent,
+  
+  
   ],
   imports: [
     BrowserModule,
@@ -41,7 +45,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     OwlNativeDateTimeModule
   
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,8 +14,12 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 
+
+
+
 @NgModule({
-  declarations: [UserEditComponent, UserAddComponent, UserListComponent, ResetPasswordComponent, ChangePasswordComponent, UserProfileComponent],
+  declarations: [UserEditComponent, UserAddComponent, UserListComponent, ResetPasswordComponent, ChangePasswordComponent, UserProfileComponent
+     ],
   imports: [
     CommonModule,
     UsersRoutingModule,
@@ -23,7 +27,8 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
     ReactiveFormsModule,
     FormsModule,
     MatTableExporterModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+   
   ]
 })
 export class UsersModule { }
