@@ -34,6 +34,7 @@ export class MapInfoComponent implements OnInit {
   deviceXs: boolean;
   myIcon
   myIcon2
+  myIcon4
   myIcon3: string;
   marker = []
   markerArray = []
@@ -106,6 +107,15 @@ export class MapInfoComponent implements OnInit {
       className: 'icon'
 
     });
+
+    this.myIcon4 = L.icon({
+      iconUrl: './assets/client/images/nn.png',
+      iconSize: [0, 0],
+      iconAnchor: [0, 0],
+      color: 'green',
+      className: 'icon'
+
+    })
 
 
     this.map = L.map('mapid', {
@@ -185,12 +195,11 @@ export class MapInfoComponent implements OnInit {
           console.log(this.fixtime);
           res.forEach(elem => {
             mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
-              + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: false, autoClose: false }).addTo(this.map)
+              + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).addTo(this.map)
             layerGroup.addLayer(mook[elem.deviceid]);
           })
         }
         var polyline = L.polyline([]).addTo(this.map);
-
 
         this.myInterval = setInterval(() => {
           var data = { id: this.deviceIdArray, fixtime: this.fixtime }
@@ -245,16 +254,26 @@ export class MapInfoComponent implements OnInit {
 
     this.cusmapService.deviceLocationCatch.subscribe(res => {
       if (res) {
-
-        var latlng2 = { lat: res.latitude, lng: res.longitude }
-        console.log(latlng2)
-        // const v = L.Control.Geocoder.nominatim();
-        // v.reverse(latlng2, this.map.options.crs.scale(this.map.getZoom()), results => {
-        //   var address = (results[0].name)
-        //  var obj={address:address}
-        //   this.cusmapService.addressDataExchange(obj)
-        // })
         this.map.panTo(new L.LatLng(res.latitude, res.longitude));
+      }
+    })
+
+    // eventInfomation showing
+
+    this.cusmapService.eventCatch.subscribe(res => {
+
+      if (res) {
+        var address
+        var latlng = { lat: res[0].latitude, lng: res[0].longitude }
+        const v = L.Control.Geocoder.nominatim();
+        v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
+          address = (results[0].name)
+        })
+
+        var eventMarkar = L.marker([res[0].latitude, res[0].longitude], { icon: this.myIcon4 }).addTo(this.map).bindPopup("<b>" + res[0].name + "</b>" + " <br> Address: " + address
+          + " <br> Latitude: " + res[0].latitude + " <br> Longitude: " + res[0].longitude + " <br> Altitude: " + res[0].altitude + " <br> Speed: " + res[0].speed
+          + " <br> Time: " + res[0].eventtime, { closeOnClick: true, autoClose: false }).openPopup();
+        this.map.panTo(new L.LatLng(res[0].latitude, res[0].longitude));
       }
     })
 
@@ -270,8 +289,9 @@ export class MapInfoComponent implements OnInit {
         var polyline = L.polyline([]).addTo(this.map);
         this.positions = res;
         if (this.positions != "") {
-
+          this.map.setView(new L.LatLng(this.positions[0].latitude, this.positions[0].longitude), 13);
           this.positions.forEach((element, i) => {
+            
             let expireTime = new Date(element.servertime);
             this.timeArray.push(expireTime)
             var time = (this.timeArray[i] - this.timeArray[i - 1]) / (1000 * 60);
@@ -318,7 +338,7 @@ export class MapInfoComponent implements OnInit {
                 easing: L.Motion.Ease.easeInOutQuart
               },
               {
-                removeOnEnd: true,
+                removeOnEnd: false,
                 //showMarker: true,
                 icon: this.myIcon3
               }
@@ -354,6 +374,7 @@ export class MapInfoComponent implements OnInit {
 
     this.cusmapService.tabIndexCatch.subscribe(res => {
       if (res) {
+        this.map.setView(new L.LatLng(23.774252395907105, 90.41607082790188), 17);
         // if (this.marker.length > 0) {
         //   this.map.addLayer(this.marker);
         // }

@@ -218,7 +218,11 @@ this.dataSource = new MatTableDataSource( res as any);
       this.cusmapService.deviceDetails(e)
     }
 
-    
- 
+    eventInfo(event){
+      this.deviceService.getEventPositionById(event.id).subscribe(res=>{
+        console.log(res)
+        this.cusmapService.eventExchange(res);
+      }) 
+    } 
 
 }

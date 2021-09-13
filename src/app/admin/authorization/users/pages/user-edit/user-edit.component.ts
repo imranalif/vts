@@ -263,6 +263,10 @@ console.log(this.showCustommerField)
     camp.updateValueAndValidity();
     }
 
+    goBack(){
+      this.router.navigate(['admin/authorization/users/list']); 
+    }
+
 
   updateUser(){
     this.myform.markAllAsTouched();

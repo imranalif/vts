@@ -62,6 +62,7 @@ export class UserInfoComponent implements OnInit {
   myIcon
   myIcon2
   myIcon3
+  myIcon4
   cities
   positions
 
@@ -128,7 +129,6 @@ export class UserInfoComponent implements OnInit {
       iconAnchor: [12, 39],
       color: 'green',
       className: 'icon'
-
     });
 
     this.myIcon2 = L.icon({
@@ -137,7 +137,6 @@ export class UserInfoComponent implements OnInit {
       iconAnchor: [12, 39],
       color: 'green',
       className: 'icon'
-
     });
 
     this.myIcon3 = L.icon({
@@ -146,8 +145,17 @@ export class UserInfoComponent implements OnInit {
       iconAnchor: [12, 69],
       color: 'green',
       className: 'icon'
-
     });
+
+    this.myIcon4 = L.icon({
+      iconUrl: './assets/client/images/nn.png',
+      iconSize: [0, 0],
+      iconAnchor: [0, 0],
+      color: 'green',
+      className: 'icon'
+
+    })
+
 
     this.map = L.map('mapid', {
       center: [23.774252395907105, 90.41607082790188],
@@ -320,6 +328,25 @@ var mapDevice=[]
       }
     })
 
+
+    // eventInfomation showing
+
+    this.cusmapService.eventCatch.subscribe(res => {
+      if (res) {
+        var address
+        var latlng = { lat: res[0].latitude, lng: res[0].longitude }
+        const v = L.Control.Geocoder.nominatim();
+        v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
+          address = (results[0].name)
+        })
+
+        var eventMarkar = L.marker([res[0].latitude, res[0].longitude], { icon: this.myIcon4 }).addTo(this.map).bindPopup("<b>" + res[0].name + "</b>" + " <br> Address: " + address
+          + " <br> Latitude: " + res[0].latitude + " <br> Longitude: " + res[0].longitude + " <br> Altitude: " + res[0].altitude + " <br> Speed: " + res[0].speed
+          + " <br> Time: " + res[0].eventtime, { closeOnClick: true, autoClose: false }).openPopup();
+        this.map.panTo(new L.LatLng(res[0].latitude, res[0].longitude));
+      }
+    })
+
     // center position
 
     this.mapService.s.subscribe(res => {
@@ -433,11 +460,11 @@ var mapDevice=[]
           },
           {
             auto: false,
-            duration: 10000,
+            duration: 30000,
             easing: L.Motion.Ease.easeInOutQuart
           },
           {
-            removeOnEnd: true,
+            removeOnEnd: false,
             //showMarker: true,
             icon:this.myIcon3
           }

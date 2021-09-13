@@ -20,12 +20,12 @@ export class HistoryInfoComponent implements OnInit {
     });
   }
   start(){
-    var data={id:101}
+    var data={id:100}
     this.cusmapService.deviceMove(data);
  }
 
  stop(){
-  var data={id:100}
+  var data={id:103}
   this.cusmapService.motionStop(data);
 }
 

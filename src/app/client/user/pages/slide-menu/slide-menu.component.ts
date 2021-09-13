@@ -9,6 +9,7 @@ import { CustomerService } from 'src/app/admin/customer/services/customer.servic
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { LoginService } from 'src/app/authentication/login/services/login.service';
 import { DateformateService } from 'src/app/shared/services/dateformate.service';
+import { CusmapService } from 'src/app/map/customer-map/services/cusmap.service';
 
 @Component({
   selector: 'app-slide-menu',
@@ -55,7 +56,8 @@ selected=1;
     private mapService:MapService,
     private customerService:CustomerService,
     private loginService:LoginService,
-    private dateFormatService: DateformateService
+    private dateFormatService: DateformateService,
+    private cusmapService:CusmapService,
   ) { }
 
   ngOnInit(): void {
@@ -311,6 +313,13 @@ loadHistory(){
     this.mapService.historyShow(res);
   })
 
+}
+
+eventInfo(event){
+  this.deviceService.getEventPositionById(event.id).subscribe(res=>{
+    console.log(res)
+    this.cusmapService.eventExchange(res);
+  }) 
 }
 
 

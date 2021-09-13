@@ -92,4 +92,9 @@ export class DeviceService {
   getMovingPosition(data): Observable<any> {
     return this.http.post(this.url + '/movingPositions',data);
   }
+
+
+  getEventPositionById(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getEventPositionById');
+  }
 }

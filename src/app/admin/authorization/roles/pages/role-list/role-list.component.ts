@@ -86,5 +86,9 @@ export class RoleListComponent implements OnInit {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
+    goAddItem(){
+      this.router.navigate(['/admin/authorization/roles/add']);
+    }
+
 
 }

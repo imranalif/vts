@@ -102,6 +102,10 @@ export class ProductEditComponent implements OnInit {
     this.categories = this.filterCategories.filter((unit) => unit.name.toLowerCase().indexOf(val) > -1);
   }
 
+  goBack(){
+    this.router.navigate(['/admin/inventory/product/list']);
+  }
+
   updateProduct(): void{
     this.submitted = true;
     if (this.myform.invalid) {

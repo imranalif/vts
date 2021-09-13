@@ -60,6 +60,11 @@ export class RoleEditComponent implements OnInit {
       horizontalPosition: 'end',
     }); }
 
+
+    goBack(){
+      this.router.navigate(['admin/authorization/roles/list']);  
+    }
+
   updateRole(): void{
     this.submitted = true;
     if (this.myform.invalid) {

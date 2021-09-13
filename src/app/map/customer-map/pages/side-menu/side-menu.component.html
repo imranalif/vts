@@ -114,22 +114,22 @@
         <mat-tab label="Events" *ngIf="customerDevices">
             <table mat-table matTableExporter [dataSource]="dataEvents" class="mat-elevation-z8">
 
-
+        
 
                 <ng-container matColumnDef="time">
                     <th mat-header-cell *matHeaderCellDef>Time</th>
-                    <td mat-cell *matCellDef="let element"><a>{{ element.eventtime|date:'medium' }}</a></td>
+                    <td mat-cell *matCellDef="let element"><a (click)="eventInfo(element)">{{ element.eventtime|date:'medium' }}</a></td>
                 </ng-container>
 
 
                 <ng-container matColumnDef="device_id">
                     <th mat-header-cell *matHeaderCellDef>Name</th>
-                    <td mat-cell *matCellDef="let element">{{ customerDevices[0]?.name }}</td>
+                    <td mat-cell *matCellDef="let element"><a (click)="eventInfo(element)">{{ customerDevices[0]?.name }}</a></td>
                 </ng-container>
 
                 <ng-container matColumnDef="event">
                     <th mat-header-cell *matHeaderCellDef>Events</th>
-                    <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+                    <td mat-cell *matCellDef="let element"><a (click)="eventInfo(element)">{{ element.type }}</a></td>
                 </ng-container>
 
                 <ng-container matColumnDef="more">
@@ -151,7 +151,7 @@
                 </mat-menu>
 
 
-
+           
 
                 <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
                 <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
