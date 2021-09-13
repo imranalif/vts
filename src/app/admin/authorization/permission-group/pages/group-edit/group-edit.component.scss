@@ -1,7 +1,13 @@
+mat-card{
+  width: 50%;
+  top: 30px;
+}
+
 .customStyle{
     border-radius: 10px 10px 10px 10px;
     box-shadow: 5px 10px 15px #1A237E;
     .title-style{
+      margin-top:-4%;
       color:#1A237E ;
       text-align: center !important;
       margin-bottom: 15px;

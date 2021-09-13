@@ -187,6 +187,7 @@ check(e, data) {
       this.deviceCheckData=res;
       this.deviceCheckData.forEach((elem, i) => {
        this.deviceCheckDataIndex[elem.deviceid] = this.deviceCheckData[i];
+       console.log(this.deviceCheckDataIndex[elem.deviceid].servertime)
      });
  this.mapService.devicePosition(res);
     })
@@ -258,6 +259,8 @@ checkAllByGroup(e: any, id){
 console.log(id)
   if(e){
   this.customerService.DeviceByCustomerWithPosition(id).subscribe(data => {
+    if(data.length>0){
+      console.log(data)
     this.mapService.devicePosition(data);
     data.forEach((elem, i) => {
       this.deviceCheckDataIndex[elem.deviceid] = data[i];
@@ -278,7 +281,8 @@ console.log(id)
     });
     //this.mapService.updateData(this.DeviceView);
     //console.log(this.DeviceView)
-  })
+  }}
+  )
 }
 else{
   console.log(this.reserve)

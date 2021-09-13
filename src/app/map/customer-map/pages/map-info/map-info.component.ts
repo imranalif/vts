@@ -51,6 +51,7 @@ export class MapInfoComponent implements OnInit {
   storeLatlng = []
   polylineMotion
   timeArray = []
+  fixtimeArray=[]
   deviceIdArray = []
   fixtime
 
@@ -270,7 +271,7 @@ export class MapInfoComponent implements OnInit {
           address = (results[0].name)
         })
 
-        var eventMarkar = L.marker([res[0].latitude, res[0].longitude], { icon: this.myIcon4 }).addTo(this.map).bindPopup("<b>" + res[0].name + "</b>" + " <br> Address: " + address
+        var eventMarkar = L.marker([res[0].latitude, res[0].longitude], { icon: this.myIcon4 }).addTo(this.map).bindPopup("<b>" + res[0].name + "</b>" + " <br> Address: " + address 
           + " <br> Latitude: " + res[0].latitude + " <br> Longitude: " + res[0].longitude + " <br> Altitude: " + res[0].altitude + " <br> Speed: " + res[0].speed
           + " <br> Time: " + res[0].eventtime, { closeOnClick: true, autoClose: false }).openPopup();
         this.map.panTo(new L.LatLng(res[0].latitude, res[0].longitude));
@@ -293,8 +294,10 @@ export class MapInfoComponent implements OnInit {
           this.positions.forEach((element, i) => {
             
             let expireTime = new Date(element.servertime);
+            let fixTime = new Date(element.fixtime);
             this.timeArray.push(expireTime)
-            var time = (this.timeArray[i] - this.timeArray[i - 1]) / (1000 * 60);
+            this.fixtimeArray.push(fixTime)
+            var time = (this.timeArray[i] - this.fixtimeArray[i]) / (1000 * 60);
 
             if (time > 20) {
               this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.deviceid + " <br> Address: " + element.latitude
@@ -302,10 +305,10 @@ export class MapInfoComponent implements OnInit {
               this.engineArray.push(this.engine)
               this.history = L.layerGroup(this.engineArray);
             }
-
+           var address
             if (time < 20 && time > 5) {
-              this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindPopup(element.deviceid + " <br> Address: " + element.latitude
-                + " <br> Model: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup().addTo(this.map);
+              this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindPopup(element.deviceid + " <br> Address: "  + address
+              + " <br> Latitude: " + element.latitude + " <br> Longitude: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Altitude: " + element.altitude + " <br> Speed: " + element.speed +" <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup().addTo(this.map);
               this.parkArray.push(this.park)
               this.parking = L.layerGroup(this.parkArray);
             }

@@ -61,6 +61,10 @@ export class GroupEditComponent implements OnInit {
       horizontalPosition: 'end',
     }); }
 
+    goBack(){
+      this.router.navigate(['admin/authorization/group/list']);  
+    }
+
   updateGroup(): void{
     this.submitted = true;
     if (this.myform.invalid) {

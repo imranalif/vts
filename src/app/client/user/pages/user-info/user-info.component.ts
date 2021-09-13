@@ -55,6 +55,7 @@ export class UserInfoComponent implements OnInit {
   controlBar
   updateData
   timeArray = []
+  fixtimeArray=[]
   overlayMaps
   baseMaps
   n
@@ -416,25 +417,37 @@ var mapDevice=[]
         this.viewHistory=1
         var polyline = L.polyline([]).addTo(this.map);
         this.positions = res;
+        this.map.setView(new L.LatLng(this.positions[0].latitude, this.positions[0].longitude), 13);
         this.positions.forEach((element, i) => {
-          if (element.course == 'off') {
+          // if (element.course == 'off') {
+          //   this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.deviceid + " <br> Address: " + element.latitude
+          //   + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup();;
+          //   this.engineArray.push(this.engine)
+          //   this.history = L.layerGroup(this.engineArray);
+          // }
+          let expireTime = new Date(element.servertime);
+          let fixTime = new Date(element.fixtime);
+          this.timeArray.push(expireTime)
+          this.fixtimeArray.push(fixTime)
+          var time = (this.timeArray[i] - this.fixtimeArray[i]) / (1000 * 60);
+          if (time > 20) { 
             this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.deviceid + " <br> Address: " + element.latitude
-            + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup();;
+              + " <br> Model: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: true, autoClose: false }).openPopup();
             this.engineArray.push(this.engine)
             this.history = L.layerGroup(this.engineArray);
           }
-          this.timeArray.push(element.altitude)
-          var time = this.timeArray[i] - this.timeArray[i - 1]
-          if (time > 10) {
-            //console.log("=====")
-            this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindTooltip(element.latitude);
+
+          if (time < 20 && time > 5) {
+            var address
+            this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindPopup(element.deviceid + " <br> Address: " + address
+              + " <br> Latitude: " + element.latitude + " <br> Longitude: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Altitude: " + element.altitude + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: true, autoClose: false }).openPopup().addTo(this.map);
             this.parkArray.push(this.park)
             this.parking = L.layerGroup(this.parkArray);
           }
           //console.log(time);
           this.route = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
 
-          this.arrow = this.route.arrowheads({size: '20px',color:'red',yawn: 40, frequency: 5 });
+          this.arrow = this.route.arrowheads({size: '10px',color:'red',yawn: 40, frequency: 5 });
           //this.marker.setLatLng([element.latitude,element.longitude]).bindTooltip("Loc:"+element.latitude+", "+element.longitude).addTo(this.map);
           this.storeLatlng.push([element.latitude,element.longitude])
          
@@ -487,6 +500,7 @@ var mapDevice=[]
     this.mapService.indexDetailsView.subscribe(res => {
       console.log(res)
       if (res) {
+        this.map.setView(new L.LatLng(23.774252395907105, 90.41607082790188), 17);
         if(this.route){
           //this.map.removeLayer(this.history);
           this.map.removeLayer(this.route);

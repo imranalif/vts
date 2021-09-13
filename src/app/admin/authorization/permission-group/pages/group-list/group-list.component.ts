@@ -89,4 +89,8 @@ export class GroupListComponent implements OnInit {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
+    goAddItem(){
+      this.router.navigate(['admin/authorization/group/add']);
+    }
+
 }

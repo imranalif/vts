@@ -135,6 +135,10 @@ export class DriverEditComponent implements OnInit {
     });
   }
 
+  goBack(){
+    this.router.navigate(['/admin/traccar/driver/list']);
+  }
+
   updateDriver() {
     this.submitted = true;
     if (this.myform.invalid) {

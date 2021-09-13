@@ -107,14 +107,14 @@
                                     </a>
                                     <span class="b21"><i class="fa fa-circle" aria-hidden="true"></i></span>
                                     <span class="b213" *ngIf="deviceCheckDataIndex">{{deviceCheckDataIndex[val.deviceid]?.speed*1.852 | number}} km</span>
-                                    <div class="movingtime" *ngIf="deviceCheckDataIndexcd">
+                                    <div class="movingtime" *ngIf="deviceCheckDataIndex">
                                         {{deviceCheckDataIndex[val.deviceid]?.servertime|date:'medium'}}
                                     </div>
                                     <mat-menu class="dropdown-content" #hospital="matMenu">
-                                        <button mat-menu-item routerLink="/">Hospital List</button>
+                                        <button mat-menu-item >Track</button>
 
-                                        <button mat-menu-item routerLink="info/map">
-                                            Hospital Map
+                                        <button mat-menu-item >
+                                            Sharing
                                         </button>
 
                                     </mat-menu>

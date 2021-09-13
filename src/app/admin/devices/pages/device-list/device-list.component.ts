@@ -168,5 +168,9 @@ export class DeviceListComponent implements OnInit {
    console.log(data.id)
     }
 
+    goAddItem(){
+      this.router.navigate(['admin/traccar/devices/add']);
+    }
+
 
 }

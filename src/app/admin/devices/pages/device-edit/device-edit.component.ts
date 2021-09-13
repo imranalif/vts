@@ -135,6 +135,10 @@ this.groups=res;
     });
   }
 
+  goBack(){
+    this.router.navigate(['/admin/traccar/devices/list']);
+  }
+
   updateDevice() {
     this.submitted = true;
     if (this.myform.invalid) {

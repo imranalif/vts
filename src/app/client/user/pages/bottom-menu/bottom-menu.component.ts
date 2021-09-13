@@ -41,7 +41,7 @@ url:string
                 })
         console.log(res[0])
         this.url=this.link+res[0].latitude+','+res[0].longitude
-       this.deviceData=res;
+       this.deviceData=res[0];
        this.deviceName=res[0].name;
        this.attribute=JSON.parse(res[0].attributes)
        console.log(this.deviceData)
@@ -58,7 +58,7 @@ url:string
                 })
         console.log(response[0])
         this.url=this.link+response[0].latitude+','+response[0].longitude
-       this.deviceData=response;
+       this.deviceData=response[0];
        this.attribute=JSON.parse(response[0].attributes)
        console.log(this.deviceData)
       }
