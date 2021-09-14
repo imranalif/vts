@@ -308,7 +308,7 @@ export class MapInfoComponent implements OnInit {
            var address
             if (time < 20 && time > 5) {
               this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindPopup(element.deviceid + " <br> Address: "  + address
-              + " <br> Latitude: " + element.latitude + " <br> Longitude: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Altitude: " + element.altitude + " <br> Speed: " + element.speed +" <br> Power: " + element.course, { closeOnClick: false, autoClose: false }).openPopup().addTo(this.map);
+              + " <br> Latitude: " + element.latitude + " <br> Longitude: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Altitude: " + element.altitude + " <br> Speed: " + element.speed , { closeOnClick: false, autoClose: false }).openPopup().addTo(this.map);
               this.parkArray.push(this.park)
               this.parking = L.layerGroup(this.parkArray);
             }
@@ -388,6 +388,9 @@ export class MapInfoComponent implements OnInit {
           this.map.removeLayer(this.parking);
         }
 
+        if(this.history){
+          this.map.removeLayer(this.history);
+        }
 
         //controlBar.show();
         this.map.addLayer(layerGroup)

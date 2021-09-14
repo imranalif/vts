@@ -436,14 +436,14 @@ var mapDevice=[]
             this.engineArray.push(this.engine)
             this.history = L.layerGroup(this.engineArray);
           }
-
-          if (time < 20 && time > 5) {
-            var address
-            this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindPopup(element.deviceid + " <br> Address: " + address
-              + " <br> Latitude: " + element.latitude + " <br> Longitude: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Altitude: " + element.altitude + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: true, autoClose: false }).openPopup().addTo(this.map);
-            this.parkArray.push(this.park)
-            this.parking = L.layerGroup(this.parkArray);
-          }
+          // var address
+          // if (time < 20 && time > 5) {
+            
+          //   this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindPopup(element.deviceid + " <br> Address: " + address
+          //     + " <br> Latitude: " + element.latitude + " <br> Longitude: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Altitude: " + element.altitude + " <br> Speed: " + element.speed , { closeOnClick: true, autoClose: false }).openPopup().addTo(this.map);
+          //   this.parkArray.push(this.park)
+          //   this.parking = L.layerGroup(this.parkArray);
+          // }
           //console.log(time);
           this.route = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
 
@@ -505,6 +505,12 @@ var mapDevice=[]
           //this.map.removeLayer(this.history);
           this.map.removeLayer(this.route);
           //this.map.removeLayer(this.parking);
+        }
+        if(this.parking){
+          this.map.removeLayer(this.parking);
+        }
+        if(this.history){
+          this.map.removeLayer(this.history);
         }
         if(layerGroup){
           this.map.addLayer(layerGroup)

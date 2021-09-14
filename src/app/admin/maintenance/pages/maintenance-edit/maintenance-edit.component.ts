@@ -110,6 +110,10 @@ export class MaintenanceEditComponent implements OnInit {
     });
   }
 
+  goBack(){
+    this.router.navigate(['/admin/maintenance/list']);
+  }
+
   updateMaintenance() {
     this.myform.markAllAsTouched();
     this.submitted = true;
