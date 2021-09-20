@@ -38,7 +38,7 @@ import { CusmapService } from 'src/app/map/customer-map/services/cusmap.service'
 
 export class UserInfoComponent implements OnInit {
   fixtime;
-  par=[]
+  par = []
   line
   marking
   historyItem
@@ -48,14 +48,14 @@ export class UserInfoComponent implements OnInit {
   myInterval
 
 
-  storeLatlng=[]
+  storeLatlng = []
   polylineMotion
   viewHistory = 0;
   historyBar
   controlBar
   updateData
   timeArray = []
-  fixtimeArray=[]
+  fixtimeArray = []
   overlayMaps
   baseMaps
   n
@@ -200,7 +200,7 @@ export class UserInfoComponent implements OnInit {
       "Objects": layerGroup
     }
 
-    L.control.layers(this.baseMaps,this.overlayMaps).addTo(this.map);
+    L.control.layers(this.baseMaps, this.overlayMaps).addTo(this.map);
 
 
     var sidebar = L.control.sidebar('sidebar').addTo(this.map);
@@ -221,31 +221,31 @@ export class UserInfoComponent implements OnInit {
     }).addTo(this.map);;
     controlBar.show();
     //this.controlBar.toggle()
-  var myButton= L.easyButton('fa-exchange', function (btn, map) {
+    var myButton = L.easyButton('fa-exchange', function (btn, map) {
       controlBar.toggle()
-    },{ position: 'bottomright' }).addTo(this.map);
-  
+    }, { position: 'bottomright' }).addTo(this.map);
 
-  //   L.easyButton({    states: [{
-  //     stateName: 'zoom-to-forest',        // name the state
-  //     icon:      'fa-exchange',  
-  //     position: 'topright',             // and define its properties
-  //     title:     'zoom to a forest',      // like its title
-  //     onClick: function(btn, map) {       // and its callback
-  //       controlBar.toggle()   // change state on click!
-  //     }
-  // }]}).addTo(this.map);
 
-this.historyBar = L.control.bar('history', {
+    //   L.easyButton({    states: [{
+    //     stateName: 'zoom-to-forest',        // name the state
+    //     icon:      'fa-exchange',  
+    //     position: 'topright',             // and define its properties
+    //     title:     'zoom to a forest',      // like its title
+    //     onClick: function(btn, map) {       // and its callback
+    //       controlBar.toggle()   // change state on click!
+    //     }
+    // }]}).addTo(this.map);
+
+    this.historyBar = L.control.bar('history', {
       position: 'bottom',
       visible: false
     }).addTo(this.map);;
-    
 
-// add device
 
-var mapDevice=[]
- var pai = L.layerGroup()
+    // add device
+
+    var mapDevice = []
+    var pai = L.layerGroup()
     this.mapService.movingDataCatch.subscribe(res => {
       this.updateData = res;
       if (res) {
@@ -253,19 +253,15 @@ var mapDevice=[]
         this.fixtime = res[0].fixtime
         this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
         res.forEach(element => {
-          if(!this.deviceIdArray.includes(element.deviceid)){
+          if (!this.deviceIdArray.includes(element.deviceid)) {
             this.deviceIdArray.push(element.deviceid)
-          
-          
-          console.log(element.deviceid)
-          mapDevice[element.deviceid] = L.marker([element.latitude, element.longitude], { icon: this.myIcon3 }).bindPopup(element.name + " <br> Address: " + element.contact
-          + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false }).addTo(this.map)
-          layerGroup.addLayer(mapDevice[element.deviceid]);
-        }}
+            mapDevice[element.deviceid] = L.marker([element.latitude, element.longitude], { icon: this.myIcon3 }).bindPopup(element.name + " <br> Address: " + element.contact
+              + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false }).addTo(this.map)
+            layerGroup.addLayer(mapDevice[element.deviceid]);
+          }
+        }
         );
-
         var polyline = L.polyline([]).addTo(this.map);
-
 
         this.myInterval = setInterval(() => {
           var data = { id: this.deviceIdArray, fixtime: this.fixtime }
@@ -284,7 +280,6 @@ var mapDevice=[]
                 //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
                 var markers = L.layerGroup()
                 this.markerArray = L.layerGroup()
-                console.log(element)
                 this.marker = mapDevice[element.deviceid].setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
                   + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
                 if (element) {
@@ -294,12 +289,8 @@ var mapDevice=[]
               })
             })
           }
-        }, 5 * 1000)
-     
-       
-
-      }
-    })
+        }, 5 * 1000)}
+      })
 
     this.overlayMaps = {
       "objects": layerGroup,
@@ -314,17 +305,17 @@ var mapDevice=[]
           this.deviceIdArray = this.deviceIdArray.filter(item => item !== element.id)
           console.log(element.id)
           this.map.removeLayer(mapDevice[element.id])
-          if(this.line){
+          if (this.line) {
             this.map.removeLayer(this.line)
           }
 
           console.log(this.deviceIdArray.length)
-          if(this.deviceIdArray.length<=0){
+          if (this.deviceIdArray.length <= 0) {
             console.log("check")
-            this.check=0;
+            this.check = 0;
             clearInterval(this.myInterval);
           }
-          
+
         });
       }
     })
@@ -352,13 +343,6 @@ var mapDevice=[]
 
     this.mapService.s.subscribe(res => {
       if (res) {
-        // var latlng2 = { lat: res[0].latitude, lng: res[0].longitude }
-        // console.log(latlng2)
-        // const v = L.Control.Geocoder.nominatim();
-        // v.reverse(latlng2, this.map.options.crs.scale(this.map.getZoom()), results => {
-        //   res.address = (results[0].name)
-        //   this.mapService.selectedDeviceDataExchange(res)
-        // })
         this.map.panTo(new L.LatLng(res[0].latitude, res[0].longitude));
       }
     })
@@ -368,7 +352,7 @@ var mapDevice=[]
 
     this.mapService.deviesMove.subscribe(res => {
       if (res) {
-        
+
         console.log("test")
         console.log(res)
         //this.map.addLayer(this.markerArray[1]);
@@ -404,19 +388,20 @@ var mapDevice=[]
     //   }
     // })
 
-// history show
+    // history show
 
     this.mapService.historyData.subscribe(res => {
       if (res) {
-       // myButton.disable();
-       this.map.removeLayer(layerGroup)
-       console.log("......")
-    
-       controlBar.hide();
+        // myButton.disable();
+        this.map.removeLayer(layerGroup)
+        console.log("......")
+
+        controlBar.hide();
         this.historyBar.show();
-        this.viewHistory=1
+        this.viewHistory = 1
         var polyline = L.polyline([]).addTo(this.map);
         this.positions = res;
+        this.storeLatlng = [];
         this.map.setView(new L.LatLng(this.positions[0].latitude, this.positions[0].longitude), 13);
         this.positions.forEach((element, i) => {
           // if (element.course == 'off') {
@@ -430,7 +415,7 @@ var mapDevice=[]
           this.timeArray.push(expireTime)
           this.fixtimeArray.push(fixTime)
           var time = (this.timeArray[i] - this.fixtimeArray[i]) / (1000 * 60);
-          if (time > 20) { 
+          if (time > 20) {
             this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.deviceid + " <br> Address: " + element.latitude
               + " <br> Model: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Speed: " + element.speed + " <br> Power: " + element.course, { closeOnClick: true, autoClose: false }).openPopup();
             this.engineArray.push(this.engine)
@@ -438,7 +423,7 @@ var mapDevice=[]
           }
           // var address
           // if (time < 20 && time > 5) {
-            
+
           //   this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindPopup(element.deviceid + " <br> Address: " + address
           //     + " <br> Latitude: " + element.latitude + " <br> Longitude: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Altitude: " + element.altitude + " <br> Speed: " + element.speed , { closeOnClick: true, autoClose: false }).openPopup().addTo(this.map);
           //   this.parkArray.push(this.park)
@@ -447,10 +432,10 @@ var mapDevice=[]
           //console.log(time);
           this.route = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
 
-          this.arrow = this.route.arrowheads({size: '10px',color:'red',yawn: 40, frequency: 5 });
+          this.arrow = this.route.arrowheads({ size: '10px', color: 'red', yawn: 40, frequency: 10 });
           //this.marker.setLatLng([element.latitude,element.longitude]).bindTooltip("Loc:"+element.latitude+", "+element.longitude).addTo(this.map);
-          this.storeLatlng.push([element.latitude,element.longitude])
-         
+          this.storeLatlng.push([element.latitude, element.longitude])
+
         });
         // this.n = {
         //   "Objects": this.history
@@ -460,28 +445,28 @@ var mapDevice=[]
         // this.a = {
         //   "Route": this.route,
         //   "Engine": this.history,
-          
+
         //   "Parking": this.parking,
 
         // };
-      //"Arrow": this.arrow,
+        //"Arrow": this.arrow,
         //L.control.layers(this.baseMaps, this.a).addTo(this.map);
         this.polylineMotion = L.motion
-        .polyline(this.storeLatlng,
-          {
-            color: ' '
-          },
-          {
-            auto: false,
-            duration: 30000,
-            easing: L.Motion.Ease.easeInOutQuart
-          },
-          {
-            removeOnEnd: false,
-            //showMarker: true,
-            icon:this.myIcon3
-          }
-        ).addTo(this.map);
+          .polyline(this.storeLatlng,
+            {
+              color: ' '
+            },
+            {
+              auto: false,
+              duration: 30000,
+              easing: L.Motion.Ease.easeInOutQuart
+            },
+            {
+              removeOnEnd: false,
+              //showMarker: true,
+              icon: this.myIcon3
+            }
+          ).addTo(this.map);
       }
     })
 
@@ -496,26 +481,26 @@ var mapDevice=[]
       }
     })
 
-    
+
     this.mapService.indexDetailsView.subscribe(res => {
       console.log(res)
       if (res) {
         this.map.setView(new L.LatLng(23.774252395907105, 90.41607082790188), 17);
-        if(this.route){
+        if (this.route) {
           //this.map.removeLayer(this.history);
           this.map.removeLayer(this.route);
           //this.map.removeLayer(this.parking);
         }
-        if(this.parking){
+        if (this.parking) {
           this.map.removeLayer(this.parking);
         }
-        if(this.history){
+        if (this.history) {
           this.map.removeLayer(this.history);
         }
-        if(layerGroup){
+        if (layerGroup) {
           this.map.addLayer(layerGroup)
         }
-        
+
         //controlBar.show();
         this.historyBar.hide();
         //this.map.panTo(new L.LatLng(res.lat, res.lng));
@@ -535,7 +520,7 @@ var mapDevice=[]
       this.positions.forEach((element, i) => {
         if (element.power == 'off') {
           this.engine = L.marker([element.latitude, element.longitude], { icon: this.myIcon }).bindPopup(element.device_id + " <br> Address: " + element.latitude
-          + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.power, { closeOnClick: false, autoClose: false }).openPopup();
+            + " <br> Model: " + element.longitude + " <br> Speed: " + element.speed + " <br> Power: " + element.power, { closeOnClick: false, autoClose: false }).openPopup();
           this.engineArray.push(this.engine)
           this.history = L.layerGroup(this.engineArray);
         }
@@ -613,85 +598,83 @@ var mapDevice=[]
       // };
       L.control.layers(this.baseMaps, this.overlayMaps).addTo(this.map);
 
-      setTimeout(() => {
-        var g = this.cities
-        console.log(this.devices)
-        var check = document.getElementsByClassName("check");
-        var leftbar = document.getElementsByClassName("left_bar");
-        var filter = document.getElementsByClassName("filter");
+      // setTimeout(() => {
+      //   var g = this.cities
+      //   console.log(this.devices)
+      //   var check = document.getElementsByClassName("check");
+      //   var leftbar = document.getElementsByClassName("left_bar");
+      //   var filter = document.getElementsByClassName("filter");
 
-        var submit = document.getElementsByClassName("submit");
-        var info = document.getElementsByClassName("view-info");
-
-
-
-        var submitCheck = function () {
-          console.log("check")
-        }
-
-        var filterFunction = function (event) {
-
-          this.devices = this.dat.filter(x => x.name === event.key)
+      //   var submit = document.getElementsByClassName("submit");
+      //   var info = document.getElementsByClassName("view-info");
 
 
-        }
 
-        var submitFunction = function () {
+      //   var submitCheck = function () {
+      //     console.log("check")
+      //   }
 
-        }
+      //   var filterFunction = function (event) {
 
-        var t = this;
-
-        var infoFunction = function () {
-          var id = this.getAttribute("info-name");
-
-          var result = dev.filter(obj => {
-            return obj.unique_id === id
-          })
-
-          this.checkData = result
-          //t.testFunction(result);
-          //console.log(this.checkData)
-        }
+      //     this.devices = this.dat.filter(x => x.name === event.key)
 
 
-        var myFunction = function (e) {
-          var name = this.getAttribute("data-name");
-          if (e.target.checked) {
-            console.log(g)
-            t.map.addLayer(t.markerArray[1]);
-            console.log(name, "Checked");
-          } else {
+      //   }
 
-            t.map.removeLayer(t.markerArray[1]);
-            console.log(name, "Unchecked");
-          }
-        };
+      //   var submitFunction = function () {
 
-        for (var i = 0; i < leftbar.length; i++) {
+      //   }
 
-          leftbar[i].addEventListener('click', myFunction, false);
-        }
+      //   var t = this;
 
-        for (var i = 0; i < submit.length; i++) {
+      //   var infoFunction = function () {
+      //     var id = this.getAttribute("info-name");
 
-          submit[i].addEventListener('click', submitFunction, false);
-        }
+      //     var result = dev.filter(obj => {
+      //       return obj.unique_id === id
+      //     })
 
-        for (var i = 0; i < filter.length; i++) {
-          console.log("3333XXXXXXXXX");
-          filter[i].addEventListener('keyup', filterFunction, false);
-        }
+      //     this.checkData = result
+      //   }
 
-        for (var i = 0; i < info.length; i++) {
-          info[i].addEventListener('click', infoFunction, false);
-        }
 
-        for (var i = 0; i < check.length; i++) {
-          info[i].addEventListener('click', submitCheck, false);
-        }
+      //   var myFunction = function (e) {
+      //     var name = this.getAttribute("data-name");
+      //     if (e.target.checked) {
+      //       console.log(g)
+      //       t.map.addLayer(t.markerArray[1]);
+      //       console.log(name, "Checked");
+      //     } else {
 
-      }, 500);
+      //       t.map.removeLayer(t.markerArray[1]);
+      //       console.log(name, "Unchecked");
+      //     }
+      //   };
+
+      //   for (var i = 0; i < leftbar.length; i++) {
+
+      //     leftbar[i].addEventListener('click', myFunction, false);
+      //   }
+
+      //   for (var i = 0; i < submit.length; i++) {
+
+      //     submit[i].addEventListener('click', submitFunction, false);
+      //   }
+
+      //   for (var i = 0; i < filter.length; i++) {
+      //     console.log("3333XXXXXXXXX");
+      //     filter[i].addEventListener('keyup', filterFunction, false);
+      //   }
+
+      //   for (var i = 0; i < info.length; i++) {
+      //     info[i].addEventListener('click', infoFunction, false);
+      //   }
+
+      //   for (var i = 0; i < check.length; i++) {
+      //     info[i].addEventListener('click', submitCheck, false);
+      //   }
+
+      // }, 500);
 
 
     });
@@ -701,7 +684,7 @@ var mapDevice=[]
   }
 
 
-  logout() { 
+  logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('userData');
     localStorage.removeItem('rolesData');

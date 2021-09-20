@@ -289,6 +289,7 @@ export class MapInfoComponent implements OnInit {
         //this.viewHistory=1
         var polyline = L.polyline([]).addTo(this.map);
         this.positions = res;
+        this.storeLatlng=[];
         if (this.positions != "") {
           this.map.setView(new L.LatLng(this.positions[0].latitude, this.positions[0].longitude), 13);
           this.positions.forEach((element, i) => {
@@ -316,6 +317,7 @@ export class MapInfoComponent implements OnInit {
 
             this.arrow = this.route.arrowheads({ size: '12px', color: 'red', yawn: 40, frequency: 10 });
             //this.marker.setLatLng([element.latitude,element.longitude]).bindTooltip("Loc:"+element.latitude+", "+element.longitude).addTo(this.map);
+           
             this.storeLatlng.push([element.latitude, element.longitude])
 
           });
