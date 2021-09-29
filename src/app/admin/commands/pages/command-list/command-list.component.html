@@ -9,6 +9,9 @@
       <button class="export_button" mat-button class="mat-raised-button mat-primary " (click)="exporter.exportTable('csv',{fileName:'command'})">
         CSV
      </button>
+     <button class="add_button" mat-button  (click)="goAddItem()">
+      <mat-icon>add</mat-icon>
+   </button>
     </div>
   
     <table mat-table matTableExporter  [dataSource]="dataSource" matSort #exporter="matTableExporter" [hiddenColumns]="[0]" class="mat-elevation-z8">

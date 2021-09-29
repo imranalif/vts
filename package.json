@@ -25,6 +25,7 @@
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@mat-datetimepicker/core": "^6.0.3",
     "esri-leaflet-geocoder": "^3.1.1",
+    "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
     "leaflet": "^1.7.1",
     "leaflet-arrowheads": "^1.2.3",

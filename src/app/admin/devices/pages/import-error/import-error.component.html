@@ -1,0 +1,32 @@
+<div class="custom-style">
+    
+    
+    <table mat-table   [dataSource]="dataSource" matSort   class="mat-elevation-z8">
+  
+   
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>IMEI</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="reason">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Reason</th>
+        <td mat-cell *matCellDef="let element">{{ element.reason }}</td>
+      </ng-container>
+  
+  
+
+  
+      <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+ 
+

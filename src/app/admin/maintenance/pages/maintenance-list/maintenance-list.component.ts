@@ -45,7 +45,7 @@ export class MaintenanceListComponent implements OnInit {
   }
 
   editMaintenance(data): void{
-    this.router.navigate(['admin/maintenance/edit', data.id]);
+    this.router.navigate(['admin/traccar/maintenance/edit', data.id]);
   }
 
 
@@ -81,7 +81,7 @@ export class MaintenanceListComponent implements OnInit {
     }
 
     goAddItem(){
-      this.router.navigate(['admin/maintenance/add']);
+      this.router.navigate(['admin/traccar/maintenance/add']);
     }
 
 }

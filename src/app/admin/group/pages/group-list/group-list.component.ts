@@ -162,7 +162,9 @@ export class GroupListComponent implements OnInit {
       .subscribe(response => {});
     }
 
-
+    goAddItem(){
+      this.router.navigate(['admin/traccar/group/add']);
+    }
 
 
 }

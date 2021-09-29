@@ -4,6 +4,7 @@ import { CustomerListComponent } from './pages/customer-list/customer-list.compo
 import { AuthGuard } from '../../shared/auth.guard';
 import { CustomerEditComponent } from './pages/customer-edit/customer-edit.component';
 import { CustomerAddComponent } from './pages/customer-add/customer-add.component';
+import { CustomerQueryComponent } from './pages/customer-query/customer-query.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
     component: CustomerEditComponent,
     canActivate: [AuthGuard],
     data: {roles: 'customer_edit'}
+  },
+  {
+    path: 'customer-query/:id',
+    component: CustomerQueryComponent,
   },
 ];
 

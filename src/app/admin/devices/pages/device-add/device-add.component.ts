@@ -13,6 +13,7 @@ import { GroupService } from 'src/app/admin/group/services/group.service';
 })
 export class DeviceAddComponent implements OnInit {
 groups=[];
+show: boolean
   object: any = {}
   att = []
   submitted = false;
@@ -93,16 +94,23 @@ this.groups=res;
     });}
 
     this.myform.value.attributes = this.object;
+    var e=this.myform.value.identifier
+    console.log(e.length )
     this.userData = JSON.parse(localStorage.getItem('userData'));
     this.myform.value.created_by = this.userData.id;
     console.log(this.myform.value);
     this.deviceService.addDevice(this.myform.value).subscribe(res => {
-      this.openSnackBar();
-      this.router.navigate(['/admin/traccar/devices/list']);
+      if(res.message){
+        console.log(res.id)
+        this.show = true; 
+      }
+      else{
+        this.openSnackBar();
+        this.router.navigate(['/admin/traccar/devices/list']);
+      }
+      
     },
-    err=>{
-      console.log(err)
-    }
+    // err => { this.show = true; }
     )
   }
 

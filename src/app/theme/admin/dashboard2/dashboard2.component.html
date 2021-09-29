@@ -1,11 +1,6 @@
-<div class="container" >
-<!--    
-    <div class="header"> 
-    <h3>Dashboard</h3>
-</div> -->
+<div class="container">
 
-
-    <div fxLayout="row" fxLayout.xs="column"    class="content">
+    <!-- <div fxLayout="row" fxLayout.xs="column"    class="content">
      
         <mat-card fxFlex="20%" fxFlex.xs="100%" class="percent">
             <h4>Devices(percents)</h4><br>
@@ -70,6 +65,82 @@
                 <h5>Distance 1</h5>
             </mat-card-content>
         </mat-card>
+    </div> -->
+
+    <mat-grid-list class="summary" gutterSize="7px" cols="48" rowHeight="100px">
+        <div>
+            <div>
+        <mat-grid-tile  [colspan]="12" [style.background]="'#7557d6'">
+            Online
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="12" [style.background]="'#3e5c8a'">
+            Offline
+        </mat-grid-tile>
     </div>
+    <div>
+        <mat-grid-tile [colspan]="8" [style.background]="'#3bb0f1'">
+           Monitor
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="16" [style.background]="'#3e5c8a'">
+           Report
+        </mat-grid-tile>
+    </div>
+
+    </div>
+
+        <mat-grid-tile [colspan]="12" [style.background]="'#e96343'">
+            Alert Devices
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="6" [style.background]="'#3fa0ec'">
+           Expiring Soon
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="6" [style.background]="'#2f5998'">
+           Expired
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="8" [style.background]="'#2487d0'">
+           Geo Fences
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="8" [style.background]="'#7F3979'">
+            POI
+         </mat-grid-tile>
+         <mat-grid-tile [colspan]="8" [style.background]="'#2f829a'">
+           Devices Management
+         </mat-grid-tile>
+
+
+
+         <mat-grid-tile [colspan]="12" [style.background]="'#2f829b'">
+            Following
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="6" [style.background]="'#2487d0'">
+            Activated
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="6" [style.background]="'#a34a42'">
+           Inactive
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="12" [style.background]="'#377b13'">
+           Command
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="12" [style.background]="'#a34a42'">
+            Alerts
+         </mat-grid-tile>
+    </mat-grid-list>
+    
+        <div class="infoService" [style.background]="'#217dc3'">
+            	
+       My Service Provider
+        </div>
+        
+   
 </div>
+<!-- <div  *ngIf="datam">
+<div *ngFor="let group of datam">
+    {{group.campaign_id}}
+    <div *ngFor="let menu of permission['bdcom']">
+         {{permission[group.campaign_id]|json}} 
+     {{menu.user_id}}
+     
+    </div>
+  </div>
+</div> -->
 

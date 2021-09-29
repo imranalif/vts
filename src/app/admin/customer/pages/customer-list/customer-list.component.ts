@@ -172,4 +172,8 @@ export class CustomerListComponent implements OnInit {
     Object.keys(formGroup.controls).forEach((key) => formGroup.get(key).setValue(formGroup.get(key).value.trim()));
   }
 
+  customerQuery(data){
+    this.router.navigate(['admin/customer/customer-query',data]);
+  }
+
 }

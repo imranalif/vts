@@ -88,7 +88,7 @@ export class MaintenanceAddComponent implements OnInit {
     console.log(this.myform.value);
     this.maintenanceService.addMaintenance(this.myform.value).subscribe(res => {
       this.openSnackBar();
-      this.router.navigate(['/admin/maintenance/list']);
+      this.router.navigate(['/admin/traccar/maintenance/list']);
     },
     err=>{
       console.log(err)

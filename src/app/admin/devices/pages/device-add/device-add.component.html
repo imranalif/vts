@@ -114,11 +114,17 @@
     </form>
 </mat-card-content>
 
+<div *ngIf="this.show">
+    <p class="red">Duplicate Indentifier</p>
+</div>
+
 <mat-card-actions class="button">
     <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="addDevice()">
         Add
     </button>
     <p>Note: Field marked with * is Mandatory</p>
 </mat-card-actions>
+
+
 </mat-card>
 

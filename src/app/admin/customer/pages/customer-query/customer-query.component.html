@@ -1,0 +1,146 @@
+<mat-card *ngIf="users && queryData" class="customStyle">
+    <div><button class="back_button" mat-button class=" mat-primary" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button></div>
+    <div class="title-style">
+  
+      <div>
+        <mat-card-title>Customer Query Details</mat-card-title>
+      </div>
+    </div>
+    <div>
+      <div>
+        <mat-grid-list cols="3" rowHeight="40px">
+          <mat-grid-tile><div> <b>Name:</b> {{queryData.name}}</div></mat-grid-tile>
+          <mat-grid-tile><div><b>Email:</b> {{queryData.email}}</div></mat-grid-tile>
+          <mat-grid-tile><div><b>Phone:</b> {{queryData.phone}}</div></mat-grid-tile>
+          <mat-grid-tile><div><b>Type:</b> {{queryData.type}}</div></mat-grid-tile>
+          <mat-grid-tile><div><b>Priority:</b> {{queryData.priority}}</div></mat-grid-tile>
+          <mat-grid-tile><div><b>Source:</b> {{queryData.source}}</div></mat-grid-tile>
+          <mat-grid-tile><b>Status :</b>{{queryData?.status}}</mat-grid-tile>
+          <mat-grid-tile><div><b>
+              Created :
+            </b> By: {{usersIndex[queryData?.created_by]?.full_name}}<br>
+            Time: {{queryData?.created_time|date:'medium'}}<br>
+      </div>
+      </mat-grid-tile>
+      <mat-grid-tile><div><b>Updated :</b> By: {{usersIndex[queryData?.created_by]?.full_name}}<br>
+        Time: {{queryData?.created_time|date:'medium'}}</div></mat-grid-tile>
+     
+      </mat-grid-list>
+  
+    </div>
+    <div>
+      <b>Product </b><br>
+      <table mat-table matTableExporter [dataSource]="queryProducts" matSort #exporter="matTableExporter"
+        [hiddenColumns]="[0]" class="mat-elevation-z8">
+  
+  
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+          <td mat-cell *matCellDef="let element">{{ categoryIndex[element?.category]?.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="model">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Model</th>
+          <td mat-cell *matCellDef="let element">{{ element.model }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="unit_price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Price</th>
+          <td mat-cell *matCellDef="let element">{{ element.unit_price }}</td>
+        </ng-container>
+  
+  
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+          <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+        </ng-container>
+  
+  
+        <ng-container matColumnDef="total_price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Price</th>
+          <td mat-cell *matCellDef="let element">{{element.total_price }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="complementary">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Complementary</th>
+          <td mat-cell *matCellDef="let element">{{element.complementary }}</td>
+        </ng-container>
+  
+  
+  
+        <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  
+    <div>
+  
+      <b>Mrc </b><br>
+      <table mat-table matTableExporter [dataSource]="queryMrc" matSort #exporter="matTableExporter" [hiddenColumns]="[0]"
+        class="mat-elevation-z8">
+  
+  
+  
+  
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+          <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+        </ng-container>
+  
+  
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+          <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+        </ng-container>
+  
+  
+  
+  
+  
+  
+        <tr class="header-row" mat-header-row *matHeaderRowDef="displayedMrcColumns"></tr>
+        <tr class="row" mat-row *matRowDef="let row; columns: displayedMrcColumns"></tr>
+      </table>
+    </div>
+    <!-- <b>Action:</b><br>
+      By: {{usersIndex[queryData?.created_by]?.full_name}}<br>
+      Time: {{queryData?.created_time|date:'medium'}}<br>
+      States:<br>
+      Document:<br> -->
+  
+    <div *ngIf="queryAction !='' " class="actionSection">
+      <b>Query Action </b><br>
+      <div *ngFor="let queryAction1 of queryAction">
+      <mat-grid-list cols="8" rowHeight="100px">
+        <!-- <p> Action:</p><br> -->
+        <mat-grid-tile  [colspan]="3">
+          <div>
+            <b> By:</b> {{usersIndex[queryAction1?.created_by]?.full_name}}<br>
+            <b> Time:</b> {{queryAction1?.created_time|date:'medium'}}<br>
+            <b> States:</b>{{queryAction1?.state}}<br>
+            <!-- <b> Document:</b><br> -->
+          </div>
+        </mat-grid-tile>
+  
+        <mat-grid-tile [colspan]="5"> {{queryAction1?.remark}}</mat-grid-tile>
+        <mat-divider></mat-divider>
+      </mat-grid-list>
+     
+    </div>
+  
+    </div>
+    </div>
+  
+  
+  </mat-card>
+
+  <div  *ngIf="!queryData">
+    No Records Found!
+    </div>
+  
+  <mat-card *ngIf="isLoading" style="display:flex; justify-content: center; align-items: center">
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>

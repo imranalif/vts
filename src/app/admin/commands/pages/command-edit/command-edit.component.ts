@@ -62,6 +62,11 @@ export class CommandEditComponent implements OnInit {
     });
   }
 
+  goBack(){
+    this.router.navigate(['/admin/traccar/commands/list']);
+  }
+
+
   updateCommand() {
     this.myform.markAllAsTouched();
     this.submitted = true;

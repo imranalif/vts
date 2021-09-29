@@ -84,4 +84,8 @@ export class QueryService {
   filterSearch(data){
     return this.http.post(this.url + '/filterSearch', data);
   }
+
+  getQueryByCustomerId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/customerQuery');
+  }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 
 import { Observable, fromEvent} from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -12,12 +13,27 @@ export class DeviceService {
   constructor(private http: HttpClient) { }
   private url = environment.apiUrl + '/device/';
 
+  private importDataSent = new BehaviorSubject<any>("");
+  public importDataCatch = this.importDataSent.asObservable();
+
+  private importErrorSent = new BehaviorSubject<any>("");
+  public importErrorCatch = this.importErrorSent.asObservable();
+
+
+  importDataExchange(text) {
+    this.importDataSent.next(text);
+  }
+
+  importErrorExchange(text) {
+    this.importErrorSent.next(text);
+  }
+
   getAllDevices(): Observable<any> {
     return this.http.get(this.url + '/listDevices');
   }
 
 
-  addDevice(data){
+  addDevice(data): Observable<any>{
     return this.http.post(this.url + '/addDevice', data);
   }
 

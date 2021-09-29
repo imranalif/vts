@@ -1,24 +1,20 @@
 mat-card{
-    width: 90%;
     top: 0px;
-}
-.main{width: 90%;}
-.mainContent{
-  width: 45%;
- 
+    width: 80%;
+    min-height: 400px;
 }
 
-.optionalContent{
-    width: 45%;
-    margin-top: -200px;
-    float: right;
-  }
+.form{
+margin-top: 30px;
+}
+
 .customStyle{
     border-radius: 10px 10px 10px 10px;
     box-shadow: 5px 10px 15px #1A237E;
     .title-style{
       color:#1A237E ;
       text-align: center !important;
+  
      
     }
     .warning{
@@ -40,18 +36,19 @@ mat-card{
   .sidenav-content{
     height: 120%;
   }
-.button{
-    margin-top: 120px;
-}
 
-.half{
-    width: 40%;
-}
+  mat-grid-tile {
+    background: lightblue;
+  }
 
-.delAssigns{
-    margin-top: 25px;
-}
-a{
-   
-    cursor: pointer;
-}
+  mat-card-title{
+      margin-top: -25px;
+      margin-bottom: 20px;
+  }
+
+  .actionSection{
+    margin-top: 20px;
+    mat-grid-tile {
+      background: #E8F8F5;
+    }
+  }

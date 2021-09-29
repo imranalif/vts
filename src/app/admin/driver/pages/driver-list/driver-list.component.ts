@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DriverService } from '../../services/driver.service';
 import { DialogService } from 'src/app/shared/services/dialog.service';
+import { saveAs } from 'file-saver'
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog/";
@@ -87,6 +88,17 @@ export class DriverListComponent implements OnInit {
     goAddItem(){
       this.router.navigate(['/admin/traccar/driver/add']);
     }
+
+    downloadFile(data: any) {
+      const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+      const header = Object.keys(data[0]);
+      let csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+      csv.unshift(header.join(','));
+      let csvArray = csv.join('\r\n');
+  
+      var blob = new Blob([csvArray], {type: 'text/csv' })
+      saveAs(blob, "myFile.csv");
+  }
 
 
 }

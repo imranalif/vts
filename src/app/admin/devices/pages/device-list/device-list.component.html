@@ -7,11 +7,16 @@
         <input matInput placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
       </mat-form-field>
       <button class="export_button" mat-button class="mat-raised-button mat-primary " (click)="exporter.exportTable('csv',{fileName:'driver'})">
-        CSV
+        Export
      </button>
      <button class="add_button" mat-button  (click)="goAddItem()">
       <mat-icon>add</mat-icon>
    </button>
+
+  
+ <button class="export_button" mat-button class="mat-raised-button mat-primary" (click)="openImportModal()">
+  Import
+</button>
     </div>
   
     <table mat-table matTableExporter  [dataSource]="dataSource" matSort #exporter="matTableExporter" [hiddenColumns]="[0]"  class="mat-elevation-z8">
@@ -71,4 +76,12 @@
     </table>
     <mat-paginator [pageSizeOptions]="[25, 50, 100]" [pageSize]="25"></mat-paginator>
   </div>
+
+  <mat-card *ngIf="isLoading" class="center"
+  style="display:flex; justify-content: center; align-items: center">
+    <mat-progress-spinner 
+      color="primary" 
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>
 

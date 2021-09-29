@@ -42,3 +42,32 @@
     width: 80%;
     background-color: rgb(133, 216, 236);
    }
+
+   .summary{
+     margin-top: 2%;
+     margin-left: 1%;
+     margin-right: 1%;
+     margin-bottom: 2%;
+   }
+
+
+   .infoService{
+     min-height: 200px !important;
+    margin-left: 1%;
+    margin-right: 1%;
+   }
+
+  //  mat-grid-tile:hover {
+  //   -webkit-transform: scale(1.25);
+  //   -moz-transform: scale(1.25);
+  //   -ms-transform: scale(1.25);
+  //   transform: scale(1.25);
+  //   -webkit-transition: -webkit-transform 0.25s;
+  //   -moz-transition: -moz-transform 0.25s;
+  //   -ms-transition:  -ms-transform 0.25s;
+  //   transition:  transform 0.25s;
+  // }
+
+     mat-grid-tile:hover {
+  color: burlywood;
+  }

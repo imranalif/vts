@@ -9,10 +9,11 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerListComponent } from './pages/customer-list/customer-list.component';
 import { CustomerEditComponent } from './pages/customer-edit/customer-edit.component';
 import { CustomerAddComponent } from './pages/customer-add/customer-add.component';
+import { CustomerQueryComponent } from './pages/customer-query/customer-query.component';
 
 
 @NgModule({
-  declarations: [CustomerListComponent, CustomerEditComponent, CustomerAddComponent],
+  declarations: [CustomerListComponent, CustomerEditComponent, CustomerAddComponent, CustomerQueryComponent],
   imports: [
     CommonModule,
     CustomerRoutingModule,

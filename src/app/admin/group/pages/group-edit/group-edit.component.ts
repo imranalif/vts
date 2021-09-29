@@ -107,6 +107,10 @@ export class GroupEditComponent implements OnInit {
     });
   }
 
+  goBack(){
+    this.router.navigate(['/admin/traccar/group/list']);
+  }
+
   updateGroup() {
     this.myform.markAllAsTouched();
     this.submitted = true;

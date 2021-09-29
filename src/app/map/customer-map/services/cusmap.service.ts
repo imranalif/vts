@@ -21,6 +21,8 @@ export class CusmapService {
   private detailsDataSent = new BehaviorSubject<any>("");
   private addressDataSent = new BehaviorSubject<any>("");
   private eventSent = new BehaviorSubject<any>("");
+  private logoutEventSent = new BehaviorSubject<any>("");
+
 
   public deviceDataCatch = this.deviceDataSent.asObservable();
   public deviceRemoveFromMap = this.deviceRemoveRequest.asObservable();
@@ -35,6 +37,7 @@ export class CusmapService {
   public detailsDataCatch = this.detailsDataSent.asObservable();
   public addressDataCatch = this.addressDataSent.asObservable();
   public eventCatch = this.eventSent.asObservable();
+  public logoutEventCatch = this.logoutEventSent.asObservable();
 
 
   deviceDataExchange(text) {

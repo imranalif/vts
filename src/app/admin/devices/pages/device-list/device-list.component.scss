@@ -7,9 +7,23 @@
     width: 20% !important;
 }
 
+
+.mat-raised-button{
+    width: 8%;
+    margin-left: .5%;
+}
 .add_button{
-    width: 10%;
+    width: 8%;
     color: white;
     margin-left: 10px !important;
     background-color: blue;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
 }

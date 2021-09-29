@@ -59,6 +59,14 @@ export class DeviceEditComponent implements OnInit {
       this.edit(this.Id);
     });
     this.getAllGroup();
+
+    this.deviceService.importDataCatch.subscribe(res => {
+      console.log(res)
+      if (res) {
+        
+        
+      }
+    })
   }
 
   getAllGroup(){

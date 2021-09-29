@@ -69,6 +69,10 @@ export class AttributeEditComponent implements OnInit {
     });
   }
 
+  goBack(){
+    this.router.navigate(['/admin/traccar/attributes/list']);
+  }
+
   updateAttribute() {
     this.myform.markAllAsTouched();
     this.submitted = true;

@@ -13,6 +13,8 @@ import { NotificationPopupComponent } from 'src/app/admin/notification/pages/not
 import { MaintenanceDeviceComponent } from 'src/app/admin/maintenance/pages/maintenance-device/maintenance-device.component';
 import { AttributeDeviceComponent } from 'src/app/admin/attributes/pages/attribute-device/attribute-device.component';
 import { CommandDeviceComponent } from 'src/app/admin/commands/pages/command-device/command-device.component';
+import { DeviceImportComponent } from '../device-import/device-import.component';
+import { ImportErrorComponent } from '../import-error/import-error.component';
 
 @Component({
   selector: 'app-device-list',
@@ -20,10 +22,10 @@ import { CommandDeviceComponent } from 'src/app/admin/commands/pages/command-dev
   styleUrls: ['./device-list.component.scss']
 })
 export class DeviceListComponent implements OnInit {
-
+errorData;
   assigedRole = []
   show = true;
-
+  isLoading = true;
   private idColumn = 'id';
   devices;
   dataSource = new MatTableDataSource<any>([]);
@@ -41,14 +43,41 @@ export class DeviceListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllDevice();
+
+    this.deviceService.importDataCatch.subscribe(res => {
+      console.log(res)
+      if (res) {
+        this.errorData=res;
+        this.deviceService.importErrorExchange(res);
+        this.isLoading = true;
+        setTimeout(() => {
+          this.getAllDevice();
+        }, 1000);
+        setTimeout(() => {
+          this.openImportErrorModal();
+        }, 1500);
+        
+        
+      }
+    })
+
+    this.deviceService.importErrorCatch.subscribe(res=>{
+      if(res){
+        //this.openImportErrorModal();
+      }
+    })
   }
 
   getAllDevice(): void {
     this.deviceService.getAllDevices().subscribe(res => {
+      this.isLoading = false;
       this.devices = res;
+      console.log(this.devices)
       this.dataSource = new MatTableDataSource(res as any);
       setTimeout(() => (this.dataSource.sort = this.sort));
       setTimeout(() => (this.dataSource.paginator = this.paginator));
+      
+
     });
   }
 
@@ -159,6 +188,33 @@ export class DeviceListComponent implements OnInit {
         width: '580px',
         height: '460px',
         data: { pageValue: data.id }
+      }).afterClosed()
+      .subscribe(response => {});
+    }
+
+    openImportModal() {
+      const dialogCofig = new MatDialogConfig();
+      dialogCofig.disableClose = true;
+      dialogCofig.width = "600px";
+      dialogCofig.height = "480px";
+    
+      this.dialog.open(DeviceImportComponent,  {
+        width: '580px',
+        height: '460px',
+      }).afterClosed()
+      .subscribe(response => {});
+    }
+
+    openImportErrorModal() {
+      const dialogCofig = new MatDialogConfig();
+      dialogCofig.disableClose = true;
+      dialogCofig.width = "600px";
+      dialogCofig.height = "480px";
+    
+      this.dialog.open(ImportErrorComponent,  {
+        width: '580px',
+        height: '260px',
+        data: this.errorData
       }).afterClosed()
       .subscribe(response => {});
     }

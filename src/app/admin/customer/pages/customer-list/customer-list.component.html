@@ -80,6 +80,9 @@
             *ngIf="assigedRole.includes('customer_setting')==true">
             <mat-icon>settings</mat-icon>
           </button>
+          <button mat-icon-button color="info" >
+            <mat-icon (click)="customerQuery(row.customer_id)">visibility</mat-icon>
+          </button>
           <mat-menu #setting="matMenu">
             <button mat-menu-item (click)="openDeviceModal(row)">Devices</button>
             <button mat-menu-item (click)="openDriverModal(row)">Drivers</button>

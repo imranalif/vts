@@ -82,5 +82,10 @@ export class AttributeListComponent implements OnInit {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
+    goAddItem(){
+      this.router.navigate(['admin/traccar/attributes/add']);
+    }
+
+
 
 }
