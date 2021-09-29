@@ -93,4 +93,8 @@ export class CusmapService {
   eventExchange(text) {
     this.eventSent.next(text);
   }
+
+  logoutEventExchange(text) {
+    this.logoutEventSent.next(text);
+  }
 }

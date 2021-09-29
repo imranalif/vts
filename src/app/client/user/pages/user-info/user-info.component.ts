@@ -265,6 +265,7 @@ export class UserInfoComponent implements OnInit {
 
         this.myInterval = setInterval(() => {
           var data = { id: this.deviceIdArray, fixtime: this.fixtime }
+          console.log(this.check)
           if (this.check == 1) {
             this.deviceService.getMovingPosition(data).subscribe(data => {
               data.forEach(element => {
@@ -703,6 +704,14 @@ export class UserInfoComponent implements OnInit {
   }
   Action() {
 
+  }
+
+  goAdmin(){
+    console.log(this.check)
+    this.check=0;
+    clearInterval(this.myInterval);
+    console.log(this.check)
+    this.router.navigate(['/admin/dashboard']);
   }
 
 

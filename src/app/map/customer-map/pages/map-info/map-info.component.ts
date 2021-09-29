@@ -407,6 +407,7 @@ export class MapInfoComponent implements OnInit {
 
   logout() {
     this.loginService.logout().subscribe(res => {
+      this.check = 0;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       this.routing.navigate(['/']);
