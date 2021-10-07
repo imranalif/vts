@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomerService } from 'src/app/admin/customer/services/customer.service';
 import { DeviceService } from 'src/app/admin/devices/services/device.service';
+import { DateformateService } from 'src/app/shared/services/dateformate.service';
 
 @Component({
   selector: 'app-position-report',
@@ -36,7 +37,8 @@ export class PositionReportComponent implements OnInit {
     private pagination: PaginationService,
     private fb: FormBuilder,
     private customerService: CustomerService,
-    private deviceService: DeviceService,) { }
+    private deviceService: DeviceService,
+    private dateFormatService: DateformateService) { }
 
   ngOnInit(): void {
     this.myform = this.fb.group({
@@ -104,8 +106,13 @@ export class PositionReportComponent implements OnInit {
   getReport(): void {
     const today=new Date
     var requiredDate=new Date(today.getFullYear(),today.getMonth(),today.getDate())
-    this.params = { currentPage: this.currentPage, fromdate: requiredDate,
-      todate:new Date() };
+
+    var from_date = this.dateFormatService.dateTime('datetime', requiredDate)
+    var to_date = this.dateFormatService.dateTime('datetime', today)
+
+
+    this.params = { currentPage: this.currentPage, fromdate: from_date,
+      todate:to_date };
     this.reportService.getPositionByPage(this.params).subscribe(res => {
       this.reportData = res.rows;
       this.reportData.forEach((e,i) => {
@@ -129,9 +136,13 @@ export class PositionReportComponent implements OnInit {
     }
     // , id: this.myform.value.id,
     //   fromdate: this.myform.value.from, todate: this.myform.value.todate
+
+    var from_date = this.dateFormatService.dateTime('datetime', this.myform.value.fromdate)
+    var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.todate)
+
     this.params = {
-      currentPage: currentPage, fromdate: this.myform.value.fromdate,
-      todate:this.myform.value.todate 
+      currentPage: currentPage, fromdate: from_date,
+      todate:to_date 
 
     };
     this.reportService.getPositionByPage(this.params).subscribe(res => {
@@ -148,9 +159,11 @@ export class PositionReportComponent implements OnInit {
   }
 
   getPositionBySearch(): void {
+    var from_date = this.dateFormatService.dateTime('datetime', this.myform.value.fromdate)
+    var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.todate)
     this.params = {
-      currentPage: this.currentPage, fromdate: this.myform.value.fromdate,
-      todate:this.myform.value.todate 
+      currentPage: this.currentPage, fromdate: from_date,
+      todate:to_date 
     };
     console.log(this.params);
     this.reportService.getPositionByPage(this.params).subscribe(res => {
@@ -166,6 +179,10 @@ export class PositionReportComponent implements OnInit {
       setTimeout(() => (this.dataSource.paginator = this.paginator));
     }
     );
+  }
+
+  goBack(){
+
   }
   
 
