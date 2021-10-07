@@ -27,6 +27,8 @@ import { reduce } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DateformateService } from 'src/app/shared/services/dateformate.service';
 import { CusmapService } from 'src/app/map/customer-map/services/cusmap.service';
+import { ChangepassPopupComponent } from 'src/app/admin/authorization/users/pages/changepass-popup/changepass-popup.component';
+import { UserprofilePopupComponent } from 'src/app/admin/authorization/users/pages/userprofile-popup/userprofile-popup.component';
 
 @Component({
   selector: 'app-user-info',
@@ -712,6 +714,32 @@ export class UserInfoComponent implements OnInit {
     clearInterval(this.myInterval);
     console.log(this.check)
     this.router.navigate(['/admin/dashboard']);
+  }
+
+  openChangePasswordModal() {
+    const dialogCofig = new MatDialogConfig();
+    dialogCofig.disableClose = true;
+    dialogCofig.width = "600px";
+    dialogCofig.height = "480px";
+  
+    this.dialog.open(ChangepassPopupComponent,  {
+      width: '580px',
+      height: '460px',
+    }).afterClosed()
+    .subscribe(response => {});
+  }
+
+  openUserProfileModal() {
+    const dialogCofig = new MatDialogConfig();
+    dialogCofig.disableClose = true;
+    dialogCofig.width = "600px";
+    dialogCofig.height = "480px";
+  
+    this.dialog.open(UserprofilePopupComponent,  {
+      width: '580px',
+      height: '460px',
+    }).afterClosed()
+    .subscribe(response => {});
   }
 
 

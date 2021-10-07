@@ -12,13 +12,15 @@ import { UserListComponent } from './pages/user-list/user-list.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { ChangepassPopupComponent } from './pages/changepass-popup/changepass-popup.component';
+import { UserprofilePopupComponent } from './pages/userprofile-popup/userprofile-popup.component';
 
 
 
 
 
 @NgModule({
-  declarations: [UserEditComponent, UserAddComponent, UserListComponent, ResetPasswordComponent, ChangePasswordComponent, UserProfileComponent
+  declarations: [UserEditComponent, UserAddComponent, UserListComponent, ResetPasswordComponent, ChangePasswordComponent, UserProfileComponent, ChangepassPopupComponent, UserprofilePopupComponent
      ],
   imports: [
     CommonModule,

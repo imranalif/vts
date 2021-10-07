@@ -1,0 +1,229 @@
+<div class="custom-style">
+
+    <div class="table-title">
+      <h3>Position Information</h3>
+    </div>
+  
+    <!-- <div  class="search_div"> -->
+  
+    <div class="search-div" fxLayout="row" fxLayout.xs="column">
+      <div fxFlex=70% >
+  <form [formGroup]="myform">
+  <div fxLayout="row" fxLayout.xs="column">
+          <div fxFlex.xs=100%>
+            <mat-form-field  fxFlex=45% fxFlex.xs=45% class="search_field" required>
+              <mat-label>Customer</mat-label>
+              <mat-select formControlName="customer" (ngModelChange)="onChangeCustomer($event)">
+                  <mat-option *ngFor="let state of customers" [value]="state.customer_id">
+                      {{ state.name }}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+
+          <mat-form-field fxFlex=45% fxFlex.xs=45% class="search_field" required>
+            <mat-label>Device</mat-label>
+            <mat-select formControlName="deviceid" multiple >
+              <mat-option  (click)="selectAll(ev)" #ev >
+                <h4><b>Select All</b></h4></mat-option>
+                <mat-option *ngFor="let state of customerDevices" [value]="state.id">
+                    {{ state.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+  
+         
+          </div>
+          <div fxFlex.xs=100%>
+            <mat-form-field fxFlex=45% fxFlex.xs=45% class="search_field">
+                    
+              <input matInput  [owlDateTime]="dt1" formControlName="fromdate" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+              <owl-date-time #dt1></owl-date-time>
+          </mat-form-field>
+
+          <mat-form-field fxFlex=45% fxFlex.xs=45% class="search_field" >
+          
+              <input matInput [owlDateTime]="dt2" formControlName="todate" [owlDateTimeTrigger]="dt2" placeholder="To Time">
+              <owl-date-time #dt2></owl-date-time>
+          </mat-form-field>
+  
+          </div>
+        </div>
+        </form> 
+  
+      </div>
+      <div fxFlex=30% fxFlex.xs=100%>
+  
+        <button mat-button class="search_button" class="mat-stroked-button mat-primary " (click)="getPositionBySearch()" >
+          Search
+        </button>
+        <button mat-button class="search_button" class="mat-stroked-button mat-primary " >
+          Back
+        </button>
+        <!-- <span class="addButton">
+          <button class="export_button" mat-button class="mat-raised-button mat-primary " >
+           Add
+        </button>
+        </span> -->
+        <!-- <mat-form-field class="filter">
+          <input matInput placeholder="search" autocomplete="off" (keyup)="applyFilter($event.target.value)" />
+        </mat-form-field> -->
+  
+        <button class="export_button" mat-button class="mat-raised-button mat-primary "
+          (click)="exporter.exportTable('csv',{fileName:'product'})">
+          CSV
+        </button>
+      </div>
+    </div>
+    <!-- </div> -->
+    <!-- <span class="addButton">
+       <button class="export_button" mat-button class="mat-raised-button mat-primary " (click)="goAppPage()">
+        Add
+     </button> -->
+    <!-- </span> -->
+  
+  
+  
+    <div class="table_container">
+      <table mat-table matTableExporter [dataSource]="dataSource" matSort #exporter="matTableExporter"
+        [hiddenColumns]="[0]" class="mat-elevation-z8">
+  
+       
+  
+        <ng-container matColumnDef="device">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Device</th>
+          <td mat-cell *matCellDef="let element">{{ devicesIndex[element.deviceid]?.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="time">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
+          <td mat-cell *matCellDef="let element">{{ element.fixtime}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="latitude">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Latitude</th>
+          <td mat-cell *matCellDef="let element">{{ element.latitude }}</td>
+        </ng-container>
+  
+  
+        <ng-container matColumnDef="longitude">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Logitude</th>
+          <td mat-cell *matCellDef="let element">{{ element.longitude }}</td>
+        </ng-container>
+  
+  
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+          <td mat-cell *matCellDef="let element">{{element.address }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="altitude">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Altitude</th>
+            <td mat-cell *matCellDef="let element">{{element.altitude }}</td>
+          </ng-container>
+  
+        <ng-container matColumnDef="speed">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Speed</th>
+          <td mat-cell *matCellDef="let element">{{element.speed }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let element">{{element.a.status }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="ignition">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ignition</th>
+            <td mat-cell *matCellDef="let element">{{element.a.ignition }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="charge">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Charge</th>
+            <td mat-cell *matCellDef="let element">{{element.a.charge }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="blocked">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Blocked</th>
+            <td mat-cell *matCellDef="let element">{{element.a.blocked }}</td>
+          </ng-container>
+
+
+
+          <ng-container matColumnDef="batterylevel">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Batterylevel</th>
+            <td mat-cell *matCellDef="let element">{{element.a.batteryLevel }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="rssi">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>rssi</th>
+            <td mat-cell *matCellDef="let element">{{element.a.rssi }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="sequence">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sequence</th>
+            <td mat-cell *matCellDef="let element">{{element.a.sequence }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="distance">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Distance</th>
+            <td mat-cell *matCellDef="let element">{{element.a.distance }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="totaldistance">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Totaldistance</th>
+            <td mat-cell *matCellDef="let element">{{element.a.totalDistance }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="motion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Motion</th>
+            <td mat-cell *matCellDef="let element">{{element.a.motion }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="valid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Valid</th>
+            <td mat-cell *matCellDef="let element">{{element.valid }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="enginehours">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Enginehours</th>
+            <td mat-cell *matCellDef="let element">{{element.a.hours }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="sat">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sat</th>
+            <td mat-cell *matCellDef="let element">{{element.a.sat }}</td>
+          </ng-container>
+  
+  
+  
+        <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <!-- <mat-paginator [pageSizeOptions]="[25, 50, 100]" [pageSize]="25"></mat-paginator> -->
+  </div>
+  
+  <div class="middle">
+    <ul *ngIf="this.pager.pages && this.pager.pages.length" class="pagination">
+  
+      <li [ngClass]="{disabled:pager.currentPage === 1}" class="pagination">
+        <a (click)="getPositionByPage(this.pager.currentPage - 1)">&laquo;</a>
+      </li>
+  
+      <li *ngFor="let page of pager.pages" [ngClass]="{'active':pager.currentPage === page}" class="pagination">
+        <a (click)="getPositionByPage(page)">{{page}}</a>
+      </li>
+  
+      <li [ngClass]="{disabled:pager.currentPage === 2}" class="pagination">
+        <a (click)="getPositionByPage(this.pager.currentPage + 1)">&raquo;</a>
+      </li>
+    </ul>
+  </div>
+  
+  <mat-card *ngIf="isLoading" style="display:flex; justify-content: center; align-items: center">
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>
+  
+  <mat-card  *ngIf="reportData==''">
+    No Records Found!
+    </mat-card>

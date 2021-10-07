@@ -56,12 +56,12 @@
           <span class="align-middle"></span>
         </a>
         <mat-menu #menu="matMenu">
-          <a routerLink="authorization/users/user-profile" mat-menu-item>
+          <a  (click)="openUserProfileModal()" mat-menu-item>
             <mat-icon>account_circle</mat-icon>
             <span>Profile</span>
           </a>
 
-          <a routerLink="authorization/users/change-password" mat-menu-item>
+          <a (click)="openChangePasswordModal()" mat-menu-item>
             <mat-icon>settings</mat-icon>
             <span>Change Pass
 

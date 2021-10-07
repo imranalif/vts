@@ -447,7 +447,23 @@ mediaSub: Subscription;
       ]
     }
   
-  ]}
+  ]},
+  {
+    displayName: 'Reports',
+    iconName: 'report',
+    route: 'admin/report',
+    permission: 'report_link',
+    children: [
+      {
+        displayName: 'Position Report',
+        iconName: 'category',
+        route: 'admin/report/position',
+        permission: 'position_report',
+        
+      },
+      
+    ]
+  },
 
 
   ]

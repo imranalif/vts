@@ -41,6 +41,8 @@ export class DeviceService {
     return this.http.get(this.url + '/listDevice');
   }
 
+  
+
   getDeviceById(id: string): Observable<object> {
     return this.http.get(this.url + id + '/editDevice');
   }

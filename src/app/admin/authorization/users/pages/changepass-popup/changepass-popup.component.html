@@ -1,0 +1,59 @@
+<div class="table-title">
+    <h3>Password Change Form</h3>
+    <span> <a>
+            <mat-icon (click)="close()">close</mat-icon>
+        </a></span>
+</div>
+
+
+<mat-card class="customStyle">
+    <!-- <div class="title-style">
+        <mat-card-title>Password Change Form</mat-card-title>
+    
+    </div> -->
+    <mat-card-content>
+        <form [formGroup]="myform">
+
+
+            <mat-form-field class="full">
+                <input matInput type="password" placeholder="Current Password" formControlName="oldPassword"
+                    autocomplete="off" required />
+
+            </mat-form-field>
+
+
+            <mat-form-field class="full">
+                <input matInput type="password" placeholder="New Password" formControlName="password" autocomplete="off"
+                    required />
+
+            </mat-form-field>
+            <mat-form-field class="full">
+                <input type="password" matInput placeholder="Confirm New Password" formControlName="confirm_password"
+                    autocomplete="off" compare="password" required />
+                <mat-error>
+                    password does not match
+                </mat-error>
+            </mat-form-field>
+
+        </form>
+    </mat-card-content>
+    <div *ngIf="this.show1">
+        <p class="red"> Current Password Not Valid</p>
+    </div>
+
+    <mat-card-actions>
+        <button class="button" [disabled]="!myform.valid" mat-stroked-button color="primary" class="btn-block"
+            (click)="changePassword()">
+            Submit
+        </button>
+        <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="close()">
+            Close
+           </button>
+        <p>Note: Field marked with * is Mandatory</p>
+    </mat-card-actions>
+    <div *ngIf="this.show">
+        <p class="red"> Has Been Changed Successfully</p>
+    </div>
+
+
+</mat-card>
