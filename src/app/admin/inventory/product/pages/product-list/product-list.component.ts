@@ -49,7 +49,7 @@ export class ProductListComponent implements OnInit {
     private categoryService:CategoryService,
    private userService:UserService,
    private pagination: PaginationService,) {
-      this.assigedRole = JSON.parse(localStorage.getItem('rolesData'));
+      this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
      }
 
   ngOnInit(): void {

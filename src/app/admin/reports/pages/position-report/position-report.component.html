@@ -7,9 +7,9 @@
     <!-- <div  class="search_div"> -->
   
     <div class="search-div" fxLayout="row" fxLayout.xs="column">
-      <div fxFlex=70% >
+      <div  >
   <form [formGroup]="myform">
-  <div fxLayout="row" fxLayout.xs="column">
+  <div  fxLayout="row" fxLayout.xs="column">
           <div fxFlex.xs=100%>
             <mat-form-field  fxFlex=45% fxFlex.xs=45% class="search_field" required>
               <mat-label>Customer</mat-label>
@@ -23,8 +23,8 @@
           <mat-form-field fxFlex=45% fxFlex.xs=45% class="search_field" required>
             <mat-label>Device</mat-label>
             <mat-select formControlName="deviceid" multiple >
-              <mat-option  (click)="selectAll(ev)" #ev >
-                <h4><b>Select All</b></h4></mat-option>
+              <mat-option *ngIf="customerDevices!=''" (click)="selectAll(ev)" #ev >
+                <h4 ><b>Select All</b></h4></mat-option>
                 <mat-option *ngFor="let state of customerDevices" [value]="state.id">
                     {{ state.name }}
                 </mat-option>
@@ -96,7 +96,7 @@
   
         <ng-container matColumnDef="time">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Time</th>
-          <td mat-cell *matCellDef="let element">{{ element.fixtime}}</td>
+          <td mat-cell *matCellDef="let element">{{ element.fixtime| date:'medium' }}</td>
         </ng-container>
   
         <ng-container matColumnDef="latitude">
@@ -113,7 +113,7 @@
   
         <ng-container matColumnDef="address">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
-          <td mat-cell *matCellDef="let element">{{element.address }}</td>
+          <td mat-cell *matCellDef="let element"><a  href={{mapurl}} target="_blank" (click)="gotoGoogleMap(element.latitude,element.longitude)">{{element.latitude }}<br>{{element.longitude }}</a></td>
         </ng-container>
 
         <ng-container matColumnDef="altitude">

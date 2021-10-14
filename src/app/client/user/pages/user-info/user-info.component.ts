@@ -688,9 +688,10 @@ export class UserInfoComponent implements OnInit {
 
 
   logout() {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('refreshToken');
     localStorage.removeItem('userData');
-    localStorage.removeItem('rolesData');
+    sessionStorage.removeItem('rolesData');
     this.router.navigate(['/']);
   }
 

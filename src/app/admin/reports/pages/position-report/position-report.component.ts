@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomerService } from 'src/app/admin/customer/services/customer.service';
 import { DeviceService } from 'src/app/admin/devices/services/device.service';
 import { DateformateService } from 'src/app/shared/services/dateformate.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-position-report',
@@ -26,11 +27,15 @@ export class PositionReportComponent implements OnInit {
   customers
   customerDevices
   devices
+  devicesAC=[]
+  devicesArray=[]
   devicesIndex=[]
   arrrayValue: any = [];
+  mapurl
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  link="http://www.google.com/maps/place/"
   isLoading = true;
   displayedColumns = [ 'device', 'time','latitude', 'longitude', 'address', 'altitude','speed','status', 'ignition','charge','blocked','batterylevel','rssi','sequence','distance','totaldistance','motion','valid','enginehours','sat' ];
   constructor(private reportService: ReportService,
@@ -38,7 +43,8 @@ export class PositionReportComponent implements OnInit {
     private fb: FormBuilder,
     private customerService: CustomerService,
     private deviceService: DeviceService,
-    private dateFormatService: DateformateService) { }
+    private dateFormatService: DateformateService,
+    private router: Router,) { }
 
   ngOnInit(): void {
     this.myform = this.fb.group({
@@ -50,11 +56,12 @@ export class PositionReportComponent implements OnInit {
 
     });
     this.getAllDevices()
-    this.getReport();
+   
     this.getAllCustomer()
     
 
-    setTimeout(()=>{    
+    setTimeout(()=>{   
+     
       const today=new Date
       var requiredDate=new Date(today.getFullYear(),today.getMonth(),today.getDate())
       this.myform.patchValue(
@@ -62,7 +69,8 @@ export class PositionReportComponent implements OnInit {
         fromdate: requiredDate,
         todate:new Date()
       })
-    }, 10);
+      
+    }, 50);
   }
 
 
@@ -84,13 +92,17 @@ export class PositionReportComponent implements OnInit {
       this.devices=res;
       console.log(this.devices)
       this.devices.forEach((elem, i) => {
+this.devicesArray.push(this.devices[i].id)
         this.devicesIndex[elem.id] = this.devices[i];
       }
       );
+      // report call here for delay
+      this.getReport(); 
     })
   }
 
   public selectAll(ev) {
+    console.log(ev)
     this.arrrayValue = [...Array(this.devices.length + 1).keys()];
     if (ev._selected) {
         this.myform.get('deviceid').setValue(this.arrrayValue);
@@ -104,6 +116,9 @@ export class PositionReportComponent implements OnInit {
 
 
   getReport(): void {
+    
+    this.devicesAC=this.devicesArray
+    console.log(this.devicesAC)
     const today=new Date
     var requiredDate=new Date(today.getFullYear(),today.getMonth(),today.getDate())
 
@@ -111,7 +126,7 @@ export class PositionReportComponent implements OnInit {
     var to_date = this.dateFormatService.dateTime('datetime', today)
 
 
-    this.params = { currentPage: this.currentPage, fromdate: from_date,
+    this.params = {devicesearch:this.devicesAC, currentPage: this.currentPage, fromdate: from_date,
       todate:to_date };
     this.reportService.getPositionByPage(this.params).subscribe(res => {
       this.reportData = res.rows;
@@ -129,6 +144,7 @@ export class PositionReportComponent implements OnInit {
   }
 
   getPositionByPage(currentPage): void {
+    this.devicesAC=this.devicesArray
     console.log(currentPage)
     this.page = currentPage;
     if (this.page > this.pager.totalPages) {
@@ -141,6 +157,7 @@ export class PositionReportComponent implements OnInit {
     var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.todate)
 
     this.params = {
+      devicesearch:this.devicesAC,
       currentPage: currentPage, fromdate: from_date,
       todate:to_date 
 
@@ -159,9 +176,15 @@ export class PositionReportComponent implements OnInit {
   }
 
   getPositionBySearch(): void {
+    var devices=this.devicesArray
+    if(this.myform.value.deviceid){
+      devices=this.myform.value.deviceid
+    }
+    
     var from_date = this.dateFormatService.dateTime('datetime', this.myform.value.fromdate)
     var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.todate)
     this.params = {
+      devicesearch:devices,
       currentPage: this.currentPage, fromdate: from_date,
       todate:to_date 
     };
@@ -182,7 +205,19 @@ export class PositionReportComponent implements OnInit {
   }
 
   goBack(){
+    const today=new Date
+    var requiredDate=new Date(today.getFullYear(),today.getMonth(),today.getDate())
+    this.myform.patchValue(
+      {
+      fromdate: requiredDate,
+      todate:new Date()
+    })
+    this.getReport(); 
+  }
 
+  gotoGoogleMap(a,b){
+    this.mapurl=this.link+a+','+b
+    //this.router.navigate([url]);  
   }
   
 

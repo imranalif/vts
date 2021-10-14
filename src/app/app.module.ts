@@ -45,7 +45,7 @@ import { HashLocationStrategy, LocationStrategy,PathLocationStrategy } from '@an
     OwlNativeDateTimeModule
   
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },{provide: LocationStrategy, useClass: PathLocationStrategy}],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

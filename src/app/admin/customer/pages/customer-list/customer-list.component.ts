@@ -36,7 +36,7 @@ export class CustomerListComponent implements OnInit {
     private dialog: MatDialog,
     private pagination: PaginationService,
     private fb: FormBuilder,
-  ) { this.assigedRole = JSON.parse(localStorage.getItem('rolesData')); }
+  ) { this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData')); }
 
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;

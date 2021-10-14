@@ -35,7 +35,7 @@ export class GroupListComponent implements OnInit {
     private router: Router,
     private dialogService: DialogService,
     private dialog: MatDialog) {
-    this.assigedRole = JSON.parse(localStorage.getItem('rolesData'));
+    this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
   }
 
   ngOnInit(): void {

@@ -65,7 +65,7 @@ export class SidemenuComponent implements OnInit {
     if (this.depth === undefined) {
       this.depth = 0;
     }
-    this.assigedRole = JSON.parse(localStorage.getItem('rolesData'));
+    this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
     //console.log(this.assigedRole)
   }
 

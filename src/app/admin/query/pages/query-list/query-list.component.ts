@@ -43,7 +43,7 @@ export class QueryListComponent implements OnInit {
     private dialogService:DialogService,
     private pagination: PaginationService,
     private changeDetectorRefs:ChangeDetectorRef) {
-      this.assigedRole = JSON.parse(localStorage.getItem('rolesData'));
+      this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
      }
 
 

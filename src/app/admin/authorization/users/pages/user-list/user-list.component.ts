@@ -52,7 +52,7 @@ export class UserListComponent implements OnInit {
     private fb: FormBuilder,
     private customerService: CustomerService,
     ) {
-      this.assigedRole = JSON.parse(localStorage.getItem('rolesData'));
+      this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
      }
 
   ngOnInit(): void {

@@ -71,58 +71,105 @@
         <div>
             <div>
         <mat-grid-tile  [colspan]="12" [style.background]="'#7557d6'">
-            Online
+            <div class="boxinfo">
+            <h2>{{1}} </h2>
+            <div><mat-icon class="iconcss">time_to_leave</mat-icon><span >Online</span>  </div>
+        </div>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="12" [style.background]="'#3e5c8a'">
-            Offline
+            <div>
+            <h2>{{1}} </h2>
+           <mat-icon>time_to_leave</mat-icon> Offline
+            
+            </div>
         </mat-grid-tile>
     </div>
     <div>
         <mat-grid-tile [colspan]="8" [style.background]="'#3bb0f1'">
-           Monitor
+            <div>
+            <p><mat-icon>desktop_mac</mat-icon></p>
+            <h5>Monitor</h5>
+        </div>
+           
         </mat-grid-tile>
         <mat-grid-tile [colspan]="16" [style.background]="'#3e5c8a'">
-           Report
+            <div>
+                <p><mat-icon>align_vertical_bottom</mat-icon></p>
+                <h5>Report</h5>
+            </div>
         </mat-grid-tile>
     </div>
 
     </div>
 
         <mat-grid-tile [colspan]="12" [style.background]="'#e96343'">
-            Alert Devices
+            <div class="boxinfo">
+               <div > <h2>{{1}} </h2></div>
+           <div> <mat-icon>warning_amber</mat-icon>  Alert Devices</div>
+        </div>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="6" [style.background]="'#3fa0ec'">
-           Expiring Soon
+            <div class="boxinfo">
+                <div > <h2>{{0}} </h2></div>
+            <div> <mat-icon>hourglass_top</mat-icon>  Expiring Sonn</div>
+         </div>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="6" [style.background]="'#2f5998'">
-           Expired
+            <div class="boxinfo">
+                <div > <h2>{{0}} </h2></div>
+            <div> <mat-icon>hourglass_empty</mat-icon>  Expired</div>
+         </div>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="8" [style.background]="'#2487d0'">
-           Geo Fences
+            <div>
+                <p><mat-icon>fence</mat-icon></p>
+                <h5>Geo Fence</h5>
+            </div>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="8" [style.background]="'#7F3979'">
-            POI
+            <div>
+                <p><mat-icon>sports_score</mat-icon></p>
+                <h5>POI</h5>
+            </div>
          </mat-grid-tile>
          <mat-grid-tile [colspan]="8" [style.background]="'#2f829a'">
-           Devices Management
+            <div>
+                <p><mat-icon>cast_connected</mat-icon></p>
+                <h5>Device Management</h5>
+            </div>
          </mat-grid-tile>
 
 
 
          <mat-grid-tile [colspan]="12" [style.background]="'#2f829b'">
-            Following
+            <div class="boxinfo">
+                <div > <h2>{{0}} </h2></div>
+            <div> <mat-icon>favorite_border</mat-icon>  Following</div>
+         </div>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="6" [style.background]="'#2487d0'">
-            Activated
+            <div class="boxinfo">
+                <div > <h2>{{0}} </h2></div>
+            <div> <mat-icon>done_all</mat-icon>  Activated</div>
+         </div>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="6" [style.background]="'#a34a42'">
-           Inactive
+            <div class="boxinfo">
+                <div > <h2>{{0}} </h2></div>
+            <div> <mat-icon>airplanemode_inactive</mat-icon>  Inative</div>
+         </div>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="12" [style.background]="'#377b13'">
-           Command
+            <div>
+                <p><mat-icon>keyboard_command_key</mat-icon></p>
+                <h5>Command</h5>
+            </div>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="12" [style.background]="'#a34a42'">
-            Alerts
+            <div>
+                <p><mat-icon>add_alert</mat-icon></p>
+                <h5>Alerts</h5>
+            </div>
          </mat-grid-tile>
     </mat-grid-list>
     

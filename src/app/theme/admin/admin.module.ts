@@ -9,10 +9,12 @@ import { SidemenuComponent } from './sidemenu/sidemenu.component';
 import { TopmenuComponent } from './topmenu/topmenu.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { Dashboard2Component } from './dashboard2/dashboard2.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 @NgModule({
-  declarations: [SidemenuComponent, TopmenuComponent, DashboardComponent, Dashboard2Component],
+  declarations: [SidemenuComponent, TopmenuComponent, DashboardComponent, Dashboard2Component, ProfileComponent, ChangePasswordComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

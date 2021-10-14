@@ -490,10 +490,10 @@ else{
 
   logout(): void{
     this.loginService.logout().subscribe(res=>{
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('refreshToken');
       localStorage.removeItem('userData');
-      localStorage.removeItem('rolesData');
+      sessionStorage.removeItem('rolesData');
       this.router.navigate(['/']);
     })
   

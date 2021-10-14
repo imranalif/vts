@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if (this.loginService.loggedIn()) {
-        this.assigedRole=JSON.parse(localStorage.getItem('rolesData'));
+        this.assigedRole=JSON.parse(sessionStorage.getItem('rolesData'));
         const roles = route.data.roles;
         const n = this.assigedRole.includes(roles); 
         if(n==true){

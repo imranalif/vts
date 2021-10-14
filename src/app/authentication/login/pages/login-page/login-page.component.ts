@@ -56,9 +56,15 @@ export class LoginPageComponent implements OnInit {
           console.log("teesttt")
           data.forEach(element => {
             this.roles.push(element.permission);
-            localStorage.setItem('rolesData', JSON.stringify(this.roles));
-            localStorage.setItem('accessToken', res.accessToken);
-            localStorage.setItem('refreshToken', res.refreshToken);
+            // localStorage.setItem('rolesData', JSON.stringify(this.roles));
+            // localStorage.setItem('accessToken', res.accessToken);
+            // localStorage.setItem('refreshToken', res.refreshToken);
+
+
+            sessionStorage.setItem('rolesData', JSON.stringify(this.roles));
+            sessionStorage.setItem('accessToken', res.accessToken);
+            sessionStorage.setItem('refreshToken', res.refreshToken);
+
             localStorage.setItem('userData', JSON.stringify(res.data));
             this.router.navigate(['admin/dashboard']);
             //console.log(this.roles)

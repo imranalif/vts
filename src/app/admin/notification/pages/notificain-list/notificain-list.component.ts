@@ -29,7 +29,7 @@ export class NotificainListComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private dialogService: DialogService) {
-    this.assigedRole = JSON.parse(localStorage.getItem('rolesData'));
+    this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
   }
 
   ngOnInit(): void {

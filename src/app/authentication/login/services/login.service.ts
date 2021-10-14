@@ -31,11 +31,11 @@ export class LoginService {
   
     // tslint:disable-next-line: typedef
     loggedIn() {
-      return !!localStorage.getItem('accessToken');
+      return !!sessionStorage.getItem('accessToken');
     }
 
     getToken(){
-      return localStorage.getItem('accessToken')
+      return sessionStorage.getItem('accessToken')
     }
 
     refreshToken(){
@@ -45,10 +45,10 @@ export class LoginService {
     }
 
     getRefreshToken(){
-      return localStorage.getItem('refreshToken')
+      return sessionStorage.getItem('refreshToken')
     }
 
     private storeAccessToken(jwt: string) {
-      localStorage.setItem('accessToken', jwt);
+      sessionStorage.setItem('accessToken', jwt);
     }
 }

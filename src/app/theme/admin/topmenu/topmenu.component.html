@@ -24,23 +24,28 @@
         <span class="align-middle"></span>
       </a>
     </mat-toolbar>
+
+    <!-- <a routerLink="authorization/users/user-profile" mat-menu-item>
+      <mat-icon>account_circle</mat-icon>
+      <span>Profile</span>
+    </a> -->
   
     <mat-menu #menu="matMenu">
-      <a routerLink="authorization/users/user-profile" mat-menu-item>
+      <a routerLink="profile" mat-menu-item>
         <mat-icon>account_circle</mat-icon>
         <span>Profile</span>
       </a>
   
-      <a routerLink="authorization/users/change-password" mat-menu-item>
+      <a routerLink="change-password" mat-menu-item>
         <mat-icon>settings</mat-icon>
         <span>Change Pass
   
         </span>
       </a>
   
-      <a mat-menu-item>
+      <a mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
-        <span (click)="logout()">Logout</span>
+        <span >Logout</span>
       </a>
     </mat-menu>
     <!-- <div>

@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { TopmenuComponent } from './topmenu/topmenu.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { Dashboard2Component } from './dashboard2/dashboard2.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -10,6 +12,8 @@ const routes: Routes = [
     component: TopmenuComponent,
     children : [
       { path: 'dashboard', component: Dashboard2Component },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'change-password', component: ChangePasswordComponent },
       
       {
         path: 'authorization',
