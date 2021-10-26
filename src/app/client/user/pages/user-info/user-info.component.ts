@@ -272,12 +272,12 @@ export class UserInfoComponent implements OnInit {
             this.deviceService.getMovingPosition(data).subscribe(data => {
               data.forEach(element => {
                 this.fixtime = element.fixtime;
-                var latlng = { lat: element.latitude, lng: element.longitude }
-                const v = L.Control.Geocoder.nominatim();
-                v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
-                  element.address = (results[0].name)
-                  this.cusmapService.detailsDataExchange(element);
-                })
+                // var latlng = { lat: element.latitude, lng: element.longitude }
+                // const v = L.Control.Geocoder.nominatim();
+                // v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
+                //   element.address = (results[0].name)
+                //   this.cusmapService.detailsDataExchange(element);
+                // })
 
                 var marker
                 //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);

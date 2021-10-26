@@ -7,10 +7,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ReportsRoutingModule } from './reports-routing.module';
 import { PositionReportComponent } from './pages/position-report/position-report.component';
+import { DrivesStopsReportComponent } from './pages/drives-stops-report/drives-stops-report.component';
+import { IgnitionReportComponent } from './pages/ignition-report/ignition-report.component';
 
 
 @NgModule({
-  declarations: [PositionReportComponent],
+  declarations: [PositionReportComponent, DrivesStopsReportComponent, IgnitionReportComponent],
   imports: [
     CommonModule,
     ReportsRoutingModule,

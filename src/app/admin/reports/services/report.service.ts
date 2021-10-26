@@ -15,4 +15,12 @@ export class ReportService {
   getPositionByPage(data): Observable<any> {
     return this.http.post(this.url + '/listPositionByPage', data);
   }
+
+  getPositionWithDriveStop(data): Observable<any> {
+    return this.http.post(this.url + '/listPositionWithDriveStop', data);
+  }
+
+  getEventWithPosition(data): Observable<any> {
+    return this.http.post(this.url + '/listEventWithPosition', data);
+  }
 }

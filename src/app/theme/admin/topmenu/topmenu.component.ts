@@ -461,6 +461,20 @@ mediaSub: Subscription;
         permission: 'position_report',
         
       },
+      {
+        displayName: 'Drives And Stops Report',
+        iconName: 'model_training',
+        route: 'admin/report/drives_stops',
+        permission: 'drives_stops_report',
+        
+      },
+      {
+        displayName: 'Ignition ON/OFF Report',
+        iconName: 'play_for_work',
+        route: 'admin/report/ignition_report',
+        permission: 'ignition_report',
+        
+      },
       
     ]
   },

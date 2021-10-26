@@ -9,6 +9,7 @@ import { ItemListComponent } from './pages/item-list/item-list.component';
 import { ItemAddComponent } from './pages/item-add/item-add.component';
 import { ItemEditComponent } from './pages/item-edit/item-edit.component';
 import { UniqueItemDirective } from './services/unique-item.directive';
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { UniqueItemDirective } from './services/unique-item.directive';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    MatTableExporterModule
+    MatTableExporterModule,
+    DragDropModule
   ]
 })
 export class PermissionGroupItemModule { }

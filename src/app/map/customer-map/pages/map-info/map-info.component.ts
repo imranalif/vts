@@ -201,13 +201,17 @@ export class MapInfoComponent implements OnInit {
           })
         }
         var polyline = L.polyline([]).addTo(this.map);
-
+console.log('///////')
         this.myInterval = setInterval(() => {
+          console.log(this.fixtime)
           var data = { id: this.deviceIdArray, fixtime: this.fixtime }
           if (this.check == 1) {
             this.deviceService.getMovingPosition(data).subscribe(data => {
               data.forEach(element => {
+                console.log(element)
+                
                 this.fixtime = element.fixtime;
+                console.log(this.fixtime)
                 this.cusmapService.detailsDataExchange(element);
                 // var latlng = { lat: element.latitude, lng: element.longitude }
                 // const v = L.Control.Geocoder.nominatim();
@@ -224,9 +228,9 @@ export class MapInfoComponent implements OnInit {
                 console.log(element)
                 this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
                   + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
-                if (element) {
+                // if (element) {
                   this.line = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
-                }
+                // }
 
               })
             })

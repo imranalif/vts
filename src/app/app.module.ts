@@ -17,6 +17,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { TokenInterceptorService } from './shared/services/token-interceptor.service';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { HashLocationStrategy, LocationStrategy,PathLocationStrategy } from '@angular/common';
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 
 
@@ -42,7 +43,8 @@ import { HashLocationStrategy, LocationStrategy,PathLocationStrategy } from '@an
     FlexLayoutModule,
     MatTableExporterModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    DragDropModule
   
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },{provide: LocationStrategy, useClass: HashLocationStrategy}],

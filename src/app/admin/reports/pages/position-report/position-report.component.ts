@@ -205,10 +205,14 @@ this.devicesArray.push(this.devices[i].id)
   }
 
   goBack(){
+    
+    this.myform.value.customer=' ';
     const today=new Date
     var requiredDate=new Date(today.getFullYear(),today.getMonth(),today.getDate())
     this.myform.patchValue(
       {
+        deviceid:'',
+        customer:'',
       fromdate: requiredDate,
       todate:new Date()
     })
