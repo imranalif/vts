@@ -253,7 +253,7 @@ export class UserInfoComponent implements OnInit {
       if (res) {
         this.check = 1;
         this.fixtime = res[0].fixtime
-        this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
+        //this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
         res.forEach(element => {
           if (!this.deviceIdArray.includes(element.deviceid)) {
             this.deviceIdArray.push(element.deviceid)
@@ -266,6 +266,7 @@ export class UserInfoComponent implements OnInit {
         var polyline = L.polyline([]).addTo(this.map);
 
         this.myInterval = setInterval(() => {
+          this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           var data = { id: this.deviceIdArray, fixtime: this.fixtime }
           console.log(this.check)
           if (this.check == 1) {

@@ -55,7 +55,7 @@ export class MapInfoComponent implements OnInit {
   deviceIdArray = []
   fixtime
 
-  line
+  line=[]
   marking
   historyItem
   overlayMaps
@@ -199,7 +199,8 @@ export class MapInfoComponent implements OnInit {
             layerGroup.addLayer(mook[elem.deviceid]);
           })
         }
-        var polyline = L.polyline([]).addTo(this.map);
+        
+       var polyline = L.polyline([]).addTo(this.map);
         this.myInterval = setInterval(() => {
           
           this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
@@ -207,8 +208,6 @@ export class MapInfoComponent implements OnInit {
           if (this.check == 1) {
             this.deviceService.getMovingPosition(data).subscribe(data => {
               data.forEach(element => {
-                console.log(element)
-                
                 this.fixtime = element.fixtime;
                 console.log(this.fixtime)
                 this.cusmapService.detailsDataExchange(element);
@@ -228,7 +227,7 @@ export class MapInfoComponent implements OnInit {
                 this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
                   + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
                 if (element) {
-                  this.line = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
+                  this.line[element.deviceid] = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
                 }
 
               })
@@ -249,7 +248,7 @@ export class MapInfoComponent implements OnInit {
           console.log(element.deviceid)
           this.map.removeLayer(mook[element.deviceid])
           if (this.line) {
-            this.map.removeLayer(this.line)
+            this.map.removeLayer(this.line[element.deviceid])
           }
 
         })
