@@ -191,9 +191,8 @@ export class MapInfoComponent implements OnInit {
           this.deviceIdArray.push(res[0].deviceid)
 
           this.fixtime = res[0].fixtime
-          this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
+          //this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           //var mook
-          console.log(this.fixtime);
           res.forEach(elem => {
             mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
               + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).addTo(this.map)
@@ -201,9 +200,9 @@ export class MapInfoComponent implements OnInit {
           })
         }
         var polyline = L.polyline([]).addTo(this.map);
-console.log('///////')
         this.myInterval = setInterval(() => {
-          console.log(this.fixtime)
+          
+          this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           var data = { id: this.deviceIdArray, fixtime: this.fixtime }
           if (this.check == 1) {
             this.deviceService.getMovingPosition(data).subscribe(data => {
@@ -228,9 +227,9 @@ console.log('///////')
                 console.log(element)
                 this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
                   + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
-                // if (element) {
+                if (element) {
                   this.line = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
-                // }
+                }
 
               })
             })
