@@ -189,15 +189,11 @@ export class MapInfoComponent implements OnInit {
         this.check = 1;
         if (!this.deviceIdArray.includes(res[0].deviceid)) {
           this.deviceIdArray.push(res[0].deviceid)
+
           if(!this.fixtime){
             this.fixtime='2020-08-18T05:42:11.000Z';
           }
-          
-          console.log(this.fixtime)
-          console.log(res[0].fixtime)
-          console.log('x < y', this.fixtime < res[0].fixtime); // false
           if(this.fixtime < res[0].fixtime){
-            console.log('test')
             this.fixtime = res[0].fixtime
           }
           

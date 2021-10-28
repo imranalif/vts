@@ -308,9 +308,10 @@ else{
 loadHistory(){
   this.isLoading = true;
  //const obj={id:this.myform.value.id}
+ var id=this.myform.value.id
  var from_date = this.dateFormatService.dateTime('datetime', this.myform.value.from_date)
  var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.to_date)
- const obj={from_date:from_date,to_date:to_date}
+ const obj={id:id,from_date:from_date,to_date:to_date}
   this.deviceService.getHistoryPostionBySearch(obj).subscribe(res=>{
     console.log(res)
     this.isLoading = false;

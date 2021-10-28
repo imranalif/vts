@@ -252,7 +252,12 @@ export class UserInfoComponent implements OnInit {
       this.updateData = res;
       if (res) {
         this.check = 1;
-        this.fixtime = res[0].fixtime
+        if(!this.fixtime){
+          this.fixtime='2020-08-18T05:42:11.000Z';
+        }
+        if(this.fixtime < res[0].fixtime){
+          this.fixtime = res[0].fixtime
+        }
         //this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
         res.forEach(element => {
           if (!this.deviceIdArray.includes(element.deviceid)) {
