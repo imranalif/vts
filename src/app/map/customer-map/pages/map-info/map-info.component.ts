@@ -189,8 +189,18 @@ export class MapInfoComponent implements OnInit {
         this.check = 1;
         if (!this.deviceIdArray.includes(res[0].deviceid)) {
           this.deviceIdArray.push(res[0].deviceid)
-
-          this.fixtime = res[0].fixtime
+          if(!this.fixtime){
+            this.fixtime='2020-08-18T05:42:11.000Z';
+          }
+          
+          console.log(this.fixtime)
+          console.log(res[0].fixtime)
+          console.log('x < y', this.fixtime < res[0].fixtime); // false
+          if(this.fixtime < res[0].fixtime){
+            console.log('test')
+            this.fixtime = res[0].fixtime
+          }
+          
           //this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           //var mook
           res.forEach(elem => {
@@ -224,10 +234,13 @@ export class MapInfoComponent implements OnInit {
                 var markers = L.layerGroup()
                 this.markerArray = L.layerGroup()
                 console.log(element)
-                this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
+                this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {"animate": true,duration: 0.5}).bindPopup(element.name + " <br> Address: " + element.contact
                   + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
                 if (element) {
                   this.line[element.deviceid] = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
+  //                 var animatedMarker = L.animatedMarker(this.line[element.deviceid].getLatLngs());
+	// this.map.addLayer(animatedMarker);
+
                 }
 
               })
