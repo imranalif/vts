@@ -67,6 +67,26 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Identifer</th>
         <td mat-cell *matCellDef="let element">{{ element.uniqueid }}</td>
       </ng-container>
+
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+        <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="model">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Model</th>
+        <td mat-cell *matCellDef="let element">{{ element.model }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+        <td mat-cell *matCellDef="let element">{{ element.category }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Update</th>
+        <td mat-cell *matCellDef="let element">{{ element.lastupdate|date:'medium' }}</td>
+      </ng-container>
   
   
 

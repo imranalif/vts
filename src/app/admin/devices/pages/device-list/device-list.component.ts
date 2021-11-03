@@ -32,7 +32,7 @@ errorData;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   states = [{ id: 0, value: 'Inactive' }, { id: 1, value: 'Active' }];
-  displayedColumns = ['action', 'id', 'name', 'identifier',];
+  displayedColumns = ['action', 'id', 'name', 'identifier','phone','model','category','time'];
   constructor(private deviceService: DeviceService,
     private snackBar: MatSnackBar,
     private router: Router,

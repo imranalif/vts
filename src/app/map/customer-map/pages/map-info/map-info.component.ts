@@ -181,10 +181,16 @@ export class MapInfoComponent implements OnInit {
       visible: false
     }).addTo(this.map);;
 
+
+
     var mook = []
-
+    var lineArray=[]
+    var lineArray1=[]
+    var lineArray2=[]
+    var lineArray3=[]
+    var lineArray4=[]
+    
     this.cusmapService.deviceDataCatch.subscribe(res => {
-
       if (res) {
         this.check = 1;
         if (!this.deviceIdArray.includes(res[0].deviceid)) {
@@ -201,7 +207,9 @@ export class MapInfoComponent implements OnInit {
           //var mook
           res.forEach(elem => {
             mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
-              + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).addTo(this.map)
+              + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).bindTooltip(elem.name, {
+                direction: 'left', offset: [15, -45], permanent: true
+            }).addTo(this.map)
             layerGroup.addLayer(mook[elem.deviceid]);
           })
         }
@@ -225,15 +233,43 @@ export class MapInfoComponent implements OnInit {
                 //   this.cusmapService.detailsDataExchange(element);
                 // })
 
+
+               
+
                 var marker
                 //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
                 var markers = L.layerGroup()
                 this.markerArray = L.layerGroup()
-                console.log(element)
-                this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {"animate": true,duration: 0.5}).bindPopup(element.name + " <br> Address: " + element.contact
-                  + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
+                console.log(element.name)
+                var attribute=JSON.parse(element.attributes)
+                this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
+                  + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false })
+
+                  if(this.deviceIdArray[0]==element.deviceid){
+                    lineArray.push([element.latitude, element.longitude])
+                  }
+                  if(this.deviceIdArray[1]==element.deviceid){
+                    lineArray1.push([element.latitude, element.longitude])
+                  }
+                  if(this.deviceIdArray[2]){
+                    lineArray2.push([element.latitude, element.longitude])
+                  }
+                  if(this.deviceIdArray[3]){
+                    lineArray3.push([element.latitude, element.longitude])
+                  }
+                  if(this.deviceIdArray[4]){
+                    lineArray4.push([element.latitude, element.longitude])
+                  }
+    
+                  L.polyline( lineArray, {color: 'red', clickable: 'true'}).addTo(this.map);
+                  L.polyline( lineArray1, {color: 'blue', clickable: 'true'}).addTo(this.map);
+                  L.polyline( lineArray2, {color: 'green', clickable: 'true'}).addTo(this.map);
+                  L.polyline( lineArray3, {color: 'yellow', clickable: 'true'}).addTo(this.map);
+                  L.polyline( lineArray4, {color: 'pink', clickable: 'true'}).addTo(this.map);
                 if (element) {
-                  this.line[element.deviceid] = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
+                  
+                  //this.line[element.deviceid] = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
+                  //this.line[element.deviceid] = L.polyline([element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);;
   //                 var animatedMarker = L.animatedMarker(this.line[element.deviceid].getLatLngs());
 	// this.map.addLayer(animatedMarker);
 
@@ -257,7 +293,7 @@ export class MapInfoComponent implements OnInit {
           console.log(element.deviceid)
           this.map.removeLayer(mook[element.deviceid])
           if (this.line) {
-            this.map.removeLayer(this.line[element.deviceid])
+            //this.map.removeLayer(this.line[element.deviceid])
           }
 
         })
