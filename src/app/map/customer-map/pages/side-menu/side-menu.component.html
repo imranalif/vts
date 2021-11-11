@@ -23,9 +23,9 @@
                                 <mat-expansion-panel-header>
                                     <mat-checkbox (click)="$event.stopPropagation()"
                                         (keydown)="$event.stopPropagation()" (change)="checkByCustomer($event.checked,customer)"
-                                        [checked]="checkStateC(this.customerDevices[0].id)">
+                                        [checked]="checkStateC(1)">
 
-                                        {{customer?.name}}
+                                        {{customer[0]?.name}}
                                     </mat-checkbox>
                                 </mat-expansion-panel-header>
 
@@ -34,7 +34,7 @@
                                 <div class="item" *ngFor="let val of customerDevices; let i=index  ">
                                     <!-- <div class="item"> -->
                                         <div class="item">
-                                    <mat-checkbox class="name" [checked]="checkState(val.uniqueid)"
+                                    <mat-checkbox class="name" [checked]="checkState(val.id)"
                                         (change)="check($event.checked,val)">
 
 

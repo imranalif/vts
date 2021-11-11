@@ -83,6 +83,7 @@ export class CusmapService {
   }
 
   detailsDataExchange(text) {
+    console.log(text)
     this.detailsDataSent.next(text);
   }
 

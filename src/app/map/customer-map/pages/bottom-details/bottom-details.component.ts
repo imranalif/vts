@@ -16,6 +16,7 @@ export class BottomDetailsComponent implements OnInit {
   isLoading
   url
   map
+  deviceID
   link="http://www.google.com/maps/place/"
   constructor(private cusmapService:CusmapService) { }
 
@@ -30,9 +31,10 @@ export class BottomDetailsComponent implements OnInit {
     var openStreet = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
 
     console.log(this.url)
-    this.cusmapService.deviceDetailsCatch.subscribe(res => {
+    this.cusmapService.detailsDataCatch.subscribe(res => {
       if (res) {
-        var latlng = { lat: res.latitude, lng: res.longitude }
+        // this.deviceData=res[0].deviceid;
+        var latlng = { lat: res[0].latitude, lng: res[0].longitude }
         const v = L.Control.Geocoder.nominatim();
                 v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
                   if(results[0]){
@@ -42,14 +44,17 @@ export class BottomDetailsComponent implements OnInit {
                 })
 
         this.url=this.link+res.latitude+','+res.longitude
-       this.deviceData=res;
-       this.deviceName=res;
+       this.deviceData=res[0];
+       this.deviceName=res[0];
        this.attribute=JSON.parse(this.deviceData.attributes)
       }
     })
-    this.cusmapService.detailsDataCatch.subscribe(response => {
-   
+    this.cusmapService.deviceDetailsCatch.subscribe(response => {
+   console.log("12122")
       if (response) {
+        console.log(response.deviceid)
+        console.log(this.deviceData)
+        // if(response.deviceid==this.deviceData){
         var latlng = { lat: response.latitude, lng: response.longitude }
         const v = L.Control.Geocoder.nominatim();
                 v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
@@ -63,6 +68,7 @@ export class BottomDetailsComponent implements OnInit {
         this.deviceData=response;
         this.attribute=JSON.parse(this.deviceData.attributes)
       }
+    // }
     })
 
   }

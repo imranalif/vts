@@ -22,6 +22,10 @@ export class CustomerService {
     return this.http.get(this.url + id + '/editCustomer');
   }
 
+  getCustomerByUserId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getCustomerByUserId');
+  }
+
   updateCustomer(id: string, data): Observable<object> {
     return this.http.put(this.url + id + '/updateCustomer', data);
   }
@@ -41,7 +45,23 @@ export class CustomerService {
     return this.http.get<any[]>(this.url + id + '/getDeviceByCustomer');
   }
 
+  DeviceByDeviceId(data):Observable<any[]>{
+    return this.http.post<any[]>(this.url  + '/getDeviceByDeviceId',data);
+  }
+
+  DeviceIdByUser(id: string):Observable<any[]>{
+    return this.http.get<any[]>(this.url + id + '/getDeviceIdByUser');
+  }
+
   DeviceByCustomerWithPosition(id: string):Observable<any[]>{
     return this.http.get<any[]>(this.url + id + '/getDeviceByCustomerWithPosition');
+  }
+
+  DeviceByCustomerUserWithPosition(data):Observable<any[]>{
+    return this.http.post<any[]>(this.url  + '/getDeviceByCustomerUserWithPosition',data);
+  }
+
+  DevicePositionByPositionId(data):Observable<any[]>{
+    return this.http.post<any[]>(this.url  + '/getDevicePositionByPositionId',data);
   }
 }

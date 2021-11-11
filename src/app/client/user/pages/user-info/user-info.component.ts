@@ -245,7 +245,11 @@ export class UserInfoComponent implements OnInit {
 
 
     // add device
-
+    var lineArray=[]
+    var lineArray1=[]
+    var lineArray2=[]
+    var lineArray3=[]
+    var lineArray4=[]
     var mapDevice = []
     var pai = L.layerGroup()
     this.mapService.movingDataCatch.subscribe(res => {

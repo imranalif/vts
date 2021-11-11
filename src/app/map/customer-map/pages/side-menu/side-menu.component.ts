@@ -23,10 +23,14 @@ export class SideMenuComponent implements OnInit {
   customerDevices
   filterDevices
   DeviceItem=[]
+  DeviceItemCus=[]
   devicelog=[]
   devicelogMatch=[]
   historyData;
   Events
+
+  deviceId
+  locationData
   dataSource = new MatTableDataSource<any>([]);
   dataEvents = new MatTableDataSource<any>([]);
   //displayedColumns = ['select',  'name', 'more'];
@@ -62,6 +66,7 @@ export class SideMenuComponent implements OnInit {
 
     this.cusmapService.deviceDetailsCatch.subscribe(res => {
       if (res) {
+        console.log("menu time check")
         this.deviceData=[]
        this.deviceData.push(res);
        this.deviceData.forEach((elem, i) => {
@@ -75,14 +80,32 @@ export class SideMenuComponent implements OnInit {
   }
 
   getCustomerDevices(id){
-    this.customerService.getCustomerById(id).subscribe(data=>{
-this.customer=data;
+    this.customerService.getCustomerByUserId(id).subscribe(data=>{
+      this.customer=data;
+console.log(this.customer)
     })
-    this.customerService.DeviceByCustomerWithPosition(id).subscribe(res=>{
-this.customerDevices=res;
-res.forEach((element, i) => {
-this.devicelog.push(element.deviceid)
+
+    // devices pulling with user id
+    this.customerService.DeviceIdByUser(id).subscribe(res=>{
+this.deviceId=res;
+var deviceIdArray=[]
+this.deviceId.forEach(element => {
+  deviceIdArray.push(element.deviceid);
+});
+var devData={id:deviceIdArray}
+this.customerService.DeviceByDeviceId(devData).subscribe(res=>{
+  this.customerDevices=res;
+  var tdata=res
+  console.log(res)
+  this.selected=this.customerDevices[0].id
+  
+  tdata.forEach((element, i) => {
+  this.devicelog.push(element.id)
+  })
+  
 })
+
+console.log(this.devicelog)
 this.dataSource = new MatTableDataSource( res as any);
       console.log(this.devicelog);
     })
@@ -122,18 +145,21 @@ this.dataSource = new MatTableDataSource( res as any);
 
   check(e, data) {
     if (e) {
+      console.log(data)
       //this.DeviceItem.push(1);
-       this.devicelogMatch.push(data.deviceid)
+       this.devicelogMatch.push(data.id)
       var  a = this.devicelog.toString();
      var b = this.devicelogMatch.toString();
      if(a===b){
-      this.DeviceItem.push(1);
+      this.DeviceItemCus.push(1);
      }
-     this.deviceService.getDeviceCurrentPositionById(data.deviceid).subscribe(res=>{
+     this.deviceService.getDeviceCurrentPositionById(data.id).subscribe(res=>{
       this.deviceDataT=res;
+      this.customerDevices = this.customerDevices.map(x=>Object.assign(x, this.deviceDataT.find(y=>y.deviceid==x.id)))
       console.log(res)
-      this.deviceDataT.forEach((elem, i) => {
-       this.deviceDataIndex[elem.deviceid] = this.deviceDataT[i];
+      this.customerDevices.forEach((elem, i) => {
+        console.log("test")
+       this.deviceDataIndex[elem.deviceid] = this.customerDevices[i];
      }
      );
       this.cusmapService.deviceDataExchange(res);
@@ -142,8 +168,9 @@ this.dataSource = new MatTableDataSource( res as any);
     }
     else{
       // this.deleteObject.push(data)
-      this.devicelogMatch = this.devicelogMatch.filter(item => item !== data.deviceid)
-      this.DeviceItem= this.DeviceItem.filter(item => item !== 1)
+      this.devicelogMatch = this.devicelogMatch.filter(item => item !== data.id)
+      this.DeviceItem= this.DeviceItem.filter(item => item !== data.id)
+      this.DeviceItemCus= this.DeviceItemCus.filter(item => item !== 1)
        this.cusmapService.deviceRemove([data]);
     }
   
@@ -152,16 +179,33 @@ this.dataSource = new MatTableDataSource( res as any);
   checkByCustomer(e,data){
     if (e) {
       console.log(data)
-      this.customerService.DeviceByCustomerWithPosition(data.customer_id).subscribe(res=>{
-        this.customerDevices=res;
+      var devicesData={id:this.devicelog}
+      console.log(devicesData)
+      this.customerService.DeviceByCustomerUserWithPosition(devicesData).subscribe(res=>{
+        var darray=res;
+        var positionArray=[];
+        darray.forEach((e,i)=>{
+          console.log(e)
+          positionArray.push(e.positionid)
+        })
+        var positionData={id:positionArray}
+        this.customerService.DevicePositionByPositionId(positionData).subscribe(response=>{
+          var poArray=response;
+          console.log(darray)
+          console.log(this.customerDevices)
+          this.customerDevices = darray.map(x=>Object.assign(x, poArray.find(y=>y.deviceid==x.id)))
+          console.log(this.customerDevices)
         this.customerDevices.forEach((element, i) => {
-          this.DeviceItem.push(element.uniqueid);
+          this.DeviceItem.push(element.id);
+          // confuce/////////////
         })
         this.customerDevices.forEach((elem, i) => {
           this.deviceDataIndex[elem.deviceid] = this.customerDevices[i];
         }
         );
         this.cusmapService.deviceDataExchange(this.customerDevices);
+        })
+        
       })
       
       // this.singleObject.push(data)
@@ -183,7 +227,7 @@ this.dataSource = new MatTableDataSource( res as any);
 
   checkStateC(data){
     if (this.customerDevices) {
-      return this.DeviceItem.indexOf(data) > -1;
+      return this.DeviceItemCus.indexOf(data) > -1;
     }
   }
 
@@ -203,6 +247,8 @@ var id=this.myform.value.id;
     const obj={id:id,from_date:from_date,to_date:to_date}
      console.log(this.myform.value);
      this.deviceService.getHistoryPostionBySearch(obj).subscribe(res=>{
+       console.log("test history");
+       console.log(res)
        this.historyData=res;
        this.isLoading = false;
        this.cusmapService.deviceHistory(res);
@@ -211,11 +257,15 @@ var id=this.myform.value.id;
    }
 
    getLocation(e){
-      var lat=e.latitude;
-      var lng=e.longitude;
-      var data={lat:lat,lng:lng}
-      this.cusmapService.deviceLocation(e);
-      this.cusmapService.deviceDetails(e)
+    this.deviceService.getDeviceCurrentPositionById(e.id).subscribe(res=>{
+      this.locationData=res;
+      // var lat=res[0].latitude;
+      // var lng=res[0].longitude;
+      // var data={lat:lat,lng:lng}
+      this.cusmapService.deviceLocation(this.locationData);
+      this.cusmapService.detailsDataExchange(this.locationData)
+    })
+      
     }
 
     eventInfo(event){

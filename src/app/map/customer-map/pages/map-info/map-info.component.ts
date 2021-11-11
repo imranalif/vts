@@ -62,6 +62,16 @@ export class MapInfoComponent implements OnInit {
   m: number;
   check;
   myInterval
+  setIntervalOption=0;
+  //////////line drawing
+  line1
+  line2
+  line3
+  line4
+  line5
+  line6
+
+   polyline=[]
 
   constructor(
     private mediaObserver: MediaObserver,
@@ -171,7 +181,7 @@ export class MapInfoComponent implements OnInit {
       position: 'bottom',
       visible: false
     }).addTo(this.map);;
-    controlBar.show();
+    controlBar.hide();
     var myButton = L.easyButton('fa-exchange', function (btn, map) {
       controlBar.toggle()
     }, { position: 'bottomright' }).addTo(this.map);
@@ -184,21 +194,29 @@ export class MapInfoComponent implements OnInit {
 
 
     var mook = []
-    var lineArray=[]
+    var line=[1,4,5,6,7,8]
+    var lineArray={}
     var lineArray1=[]
     var lineArray2=[]
     var lineArray3=[]
     var lineArray4=[]
+    var lineArray5=[]
+   
     
     this.cusmapService.deviceDataCatch.subscribe(res => {
       if (res) {
+        console.log(res)
+        clearInterval(this.myInterval);
         this.check = 1;
         if (!this.deviceIdArray.includes(res[0].deviceid)) {
           this.deviceIdArray.push(res[0].deviceid)
 
           if(!this.fixtime){
+            console.log("11111")
             this.fixtime='2020-08-18T05:42:11.000Z';
+            this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           }
+          res[0].fixtime = this.dateFormatService.dateTime('datetime', res[0].fixtime)
           if(this.fixtime < res[0].fixtime){
             this.fixtime = res[0].fixtime
           }
@@ -214,7 +232,12 @@ export class MapInfoComponent implements OnInit {
           })
         }
         
-       var polyline = L.polyline([]).addTo(this.map);
+        this.deviceIdArray.forEach(element => {
+          this.polyline[element]= L.polyline([]).addTo(this.map);
+        });
+
+        
+      
         this.myInterval = setInterval(() => {
           
           this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
@@ -224,7 +247,7 @@ export class MapInfoComponent implements OnInit {
               data.forEach(element => {
                 this.fixtime = element.fixtime;
                 console.log(this.fixtime)
-                this.cusmapService.detailsDataExchange(element);
+                this.cusmapService.deviceDetails(element);
                 // var latlng = { lat: element.latitude, lng: element.longitude }
                 // const v = L.Control.Geocoder.nominatim();
                 // v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
@@ -244,36 +267,50 @@ export class MapInfoComponent implements OnInit {
                 var attribute=JSON.parse(element.attributes)
                 this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
                   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false })
+                 
 
-                  if(this.deviceIdArray[0]==element.deviceid){
-                    lineArray.push([element.latitude, element.longitude])
-                  }
-                  if(this.deviceIdArray[1]==element.deviceid){
-                    lineArray1.push([element.latitude, element.longitude])
-                  }
-                  if(this.deviceIdArray[2]){
-                    lineArray2.push([element.latitude, element.longitude])
-                  }
-                  if(this.deviceIdArray[3]){
-                    lineArray3.push([element.latitude, element.longitude])
-                  }
-                  if(this.deviceIdArray[4]){
-                    lineArray4.push([element.latitude, element.longitude])
-                  }
+                
+                  this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude));
+                  // lineArray[element.deviceid]=lineArray1.push([element.latitude, element.longitude]);
+                   //this.line[element.deviceid] = L.polyline( [element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);
+
+                  // if(1==element.deviceid){
+                  //   this.line1 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
+                  //   //lineArray.push([element.latitude, element.longitude])
+                  // }
+                  // if(4==element.deviceid){
+                  //   this.line2 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
+                  // }
+                  // if(5==element.deviceid){
+                  //   this.line3 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
+                  // }
+                  // if(6==element.deviceid){
+                  //   // this.line4 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
+                  //   lineArray3.push([element.latitude, element.longitude])
+                  // }
+                  // if(7==element.deviceid){
+                  //   this.line5 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
+                  // }
+                  // if(8==element.deviceid){
+                  //   this.line6 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
+                  // }
+
+                 
     
-                  L.polyline( lineArray, {color: 'red', clickable: 'true'}).addTo(this.map);
-                  L.polyline( lineArray1, {color: 'blue', clickable: 'true'}).addTo(this.map);
-                  L.polyline( lineArray2, {color: 'green', clickable: 'true'}).addTo(this.map);
-                  L.polyline( lineArray3, {color: 'yellow', clickable: 'true'}).addTo(this.map);
-                  L.polyline( lineArray4, {color: 'pink', clickable: 'true'}).addTo(this.map);
-                if (element) {
+                  // this.line=L.polyline( lineArray, {color: 'red', clickable: 'true'}).addTo(this.map);
+                  // line[1]=L.polyline( lineArray1, {color: 'blue', clickable: 'true'}).addTo(this.map);
+                  // line[2]=L.polyline( lineArray2, {color: 'green', clickable: 'true'}).addTo(this.map);
+                  // line[3]=L.polyline( lineArray3, {color: 'brown', clickable: 'true'}).addTo(this.map);
+                  // line[4]=L.polyline( lineArray4, {color: 'purple', clickable: 'true'}).addTo(this.map);
+                  // line[5]=L.polyline( lineArray5, {color: 'orange', clickable: 'true'}).addTo(this.map);
+                //if (element) {
                   
                   //this.line[element.deviceid] = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
                   //this.line[element.deviceid] = L.polyline([element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);;
   //                 var animatedMarker = L.animatedMarker(this.line[element.deviceid].getLatLngs());
 	// this.map.addLayer(animatedMarker);
 
-                }
+                //}
 
               })
             })
@@ -284,27 +321,40 @@ export class MapInfoComponent implements OnInit {
 
     this.cusmapService.deviceRemoveFromMap.subscribe(data => {
       if (data) {
-        this.check = 0;
+        // this.check = 0;
 
-        clearInterval(this.myInterval);
-        console.log(this.markerArray)
+        // clearInterval(this.myInterval);
+        //console.log(this.markerArray)
         data.forEach(element => {
-          this.deviceIdArray = this.deviceIdArray.filter(item => item !== element.deviceid)
-          console.log(element.deviceid)
-          this.map.removeLayer(mook[element.deviceid])
-          if (this.line) {
-            //this.map.removeLayer(this.line[element.deviceid])
+          if(element.deviceid){
+            element.id=element.deviceid
           }
+          this.deviceIdArray = this.deviceIdArray.filter(item => item !== element.id)
+          console.log(element.id)
+          this.map.removeLayer(mook[element.id])
+          if(this.polyline[element.id]){
+          this.map.removeLayer(this.polyline[element.id])
+        }
 
         })
+
+        if (this.deviceIdArray.length <= 0) {
+          console.log("check")
+          this.check = 0;
+          clearInterval(this.myInterval);
+        }
       }
     })
 
     this.cusmapService.deviceLocationCatch.subscribe(res => {
       if (res) {
-        this.map.panTo(new L.LatLng(res.latitude, res.longitude));
+        this.map.panTo(new L.LatLng(res[0].latitude, res[0].longitude));
       }
     })
+    this.cusmapService.detailsDataCatch.subscribe(res => {
+      if (res) {
+        controlBar.show();
+      }})
 
     // eventInfomation showing
 
@@ -369,7 +419,7 @@ export class MapInfoComponent implements OnInit {
 
           });
 
-          this.parking.addTo(this.map)
+          //this.parking.addTo(this.map)
           this.overlayMaps = {
             "Route": this.route,
             "Engine": this.history,
@@ -378,7 +428,10 @@ export class MapInfoComponent implements OnInit {
 
           };
           //L.control.layers(this.baseMaps,this.overlayMaps).addTo(this.map);
-          this.parking.addTo(this.map)
+          if(this.parking){
+            this.parking.addTo(this.map)
+          }
+          
           this.polylineMotion = L.motion
             .polyline(this.storeLatlng,
               {
