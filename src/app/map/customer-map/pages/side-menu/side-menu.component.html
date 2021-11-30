@@ -170,7 +170,7 @@
                             <a class="closeButton">
                                 <mat-icon (click)="sl.close()">clear</mat-icon>
                             </a>
-                            <mat-option *ngFor="let state of customerDevices" [value]="state.deviceid">
+                            <mat-option *ngFor="let state of devicesArray" [value]="state.id">
                                 {{ state.name }}
                             </mat-option>
                         </mat-select>

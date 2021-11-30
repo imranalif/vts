@@ -105,6 +105,9 @@ export class DrivesStopsReportComponent implements OnInit {
   getReportBySearch(){
     this.devicesArray=[1]
     this.devicesAC=this.devicesArray
+    if(this.myform.value.deviceid){
+      this.devicesAC=this.myform.value.deviceid
+    }
     var from_date = this.dateFormatService.dateTime('datetime', this.myform.value.fromdate)
     var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.todate)
 
@@ -220,7 +223,21 @@ this.devicesArray.push(this.devices[i].id)
 
 
     getPositionBySearch(){}
-    goBack(){}
+
+    goBack(){
+      this.myform.value.customer=' ';
+      const today=new Date
+      var requiredDate=new Date(today.getFullYear(),today.getMonth(),today.getDate())
+      this.myform.patchValue(
+        {
+          deviceid:'',
+          customer:'',
+        fromdate: requiredDate,
+        todate:new Date()
+      })
+      this.startstopArray=[]
+      this.dataSource = new MatTableDataSource( this.startstopArray as any);
+    }
 
     gotoGoogleMap(a,b){
       this.mapurl=this.link+a+','+b

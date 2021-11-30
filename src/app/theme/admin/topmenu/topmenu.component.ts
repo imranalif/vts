@@ -475,6 +475,27 @@ mediaSub: Subscription;
         permission: 'ignition_report',
         
       },
+      {
+        displayName: 'Parking Report',
+        iconName: 'park',
+        route: 'admin/report/parking_report',
+        permission: 'parking_report',
+        
+      },
+      {
+        displayName: 'Online Report',
+        iconName: 'online_prediction',
+        route: 'admin/report/online_report',
+        permission: 'online_report',
+        
+      },
+      {
+        displayName: 'Offine Report',
+        iconName: 'offline_bolt',
+        route: 'admin/report/offline_report',
+        permission: 'offline_report',
+        
+      },
       
     ]
   },

@@ -1,7 +1,7 @@
 <div class="custom-style">
 
     <div class="table-title">
-      <h3>Drives and Stops simplified report</h3>
+      <h3>Parking Report</h3>
     </div>
   
     <!-- <div  class="search_div"> -->
@@ -87,37 +87,43 @@
   
        
   
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Device Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="imei">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>IMEI</th>
+          <td mat-cell *matCellDef="let element">{{ element.uniqueid }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="model">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Model</th>
+          <td mat-cell *matCellDef="let element">{{ element.model }}</td>
+        </ng-container>
+  
+  
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-          <td mat-cell *matCellDef="let element">{{ element.status }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="start">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Start</th>
-          <td mat-cell *matCellDef="let element">{{ element.start }}</td>
-        </ng-container>
-  
-        <ng-container matColumnDef="end">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>End</th>
-          <td mat-cell *matCellDef="let element">{{ element.end }}</td>
-        </ng-container>
-  
-  
-        <ng-container matColumnDef="duration">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Duration</th>
-          <td mat-cell *matCellDef="let element">{{ element.duration }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.disabled }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="top_speed">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Top Speed</th>
-            <td mat-cell *matCellDef="let element">{{element.topSpeed }}</td>
+        <ng-container matColumnDef="stime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Time</th>
+            <td mat-cell *matCellDef="let element">{{element.stime }}</td>
           </ng-container>
-  
-  
-        <ng-container matColumnDef="address">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
-          <td mat-cell *matCellDef="let element"><a  href={{mapurl}} target="_blank" (click)="gotoGoogleMap(element.latitude,element.longitude)">{{element.latitude }}<br>{{element.longitude }}</a></td>
-        </ng-container>
+
+          <ng-container matColumnDef="etime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>End Time</th>
+            <td mat-cell *matCellDef="let element">{{element.etime }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="ttime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Time</th>
+            <td mat-cell *matCellDef="let element">{{element.ttime }}</td>
+          </ng-container>
+
+        
 
      
     
@@ -157,4 +163,6 @@
   <mat-card  *ngIf="reportData==''">
     No Records Found!
     </mat-card>
+
+
 

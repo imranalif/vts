@@ -211,6 +211,10 @@ export class MapInfoComponent implements OnInit {
         if (!this.deviceIdArray.includes(res[0].deviceid)) {
           this.deviceIdArray.push(res[0].deviceid)
 
+          //drawing path with device id
+          this.polyline[res[0].deviceid]= L.polyline([]).addTo(this.map);
+
+
           if(!this.fixtime){
             console.log("11111")
             this.fixtime='2020-08-18T05:42:11.000Z';
@@ -224,17 +228,21 @@ export class MapInfoComponent implements OnInit {
           //this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           //var mook
           res.forEach(elem => {
-            mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
-              + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).bindTooltip(elem.name, {
+            // mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
+            //   + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).bindTooltip(elem.name, {
+            //     direction: 'left', offset: [15, -45], permanent: true
+            // }).addTo(this.map)
+            var popup = L.popup().setContent('<a class="click" href="#">click</a>');
+            mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(popup).bindTooltip(elem.name, {
                 direction: 'left', offset: [15, -45], permanent: true
             }).addTo(this.map)
             layerGroup.addLayer(mook[elem.deviceid]);
           })
         }
         
-        this.deviceIdArray.forEach(element => {
-          this.polyline[element]= L.polyline([]).addTo(this.map);
-        });
+        // this.deviceIdArray.forEach(element => {
+        //   this.polyline[element]= L.polyline([]).addTo(this.map);
+        // });
 
         
       
@@ -265,36 +273,19 @@ export class MapInfoComponent implements OnInit {
                 this.markerArray = L.layerGroup()
                 console.log(element.name)
                 var attribute=JSON.parse(element.attributes)
-                this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
-                  + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false })
+                var popup = L.popup().setContent('<a class="click" href="#">click</a>');
+                // this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
+                //   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false })
                  
-
+                this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
+                + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false })
                 
                   this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude));
                   // lineArray[element.deviceid]=lineArray1.push([element.latitude, element.longitude]);
                    //this.line[element.deviceid] = L.polyline( [element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);
 
-                  // if(1==element.deviceid){
-                  //   this.line1 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
-                  //   //lineArray.push([element.latitude, element.longitude])
-                  // }
-                  // if(4==element.deviceid){
-                  //   this.line2 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
-                  // }
-                  // if(5==element.deviceid){
-                  //   this.line3 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
-                  // }
-                  // if(6==element.deviceid){
-                  //   // this.line4 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
-                  //   lineArray3.push([element.latitude, element.longitude])
-                  // }
-                  // if(7==element.deviceid){
-                  //   this.line5 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
-                  // }
-                  // if(8==element.deviceid){
-                  //   this.line6 = polyline.addLatLng(L.latLng(element.latitude, element.longitude));
-                  // }
-
+                  
+                 
                  
     
                   // this.line=L.polyline( lineArray, {color: 'red', clickable: 'true'}).addTo(this.map);

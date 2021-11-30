@@ -14,6 +14,8 @@ import { DateformateService } from 'src/app/shared/services/dateformate.service'
   styleUrls: ['./side-menu.component.scss']
 })
 export class SideMenuComponent implements OnInit {
+  devicesArray
+  deviceCurrentData=[]
   deviceDataT
   deviceData=[]
   deviceDataIndex=[]
@@ -35,7 +37,7 @@ export class SideMenuComponent implements OnInit {
   dataEvents = new MatTableDataSource<any>([]);
   //displayedColumns = ['select',  'name', 'more'];
   displayedColumns2 = ['time', 'device_id', 'event', 'more'];
-  selected=1;
+  selected;
   isLoading
   constructor(
     private fb: FormBuilder,
@@ -88,16 +90,20 @@ console.log(this.customer)
     // devices pulling with user id
     this.customerService.DeviceIdByUser(id).subscribe(res=>{
 this.deviceId=res;
+console.log(res)
+this.selected=this.deviceId[0].deviceid
+console.log(this.selected)
 var deviceIdArray=[]
 this.deviceId.forEach(element => {
   deviceIdArray.push(element.deviceid);
 });
 var devData={id:deviceIdArray}
 this.customerService.DeviceByDeviceId(devData).subscribe(res=>{
+  this.devicesArray=res;
   this.customerDevices=res;
   var tdata=res
-  console.log(res)
-  this.selected=this.customerDevices[0].id
+  // console.log(this.customerDevices[0].id)
+  // this.selected=this.customerDevices[0].id
   
   tdata.forEach((element, i) => {
   this.devicelog.push(element.id)
@@ -106,8 +112,8 @@ this.customerService.DeviceByDeviceId(devData).subscribe(res=>{
 })
 
 console.log(this.devicelog)
-this.dataSource = new MatTableDataSource( res as any);
-      console.log(this.devicelog);
+// this.dataSource = new MatTableDataSource( res as any);
+//       console.log(this.devicelog);
     })
   }
 
@@ -148,27 +154,54 @@ this.dataSource = new MatTableDataSource( res as any);
       console.log(data)
       //this.DeviceItem.push(1);
        this.devicelogMatch.push(data.id)
-      var  a = this.devicelog.toString();
-     var b = this.devicelogMatch.toString();
+       console.log(this.devicelogMatch.length)
+       console.log(this.devicelog.length)
+      // var  a = this.devicelog.toString();
+      var  a = this.devicelogMatch.length;
+      console.log(a)
+     var b = this.devicelog.length
      if(a===b){
       this.DeviceItemCus.push(1);
      }
-     this.deviceService.getDeviceCurrentPositionById(data.id).subscribe(res=>{
-      this.deviceDataT=res;
-      this.customerDevices = this.customerDevices.map(x=>Object.assign(x, this.deviceDataT.find(y=>y.deviceid==x.id)))
-      console.log(res)
-      this.customerDevices.forEach((elem, i) => {
-        console.log("test")
-       this.deviceDataIndex[elem.deviceid] = this.customerDevices[i];
-     }
-     );
-      this.cusmapService.deviceDataExchange(res);
+     this.deviceService.getDeviceById(data.id).subscribe(res=>{
+      this.deviceCurrentData=[]
+       console.log(res)
+       this.deviceCurrentData.push(res);
+       var dt={id:this.deviceCurrentData[0].positionid}
+       this.deviceService.getDevicePositionByPositionId(dt).subscribe(response=>{
+         console.log(response)
+         this.deviceDataT=response;
+         this.deviceCurrentData = this.deviceCurrentData.map(x=>Object.assign(x, this.deviceDataT.find(y=>y.deviceid==x.id)))
+         
+         this.customerDevices = this.customerDevices.map(x=>Object.assign(x, this.deviceDataT.find(y=>y.deviceid==x.id)))
+         console.log(res)
+         this.customerDevices.forEach((elem, i) => {
+           console.log("test")
+          this.deviceDataIndex[elem.deviceid] = this.customerDevices[i];
+        }
+        );
+         this.cusmapService.deviceDataExchange(this.deviceCurrentData);
+       })
+    //   this.deviceDataT=res;
+    //   this.customerDevices = this.customerDevices.map(x=>Object.assign(x, this.deviceDataT.find(y=>y.deviceid==x.id)))
+    //   console.log(res)
+    //   this.customerDevices.forEach((elem, i) => {
+    //     console.log("test")
+    //    this.deviceDataIndex[elem.deviceid] = this.customerDevices[i];
+    //  }
+    //  );
+    //   this.cusmapService.deviceDataExchange(res);
      })
        
     }
     else{
+      if(data.deviceid){
+        data.id=data.deviceid
+      }
       // this.deleteObject.push(data)
+      console.log(this.devicelogMatch)
       this.devicelogMatch = this.devicelogMatch.filter(item => item !== data.id)
+      console.log(this.devicelogMatch)
       this.DeviceItem= this.DeviceItem.filter(item => item !== data.id)
       this.DeviceItemCus= this.DeviceItemCus.filter(item => item !== 1)
        this.cusmapService.deviceRemove([data]);
@@ -178,8 +211,11 @@ this.dataSource = new MatTableDataSource( res as any);
 
   checkByCustomer(e,data){
     if (e) {
-      console.log(data)
+      this.DeviceItemCus.push(1);
+      console.log(this.devicelog)
+      this.devicelogMatch=this.devicelog;
       var devicesData={id:this.devicelog}
+      console.log(this.devicelogMatch)
       console.log(devicesData)
       this.customerService.DeviceByCustomerUserWithPosition(devicesData).subscribe(res=>{
         var darray=res;
@@ -212,8 +248,12 @@ this.dataSource = new MatTableDataSource( res as any);
        
     }
     else{
-      this.DeviceItem=[]
-     
+      this.customerDevices.forEach(element => {
+        this.DeviceItem= this.DeviceItem.filter(item => item !== element.deviceid)
+      });
+      this.devicelogMatch=[]
+      this.DeviceItemCus= this.DeviceItemCus.filter(item => item !== 1)
+      //this.DeviceItem=[]
       // this.deleteObject.push(data)
        this.cusmapService.deviceRemove(this.customerDevices);
     }
@@ -257,6 +297,10 @@ var id=this.myform.value.id;
    }
 
    getLocation(e){
+     if(e.deviceid){
+       e.id=e.deviceid
+     }
+     console.log(e.id)
     this.deviceService.getDeviceCurrentPositionById(e.id).subscribe(res=>{
       this.locationData=res;
       // var lat=res[0].latitude;

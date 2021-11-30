@@ -64,4 +64,8 @@ export class CustomerService {
   DevicePositionByPositionId(data):Observable<any[]>{
     return this.http.post<any[]>(this.url  + '/getDevicePositionByPositionId',data);
   }
+
+  DevicePositionByCustomer(id: string):Observable<any[]>{
+    return this.http.get<any[]>(this.url + id + '/getDevicePositionByCustomer');
+  }
 }

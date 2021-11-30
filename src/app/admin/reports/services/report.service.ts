@@ -23,4 +23,12 @@ export class ReportService {
   getEventWithPosition(data): Observable<any> {
     return this.http.post(this.url + '/listEventWithPosition', data);
   }
+
+  getIngineOnOffEvent(data): Observable<any> {
+    return this.http.post(this.url + '/getIngineOnOffEvent', data);
+  }
+
+  getIgnitionOnOffPosition(data): Observable<any> {
+    return this.http.post(this.url + '/getIgnitionOnOffPosition', data);
+  }
 }

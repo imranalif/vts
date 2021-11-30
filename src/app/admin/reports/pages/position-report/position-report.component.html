@@ -99,37 +99,37 @@
           <td mat-cell *matCellDef="let element">{{ element.fixtime| date:'medium' }}</td>
         </ng-container>
   
-        <ng-container matColumnDef="latitude">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Latitude</th>
-          <td mat-cell *matCellDef="let element">{{ element.latitude }}</td>
+        <ng-container matColumnDef="latlng">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>LatLng</th>
+          <td mat-cell *matCellDef="let element">{{ element.latitude }}<br>{{element.longitude }}</td>
         </ng-container>
   
   
-        <ng-container matColumnDef="longitude">
+        <!-- <ng-container matColumnDef="longitude">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Logitude</th>
           <td mat-cell *matCellDef="let element">{{ element.longitude }}</td>
-        </ng-container>
+        </ng-container> -->
   
   
         <ng-container matColumnDef="address">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
-          <td mat-cell *matCellDef="let element"><a  href={{mapurl}} target="_blank" (click)="gotoGoogleMap(element.latitude,element.longitude)">{{element.latitude }}<br>{{element.longitude }}</a></td>
+          <td mat-cell *matCellDef="let element"><a  href={{mapurl}} target="_blank" (click)="gotoGoogleMap(element.latitude,element.longitude)"><mat-icon>room</mat-icon></a></td>
         </ng-container>
 
-        <ng-container matColumnDef="altitude">
+        <!-- <ng-container matColumnDef="altitude">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Altitude</th>
             <td mat-cell *matCellDef="let element">{{element.altitude }}</td>
-          </ng-container>
+          </ng-container> -->
   
         <ng-container matColumnDef="speed">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Speed</th>
           <td mat-cell *matCellDef="let element">{{element.speed }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="valid">
+        <!-- <ng-container matColumnDef="valid">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Valid</th>
           <td mat-cell *matCellDef="let element">{{element.valid }}</td>
-        </ng-container>
+        </ng-container> -->
   
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
@@ -146,10 +146,10 @@
             <td mat-cell *matCellDef="let element">{{element.a.charge }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="blocked">
+          <!-- <ng-container matColumnDef="blocked">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Blocked</th>
             <td mat-cell *matCellDef="let element">{{element.a.blocked }}</td>
-          </ng-container>
+          </ng-container> -->
 
 
 
@@ -163,10 +163,10 @@
             <td mat-cell *matCellDef="let element">{{element.a.rssi }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="sequence">
+          <!-- <ng-container matColumnDef="sequence">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Sequence</th>
             <td mat-cell *matCellDef="let element">{{element.a.sequence }}</td>
-          </ng-container>
+          </ng-container> -->
 
           <ng-container matColumnDef="distance">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Distance</th>

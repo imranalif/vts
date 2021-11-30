@@ -21,6 +21,7 @@ import { Router } from '@angular/router';
 export class IgnitionReportComponent implements OnInit {
 
   myform: FormGroup;
+  positionArray=[]
   page
   reportData
   params = {}
@@ -35,9 +36,11 @@ export class IgnitionReportComponent implements OnInit {
   devicesIndex=[]
   arrrayValue: any = [];
   mapurl
-  stopdata
-  
-  startdata
+  onOffData=[]
+  onData
+  offData
+  d
+
   stopflag=0
   startflag=0
   preSpeed=0;
@@ -64,6 +67,9 @@ export class IgnitionReportComponent implements OnInit {
       fromdate: [''],
       todate: ['']
     });
+
+    this.getAllDevices()
+    this.getAllCustomer()
 
     setTimeout(()=>{   
       const today=new Date
@@ -96,6 +102,17 @@ export class IgnitionReportComponent implements OnInit {
     }
 
     return  minutes + "min " + seconds + "s";
+  }
+
+  cKm(data){
+    console.log(data)
+    if(data=='NaN')
+    {data=0.00}
+    return  data + " Km " ;
+  }
+
+  ckph(sp){
+    return  sp + " kph " ;
   }
 
 
@@ -141,26 +158,81 @@ this.devicesArray.push(this.devices[i].id)
 
 
     getReportBySearch(){
-      this.devicesArray=[1]
+      if(this.myform.value.deviceid){
+        this.devicesArray=this.myform.value.deviceid
+      }
     this.devicesAC=this.devicesArray
     var from_date = this.dateFormatService.dateTime('datetime', this.myform.value.fromdate)
     var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.todate)
 
     this.params = {devicesearch:this.devicesAC, fromdate: from_date,
       todate:to_date };
-    this.reportService.getEventWithPosition(this.params).subscribe(res => {
+    this.reportService.getIngineOnOffEvent(this.params).subscribe(res => {
       this.reportData=res;
-
+console.log(this.reportData)
       this.reportData.forEach(e => {
-        if(e.type=="ignitionOn"){
-          
-        }
-        
+       this.positionArray.push(e.positionid)
       });
+      var data={id:this.positionArray}
+      this.reportService.getIgnitionOnOffPosition(data).subscribe(response=>{
+
+var d=response
+this.reportData = this.reportData.map(x=>Object.assign(x, d.find(y=>y.id==x.positionid)))
+
+this.reportData.forEach(element => {
+  if(element.type=='ignitionOn'){
+   
+    if(this.offData){
+      this.offData.end=this.dateFormatService.dateTime('datetime', element.eventtime);
+      this.offData.stoptime=new Date(this.offData.end).valueOf() - new Date(this.offData.eventtime).valueOf();
+      this.offData.stoptime=this.msToTime(this.offData.stoptime)
+      var attribute=JSON.parse(element.attributes)
+      this.d=Number(attribute.totalDistance)
+      console.log(this.offData.distance)
+    this.onOffData.push(this.offData)
+  }
+  element.eventtime=this.dateFormatService.dateTime('datetime', element.eventtime);
+      this.onData={status:'On',eventtime:element.eventtime,end:'',speed:'',distance:'',enginework:'',stoptime:'',driver:'',location:'',latitude:element.latitude,longitude:element.longitude}
+  }
+  else{
+    if(this.onData){
+      this.onData.end=this.dateFormatService.dateTime('datetime', element.eventtime);
+      this.onData.enginework=new Date(this.onData.end).valueOf() - new Date(this.onData.eventtime).valueOf();
+      this.onData.enginework=this.msToTime(this.onData.enginework)
+    this.onData.speed=this.ckph(Math.round(element.speed * 1.852));
+    var attribute=JSON.parse(element.attributes)
+      var a=Number(attribute.totalDistance)
+      console.log(a)
+      console.log(this.onData.distance)
+      this.onData.distance=this.cKm(((a-this.d)/1000).toFixed(2));
+    this.onOffData.push(this.onData)
+  }
+  element.eventtime=this.dateFormatService.dateTime('datetime', element.eventtime);
+      this.offData={status:'Off',eventtime:element.eventtime,speed:'',end:'',distance:'',enginework:'',stoptime:'',driver:'',location:'',latitude:element.latitude,longitude:element.longitude}
+  }
+});
+console.log(this.onOffData)
+this.dataSource = new MatTableDataSource( this.onOffData as any);
+
+const n = BigInt(2.6E7);
+const a = BigInt(2.5E7);
+console.log(Number(7.53245683E7)-Number(7.53245673E7))
+      })
 
     })
     }
-    goBack(){}
+    goBack(){
+      this.myform.value.customer=' ';
+      const today=new Date
+      var requiredDate=new Date(today.getFullYear(),today.getMonth(),today.getDate())
+      this.myform.patchValue(
+        {
+          deviceid:'',
+          customer:'',
+        fromdate: requiredDate,
+        todate:new Date()
+      })
+    }
 
     gotoGoogleMap(a,b){
       this.mapurl=this.link+a+','+b

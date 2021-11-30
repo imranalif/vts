@@ -41,8 +41,8 @@ export class LoginPageComponent implements OnInit {
     }
     this.loginService.login(this.myform.value).subscribe(res => {
       if(res.data.user_type=="Customer"){
-        localStorage.setItem('accessToken', res.accessToken);
-        localStorage.setItem('refreshToken', res.refreshToken);
+        sessionStorage.setItem('accessToken', res.accessToken);
+        sessionStorage.setItem('refreshToken', res.refreshToken);
         this.router.navigate(['/customer-map/info',res.data.id]);
         // this.customerService.getCustomerById(res.data.customer_id).subscribe(res=>{
         //   this.loginService.customerData(res)

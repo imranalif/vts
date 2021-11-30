@@ -37,7 +37,7 @@ export class PositionReportComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   link="http://www.google.com/maps/place/"
   isLoading = true;
-  displayedColumns = [ 'device', 'time','latitude', 'longitude', 'address', 'altitude','speed','status', 'ignition','charge','blocked','batterylevel','rssi','sequence','distance','totaldistance','motion','valid','enginehours','sat' ];
+  displayedColumns = [ 'device', 'time','latlng', 'address', 'speed','status', 'ignition','charge','batterylevel','rssi','distance','totaldistance','motion','enginehours','sat' ];
   constructor(private reportService: ReportService,
     private pagination: PaginationService,
     private fb: FormBuilder,
@@ -176,15 +176,15 @@ this.devicesArray.push(this.devices[i].id)
   }
 
   getPositionBySearch(): void {
-    var devices=this.devicesArray
+    //var devices=this.devicesArray
     if(this.myform.value.deviceid){
-      devices=this.myform.value.deviceid
+      this.devicesArray=this.myform.value.deviceid
     }
     
     var from_date = this.dateFormatService.dateTime('datetime', this.myform.value.fromdate)
     var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.todate)
     this.params = {
-      devicesearch:devices,
+      devicesearch:this.devicesArray,
       currentPage: this.currentPage, fromdate: from_date,
       todate:to_date 
     };

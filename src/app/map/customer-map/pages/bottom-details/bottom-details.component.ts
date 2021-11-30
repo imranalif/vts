@@ -16,7 +16,7 @@ export class BottomDetailsComponent implements OnInit {
   isLoading
   url
   map
-  deviceID
+  deviceId
   link="http://www.google.com/maps/place/"
   constructor(private cusmapService:CusmapService) { }
 
@@ -33,7 +33,7 @@ export class BottomDetailsComponent implements OnInit {
     console.log(this.url)
     this.cusmapService.detailsDataCatch.subscribe(res => {
       if (res) {
-        // this.deviceData=res[0].deviceid;
+         this.deviceId=res[0].deviceid;
         var latlng = { lat: res[0].latitude, lng: res[0].longitude }
         const v = L.Control.Geocoder.nominatim();
                 v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
@@ -53,8 +53,8 @@ export class BottomDetailsComponent implements OnInit {
    console.log("12122")
       if (response) {
         console.log(response.deviceid)
-        console.log(this.deviceData)
-        // if(response.deviceid==this.deviceData){
+        console.log(this.deviceId)
+         if(response.deviceid==this.deviceId){
         var latlng = { lat: response.latitude, lng: response.longitude }
         const v = L.Control.Geocoder.nominatim();
                 v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
@@ -68,7 +68,7 @@ export class BottomDetailsComponent implements OnInit {
         this.deviceData=response;
         this.attribute=JSON.parse(this.deviceData.attributes)
       }
-    // }
+     }
     })
 
   }

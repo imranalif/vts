@@ -54,7 +54,7 @@
         <button mat-button class="search_button" class="mat-stroked-button mat-primary " (click)="getReportBySearch()" >
           Search
         </button>
-        <button mat-button class="search_button" class="mat-stroked-button mat-primary " (click)="convertCsv()">
+        <button mat-button class="search_button" class="mat-stroked-button mat-primary " (click)="goBack()">
           Back
         </button>
         <!-- <span class="addButton">
@@ -94,39 +94,39 @@
   
         <ng-container matColumnDef="event">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Event Time</th>
-          <td mat-cell *matCellDef="let element">{{ element.start }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.eventtime }}</td>
         </ng-container>
   
         <ng-container matColumnDef="speed">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Speed</th>
-          <td mat-cell *matCellDef="let element">{{ element.end }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.speed }}</td>
         </ng-container>
   
   
         <ng-container matColumnDef="trip">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Trip Distance</th>
-          <td mat-cell *matCellDef="let element">{{ element.duration }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.distance }}</td>
         </ng-container>
 
         <ng-container matColumnDef="engine">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Engine Work</th>
-            <td mat-cell *matCellDef="let element">{{element.topSpeed }}</td>
+            <td mat-cell *matCellDef="let element">{{element.enginework }}</td>
           </ng-container>
 
           <ng-container matColumnDef="stop">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Stopped For</th>
-            <td mat-cell *matCellDef="let element">{{element.topSpeed }}</td>
+            <td mat-cell *matCellDef="let element">{{element.stoptime }}</td>
           </ng-container>
 
           <ng-container matColumnDef="driver">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Driver</th>
-            <td mat-cell *matCellDef="let element">{{element.topSpeed }}</td>
+            <td mat-cell *matCellDef="let element">{{element.driver }}</td>
           </ng-container>
   
   
         <ng-container matColumnDef="address">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
-          <td mat-cell *matCellDef="let element"><a  href={{mapurl}} target="_blank" (click)="gotoGoogleMap(element.latitude,element.longitude)">{{element.latitude }}<br>{{element.longitude }}</a></td>
+          <td mat-cell *matCellDef="let element"><a  href={{mapurl}} target="_blank" (click)="gotoGoogleMap(element.latitude,element.longitude)"><mat-icon>room</mat-icon></a></td>
         </ng-container>
 
      
