@@ -76,6 +76,31 @@
                     </mat-autocomplete>
                 </div>
 
+                <div *ngIf="showResellerField==1">
+                    <mat-form-field class="full">
+                        <input matInput placeholder="Reseller" [matAutocomplete]="auto" formControlName="customer_id"
+                            (keyup)="resellerSearch($event.target.value)" required/>
+                            <mat-hint align="end">  Please input reseller id</mat-hint>
+                    </mat-form-field>
+                    <span class="customerInfo" *ngIf="customerInfo">Name: {{ customerInfo.name }} Email:{{ customerInfo.email }}</span>
+                
+                    <mat-autocomplete #auto="matAutocomplete">
+
+                        <mat-option *ngFor="let option of resellerData" 
+                            [value]="option.customer_id">
+
+                            <mat-list>
+                                <mat-list-item (click)="onChangeCustomer( option)">
+                                    {{ option.name }}({{ option.customer_id }})
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+
+
+
 
 
                     <mat-form-field class="half">

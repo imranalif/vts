@@ -14,6 +14,7 @@ export class CustomerEditComponent implements OnInit {
   Id;
   userData;
   submitted = false;
+  states = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -25,6 +26,9 @@ export class CustomerEditComponent implements OnInit {
       name: ['', [Validators.required]],
       email: [''],
       phone: [''],
+      reseller: [],
+      status: [],
+      notes: [''],
       billing_address: [ '',[Validators.required]],
       contact_address: ['' ,[Validators.required]]
     });
@@ -47,6 +51,9 @@ export class CustomerEditComponent implements OnInit {
       name: data.name,
       email: data.email,
       phone: data.phone,
+      status:data.status,
+      reseller:data.reseller,
+      notes:data.notes,
       billing_address: data.billing_address,
       contact_address: data.contact_address
     });

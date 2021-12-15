@@ -10,10 +10,13 @@ import { CustomerListComponent } from './pages/customer-list/customer-list.compo
 import { CustomerEditComponent } from './pages/customer-edit/customer-edit.component';
 import { CustomerAddComponent } from './pages/customer-add/customer-add.component';
 import { CustomerQueryComponent } from './pages/customer-query/customer-query.component';
+import { ResellerCustomerComponent } from './pages/reseller-customer/reseller-customer.component';
+import { CustomerImportComponent } from './pages/customer-import/customer-import.component';
+import { InvalidShowComponent } from './pages/invalid-show/invalid-show.component';
 
 
 @NgModule({
-  declarations: [CustomerListComponent, CustomerEditComponent, CustomerAddComponent, CustomerQueryComponent],
+  declarations: [CustomerListComponent, CustomerEditComponent, CustomerAddComponent, CustomerQueryComponent, ResellerCustomerComponent, CustomerImportComponent, InvalidShowComponent],
   imports: [
     CommonModule,
     CustomerRoutingModule,

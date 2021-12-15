@@ -1,0 +1,41 @@
+<div class="table-title">
+    <h3>Add Customer </h3>
+    <span> <a>
+            <mat-icon (click)="close()">close</mat-icon>
+        </a></span>
+</div>
+
+
+<mat-card class="customStyle">
+<mat-card-content>
+    <form [formGroup]="myform">
+        <div class="main">
+    
+        <mat-form-field class="full">
+            <input trim="blur" matInput placeholder="Customer ID" formControlName="customerId" autocomplete="off" required />
+            <mat-hint align="end">  Please  customer id with comma seperated</mat-hint>
+        </mat-form-field>
+       
+
+    </div>
+      
+    </form>
+</mat-card-content>
+
+<mat-card-actions class="button">
+    <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="importCustomer()">
+       Submit
+    </button>
+    <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="close()">
+     Close
+    </button>
+    
+</mat-card-actions>
+</mat-card>
+<mat-card *ngIf="isLoading" class="center"
+  style="display:flex; justify-content: center; align-items: center">
+    <mat-progress-spinner 
+      color="primary" 
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>

@@ -35,6 +35,9 @@
     .full{
         width: 90%;
     }
+    .half{
+      margin-right: 5%;
+    }
     .mat-raised-button{
       border-radius:20px 20px 20px 20px;
         width:120px;  border: 1px solid blue;
@@ -53,4 +56,8 @@
       }
       h2{
       color: blue;
+    }
+
+    .checkbox{
+      margin-left: 5%;
     }

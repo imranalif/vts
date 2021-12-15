@@ -15,6 +15,7 @@ export class CustomerAddComponent implements OnInit {
   Id
   userData;
   submitted = false;
+  states = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -25,8 +26,11 @@ export class CustomerAddComponent implements OnInit {
     this.myform = this.fb.group({
       customer_id:[],
       name: ['', [Validators.required]],
-      email: [''],
-      phone: ['',[Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      reseller: [],
+      status: [],
+      notes: [''],
+      phone: ['',Validators.pattern('[- +()0-9]+')],
       billing_address: [ '',[Validators.required]],
       contact_address: ['' ,[Validators.required]]
     });

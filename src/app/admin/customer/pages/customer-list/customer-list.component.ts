@@ -28,6 +28,8 @@ export class CustomerListComponent implements OnInit {
   record: any = [];
   page
   assigedRole=[];
+  states = [{ id: 0, value: 'Inactive'},{ id: 1, value: 'Active' }  ];
+  resale = [ { id: 0, value: 'NO' },{ id: 1, value: 'YES' }];
   constructor(
     private customerService: CustomerService,
     private snackBar: MatSnackBar,
@@ -42,7 +44,7 @@ export class CustomerListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isLoading = true;
-  displayedColumns = ['action','id', 'customer_id', 'name', 'email', 'phone', 'contact_address', 'billing_address',];
+  displayedColumns = ['action','id', 'customer_id', 'name', 'email', 'phone', 'reseller', 'status',];
 
   ngOnInit(): void {
     this.myform = this.fb.group({
@@ -174,6 +176,9 @@ export class CustomerListComponent implements OnInit {
 
   customerQuery(data){
     this.router.navigate(['admin/customer/customer-query',data]);
+  }
+  resellerCustomer(data){
+    this.router.navigate(['admin/customer/reseller-customer',data]);
   }
 
 }

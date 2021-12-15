@@ -15,8 +15,10 @@ import { CustomerService } from 'src/app/admin/customer/services/customer.servic
 export class UserEditComponent implements OnInit {
   customerInfo
   showCustommerField:Number;
+  showResellerField
   t
   customerData
+  resellerData
   customer_id
   customers
   customerIndex=[]
@@ -231,6 +233,14 @@ export class UserEditComponent implements OnInit {
      })
    }
 
+   resellerSearch(e){
+    const ob={name:e}
+     this.customerService.resellerSearch(ob).subscribe(res=>{
+       this.resellerData=res;
+       console.log(this.resellerData)
+     })
+   }
+
    onChangeCustomer(e){
     this.myform.value.customer_id=e.customer_id;
     this.customerInfo=e;
@@ -242,14 +252,33 @@ export class UserEditComponent implements OnInit {
 // }
   }
 
+//   onChange(e){
+//     console.log(e)
+//     if(e=="Customer"){
+// this.showCustommerField=1;
+// console.log(this.showCustommerField)
+//     }
+//     else{
+//       this.showCustommerField=0; 
+//     }
+//   }
+
   onChange(e){
     console.log(e)
     if(e=="Customer"){
 this.showCustommerField=1;
+this.showResellerField=0; 
 console.log(this.showCustommerField)
+    }
+
+   else if(e=="Reseller"){
+      this.showResellerField=1;
+      this.showCustommerField=0; 
     }
     else{
       this.showCustommerField=0; 
+      this.showResellerField=0; 
+      
     }
   }
 

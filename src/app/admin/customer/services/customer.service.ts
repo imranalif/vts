@@ -2,11 +2,32 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Observable, fromEvent} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
+
+  private importDataSent = new BehaviorSubject<any>("");
+  public importDataCatch = this.importDataSent.asObservable();
+
+  private importErrorSent = new BehaviorSubject<any>("");
+  public importErrorCatch = this.importErrorSent.asObservable();
+
+
+  importDataExchange(text) {
+    console.log('test')
+    this.importDataSent.next(text);
+  }
+
+  importErrorExchange(text) {
+    this.importErrorSent.next(text);
+  }
+
+  DestroySubject(){
+    alert('hi');
+  }
 
   constructor(private http: HttpClient) { }
   private url = environment.apiUrl + '/customer/';
@@ -41,6 +62,10 @@ export class CustomerService {
     return this.http.post(this.url + '/customerSearch', data);
   }
 
+  resellerSearch(data){
+    return this.http.post(this.url + '/resellerSearch', data);
+  }
+
   DeviceByCustomer(id: string):Observable<any[]>{
     return this.http.get<any[]>(this.url + id + '/getDeviceByCustomer');
   }
@@ -67,5 +92,13 @@ export class CustomerService {
 
   DevicePositionByCustomer(id: string):Observable<any[]>{
     return this.http.get<any[]>(this.url + id + '/getDevicePositionByCustomer');
+  }
+
+  getCustomerByReseller(id: string):Observable<any[]>{
+    return this.http.get<any[]>(this.url + id + '/getCustomerByReseller');
+  }
+
+  addCustomerWithReseller(data): Observable<any> {
+    return this.http.post(this.url + '/addCustomerWithReseller',data);
   }
 }

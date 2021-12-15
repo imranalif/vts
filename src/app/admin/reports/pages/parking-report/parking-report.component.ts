@@ -134,6 +134,7 @@ this.devicesArray.push(this.devices[i].id)
       })
     }
 
+    getReportBySearch(){}
 
 
 }
