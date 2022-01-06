@@ -12,6 +12,7 @@ import { AdminModule } from './admin/admin.module';
 import { ClientModule } from './client/client.module';
 import { MapModule } from './map/map.module';
 import { AdminMenuModule } from './theme/admin/admin.module';
+import { ResellerMenuModule } from './theme/reseller/reseller.module';
 import { MatDialogComponent } from './shared/mat-dialog/mat-dialog.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { TokenInterceptorService } from './shared/services/token-interceptor.service';
@@ -40,6 +41,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     ClientModule,
     MapModule,
     AdminMenuModule,
+    ResellerMenuModule,
     FlexLayoutModule,
     MatTableExporterModule,
     OwlDateTimeModule,

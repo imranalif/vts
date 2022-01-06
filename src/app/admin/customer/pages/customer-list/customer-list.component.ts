@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
+import { timer, interval, Subscription } from "rxjs";
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,6 +12,8 @@ import { PaginationService } from 'src/app/shared/services/pagination.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CustomerDeviceComponent } from 'src/app/admin/devices/pages/customer-device/customer-device.component';
 import { CustomerDriverComponent } from 'src/app/admin/driver/pages/customer-driver/customer-driver.component';
+import { ResellerDeviceComponent } from '../reseller-device/reseller-device.component';
+import { DeviceImportStatusComponent } from '../device-import-status/device-import-status.component';
 
 
 
@@ -19,7 +22,7 @@ import { CustomerDriverComponent } from 'src/app/admin/driver/pages/customer-dri
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss']
 })
-export class CustomerListComponent implements OnInit {
+export class CustomerListComponent implements OnInit,OnDestroy {
   myform: FormGroup;
   customers;
   currentPage = 1;
@@ -28,6 +31,8 @@ export class CustomerListComponent implements OnInit {
   record: any = [];
   page
   assigedRole=[];
+  testingValue
+  obs: Subscription;
   states = [{ id: 0, value: 'Inactive'},{ id: 1, value: 'Active' }  ];
   resale = [ { id: 0, value: 'NO' },{ id: 1, value: 'YES' }];
   constructor(
@@ -38,7 +43,9 @@ export class CustomerListComponent implements OnInit {
     private dialog: MatDialog,
     private pagination: PaginationService,
     private fb: FormBuilder,
-  ) { this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData')); }
+  ) { this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
+  this.testingValue = 0;
+ }
 
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;
@@ -52,9 +59,28 @@ export class CustomerListComponent implements OnInit {
       name: [''],
       email: [''],
       phone: [''],
+      reseller_id: [],
+      status: [],
 
     });
     this.getAllCustomer();
+    this.obs = this.customerService.deviceImportStatusCatch.subscribe(res => {
+      if(this.testingValue==1 && res){
+        setTimeout(() => {
+          this.openDeviceImportStatusModal();
+        }, 50);
+      }
+    })
+
+    this.addTestingValue();
+  }
+
+  ngOnDestroy() {
+    this.obs.unsubscribe();
+  }
+
+  addTestingValue(){
+    this.testingValue = 1;
   }
 
   getAllCustomerTest(): void {
@@ -109,8 +135,9 @@ export class CustomerListComponent implements OnInit {
 
   getCustomerBySearch(): void {
     this.params = {
-      currentPage: this.currentPage, name: this.myform.value.name,
+      currentPage: this.currentPage, name: this.myform.value.name, reseller_id: this.myform.value.reseller_id,
       customer_id: this.myform.value.customer_id, email: this.myform.value.email, phone: this.myform.value.phone,
+      status: this.myform.value.status,
     };
     console.log(this.params);
     this.customerService.getAllCustomer(this.params).subscribe(res => {
@@ -147,7 +174,7 @@ export class CustomerListComponent implements OnInit {
     this.dialog.open(CustomerDeviceComponent,  {
       width: '580px',
       height: '460px',
-      data: { pageValue: data.customer_id }
+      data: {id:data.id,reseller:data.reseller, customer_id: data.customer_id }
     }).afterClosed()
     .subscribe(response => {});
   }
@@ -179,6 +206,34 @@ export class CustomerListComponent implements OnInit {
   }
   resellerCustomer(data){
     this.router.navigate(['admin/customer/reseller-customer',data]);
+  }
+
+  openResellerDeviceModal(data){
+    const dialogCofig = new MatDialogConfig();
+    dialogCofig.disableClose = true;
+    dialogCofig.width = "600px";
+    dialogCofig.height = "480px";
+  
+    this.dialog.open(ResellerDeviceComponent,  {
+      width: '580px',
+      height: '460px',
+       data: {id:data.id,reseller:data.reseller, customer_id: data.customer_id }
+    }).afterClosed()
+    .subscribe(response => {});
+  }
+
+  openDeviceImportStatusModal() {
+    const dialogCofig = new MatDialogConfig();
+    dialogCofig.disableClose = true;
+    dialogCofig.width = "600px";
+    dialogCofig.height = "480px";
+
+    this.dialog.open(DeviceImportStatusComponent, {
+      width: '580px',
+      height: '260px',
+      //data: this.errorData
+    }).afterClosed()
+      .subscribe(response => { });
   }
 
 }

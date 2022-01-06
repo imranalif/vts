@@ -10,19 +10,33 @@ import { BehaviorSubject } from 'rxjs';
 export class CustomerService {
 
   private importDataSent = new BehaviorSubject<any>("");
-  public importDataCatch = this.importDataSent.asObservable();
-
   private importErrorSent = new BehaviorSubject<any>("");
+  private messageSent = new BehaviorSubject<any>("");
+  private deviceImportStatusSent = new BehaviorSubject<any>("");
+
+
+  public importDataCatch = this.importDataSent.asObservable();
+  public messageCatch = this.importDataSent.asObservable();
   public importErrorCatch = this.importErrorSent.asObservable();
+  public deviceImportStatusCatch = this.deviceImportStatusSent.asObservable();
 
 
   importDataExchange(text) {
-    console.log('test')
+    console.log(text)
     this.importDataSent.next(text);
   }
 
   importErrorExchange(text) {
     this.importErrorSent.next(text);
+  }
+
+  messageExchange(text) {
+    this.messageSent.next(text);
+  }
+
+  deviceImportStatusExchange(text) {
+    console.log(text)
+    this.deviceImportStatusSent.next(text);
   }
 
   DestroySubject(){
@@ -100,5 +114,21 @@ export class CustomerService {
 
   addCustomerWithReseller(data): Observable<any> {
     return this.http.post(this.url + '/addCustomerWithReseller',data);
+  }
+
+  // addDeviceWithReseller(data): Observable<any> {
+  //   return this.http.post(this.url + '/addDeviceWithReseller',data);
+  // }
+
+
+  getResellerAutoId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getResellerAutoId');
+  }
+  getCustomerByResellerId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getCustomerByResellerId');
+  }
+
+  getCustomerIdByAutoId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getCustomerIdByAutoId');
   }
 }

@@ -21,6 +21,7 @@ export class DeviceService {
 
 
   importDataExchange(text) {
+    console.log(text)
     this.importDataSent.next(text);
   }
 
@@ -37,8 +38,8 @@ export class DeviceService {
     return this.http.post(this.url + '/addDevice', data);
   }
 
-  getAllDevice(): Observable<any> {
-    return this.http.get(this.url + '/listDevice');
+  getAllFreeDevice(): Observable<any> {
+    return this.http.get(this.url + '/listFreeDevice');
   }
 
   
@@ -71,13 +72,37 @@ export class DeviceService {
     return this.http.get(this.url +  '/getDeviceByAllUser');
   }
 
-  addDeviceWithCustomer(data){
+  addDeviceWithCustomer(data): Observable<object>{
     return this.http.post(this.url + '/addCustomerDevice', data);
+  }
+
+  addDeviceWithCustomerByImport(data): Observable<any>{
+    return this.http.post(this.url + '/addDeviceWithCustomerByImport', data);
   }
 
   deleteCustomerDevice(data): Observable<object> {
     return this.http.post(this.url + '/deleteCustomerDevice',data);
   }
+
+  addDeviceWithCustomerReseller(data){
+    return this.http.post(this.url + '/addCustomerResellerDevice', data);
+  }
+
+  deleteCustomerDeviceReseller(data): Observable<object> {
+    return this.http.post(this.url + '/deleteCustomerResellerDevice',data);
+  }
+
+  getDeviceByCustomerResellerId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getDeviceByCustomerResellerId');
+  }
+
+  getDeviceByResellerId(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getDeviceByResellerId');
+  }
+  getDeviceByResellerIdFor(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/getDeviceByResellerIdFor');
+  }
+
 
   getDeviceByCustomerId(id: string): Observable<object> {
     return this.http.get(this.url + id + '/getDeviceByCustomerId');
@@ -120,4 +145,17 @@ export class DeviceService {
   getEventPositionById(id: string): Observable<object> {
     return this.http.get(this.url + id + '/getEventPositionById');
   }
+
+  getDeviceIdByIMEI(id: string): Observable<any> {
+    return this.http.get(this.url + id + '/getDeviceIdByIMEI');
+  }
+
+  addDeviceWithReseller(data): Observable<any> {
+    return this.http.post(this.url + '/addDeviceWithReseller',data);
+  }
+
+  deleteDeviceFromReseller(data): Observable<any> {
+    return this.http.post(this.url + '/deleteDeviceFromReseller',data);
+  }
+
 }

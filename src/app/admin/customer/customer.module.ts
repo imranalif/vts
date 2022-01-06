@@ -13,10 +13,12 @@ import { CustomerQueryComponent } from './pages/customer-query/customer-query.co
 import { ResellerCustomerComponent } from './pages/reseller-customer/reseller-customer.component';
 import { CustomerImportComponent } from './pages/customer-import/customer-import.component';
 import { InvalidShowComponent } from './pages/invalid-show/invalid-show.component';
+import { ResellerDeviceComponent } from './pages/reseller-device/reseller-device.component';
+import { DeviceImportStatusComponent } from './pages/device-import-status/device-import-status.component';
 
 
 @NgModule({
-  declarations: [CustomerListComponent, CustomerEditComponent, CustomerAddComponent, CustomerQueryComponent, ResellerCustomerComponent, CustomerImportComponent, InvalidShowComponent],
+  declarations: [CustomerListComponent, CustomerEditComponent, CustomerAddComponent, CustomerQueryComponent, ResellerCustomerComponent, CustomerImportComponent, InvalidShowComponent, ResellerDeviceComponent, DeviceImportStatusComponent],
   imports: [
     CommonModule,
     CustomerRoutingModule,

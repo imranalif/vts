@@ -1,0 +1,63 @@
+<!-- <div class="main" fxFlex="50%" fxFlex.xs="100%" > -->
+    
+    
+    <mat-card fxFlex=50% fxFlex.xs=100%  class="customStyle"  >
+        <form [formGroup]="myform">
+        
+            
+            <div class="title-style">
+                <mat-card-title>Customer Add</mat-card-title>
+            </div>
+  
+        <mat-card-content>
+        
+        <mat-form-field class="full">
+            <input matInput placeholder="Name" formControlName="name" required autocomplete="off" />
+        </mat-form-field>
+   
+
+    <mat-form-field class="full">
+        <input matInput placeholder="Email" formControlName="email" autocomplete="off" />
+    </mat-form-field>
+
+    <mat-form-field class="full">
+        <input matInput placeholder="Phone" formControlName="phone" required autocomplete="off" />
+    </mat-form-field>
+    <mat-form-field class="half">
+        <textarea matInput placeholder="Contact Address" formControlName="contact_address" required autocomplete="off" ></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="half">
+        <textarea matInput placeholder="Billing Address" formControlName="billing_address" required autocomplete="off" ></textarea>
+    </mat-form-field>
+    <mat-form-field class="full">
+        <textarea matInput placeholder="Notes" formControlName="notes" required autocomplete="off" ></textarea>
+    </mat-form-field>
+
+    <!-- <mat-form-field class="full">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" required>
+            <mat-option *ngFor="let state of states" [value]="state.id">
+                {{ state.value }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field> -->
+    <!-- <mat-checkbox class="checkbox" formControlName="reseller" labelPosition="before">
+        Reseller
+    </mat-checkbox> -->
+</mat-card-content>
+
+    <mat-card-actions>
+        <button class="button" [disabled]="!myform.valid" mat-stroked-button color="primary" class="btn-block" (click)="addCustomer()">
+            Add
+        </button>
+        <p>Note: Field marked with * is Mandatory</p>
+        <!-- <p>Note:<span style="color:red"> Field marked with * is Not Editable</span></p> -->
+    </mat-card-actions>
+</form> 
+</mat-card>
+
+<!-- </div> -->
+
+
+

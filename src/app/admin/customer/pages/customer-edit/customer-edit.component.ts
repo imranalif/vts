@@ -13,6 +13,7 @@ export class CustomerEditComponent implements OnInit {
   myform: FormGroup;
   Id;
   userData;
+  resellerId
   submitted = false;
   states = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   constructor(private fb: FormBuilder,
@@ -42,6 +43,7 @@ export class CustomerEditComponent implements OnInit {
   edit(id): void {
     console.log(id)
     this.customerService.getCustomerById(id).subscribe(data => {
+      this.resellerId=data
       this.setData(data);
     });
   }
@@ -64,7 +66,7 @@ export class CustomerEditComponent implements OnInit {
   }
 
   openSnackBar(): void {
-    this.snackBar.open('Successfully added!!', 'Close', {
+    this.snackBar.open('Successfully updated!!', 'Close', {
       duration: 2000,
       verticalPosition: 'top',
       horizontalPosition: 'end',

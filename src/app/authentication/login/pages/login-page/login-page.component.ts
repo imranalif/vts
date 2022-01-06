@@ -50,6 +50,17 @@ export class LoginPageComponent implements OnInit {
         // })
       }
 
+      else if(res.data.user_type=="Reseller"){
+        sessionStorage.setItem('accessToken', res.accessToken);
+        sessionStorage.setItem('refreshToken', res.refreshToken);
+        this.router.navigate(['/reseller/dashboard']);
+        localStorage.setItem('userData', JSON.stringify(res.data));
+        // this.customerService.getCustomerById(res.data.customer_id).subscribe(res=>{
+        //   this.loginService.customerData(res)
+        //   this.router.navigate(['/customer-map/info']);
+        // })
+      }
+
       else if(res.data.user_type=="Admin")
       {
         this.roleService.getPermissionByRole(res.data.role).subscribe(data => {

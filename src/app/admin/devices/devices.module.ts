@@ -12,10 +12,11 @@ import { DeviceUserComponent } from './pages/device-user/device-user.component';
 import { CustomerDeviceComponent } from './pages/customer-device/customer-device.component';
 import { DeviceImportComponent } from './pages/device-import/device-import.component';
 import { ImportErrorComponent } from './pages/import-error/import-error.component';
+import { ResellerDeviceComponent } from './pages/reseller-device/reseller-device.component';
 
 
 @NgModule({
-  declarations: [DeviceAddComponent, DeviceListComponent, DeviceEditComponent, DeviceUserComponent, CustomerDeviceComponent, DeviceImportComponent, ImportErrorComponent],
+  declarations: [DeviceAddComponent, DeviceListComponent, DeviceEditComponent, DeviceUserComponent, CustomerDeviceComponent, DeviceImportComponent, ImportErrorComponent, ResellerDeviceComponent],
   imports: [
     CommonModule,
     DevicesRoutingModule,

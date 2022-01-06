@@ -65,10 +65,11 @@
         </mat-option>
     </mat-select>
 </mat-form-field>
-<mat-checkbox class="checkbox" formControlName="reseller" labelPosition="before">
+<span *ngIf="resellerId">
+<mat-checkbox *ngIf="!resellerId.reseller_id" class="checkbox" formControlName="reseller" labelPosition="before">
     Reseller
 </mat-checkbox>
-
+</span>
     <mat-card-actions>
         <button class="button" [disabled]="!myform.valid" mat-stroked-button color="primary" class="btn-block" (click)="updateCustomer()">
             Update

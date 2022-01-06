@@ -21,6 +21,8 @@ devices
   commands
   customerDevices;
   Id
+  reseller_id
+  reseller
   object
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;
@@ -32,7 +34,9 @@ devices
     private dialogRef: MatDialogRef<CustomerDeviceComponent>,
     private dialog: MatDialog,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.Id = data.pageValue
+    this.Id = data.customer_id,
+this.reseller_id=data.id
+this.reseller=data.reseller
   }
   displayedColumns = ['select', 'name', 'identifier'];
   sms = [{ id: 1, value: 'true' }, { id: 0, value: 'false' }];
@@ -43,7 +47,7 @@ devices
     this.getDeviceByCustomer();
   }
   getAllDevice(): void {
-    this.devcieService.getAllDevice().subscribe(res => {
+    this.devcieService.getAllFreeDevice().subscribe(res => {
       console.log(res)
       this.devices = res;
       this.devices.forEach(element => {
@@ -56,6 +60,22 @@ devices
   }
 
   getDeviceByCustomer() {
+    if(this.reseller !=0){
+      this.devcieService.getDeviceByResellerIdFor(this.reseller_id).subscribe(res=>{
+        this.customerDevices = res;
+        if (this.customerDevices.length > 0) {
+          this.customerDevices.forEach(element => {
+            this.source.push({ id: element.id, name: element.name, identifier: element.uniqueid })
+            console.log(this.source)
+            this.dataSource = new MatTableDataSource(this.source as any);
+            setTimeout(() => (this.dataSource.sort = this.sort));
+            setTimeout(() => (this.dataSource.paginator = this.paginator));
+            this.customerDevices.push(element.id)
+          });
+        }
+      })
+    }
+    else{
     this.devcieService.getDeviceByCustomerId(this.Id).subscribe(res => {
       console.log(res);
       this.customerDevices = res;
@@ -70,6 +90,7 @@ devices
         });
       }
     })
+  }
   }
 
 
@@ -95,14 +116,27 @@ devices
 
 
   check(e, data) {
-    if (e) {
-      this.object = { customerId: this.Id, deviceId: data.id }
-      this.devcieService.addDeviceWithCustomer(this.object).subscribe()
+    if(data.reseller==0){
+      if (e) {
+        this.object = { customerId: this.Id, deviceId: data.id }
+        this.devcieService.addDeviceWithCustomer(this.object).subscribe()
+      }
+      else {
+        this.object = { customerId: this.Id, deviceId: data.id }
+        this.devcieService.deleteCustomerDevice(this.object).subscribe()
+      }
     }
-    else {
-      this.object = { customerId: this.Id, deviceId: data.id }
-      this.devcieService.deleteCustomerDevice(this.object).subscribe()
+    else{
+       if(e){
+        this.object = { reseller_id: this.reseller_id, deviceId: data.id }
+        this.devcieService.addDeviceWithReseller(this.object).subscribe()
+       }
+       else{
+        this.object = { reseller_id: this.reseller_id, deviceId: data.id }
+        this.devcieService.deleteDeviceFromReseller(this.object).subscribe() 
+       } 
     }
+   
   }
 
 

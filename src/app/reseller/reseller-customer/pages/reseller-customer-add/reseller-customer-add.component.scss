@@ -1,0 +1,60 @@
+.main{
+    margin: auto !important;
+}
+
+.mat-card{
+    width: 90% !important;
+  
+    }
+    
+    .customStyle{
+      
+        border-radius: 20px 20px 20px 20px;
+        box-shadow: 5px 10px 15px #1A237E;
+       // background-color: #f0f0d0  ;
+        .title-style{
+          color:#1A237E ;
+          text-align: center !important;
+          margin-bottom: 25px;
+          
+          //margin-left: 20%;
+          //font-weight: 1000;
+         
+        }
+        .warning{
+          color: red;
+          margin-left: 30px;
+        }
+        .error_message{
+          color: red;
+          margin-left: 20px;
+          margin-top: -10px;
+          font-size: 12px;
+        }
+    }
+    .full{
+        width: 90%;
+    }
+    .mat-raised-button{
+      border-radius:20px 20px 20px 20px;
+        width:120px;  border: 1px solid blue;
+      }
+    
+      .sidenav-content{
+        height: 120%;
+      }
+    
+      h1{
+        font-weight: 600;
+      }
+    
+      .arrow{
+        float: right;
+      }
+      h2{
+      color: blue;
+    }
+
+    .checkbox{
+      margin-left: 5%;
+    }

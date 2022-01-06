@@ -28,6 +28,7 @@ export class CustomerAddComponent implements OnInit {
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       reseller: [],
+      reseller_id: [],
       status: [],
       notes: [''],
       phone: ['',Validators.pattern('[- +()0-9]+')],
