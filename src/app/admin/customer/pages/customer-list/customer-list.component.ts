@@ -34,7 +34,7 @@ export class CustomerListComponent implements OnInit,OnDestroy {
   testingValue
   obs: Subscription;
   states = [{ id: 0, value: 'Inactive'},{ id: 1, value: 'Active' }  ];
-  resale = [ { id: 0, value: 'NO' },{ id: 1, value: 'YES' }];
+  resale = [ { id: 0, value: ' ' },{ id: 1, value: 'YES' }];
   constructor(
     private customerService: CustomerService,
     private snackBar: MatSnackBar,

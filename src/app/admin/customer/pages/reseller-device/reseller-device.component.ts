@@ -64,8 +64,16 @@ export class ResellerDeviceComponent implements OnInit {
     //   this.cutomerIdData=r;
     //   this.myform.value.reseller_id=this.cutomerIdData.id
     // })
-    var array = this.myform.value.imei.split(',');
-    array.forEach(element => {
+    console.log(this.myform.value.imei)
+    this.myform.value.imei.split('\n').join(',')
+    console.log(this.myform.value.imei)
+    var array = this.myform.value.imei.split('\n');
+    console.log(array)
+    array.forEach(elem => {
+      var array2 = elem.split(',');
+      array2.forEach(element => {
+        console.log(element)
+      
       this.isLoading = true;
       this.deviceService.getDeviceIdByIMEI(element).subscribe(res => {
         console.log(res)
@@ -125,8 +133,10 @@ export class ResellerDeviceComponent implements OnInit {
 
 
       //}
-
+    });
     }
+    //
+
     );
 
     setTimeout(() => {                           // <<<---using ()=> syntax

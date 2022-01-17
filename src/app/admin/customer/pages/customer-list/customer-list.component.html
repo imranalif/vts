@@ -7,7 +7,7 @@
   <!-- <div  class="search_div"> -->
 
   <div class="search-div" fxLayout="row" fxLayout.xs="column">
-    <div fxFlex=65% >
+    <div fxFlex=70% >
 
       <form [formGroup]="myform">
 <div fxLayout="row" fxLayout.xs="column">
@@ -52,7 +52,7 @@
       </form>
 
     </div>
-    <div fxFlex=35% fxFlex.xs=100%>
+    <div fxFlex=30% fxFlex.xs=100%>
 
       <button mat-button class="search_button" class="mat-stroked-button mat-primary " (click)="cleanForm(myform)" (click)="getCustomerBySearch()">
         Search
@@ -110,16 +110,17 @@
             <mat-icon (click)="customerQuery(row.customer_id)">visibility</mat-icon>
           </button>
 
-          <button mat-icon-button color="info" >
+          <!-- <button mat-icon-button color="info" >
             <mat-icon (click)="openResellerDeviceModal(row)">import_export</mat-icon>
-          </button>
+          </button> -->
 
           <button mat-icon-button *ngIf="row.reseller==1">
             <mat-icon (click)="resellerCustomer(row.id)">view_list</mat-icon>
           </button>
           <mat-menu #setting="matMenu">
-            <button mat-menu-item (click)="openDeviceModal(row)">Devices</button>
-            <button mat-menu-item (click)="openDriverModal(row)">Drivers</button>
+            <button mat-menu-item (click)="openDeviceModal(row)">Devices Add</button>
+            <button mat-menu-item (click)="openDriverModal(row)">Drivers Add</button>
+            <button mat-menu-item (click)="openResellerDeviceModal(row)">Device Import</button>
           </mat-menu>
         </td>
       </ng-container>

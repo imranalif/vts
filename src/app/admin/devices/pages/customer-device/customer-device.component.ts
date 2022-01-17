@@ -116,7 +116,7 @@ this.reseller=data.reseller
 
 
   check(e, data) {
-    if(data.reseller==0){
+    if(this.reseller==0){
       if (e) {
         this.object = { customerId: this.Id, deviceId: data.id }
         this.devcieService.addDeviceWithCustomer(this.object).subscribe()
