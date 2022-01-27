@@ -13,13 +13,15 @@ import { LoginService } from 'src/app/authentication/login/services/login.servic
   styleUrls: ['./topbar.component.scss']
 })
 export class TopbarComponent implements OnInit {
-
+  userData
   sideMode = "side"
   data2;
   data1: any = [];
   mediaSub: Subscription;
   constructor(private navService: NavService, private router: Router,
-    private mediaObserver: MediaObserver,private loginService:LoginService) { }
+    private mediaObserver: MediaObserver,private loginService:LoginService) {
+      this.userData = JSON.parse(localStorage.getItem('userData'));
+     }
   opened = true;
   @ViewChild('appDrawer', { static: true }) appDrawer: ElementRef;
 
@@ -50,6 +52,7 @@ export class TopbarComponent implements OnInit {
   ]
 
   ngOnInit(): void {
+    console.log(this.userData)
     this.navService.appDrawer = this.appDrawer;
     this.mediaSub = this.mediaObserver.media$.subscribe(
       (result: MediaChange) => {
@@ -82,7 +85,7 @@ export class TopbarComponent implements OnInit {
 }
 
 goto(){
-  this.router.navigate(['admin/dashboard']);
+  this.router.navigate(['reseller-map/view',this.userData.customer_id]);
 }
 }
 

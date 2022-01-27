@@ -88,7 +88,7 @@
 
                         <mat-option *ngFor="let option of resellerData" 
                             [value]="option.customer_id">
-
+                            
                             <mat-list>
                                 <mat-list-item (click)="onChangeCustomer( option)">
                                     {{ option.name }}({{ option.customer_id }})

@@ -124,6 +124,11 @@ export class DeviceService {
     return this.http.get(this.url + '/listEvents');
   }
 
+  getAllEventsByReseller(data): Observable<any> {
+    return this.http.post(this.url + '/listEventsByReseller',data);
+  }
+
+
   getDeviceWithPositionById(id: string): Observable<object> {
     return this.http.get(this.url + id + '/getDeviceWithPositionById');
   }

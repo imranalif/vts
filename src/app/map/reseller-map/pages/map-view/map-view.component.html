@@ -1,0 +1,80 @@
+<div id="t" class="mi" fxLayout="row" fxLayout.xs="column" color="primary">
+
+    <div fxFlex="70%" fxLayout="row" fxLayout.xs="100%">
+        <div fxFlex="80%">
+            <img src="assets/client/images/traccar.png" width="130" alt="avatar" />
+        </div>
+        <div *ngIf="deviceXs" fxLayout="row" fxFlex="30%">
+            <span> <button mat-button (click)="goReseller()">Reseller</button></span>
+            <a id="r" mat-button [matMenuTriggerFor]="menu">
+                <!-- <span class="image-border"> -->
+                <img class="logout-image" src="assets/client/images/avatar.png" width="35" alt="avatar" />
+                <!-- </span> -->
+                <!-- <div class="pname">{{this.data2.fullName}}</div> assets/images/avatar.png -->
+                <span class="align-middle"></span>
+            </a>
+        </div>
+
+    </div>
+    <div class="admin_button" *ngIf="!deviceXs"> <button  mat-button class="col" (click)="goReseller()">Reseller</button></div>
+
+    <div fxFlex="25%" fxLayout.xs="100%">
+        <div class="position">
+            <button class="menu" mat-button [matMenuTriggerFor]="hospital"><span class="col">Tools</span>
+                <mat-icon class="col">arrow_drop_down</mat-icon>
+            </button>
+            <!-- <button mat-button class="col" >Reseller</button> -->
+            <button mat-button class="col">Setup</button>
+            <button mat-button class="col">Chat</button>
+            <mat-menu #hospital="matMenu">
+                <button mat-menu-item>Alerts</button>
+                <button mat-menu-item>
+                    Routes
+                </button>
+            </mat-menu>
+            <a *ngIf="!deviceXs" mat-button [matMenuTriggerFor]="menu">
+                <!-- <span class="image-border"> -->
+                <img class="logout-image" src="assets/client/images/avatar.png" width="35" alt="avatar" />
+                <!-- </span> -->
+                <!-- <div class="pname">{{this.data2.fullName}}</div> assets/images/avatar.png -->
+                <span class="align-middle"></span>
+            </a>
+       
+            <mat-menu #menu="matMenu">
+                <a mat-menu-item>
+                    <mat-icon>account_circle</mat-icon>
+                    <span>Profile</span>
+                </a>
+                <a mat-menu-item>
+                    <mat-icon>settings</mat-icon>
+                    <span>Change Pass
+                    </span>
+                </a>
+                <a mat-menu-item (click)="logout()">
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span>Logout</span>
+                </a>
+            </mat-menu>
+        </div>
+    </div>
+
+
+</div>
+<div id="mapid" style=" width: 100%; height: 90%;">
+
+</div>
+
+<div id="sidebar" style=" width: 100%; height: 100%;">
+    <app-side-bar>
+    </app-side-bar>
+</div>
+
+ <div id="menu" style=" height: 200px;">
+    <app-bottom-bar>
+    </app-bottom-bar>
+  </div> 
+
+  <div  id="history" style=" height: 150px;">
+    <app-history-bar>
+    </app-history-bar>
+  </div> 

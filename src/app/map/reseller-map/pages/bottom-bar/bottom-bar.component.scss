@@ -1,0 +1,83 @@
+.container{ width: 100%;
+    background-color: whitesmoke;}
+    
+    // mat-grid-tile {
+    //     background: lightblue;
+    //   }
+    .f{
+        width: 30%;
+        height: 100%;
+        float: left;
+        background-color: burlywood;
+    }
+    .s{
+        width: 70% !important;
+        height: 100%;
+        background-color: burlywood;
+    }
+    
+    .vertical {
+        width: 3px;
+        // height: 100%;
+        background-color: gray;
+        /* or height in PX */
+      }
+    
+    
+      .container{ width: 100%;
+        background-color: white;}
+        
+        // mat-grid-tile {
+        //     background: lightblue;
+        //   }
+        .f{
+            width: 30%;
+            height: 100%;
+            float: left;
+            background-color: burlywood;
+        }
+        .s{
+            width: 70% !important;
+            height: 100%;
+            background-color: burlywood;
+        }
+        
+        .vertical {
+            width: 3px;
+            // height: 100%;
+            background-color: gray;
+            /* or height in PX */
+          }
+    
+      
+    
+          .pos > ::ng-deep figure {
+            justify-content: flex-start !important;
+        }
+    
+        mat-grid-tile::ng-deep figure {
+            justify-content: flex-start !important;
+        }
+    
+        .mag{
+            margin-right: 15%;
+        }
+    
+        .mag2{
+            margin-right: 5%;
+        }
+    
+        .eyeicon{
+            margin-left: 3%;
+        }
+    
+    
+        .deviceName{
+            text-align: left;
+            
+        }
+        .status{
+            font-size: small;
+            float: right;}
+    
+         

@@ -169,7 +169,6 @@ export class SlideMenuComponent implements OnInit {
       this.Events = res;
       this.dataSource = new MatTableDataSource(res as any);
     })
-
   }
 
 
@@ -178,7 +177,6 @@ export class SlideMenuComponent implements OnInit {
     if (this.devices) {
       return this.DeviceItem.indexOf(data) > -1;
     }
-
   }
 
 
@@ -234,16 +232,12 @@ export class SlideMenuComponent implements OnInit {
   }
 
   getLocation(e) {
-
-    console.log(e)
     this.deviceService.getDeviceCurrentPositionById(e.id).subscribe(res => {
       console.log(e.id)
       console.log(res)
       this.mapService.updateLocation(res);
       this.mapService.selectedDeviceDataExchange(res)
     })
-
-
   }
 
 
@@ -369,7 +363,6 @@ export class SlideMenuComponent implements OnInit {
       this.isLoading = false;
       this.mapService.historyShow(res);
     })
-
   }
 
   eventInfo(event) {

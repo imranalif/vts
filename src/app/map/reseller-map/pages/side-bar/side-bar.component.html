@@ -1,0 +1,181 @@
+<div class="container">
+    <mat-tab-group (selectedTabChange)="objectTab($event)" #allTabs>
+        <mat-tab label="Objects">
+
+            <div *ngIf="dataSource">
+                <div class="search-div">
+                    <mat-form-field class="filter">
+                        <input matInput placeholder="search" autocomplete="off"
+                        (keyup)="filterItem($event.target.value)" [checked]="box" />
+                    </mat-form-field>
+
+                    <button class="btn">
+                        +
+                    </button>
+                    <button class="btn">
+                        -
+                    </button>
+                </div>
+
+               
+
+            
+
+
+           <div>
+                   
+                    <form [formGroup]="myform">
+                    <mat-accordion>
+                        <mat-expansion-panel [expanded]="false" *ngFor="let state of customers;  let i=index "
+                            class="space" style="clear:both">
+
+                            <mat-expansion-panel-header>
+                                <mat-checkbox (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"
+                                    (change)="checkAllByGroup($event.checked,state.customer_id)" class="group"
+                                    formControlName="customer_id" [value]="state.customer_id" 
+                                    >
+
+                                    {{state.name}}  
+                                </mat-checkbox>
+                            </mat-expansion-panel-header>
+                            <div *ngFor="let val of permission[state.customer_id]; let l=index  ">
+                                <div class="item">
+                                    <mat-checkbox class="name" [checked]="checkState(val.id)"
+                                        (change)="check($event.checked,devicesIndex[val.id])"
+                                        (keyup)="filterItem($event.target.value)">
+
+
+                                    </mat-checkbox>
+                                    <a class="devicename"
+                                        (click)=getLocation(devicesIndex[val.id])>{{devicesIndex[val.id]?.name}}</a>
+                                   
+                                       
+                                    <a class="b2"  [matMenuTriggerFor]="hospital">
+                                        <mat-icon >more_vert</mat-icon>
+                                    </a>
+                                    <span class="b21"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                    <span class="b213" *ngIf="deviceCheckDataIndex">{{deviceCheckDataIndex[val.id]?.speed*1.852 | number}} km</span>
+                                    <div class="movingtime" *ngIf="deviceCheckDataIndex">
+                                        {{deviceCheckDataIndex[val.id]?.servertime|date:'medium'}}
+                                    </div>
+                                    <mat-menu class="dropdown-content" #hospital="matMenu">
+                                        <button mat-menu-item >Track</button>
+
+                                        <button mat-menu-item >
+                                            Sharing
+                                        </button>
+
+                                    </mat-menu>
+                                </div>
+                            </div>
+
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </form>
+                </div>
+
+ 
+
+
+              
+
+
+
+            </div>
+        </mat-tab>
+        <mat-tab label="Events">
+             <table mat-table matTableExporter [dataSource]="dataSource" class="mat-elevation-z8">
+
+                  
+
+                    <ng-container matColumnDef="time">
+                        <th mat-header-cell *matHeaderCellDef>Time</th>
+                        <td mat-cell *matCellDef="let element"><a (click)="eventInfo(element)">{{ element.eventtime|date:'medium' }}</a></td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="device_id">
+                        <th mat-header-cell *matHeaderCellDef>Name</th>
+                        <td mat-cell *matCellDef="let element"><a (click)="eventInfo(element)">{{ devicesIndex[element.deviceid]?.name }}</a></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="event">
+                        <th mat-header-cell *matHeaderCellDef>Events</th>
+                        <td mat-cell *matCellDef="let element"><a (click)="eventInfo(element)">{{ element.type }}</a></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="more">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">
+                            <a [matMenuTriggerFor]="hospital">
+                                <mat-icon>more_vert</mat-icon>
+                            </a>
+                        </td>
+                    </ng-container>
+                   
+                        <mat-menu class="dropdown-content" #hospital="matMenu">
+                            <button mat-menu-item routerLink="/">Alert</button>
+    
+                            <button mat-menu-item routerLink="info/map">
+                               Delete
+                            </button>
+    
+                        </mat-menu>
+    
+    
+              
+                    
+                    <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+            </mat-tab>
+        <mat-tab label="History">
+            <div *ngIf="devices" class="historytab">
+                <form [formGroup]="myform">
+
+                    <mat-form-field class="half">
+                        <mat-label>Device</mat-label>
+                        <mat-select formControlName="id"  [(ngModel)]="selected"#sl>
+                            <input matInput class="filterBox" placeholder="search" autocomplete="off"
+                                (keyup)="applyFilter($event.target.value)" />
+                            <a class="closeButton">
+                                <mat-icon (click)="sl.close()">clear</mat-icon>
+                            </a>
+                            <mat-option *ngFor="let state of devices" [value]="state.id">
+                                {{ state.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                  
+
+                    <mat-form-field>
+                        <input matInput [owlDateTime]="dt1" formControlName="from_date" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+                        <owl-date-time #dt1></owl-date-time>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                    
+                        <input matInput [owlDateTime]="dt2" formControlName="to_date" [owlDateTimeTrigger]="dt2" placeholder="To Time">
+                        <owl-date-time #dt2></owl-date-time>
+                    </mat-form-field>
+
+                </form>
+                <button class="button" mat-raised-button color="primary" class="btn-block" (click)="loadHistory()">
+                    Load History
+                </button>
+
+                <div>
+                    <mat-card *ngIf="isLoading" style="display:flex; justify-content: center; align-items: center">
+                        <mat-progress-spinner color="primary" mode="indeterminate">
+                        </mat-progress-spinner>
+                      </mat-card>
+                </div>
+    
+                <div  *ngIf="historyData==''">
+                    No Records Found!
+                    </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

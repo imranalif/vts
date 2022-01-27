@@ -1,0 +1,109 @@
+<div class="container" fxLayout="row">
+    <!-- <mat-grid-list cols="8" rowHeight="100px">
+        <mat-grid-tile [colspan]="3">Name</mat-grid-tile>
+        <mat-grid-tile [colspan]="5">Sensors</mat-grid-tile>
+  
+  </mat-grid-list> -->
+  <div id="mapt">
+  
+  </div>
+    <div fxFlex=30%>
+      <div class="heading">
+      <h3 *ngIf="!deviceData" class="deviceName"><mat-icon>near_me</mat-icon>Name</h3>
+      <h3 *ngIf="deviceData" class="deviceName"><mat-icon>near_me</mat-icon>{{deviceName}} <span class="status"><i class="fa fa-circle" aria-hidden="true"></i>Active</span></h3>
+    </div> 
+      <hr>
+      <mat-grid-list cols="1" rowHeight="20px">
+        <mat-grid-tile class="pos">
+          <mat-label class="mag"><b> Address: </b></mat-label> 
+         
+          {{ (address?.length>20)? (address | slice:0:20)+'..':(address) }} <a *ngIf="address" href={{url}} target="_blank"> <mat-icon class="eyeicon" >visibility</mat-icon></a>
+        </mat-grid-tile>
+    
+        <!-- "https://www.google.com/maps?q=,&t=m&hl=en" -->
+        <mat-grid-tile  class="pos">
+          <mat-label class="mag"><b> Time:</b></mat-label> {{deviceData?.servertime|date:'medium'}}
+        </mat-grid-tile>
+  
+        <mat-grid-tile class="pos">
+          <mat-label class="mag"><b> Stop Duration:</b></mat-label>
+        </mat-grid-tile>
+  
+        <mat-grid-tile class="pos">
+          <mat-label class="mag"><b> Driver:</b></mat-label>
+        </mat-grid-tile>
+        <!-- <mat-grid-tile >
+          <mat-label><b> Address:</b></mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile >
+          <mat-label><b> Address:</b></mat-label>
+        </mat-grid-tile> -->
+      </mat-grid-list>
+    </div>
+    <div class="vertical"></div>
+    <div fxFlex=70%>
+      <h3 class="deviceName"><mat-icon>sensors</mat-icon>Sensor</h3>
+      <hr>
+      <mat-grid-list cols="3" rowHeight="20px">
+        <mat-grid-tile>
+          <mat-icon>tag</mat-icon>
+          <mat-label class="mag2"><b>Alert:</b></mat-label> {{deviceData?.contact}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>slow_motion_video</mat-icon>
+          <mat-label class="mag2"><b> Motion:</b></mat-label> {{attribute?.motion}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>vpn_key</mat-icon>
+          <mat-label class="mag2"><b> Ignition:</b></mat-label> {{attribute?.ignition}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>signal_cellular_alt</mat-icon>
+          <mat-label class="mag2"><b> GSM:</b></mat-label> {{deviceData?.speed}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>battery_charging_full</mat-icon>
+          <mat-label class="mag2"><b> Battery Level:</b></mat-label> {{attribute?.batteryLevel}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>invert_colors</mat-icon>
+          <mat-label class="mag2"><b> Route Color:</b></mat-label> On
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>satellite</mat-icon>
+          <mat-label class="mag2"><b> Satellite:</b></mat-label> {{attribute?.sat}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>villa</mat-icon>
+          <mat-label class="mag2"><b>Doors:</b></mat-label> Opened
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>drag_handle</mat-icon>
+          <mat-label><b>Distance:</b></mat-label> Opened
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>moped</mat-icon>
+          <mat-label class="mag2"><b> Engin Hours:</b></mat-label> {{deviceData?.speed}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>battery_saver</mat-icon>
+          <mat-label><b> Battery Charging:</b></mat-label> {{deviceData?.model}}
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>speed</mat-icon>
+          <mat-label class="mag2"><b> Speed:</b></mat-label> {{attribute?.speed}}
+        </mat-grid-tile>
+  
+  
+  
+  
+  
+      </mat-grid-list>
+    </div>
+    <div class="vertical"></div>
+    <div fxFlex=15%>
+      <h3 class="deviceName"><mat-icon>settings</mat-icon>Services</h3>
+      <hr>
+  
+    </div>
+  </div>

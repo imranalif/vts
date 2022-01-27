@@ -107,6 +107,11 @@ export class CustomerService {
   DevicePositionByCustomer(id: string):Observable<any[]>{
     return this.http.get<any[]>(this.url + id + '/getDevicePositionByCustomer');
   }
+/*--------------------------------Reseller----------------------------*/
+
+DeviceByCustomerId(id: string):Observable<any[]>{
+  return this.http.get<any[]>(this.url + id + '/getDeviceByCustomerId');
+}
 
   getCustomerByReseller(id: string):Observable<any[]>{
     return this.http.get<any[]>(this.url + id + '/getCustomerByReseller');
