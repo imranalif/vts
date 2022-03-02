@@ -18,7 +18,8 @@ mat-card{
     border-radius: 10px 10px 10px 10px;
     box-shadow: 5px 10px 15px #1A237E;
     .title-style{
-      margin-top:-2%;
+      margin-top:1%;
+      margin-bottom:1%;
       color:#1A237E ;
       text-align: center !important;
      
@@ -78,3 +79,5 @@ mat-card{
 .back_button{
   float: left;
 }
+.back{
+  float:left}

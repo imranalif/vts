@@ -17,6 +17,8 @@ import { DeviceUserComponent } from 'src/app/admin/devices/pages/device-user/dev
 import { GroupUserComponent } from 'src/app/admin/group/pages/group-user/group-user.component';
 import { PaginationService } from 'src/app/shared/services/pagination.service';
 import { CustomerService } from 'src/app/admin/customer/services/customer.service';
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -25,6 +27,9 @@ import { CustomerService } from 'src/app/admin/customer/services/customer.servic
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
+  mediaSub: Subscription;
+  tr :boolean
+  fa:boolean
   myform: FormGroup;
   assigedRole=[];
   currentPage = 1;
@@ -51,6 +56,7 @@ export class UserListComponent implements OnInit {
     private pagination: PaginationService,
     private fb: FormBuilder,
     private customerService: CustomerService,
+    private mediaObserver: MediaObserver,
     ) {
       this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
      }
@@ -61,6 +67,7 @@ export class UserListComponent implements OnInit {
       email: [''],
       phone: [''],
       customer_id: [''],
+      status: [''],
 
     });
     this.getAllCustomer();
@@ -68,6 +75,19 @@ export class UserListComponent implements OnInit {
     let whiteSpace = '   ABCD ';
     console.log( whiteSpace);
 console.log( whiteSpace.trim());
+
+this.mediaSub = this.mediaObserver.media$.subscribe(
+  (result: MediaChange) => {
+    if(result.mqAlias=='xs'){
+      this.tr=true;
+      this.fa=false;
+    }
+    else{
+      this.tr=false;
+      this.fa=true; 
+    }
+  }
+)
    
   }
 
@@ -119,7 +139,7 @@ console.log( whiteSpace.trim());
     this.params = {
       currentPage: currentPage, name: this.myform.value.name,
        email: this.myform.value.email, phone: this.myform.value.phone,
-       customer_id: this.myform.value.customer_id,
+       customer_id: this.myform.value.customer_id,status:this.myform.value.status
     };
     this.userService.getAllUserByPage(this.params).subscribe(res => {
       this.isLoading = false;
@@ -138,7 +158,7 @@ console.log( whiteSpace.trim());
     this.params = {
       currentPage: this.currentPage, name: this.myform.value.name,
        email: this.myform.value.email, phone: this.myform.value.phone,
-       customer_id: this.myform.value.customer_id,
+       customer_id: this.myform.value.customer_id,status:this.myform.value.status
     };
     console.log(this.params);
     this.userService.getAllUserByPage(this.params).subscribe(res => {

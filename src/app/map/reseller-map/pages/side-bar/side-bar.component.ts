@@ -65,7 +65,7 @@ export class SideBarComponent implements OnInit {
     private mapService: MapService,
     private resellermapService: ResellermapService,
     private dateFormatService: DateformateService,
-    private cusmapService:CusmapService
+    private cusmapService: CusmapService
 
   ) { }
 
@@ -85,14 +85,13 @@ export class SideBarComponent implements OnInit {
       this.getCustomerByReseller(this.Id);
     });
 
-    
-//     setTimeout(()=>{                      
-//       this.getAllEvents();
-// }, 5000);
+
+    //     setTimeout(()=>{                      
+    //       this.getAllEvents();
+    // }, 5000);
   }
 
   getCustomerByReseller(id) {
-    console.log(id)
     this.customerService.getCustomerById(id).subscribe(res => {
       this.resellerData = res;
       this.customerService.getCustomerByReseller(this.resellerData.id).subscribe(response => {
@@ -100,21 +99,16 @@ export class SideBarComponent implements OnInit {
         this.customerData.push(res);
         this.customers.forEach(element => {
           this.customerService.DeviceByCustomerId(element.customer_id).subscribe(data => {
-            console.log(data)
             if (data) {
-              
               this.permission[element.customer_id] = data;
               this.checkPermi[element.customer_id] = data;
-
               data.forEach((element, i) => {
                 this.devices.push(element);
-                console.log(this.devices[0].id)
-                this.selected=this.devices[0].id
+                this.selected = this.devices[0].id
                 this.devicesIndex[element.id] = data[i];
                 this.allDevices.push(element.id);
               });
             }
-
           })
         });
       })
@@ -122,21 +116,19 @@ export class SideBarComponent implements OnInit {
   }
 
   getAllEvents() {
-    console.log(this.allDevices)
     var data = { id: this.allDevices }
     this.deviceService.getAllEventsByReseller(data).subscribe(res => {
-      console.log(res)
       this.Events = res;
       this.dataSource = new MatTableDataSource(res as any);
     })
   }
-  applyFilter(e){
+
+  applyFilter(e) {
 
   }
 
   objectTab(tabChangeEvent: MatTabChangeEvent) {
     var inx = tabChangeEvent.index;
-    console.log(inx)
     if (inx == 2) {
       var indexData = { id: 2 }
       this.mapService.hideWithIndexHistory(indexData);
@@ -165,14 +157,12 @@ export class SideBarComponent implements OnInit {
 
   getLocation(e) {
     this.deviceService.getDeviceCurrentPositionById(e.id).subscribe(res => {
-      console.log(e.id)
-      console.log(res)
       this.resellermapService.updateLocation(res);
       this.resellermapService.selectedDeviceDataExchange(res)
     })
   }
 
- 
+
   getAllDevice() {
     if (this.devices) {
       this.devices.forEach((elem, i) => {
@@ -181,10 +171,10 @@ export class SideBarComponent implements OnInit {
     }
   }
 
+ /*--------------------------Check By Individual--------------------*/
 
   check(e, data) {
     if (e) {
-      console.log(data)
       this.singleObject.push(data)
       this.deviceService.getDeviceById(data.id).subscribe(res => {
         this.deviceCurrentData = []
@@ -206,29 +196,26 @@ export class SideBarComponent implements OnInit {
     }
   }
 
+  /*--------------------------Check By Customer--------------------*/
+
   checkAllByGroup(e: any, id) {
-    console.log(id)
     if (e) {
       this.customerService.DevicePositionByCustomer(id).subscribe(res => {
         var darray = res;
         var positionArray = [];
         darray.forEach((e, i) => {
-          console.log(e)
           positionArray.push(e.positionid)
         })
         var positionData = { id: positionArray }
         this.customerService.DevicePositionByPositionId(positionData).subscribe(data => {
           if (data.length > 0) {
-            console.log(data)
             this.resellermapService.devicePosition(data);
             data.forEach((elem, i) => {
               this.deviceCheckDataIndex[elem.deviceid] = data[i];
             });
             data.forEach((element, i) => {
               this.groupDevice.push(element)
-              console.log(this.devices)
               var v = this.devices.find(x => x.id === element.deviceid);
-              console.log(v)
               this.DeviceItem.push(v.id);
               this.DeviceView.push(v);
               this.reserve.push({ customer_id: v.assign_customer_id, id: element.deviceid, name: v.name });
@@ -239,7 +226,6 @@ export class SideBarComponent implements OnInit {
       )
     }
     else {
-      console.log(this.reserve)
       this.reserve.forEach((element, i) => {
         if (element.customer_id == id) {
           this.DeviceItem = this.DeviceItem.filter(m => m !== element.id);
@@ -257,16 +243,13 @@ export class SideBarComponent implements OnInit {
     var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.to_date)
     const obj = { id: id, from_date: from_date, to_date: to_date }
     this.deviceService.getHistoryPostionBySearch(obj).subscribe(res => {
-      console.log(res)
       this.isLoading = false;
       this.resellermapService.historyShow(res);
     })
   }
 
   eventInfo(event) {
-    console.log(event)
     this.deviceService.getEventPositionById(event.id).subscribe(res => {
-      console.log(res)
       this.cusmapService.eventExchange(res);
     })
   }

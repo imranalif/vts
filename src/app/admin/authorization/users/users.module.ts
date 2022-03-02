@@ -14,6 +14,7 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { ChangepassPopupComponent } from './pages/changepass-popup/changepass-popup.component';
 import { UserprofilePopupComponent } from './pages/userprofile-popup/userprofile-popup.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 
@@ -30,6 +31,7 @@ import { UserprofilePopupComponent } from './pages/userprofile-popup/userprofile
     FormsModule,
     MatTableExporterModule,
     FlexLayoutModule,
+    ImageCropperModule
    
   ]
 })

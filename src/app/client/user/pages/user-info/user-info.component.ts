@@ -330,7 +330,7 @@ export class UserInfoComponent implements OnInit {
           // if (this.line) {
           //   this.map.removeLayer(this.line)
           // }
-
+// add korte hobe line gari adding ar sathe
           if(this.polyline[element.id]){
             this.map.removeLayer(this.polyline[element.id])
           }

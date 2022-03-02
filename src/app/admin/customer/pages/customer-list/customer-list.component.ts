@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild,OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
+import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable'
 import { timer, interval, Subscription } from "rxjs";
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -139,7 +141,7 @@ export class CustomerListComponent implements OnInit,OnDestroy {
       customer_id: this.myform.value.customer_id, email: this.myform.value.email, phone: this.myform.value.phone,
       status: this.myform.value.status,
     };
-    console.log(this.params);
+  
     this.customerService.getAllCustomer(this.params).subscribe(res => {
       this.isLoading = false;
       this.customers = res.rows;
@@ -165,7 +167,6 @@ export class CustomerListComponent implements OnInit,OnDestroy {
     this.router.navigate(['admin/customer/edit', data]);
   }
   openDeviceModal(data) {
-    console.log(data.customer_id)
     const dialogCofig = new MatDialogConfig();
     dialogCofig.disableClose = true;
     dialogCofig.width = "600px";
@@ -234,6 +235,29 @@ export class CustomerListComponent implements OnInit,OnDestroy {
       //data: this.errorData
     }).afterClosed()
       .subscribe(response => { });
+  }
+
+
+  exportPdf(): void{
+    const doc = new jsPDF('portrait', 'px', 'a4');
+    const data = [];
+    const displayedColumns = ['name', 'email', 'phone','reseller'];
+
+    this.dataSource.filteredData.forEach(obj => {
+    const arr = [];
+    displayedColumns.forEach(col => {
+      arr.push(obj[col]);
+    });
+    data.push(arr);
+  });
+
+    autoTable(doc, {  head: [['name', 'email', 'phone','reseller']],
+  body: data });
+    // doc.autoTable({
+    //   head: [['name', 'email', 'phone','reseller']],
+    //   body: data
+    // });
+    doc.save('customer.pdf');
   }
 
 }

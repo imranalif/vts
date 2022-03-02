@@ -40,14 +40,12 @@ url:string
         const v = L.Control.Geocoder.nominatim();
                 v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
                   this.address = (results[0].name)
-                  console.log(this.address)
                 })
-        console.log(res[0])
+  
         this.url=this.link+res[0].latitude+','+res[0].longitude
        this.deviceData=res[0];
        this.deviceName=res[0].name;
        this.attribute=JSON.parse(res[0].attributes)
-       console.log(this.deviceData)
       }
     })
 
@@ -57,13 +55,10 @@ url:string
         const v = L.Control.Geocoder.nominatim();
                 v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
                   this.address = (results[0].name)
-                  console.log(this.address)
                 })
-        console.log(response[0])
         this.url=this.link+response[0].latitude+','+response[0].longitude
        this.deviceData=response[0];
        this.attribute=JSON.parse(response[0].attributes)
-       console.log(this.deviceData)
       }
     })
   }

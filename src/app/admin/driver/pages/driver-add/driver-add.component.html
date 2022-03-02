@@ -4,8 +4,9 @@
 </div>
 <mat-card-content>
     <form [formGroup]="myform">
-        <div class="main">
-            <div class="mainContent">
+    
+        <div   class="main" fxLayout="row" fxLayout.xs="column">
+            <div fxFlex=50% >
         <mat-form-field class="full">
             <input trim="blur" matInput placeholder="Name" formControlName="driverName" autocomplete="off" required />
         </mat-form-field>
@@ -28,7 +29,7 @@
             <input matInput placeholder="Phone" formControlName="phone" autocomplete="off" />
         </mat-form-field>
     </div>
-        <div class="optionalContent">
+        <div fxFlex=50% >
             <mat-accordion class="example-headers-align">
                 <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
                     <mat-expansion-panel-header>
@@ -38,32 +39,32 @@
                     </mat-expansion-panel-header>
 
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input matInput placeholder="Father Name" formControlName="fatherName"
                             autocomplete="off"/>
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input matInput placeholder="Mother Name" formControlName="motherName"
                             autocomplete="off"/>
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input matInput placeholder="Email" formControlName="email"
                             autocomplete="off"/>
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <textarea matInput placeholder="Present Address" formControlName="presentAddress"
                             autocomplete="off"></textarea>
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <textarea matInput placeholder="Permanent Address" formControlName="permanentAddress"
                             autocomplete="off"></textarea>
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input matInput placeholder="NID" formControlName="nid"
                             autocomplete="off"/>
                     </mat-form-field>
@@ -79,12 +80,12 @@
                     </mat-expansion-panel-header>
                     <div formArrayName="attributes" *ngFor="let assign of myform.get('attributes')['controls']; let i = index"  >
                         <div [formArrayName]="i">
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input trim="blur" matInput placeholder="Name" [id]="'name' + i"  formControlName="name"
                             autocomplete="off"  />
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input trim="blur" matInput placeholder="Value" [id]="'value' + i" formControlName="value"
                             autocomplete="off"  />
                     </mat-form-field>

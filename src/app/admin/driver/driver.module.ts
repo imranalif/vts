@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../shared/material/material.module';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 import { DriverRoutingModule } from './driver-routing.module';
@@ -23,7 +24,8 @@ import { CustomerDriverComponent } from './pages/customer-driver/customer-driver
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    MatTableExporterModule
+    MatTableExporterModule,
+    FlexLayoutModule
   ],
   exports: [DriverListComponent],
 })

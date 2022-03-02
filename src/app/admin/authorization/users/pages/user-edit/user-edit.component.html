@@ -1,16 +1,16 @@
 <mat-card class="customStyle">
-    <button class="back_button" mat-button class=" mat-primary" (click)="goBack()">
+    <!-- <button class="back_button" mat-button class=" mat-primary" (click)="goBack()">
         <mat-icon>arrow_back</mat-icon>
-     </button>
+     </button> -->
     <div class="title-style">
     
-        <mat-card-title>User Update Form</mat-card-title>
+        <a (click)="goBack()"> <mat-icon class="back">arrow_back</mat-icon></a> <mat-card-title>User Update Form</mat-card-title>
     </div>
     <mat-card-content>
         <form [formGroup]="myform">
             <div class="main" fxLayout="row" fxLayout.xs="column">
                 <div fxFlex=50%>
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input trim="blur" matInput placeholder="First Name" formControlName="firstName"
                             autocomplete="off" required />
                     </mat-form-field>
@@ -18,22 +18,22 @@
                 <div *ngIf=" myform.get('name').errors.required" class="red"> Name is required</div>
             </div> -->
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input trim="blur" matInput placeholder="Last Name" formControlName="lastName"
                             autocomplete="off" required />
                     </mat-form-field>
 
-                    <mat-form-field class="half">
-                        <input trim="blur" matInput placeholder="Mobile" formControlName="mobile" autocomplete="off"
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
+                        <input trim="blur" matInput placeholder="Contact Number" formControlName="mobile" autocomplete="off"
                             required />
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input trim="blur" matInput placeholder="Email" formControlName="email" autocomplete="off"
                             required />
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <mat-label>User Role</mat-label>
                         <mat-select formControlName="userRole" required #sl>
                             <input matInput class="filterBox" placeholder="search" autocomplete="off"
@@ -47,7 +47,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <mat-label>User Type</mat-label>
                         <mat-select formControlName="userType" (ngModelChange)="onChange($event)" (ngModelChange)="isCustomer($event)" required>
                             <mat-option *ngFor="let state of userTypes" [value]="state.value">
@@ -108,7 +108,7 @@
 
 
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <mat-label>Gender</mat-label>
                         <mat-select formControlName="gender">
                             <mat-option *ngFor="let state of gend" [value]="state.value">
@@ -158,7 +158,7 @@
                         </mat-option>
                     </mat-autocomplete> -->
 
-                    <mat-form-field class="half" required>
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}" required>
                         <mat-label>Status</mat-label>
                         <mat-select formControlName="status" required>
                             <mat-option *ngFor="let state of states" [value]="state.id">
@@ -204,11 +204,11 @@
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
 
-                            <mat-form-field class="half">
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                 <input matInput placeholder="POI Layer" formControlName="poiLayer" autocomplete="off" />
                             </mat-form-field>
 
-                            <mat-form-field class="half" required>
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}" required>
                                 <mat-label>Map Layer</mat-label>
                                 <mat-select formControlName="mapLayer">
                                     <mat-option *ngFor="let state of mapTypes" [value]="state.id">
@@ -217,22 +217,22 @@
                                 </mat-select>
                             </mat-form-field>
 
-                            <mat-form-field class="half">
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                 <input matInput placeholder="Latitude" formControlName="latitude" autocomplete="off" />
                             </mat-form-field>
 
-                            <mat-form-field class="half">
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                 <input matInput placeholder="Longitude" formControlName="longitude"
                                     autocomplete="off" />
                             </mat-form-field>
 
-                            <mat-form-field class="half">
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                 <input matInput placeholder="Zoom" formControlName="zoom" autocomplete="off" />
                             </mat-form-field>
 
 
 
-                            <mat-form-field class="half">
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                 <mat-label>Coordinates Format</mat-label>
                                 <mat-select formControlName="cordinatesFormat">
                                     <mat-option *ngFor="let state of formats" [value]="state.id">
@@ -284,19 +284,19 @@
                                     Limit Commands
                                 </mat-checkbox>
                             </div>
-                            <mat-form-field class="half">
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                 <input matInput placeholder="Expiration" formControlName="expiration"
                                     autocomplete="off" />
                             </mat-form-field>
-                            <mat-form-field class="half">
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                 <input matInput placeholder="Device Limit" formControlName="deviceLimit"
                                     autocomplete="off" />
                             </mat-form-field>
-                            <mat-form-field class="half">
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                 <input matInput placeholder="User Limit" formControlName="userLimit"
                                     autocomplete="off" />
                             </mat-form-field>
-                            <mat-form-field class="half">
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                 <input matInput placeholder="Token" formControlName="token" autocomplete="off" />
                             </mat-form-field>
                         </mat-expansion-panel>
@@ -312,12 +312,12 @@
                             <div formArrayName="attributes"
                                 *ngFor="let assign of myform.get('attributes')['controls']; let i = index">
                                 <div [formArrayName]="i">
-                                    <mat-form-field class="half">
+                                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                         <input trim="blur" matInput placeholder="Name" formControlName="name"
                                             autocomplete="off" />
                                     </mat-form-field>
 
-                                    <mat-form-field class="half">
+                                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                         <input trim="blur" matInput placeholder="Value" formControlName="value"
                                             autocomplete="off" />
                                     </mat-form-field>

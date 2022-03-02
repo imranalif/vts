@@ -6,6 +6,8 @@ import { compareValidators } from '../../services/confirm-password.directive';
 import { UserService } from '../../services/user.service';
 import { RoleService } from '../../../roles/services/role.service';
 import { CustomerService } from 'src/app/admin/customer/services/customer.service';
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-edit',
@@ -13,6 +15,9 @@ import { CustomerService } from 'src/app/admin/customer/services/customer.servic
   styleUrls: ['./user-edit.component.scss']
 })
 export class UserEditComponent implements OnInit {
+  mediaSub: Subscription;
+  tr :boolean
+  fa:boolean
   customerInfo
   showCustommerField:Number;
   showResellerField
@@ -39,11 +44,11 @@ export class UserEditComponent implements OnInit {
   userRoles
   filterRoles
   myform: FormGroup;
-  mapTypes = [{id: 1,  value: 'OpenStree Map' }, {id: 2,  value: 'Bing Map' }, {id: 3,  value: 'Baidu Map' }];
+  mapTypes = [{id: 1,  value: 'OpenStree Map' }, {id: 2,  value: 'Bing Map' }, {id: 3,  value: 'Baidu Map' }, {id: 4,  value: 'Google Map' }];
   formats = [{id: 1,  value: 'Decimal Degrees' }, {id: 2,  value: 'Degress Decimal Minutes' }, {id: 3,  value: 'Degrees Minutes Seconds' }];
   states = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   roles = [{ id: 1, value: 'Admin' }, { id: 0, value: 'User' }];
-  gend = [{ value: 'Male' }, { value: 'Female' }];
+  gend = [{ value: 'Male' }, { value: 'Female' }, { value: 'Others' }];
   userTypes = [{ value: 'Admin' }, { value: 'Reseller' }, { value: 'Customer' }];
   constructor(private fb: FormBuilder,
     private router: Router,
@@ -51,7 +56,8 @@ export class UserEditComponent implements OnInit {
     private userService: UserService,
     private rolesService:RoleService,
     private route:ActivatedRoute,
-    private customerService: CustomerService,) { }
+    private customerService: CustomerService,
+    private mediaObserver: MediaObserver,) { }
 
     // stepp = 0;
     // setStepp(index: number) {
@@ -89,7 +95,7 @@ export class UserEditComponent implements OnInit {
       expiration:[],
       deviceLimit:[],
       userLimit:[],
-      token:[],
+      token:[''],
       created_by: [''],
       status: [ ,[Validators.required]],
       attributes: this.fb.array ([]),
@@ -100,6 +106,20 @@ export class UserEditComponent implements OnInit {
     });
     this.getAllRole();
     this.getAllCustomer();
+
+    this.mediaSub = this.mediaObserver.media$.subscribe(
+      (result: MediaChange) => {
+        if(result.mqAlias=='xs'){
+          this.tr=true;
+          this.fa=false;
+        }
+
+        else{
+          this.tr=false;
+          this.fa=true; 
+        }
+      }
+    )
   }
 
   assignAttributes() {
@@ -128,7 +148,7 @@ export class UserEditComponent implements OnInit {
 
 
   openSnackBar(): void {
-    this.snackBar.open('Successfully added!!', 'Close', {
+    this.snackBar.open('Successfully updated!!', 'Close', {
       duration: 2000,
       verticalPosition: 'top',
       horizontalPosition: 'end',

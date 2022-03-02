@@ -1,12 +1,15 @@
 <mat-card class="customStyle">
+    <!-- <button class="back_button" mat-button class=" mat-primary" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+     </button> -->
     <div class="title-style">
-        <mat-card-title>User Add Form</mat-card-title>
+       <a (click)="goBack()"> <mat-icon class="back">arrow_back</mat-icon></a>   <mat-card-title>User Add Form</mat-card-title>
     </div>
     <mat-card-content>
         <form [formGroup]="myform">
             <div class="main" fxLayout="row" fxLayout.xs="column">
-                <div fxFlex=50% >
-                    <mat-form-field class="half">
+                <div fxFlex=50%>
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input trim="blur" matInput placeholder="First Name" formControlName="firstName"
                             autocomplete="off" required />
                     </mat-form-field>
@@ -14,23 +17,23 @@
                 <div *ngIf=" myform.get('name').errors.required" class="red"> Name is required</div>
             </div> -->
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input trim="blur" matInput placeholder="Last Name" formControlName="lastName"
                             autocomplete="off" required />
                     </mat-form-field>
 
-                    <mat-form-field class="half">
-                        <input trim="blur" matInput placeholder="Mobile" formControlName="mobile" autocomplete="off"
-                            required />
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}" >
+                        <input trim="blur" matInput placeholder="Contact Number" formControlName="mobile"
+                        minlength="8"  autocomplete="off" required />
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input trim="blur" matInput placeholder="Email" formControlName="email" autocomplete="off"
                             required />
                     </mat-form-field>
 
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <mat-label>User Role</mat-label>
                         <mat-select formControlName="userRole" required #sl>
                             <input matInput class="filterBox" placeholder="search" autocomplete="off"
@@ -44,72 +47,74 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <mat-label>User Type</mat-label>
-                        <mat-select formControlName="userType" (ngModelChange)="onChange($event)" (ngModelChange)="isCustomer($event)" required>
+                        <mat-select formControlName="userType" (ngModelChange)="onChange($event)"
+                            (ngModelChange)="isCustomer($event)" required>
                             <mat-option *ngFor="let state of userTypes" [value]="state.value">
                                 {{ state.value }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
 
-                <div *ngIf="showCustommerField==1">
-                    <mat-form-field class="full">
-                        <input matInput placeholder="Customer" [matAutocomplete]="auto" formControlName="customer_id"
-                            (keyup)="applySearch($event.target.value)" required/>
-                            <mat-hint align="end">  Please input customer id</mat-hint>
+                    <div *ngIf="showCustommerField==1">
+                        <mat-form-field class="full">
+                            <input matInput placeholder="Customer" [matAutocomplete]="auto"
+                                formControlName="customer_id" (keyup)="applySearch($event.target.value)" required />
+                            <mat-hint align="end"> Please input customer id</mat-hint>
+                        </mat-form-field>
+                        <span class="customerInfo" *ngIf="customerInfo">Name: {{ customerInfo.name }} Email:{{
+                            customerInfo.email }}</span>
+
+                        <mat-autocomplete #auto="matAutocomplete">
+
+                            <mat-option *ngFor="let option of customerData" [value]="option.customer_id">
+
+                                <mat-list>
+                                    <mat-list-item (click)="onChangeCustomer( option)">
+                                        {{ option.name }}({{ option.customer_id }})
+                                    </mat-list-item>
+                                    <mat-divider></mat-divider>
+                                </mat-list>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
+
+                    <div *ngIf="showResellerField==1">
+                        <mat-form-field class="full">
+                            <input matInput placeholder="Reseller" [matAutocomplete]="auto"
+                                formControlName="customer_id" (keyup)="resellerSearch($event.target.value)" required />
+                            <mat-hint align="end"> Please input reseller id</mat-hint>
+                        </mat-form-field>
+                        <span class="customerInfo" *ngIf="customerInfo">Name: {{ customerInfo.name }} Email:{{
+                            customerInfo.email }}</span>
+
+                        <mat-autocomplete #auto="matAutocomplete">
+
+                            <mat-option *ngFor="let option of resellerData" [value]="option.customer_id">
+
+                                <mat-list>
+                                    <mat-list-item (click)="onChangeCustomer( option)">
+                                        {{ option.name }}({{ option.customer_id }})
+                                    </mat-list-item>
+                                    <mat-divider></mat-divider>
+                                </mat-list>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
+
+
+
+
+
+                    <mat-form-field class="full" class="pwd">
+                        <input matInput type="password" placeholder="Password" formControlName="password" required
+                            autocomplete="off" pattern />
+                        <mat-hint align="end"> Only use alphanumeric [0-9a-zA-Z], few special characters
+                            [#&?$-_.+!*(),]. Use at least one small letter, one capital letter and one digit.</mat-hint>
                     </mat-form-field>
-                    <span class="customerInfo" *ngIf="customerInfo">Name: {{ customerInfo.name }} Email:{{ customerInfo.email }}</span>
-                
-                    <mat-autocomplete #auto="matAutocomplete">
 
-                        <mat-option *ngFor="let option of customerData" 
-                            [value]="option.customer_id">
-
-                            <mat-list>
-                                <mat-list-item (click)="onChangeCustomer( option)">
-                                    {{ option.name }}({{ option.customer_id }})
-                                </mat-list-item>
-                                <mat-divider></mat-divider>
-                            </mat-list>
-                        </mat-option>
-                    </mat-autocomplete>
-                </div>
-
-                <div *ngIf="showResellerField==1">
-                    <mat-form-field class="full">
-                        <input matInput placeholder="Reseller" [matAutocomplete]="auto" formControlName="customer_id"
-                            (keyup)="resellerSearch($event.target.value)" required/>
-                            <mat-hint align="end">  Please input reseller id</mat-hint>
-                    </mat-form-field>
-                    <span class="customerInfo" *ngIf="customerInfo">Name: {{ customerInfo.name }} Email:{{ customerInfo.email }}</span>
-                
-                    <mat-autocomplete #auto="matAutocomplete">
-
-                        <mat-option *ngFor="let option of resellerData" 
-                            [value]="option.customer_id">
-                            
-                            <mat-list>
-                                <mat-list-item (click)="onChangeCustomer( option)">
-                                    {{ option.name }}({{ option.customer_id }})
-                                </mat-list-item>
-                                <mat-divider></mat-divider>
-                            </mat-list>
-                        </mat-option>
-                    </mat-autocomplete>
-                </div>
-
-
-
-
-
-                    <mat-form-field class="half">
-                        <input matInput type="password" placeholder="Password" formControlName="password"
-                            autocomplete="off" required />
-
-                    </mat-form-field>
-
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <input type="password" matInput placeholder="Confirm Password" formControlName="confirmPassword"
                             autocomplete="off" compare="password" required />
                         <mat-error>
@@ -117,7 +122,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field class="half">
+                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                         <mat-label>Gender</mat-label>
                         <mat-select formControlName="gender">
                             <mat-option *ngFor="let state of gend" [value]="state.value">
@@ -126,11 +131,11 @@
                         </mat-select>
                     </mat-form-field>
 
-                   
 
-                   
 
-                    <mat-form-field class="half">
+
+
+                    <mat-form-field class="full">
                         <mat-label>Status</mat-label>
                         <mat-select formControlName="status" required>
                             <mat-option *ngFor="let state of states" [value]="state.id">
@@ -155,25 +160,29 @@
                 </mat-radio-group>
             </div> -->
 
-            <!-- accept=".csv,.mp4" -->
+                    <!-- accept=".csv,.mp4" -->
 
                     <div class="full">
-                        <img type="hide" [src]="imgurl" style="width:100px;height:50px" *ngIf="imgurl">
+
                         <mat-label class="image">Image </mat-label>
                         <input type="file" formControlName="image" (change)="onFileSelected($event)"
-                            enctype="multipart/form-data"  max-size="2" />
+                            enctype="multipart/form-data" max-size="1" accept=".png,.jpg" />
+
+                        <img type="hide" [src]="imgurl" style="width:100px;height:50px" *ngIf="imgurl">
+                        <div> <small class="imagehint">Image type should be .png, .jpg, .gif and file size 1 MB</small>
+                        </div>
                     </div>
 
 
 
 
 
-                    
+
                     <!-- <div *ngIf="submitted && myform.get('status').errors" class="feedback">
             <div *ngIf=" myform.get('status').errors.required" class="red"> Status is required</div>
         </div> -->
                 </div>
-                <div fxFlex=50% >
+                <div fxFlex=50%>
                     <mat-accordion class="example-headers-align">
                         <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
                             <mat-expansion-panel-header>
@@ -182,11 +191,11 @@
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
 
-                            <mat-form-field class="half">
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                 <input matInput placeholder="POI Layer" formControlName="poiLayer" autocomplete="off" />
                             </mat-form-field>
-                            
-                            <mat-form-field class="half" required>
+
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}" required>
                                 <mat-label>Map Layer</mat-label>
                                 <mat-select formControlName="mapLayer">
                                     <mat-option *ngFor="let state of mapTypes" [value]="state.id">
@@ -195,24 +204,26 @@
                                 </mat-select>
                             </mat-form-field>
 
-                          
 
-                            <mat-form-field class="half">
-                                <input matInput placeholder="Latitude" formControlName="latitude" [(ngModel)]="selectedLatitude" autocomplete="off" />
+
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
+                                <input matInput placeholder="Latitude" formControlName="latitude"
+                                    [(ngModel)]="selectedLatitude" autocomplete="off" />
                             </mat-form-field>
 
-                            <mat-form-field class="half">
-                                <input matInput placeholder="Longitude" formControlName="longitude" [(ngModel)]="selectedLongitude"
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
+                                <input matInput placeholder="Longitude" formControlName="longitude"
+                                    [(ngModel)]="selectedLongitude" autocomplete="off" />
+                            </mat-form-field>
+
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
+                                <input matInput placeholder="Zoom" formControlName="zoom" [(ngModel)]="selectedZoom"
                                     autocomplete="off" />
                             </mat-form-field>
 
-                            <mat-form-field class="half">
-                                <input matInput placeholder="Zoom" formControlName="zoom" [(ngModel)]="selectedZoom" autocomplete="off" />
-                            </mat-form-field>
 
 
-
-                            <mat-form-field class="half" required>
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}" required>
                                 <mat-label>Coordinates Format</mat-label>
                                 <mat-select formControlName="cordinatesFormat">
                                     <mat-option *ngFor="let state of formats" [value]="state.id">
@@ -221,7 +232,7 @@
                                 </mat-select>
                             </mat-form-field>
 
-                      
+
 
                             <mat-checkbox class="checkbox" formControlName="hourFormat" labelPosition="before">
                                 12 Hour Format
@@ -264,19 +275,25 @@
                                     Limit Commands
                                 </mat-checkbox>
                             </div>
-                            <mat-form-field class="half">
+                            <!-- <mat-form-field class="half">
                                 <input matInput placeholder="Expiration" formControlName="expiration"
                                     autocomplete="off" />
+                            </mat-form-field> -->
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
+                                <mat-label>Expiration</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="expiration">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
-                            <mat-form-field class="half">
-                                <input matInput placeholder="Device Limit" formControlName="deviceLimit"
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
+                                <input matInput placeholder="Device Limit" formControlName="deviceLimit" [(ngModel)]="selectedDeviceLimit"
                                     autocomplete="off" />
                             </mat-form-field>
-                            <mat-form-field class="half">
-                                <input matInput placeholder="User Limit" formControlName="userLimit"
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
+                                <input matInput placeholder="User Limit" formControlName="userLimit" [(ngModel)]="selectedUserLimit"
                                     autocomplete="off" />
                             </mat-form-field>
-                            <mat-form-field class="half">
+                            <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                 <input matInput placeholder="Token" formControlName="token" autocomplete="off" />
                             </mat-form-field>
                         </mat-expansion-panel>
@@ -292,12 +309,12 @@
                             <div formArrayName="attributes"
                                 *ngFor="let assign of myform.get('attributes')['controls']; let i = index">
                                 <div [formArrayName]="i">
-                                    <mat-form-field class="half">
+                                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                         <input trim="blur" matInput placeholder="Name" formControlName="name"
                                             autocomplete="off" />
                                     </mat-form-field>
 
-                                    <mat-form-field class="half">
+                                    <mat-form-field [ngClass]="{'full': tr, 'half': fa}">
                                         <input trim="blur" matInput placeholder="Value" formControlName="value"
                                             autocomplete="off" />
                                     </mat-form-field>

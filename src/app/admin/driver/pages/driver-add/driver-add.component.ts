@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DriverService } from '../../services/driver.service';
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-driver-add',
@@ -10,6 +12,9 @@ import { DriverService } from '../../services/driver.service';
   styleUrls: ['./driver-add.component.scss']
 })
 export class DriverAddComponent implements OnInit {
+  mediaSub: Subscription;
+  tr :boolean
+  fa:boolean
   object: any = {}
   att = []
   submitted = false;
@@ -20,7 +25,8 @@ export class DriverAddComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
-    private driverService: DriverService) { }
+    private driverService: DriverService,
+    private mediaObserver: MediaObserver,) { }
 
   step = 0;
   setStep(index: number) {

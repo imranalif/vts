@@ -7,7 +7,6 @@ import 'leaflet-easybutton';
 import 'leaflet-control-bar';
 import 'leaflet-arrowheads'
 
-
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/authentication/login/services/login.service';
@@ -232,9 +231,7 @@ export class MapViewComponent implements OnInit {
                 this.markerArray = L.layerGroup()
                 this.marker = mapDevice[element.deviceid].setLatLng([element.latitude, element.longitude]).bindPopup(element.name + " <br> Address: " + element.contact
                   + " <br> Model: " + element.model + " <br> Phone: " + element.phone + " <br> Type: " + element.category, { closeOnClick: false, autoClose: false })
-                  this.line = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });;
-              
-
+                  this.line = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
               })
             })
           }
@@ -269,10 +266,7 @@ export class MapViewComponent implements OnInit {
       this.resellermapService.historyData.subscribe(res => {
         console.log(res.length)
         if (res.length > 0) {
-          // myButton.disable();
           this.map.removeLayer(layerGroup)
-          console.log("......")
-  
           controlBar.hide();
           this.historyBar.show();
           this.viewHistory = 1
@@ -330,6 +324,7 @@ export class MapViewComponent implements OnInit {
       })
   
   /*--------------------------Change tab on Sidebar--------------------*/
+
       this.resellermapService.indexDetailsView.subscribe(res => {
         console.log(res)
         if (res) {
@@ -350,7 +345,7 @@ export class MapViewComponent implements OnInit {
         }
       })
 
-      // eventInfomation showing
+      /*--------------------------eventInfomation showing--------------------*/
 
     this.cusmapService.eventCatch.subscribe(res => {
       if (res) {
@@ -368,24 +363,18 @@ export class MapViewComponent implements OnInit {
       }
     })
 
-    // center position
+     /*--------------------------center position--------------------*/
 
     this.resellermapService.s.subscribe(res => {
-      console.log(res)
       if (res) {
         controlBar.show();
         this.map.panTo(new L.LatLng(res[0].latitude, res[0].longitude));
       }
     })
   
-  
-  
   }
 
   
-
-
-
 
   logout(){
     this.loginService.logout().subscribe(res=>{

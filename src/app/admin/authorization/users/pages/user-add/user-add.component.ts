@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient,HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,6 +7,11 @@ import { compareValidators } from '../../services/confirm-password.directive';
 import { UserService } from '../../services/user.service';
 import { RoleService } from '../../../roles/services/role.service';
 import { CustomerService } from 'src/app/admin/customer/services/customer.service';
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
+import { Subscription } from 'rxjs';
+
+
+
 
 
 @Component({
@@ -15,6 +20,10 @@ import { CustomerService } from 'src/app/admin/customer/services/customer.servic
   styleUrls: ['./user-add.component.scss']
 })
 export class UserAddComponent implements OnInit {
+  mediaSub: Subscription;
+  tr :boolean
+  fa:boolean
+  img:any;
   customerInfo
   showCustommerField;
   showResellerField;
@@ -22,7 +31,7 @@ export class UserAddComponent implements OnInit {
   customerData
   resellerData
   customer_id
-  imgurl: string=null
+  imgurl: string = null
   fileUpload: File = null;
   object: any = {}
   fieldArray: Array<any> = [];
@@ -32,37 +41,44 @@ export class UserAddComponent implements OnInit {
   userRoles
   filterRoles
   myform: FormGroup;
-  selectedLatitude=0
-  selectedLongitude=0
-  selectedZoom=0
-  mapTypes = [{id: 1,  value: 'OpenStree Map' }, {id: 2,  value: 'Bing Map' }, {id: 3,  value: 'Baidu Map' }];
-  formats = [{id: 1,  value: 'Decimal Degrees' }, {id: 2,  value: 'Degress Decimal Minutes' }, {id: 3,  value: 'Degrees Minutes Seconds' }];
+  selectedLatitude = 0
+  selectedLongitude = 0
+  selectedZoom = 0
+  selectedDeviceLimit = -1;
+  selectedUserLimit = 0;
+  mapTypes = [{ id: 1, value: 'OpenStree Map' }, { id: 2, value: 'Bing Map' }, { id: 3, value: 'Baidu Map' }, { id: 4, value: 'Google Map' }];
+  formats = [{ id: 1, value: 'Decimal Degrees' }, { id: 2, value: 'Degress Decimal Minutes' }, { id: 3, value: 'Degrees Minutes Seconds' }];
   states = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   roles = [{ id: 1, value: 'Admin' }, { id: 0, value: 'User' }];
-  gend = [{ value: 'Male' }, { value: 'Female' }];
+  gend = [{ value: 'Male' }, { value: 'Female' }, { value: 'Others' }];
   userTypes = [{ value: 'Admin' }, { value: 'Reseller' }, { value: 'Customer' }];
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
     private userService: UserService,
-    private rolesService:RoleService,
-    private customerService: CustomerService,) { }
+    private rolesService: RoleService,
+    private customerService: CustomerService,
+    private mediaObserver: MediaObserver,
+    
+    ) {
+    
+     }
 
-    // stepp = 0;
-    // setStepp(index: number) {
-    //   this.stepp = index;
-    // }
+  // stepp = 0;
+  // setStepp(index: number) {
+  //   this.stepp = index;
+  // }
 
-    step = 0;
-    setStep(index: number) {
-      this.step = index;
-    }
+  step = 0;
+  setStep(index: number) {
+    this.step = index;
+  }
 
   ngOnInit(): void {
     this.myform = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      mobile: ['', Validators.pattern('[- +()0-9]+')],
+      mobile: ['',  Validators.pattern('[- +()0-9]+')],
       email: ['', [Validators.required, Validators.email]],
       customer_id: [],
       address: [''],
@@ -70,29 +86,42 @@ export class UserAddComponent implements OnInit {
       userType: [''],
       userRole: ['', [Validators.required]],
       image: [''],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')]],
       confirmPassword: ['', [Validators.required, compareValidators('password')]],
-      mapLayer:[''],
-      latitude:[''],
-      longitude:[''],
-      zoom:[],
-      hourFormat:[],
-      cordinatesFormat:[''],
-      poiLayer:[''],
-      disabled:[],
-      admin:[],
-      readonly:[],
-      deviceReadonly:[],
-      limitCommands:[],
-      expiration:[],
-      deviceLimit:[],
-      userLimit:[],
-      token:[],
+      mapLayer: [''],
+      latitude: [''],
+      longitude: [''],
+      zoom: [],
+      hourFormat: [],
+      cordinatesFormat: [''],
+      poiLayer: [''],
+      disabled: [],
+      admin: [],
+      readonly: [],
+      deviceReadonly: [],
+      limitCommands: [],
+      expiration: [],
+      deviceLimit: [],
+      userLimit: [],
+      token: [''],
       created_by: [''],
-      status: [ ,[Validators.required]],
-      attributes: this.fb.array ([]),
+      status: [, [Validators.required]],
+      attributes: this.fb.array([]),
     });
     this.getAllRole();
+
+    this.mediaSub = this.mediaObserver.media$.subscribe(
+      (result: MediaChange) => {
+        if(result.mqAlias=='xs'){
+          this.tr=true;
+          this.fa=false;
+        }
+        else{
+          this.tr=false;
+          this.fa=true; 
+        }
+      }
+    )
   }
 
   assignAttributes() {
@@ -100,31 +129,31 @@ export class UserAddComponent implements OnInit {
       name: [''],
       value: ['']
     });
-      }
+  }
 
-     get fArray(){
-       return this.myform.get('attributes') as FormArray
-     } 
+  get fArray() {
+    return this.myform.get('attributes') as FormArray
+  }
 
-      addassignTicket() {
-        this.fArray.push(this.assignAttributes())
-          }
-    
+  addassignTicket() {
+    this.fArray.push(this.assignAttributes())
+  }
 
-    isCustomer(e): void {
-      const camp = this.myform.get('customer_id');
-      if (e === 'Customer') {
-        camp.setValidators(Validators.required);
-      }  else {
-        camp.clearValidators();
-      }
-      camp.updateValueAndValidity();
-      }    
+
+  isCustomer(e): void {
+    const camp = this.myform.get('customer_id');
+    if (e === 'Customer') {
+      camp.setValidators(Validators.required);
+    } else {
+      camp.clearValidators();
+    }
+    camp.updateValueAndValidity();
+  }
 
   getAllRole(): void {
     this.rolesService.getAllRole().subscribe(res => {
       this.userRoles = res;
-      this.filterRoles=this.userRoles
+      this.filterRoles = this.userRoles
     });
   }
 
@@ -162,50 +191,54 @@ export class UserAddComponent implements OnInit {
     });
   }
 
-  applySearch(e){
-    const ob={name:e}
-     this.customerService.customerSearch(ob).subscribe(res=>{
-       this.customerData=res;
-       console.log(this.customerData)
-     })
-   }
-
-  resellerSearch(e){
-    const ob={name:e}
-     this.customerService.resellerSearch(ob).subscribe(res=>{
-       this.resellerData=res;
-       console.log(this.resellerData)
-     })
-   }
-
-   onChangeCustomer(e){
-    this.myform.value.customer_id=e.customer_id;
-    this.customerInfo=e;
-//     const t=this.customerData.map(item => item.id).indexOf(e);
-//     console.log(t)
-//     if(e){
-// this.customer_id=this.customerData[t].customer_id;
-// console.log(this.customer_id)
-// }
+  applySearch(e) {
+    const ob = { name: e }
+    this.customerService.customerSearch(ob).subscribe(res => {
+      this.customerData = res;
+      console.log(this.customerData)
+    })
   }
 
-  onChange(e){
+  resellerSearch(e) {
+    const ob = { name: e }
+    this.customerService.resellerSearch(ob).subscribe(res => {
+      this.resellerData = res;
+      console.log(this.resellerData)
+    })
+  }
+
+  onChangeCustomer(e) {
+    this.myform.value.customer_id = e.customer_id;
+    this.customerInfo = e;
+    //     const t=this.customerData.map(item => item.id).indexOf(e);
+    //     console.log(t)
+    //     if(e){
+    // this.customer_id=this.customerData[t].customer_id;
+    // console.log(this.customer_id)
+    // }
+  }
+
+  onChange(e) {
     console.log(e)
-    if(e=="Customer"){
-this.showCustommerField=1;
-this.showResellerField=0; 
-console.log(this.showCustommerField)
+    if (e == "Customer") {
+      this.showCustommerField = 1;
+      this.showResellerField = 0;
+      console.log(this.showCustommerField)
     }
 
-   else if(e=="Reseller"){
-      this.showResellerField=1;
-      this.showCustommerField=0; 
+    else if (e == "Reseller") {
+      this.showResellerField = 1;
+      this.showCustommerField = 0;
     }
-    else{
-      this.showCustommerField=0; 
-      this.showResellerField=0; 
-      
+    else {
+      this.showCustommerField = 0;
+      this.showResellerField = 0;
+
     }
+  }
+
+  goBack() {
+    this.router.navigate(['admin/authorization/users/list']);
   }
 
 
@@ -216,14 +249,14 @@ console.log(this.showCustommerField)
       return;
     }
     console.log(this.myform.value.attributes)
-if(this.myform.value.attributes){
-    this.myform.value.attributes.forEach(element => {
-      const b = element.value
-      this.object[element.name] = b;
-    });
-    
-  }
-  this.myform.value.attributes = this.object; 
+    if (this.myform.value.attributes) {
+      this.myform.value.attributes.forEach(element => {
+        const b = element.value
+        this.object[element.name] = b;
+      });
+
+    }
+    this.myform.value.attributes = this.object;
 
     const formData = new FormData();
     formData.append('image', this.images);
@@ -238,7 +271,7 @@ if(this.myform.value.attributes){
     formData.append('address', this.myform.get('address').value);
     formData.append('gender', this.myform.get('gender').value);
     formData.append('status', this.myform.get('status').value);
-    
+
     formData.append('mapLayer', this.myform.get('mapLayer').value);
     formData.append('latitude', this.myform.get('latitude').value);
     formData.append('longitude', this.myform.get('longitude').value);
@@ -256,7 +289,7 @@ if(this.myform.value.attributes){
     formData.append('attributes', JSON.stringify(this.object));
     formData.append('token', this.myform.get('token').value);
 
-    
+
     formData.append('created_by', this.myform.value.created_by);
 
     console.log(this.myform.value)
@@ -270,7 +303,7 @@ if(this.myform.value.attributes){
       //   console.log(event)
       // }
       this.openSnackBar();
-       this.router.navigate(['admin/authorization/users/list']);
+      this.router.navigate(['admin/authorization/users/list']);
     },
       error => {
         this.errorMessage();
