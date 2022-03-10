@@ -9,6 +9,8 @@ import { RoleService } from '../../../roles/services/role.service';
 import { CustomerService } from 'src/app/admin/customer/services/customer.service';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import {NgxImageCompressService} from "ngx-image-compress";
 
 
 
@@ -20,6 +22,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./user-add.component.scss']
 })
 export class UserAddComponent implements OnInit {
+
+  imgResultBeforeCompress:string;
+  imgResultAfterCompress:string;
+
   mediaSub: Subscription;
   tr :boolean
   fa:boolean
@@ -44,14 +50,15 @@ export class UserAddComponent implements OnInit {
   selectedLatitude = 0
   selectedLongitude = 0
   selectedZoom = 0
-  selectedDeviceLimit = -1;
+  selectedDeviceLimit = 10;
   selectedUserLimit = 0;
-  mapTypes = [{ id: 1, value: 'OpenStree Map' }, { id: 2, value: 'Bing Map' }, { id: 3, value: 'Baidu Map' }, { id: 4, value: 'Google Map' }];
+  mapTypes = [{ id: 1, value: 'OpenStreet Map' }, { id: 2, value: 'Google Map' }];
   formats = [{ id: 1, value: 'Decimal Degrees' }, { id: 2, value: 'Degress Decimal Minutes' }, { id: 3, value: 'Degrees Minutes Seconds' }];
   states = [{ id: 1, value: 'Active' }, { id: 0, value: 'Inactive' }];
   roles = [{ id: 1, value: 'Admin' }, { id: 0, value: 'User' }];
   gend = [{ value: 'Male' }, { value: 'Female' }, { value: 'Others' }];
   userTypes = [{ value: 'Admin' }, { value: 'Reseller' }, { value: 'Customer' }];
+
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -59,7 +66,7 @@ export class UserAddComponent implements OnInit {
     private rolesService: RoleService,
     private customerService: CustomerService,
     private mediaObserver: MediaObserver,
-    
+    private imageCompress: NgxImageCompressService
     ) {
     
      }
@@ -165,6 +172,7 @@ export class UserAddComponent implements OnInit {
     if (event.target.files.length > 0) {
       const image = event.target.files[0];
       this.images = image;
+     
 
       const reader = new FileReader();
       // tslint:disable-next-line: no-shadowed-variable
@@ -174,6 +182,35 @@ export class UserAddComponent implements OnInit {
       reader.readAsDataURL(this.images);
     }
   }
+
+  compressFile() {
+  
+    this.imageCompress.uploadFile().then(({image, orientation}) => {
+    
+      this.imgResultBeforeCompress = image;
+      console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+      
+      this.imageCompress.compressFile(image, orientation, 50, 50).then(
+        result => {
+          this.imgResultAfterCompress = result;
+          console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
+        }
+      );
+      
+    });
+    
+  }
+
+//   imageCropped(event: ImageCroppedEvent) {
+//     this.croppedImage = event.base64;
+//     console.log( this.croppedImage)
+// }
+
+
+
+// imageLoaded(image: LoadedImage) {
+//   this.images = image;
+// }
 
   openSnackBar(): void {
     this.snackBar.open('Successfully added!!', 'Close', {

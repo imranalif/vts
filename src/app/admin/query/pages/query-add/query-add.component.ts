@@ -12,6 +12,7 @@ import { ProductService } from 'src/app/admin/inventory/product/services/product
   styleUrls: ['./query-add.component.scss']
 })
 export class QueryAddComponent implements OnInit {
+  showMrc=0;
   c
   typeFlag
   search_type
@@ -61,7 +62,7 @@ export class QueryAddComponent implements OnInit {
     this.myform = this.fb.group({
       name: ['', [Validators.required]],
       phone: ['', [Validators.required]],
-      email: ['', [Validators.email]],
+      email: [''],
       contact_address: ['', [Validators.required]],
       billing_address: ['', [Validators.required]],
       source: ['', [Validators.required]],
@@ -247,6 +248,16 @@ console.log("test validate")
     }
     console.log("tttttttttt")
    
+  }
+
+  checkMrc(e){
+    if(e){
+      this.showMrc=1; 
+    }
+    else{
+      this.showMrc=0;
+    }
+    
   }
 
   applySearch(e){

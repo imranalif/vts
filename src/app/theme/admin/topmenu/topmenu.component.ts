@@ -374,6 +374,21 @@ mediaSub: Subscription;
           route: 'admin/traccar/devices/add',
           color: '#c1c1c1',
           permission:'device_add',
+        },
+        {
+          displayName: 'Device Category List',
+          iconName: 'list',
+          route: 'admin/traccar/devices/dcat-list',
+          color: '#c1c1c1',
+          permission:'device_category_list',
+
+        },
+        {
+          displayName: 'Device Category Add',
+          iconName: 'add',
+          route: 'admin/traccar/devices/dcat-add',
+          color: '#c1c1c1',
+          permission:'device_category_add',
         }
       ]
     },

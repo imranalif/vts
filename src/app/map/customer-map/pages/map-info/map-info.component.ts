@@ -228,14 +228,14 @@ export class MapInfoComponent implements OnInit {
           //this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           //var mook
           res.forEach(elem => {
-            // mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
-            //   + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).bindTooltip(elem.name, {
-            //     direction: 'left', offset: [15, -45], permanent: true
-            // }).addTo(this.map)
-            var popup = L.popup().setContent('<a class="click" href="#">click</a>');
-            mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(popup).bindTooltip(elem.name, {
+            mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
+              + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).bindTooltip(elem.name, {
                 direction: 'left', offset: [15, -45], permanent: true
             }).addTo(this.map)
+            //var popup = L.popup().setContent('<a class="click" href="#">click</a>');
+            // mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(popup).bindTooltip(elem.name, {
+            //     direction: 'left', offset: [15, -45], permanent: true
+            // }).addTo(this.map)
             layerGroup.addLayer(mook[elem.deviceid]);
           })
         }
@@ -273,7 +273,7 @@ export class MapInfoComponent implements OnInit {
                 this.markerArray = L.layerGroup()
                 console.log(element.name)
                 var attribute=JSON.parse(element.attributes)
-                var popup = L.popup().setContent('<a class="click" href="#">click</a>');
+                //var popup = L.popup().setContent('<a class="click" href="#">click</a>');
                 // this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
                 //   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false })
                  

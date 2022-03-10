@@ -9,7 +9,7 @@ export class PaginationService {
   paginate(
     totalItems: number,
     currentPage: number = 1,
-    pageSize: number = 10,
+    pageSize: number = 25,
     maxPages: number = 9
 ) {
     // calculate total pages

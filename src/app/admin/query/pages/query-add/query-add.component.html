@@ -145,7 +145,7 @@
             <input matInput placeholder="Phone" formControlName="phone" [(ngModel)]="phone" autocomplete="off" required />
         </mat-form-field>
             <mat-form-field class="half">
-                <input matInput placeholder="Email" formControlName="email" [(ngModel)]="email" autocomplete="off" required />
+                <input matInput placeholder="Email" formControlName="email" [(ngModel)]="email" autocomplete="off"  />
             </mat-form-field>
 
             <mat-form-field class="half">
@@ -255,8 +255,8 @@
                 </span>
             </div>
 
-            <div class="full">MRC:</div>
-            <div class="mrc">
+            <div class="full"> <mat-checkbox  (change)="checkMrc($event.checked)" ></mat-checkbox> MRC   </div>             
+            <div class="mrc" *ngIf="showMrc">
             <div formArrayName="mrc" *ngFor="let assign of myform.get('mrc')['controls']; let i = index">
                 <div [formArrayName]="i">
                     

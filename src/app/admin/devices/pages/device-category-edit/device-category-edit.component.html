@@ -1,0 +1,45 @@
+<mat-card fxFlex=50% fxFlex.xs=100% class="customStyle">
+    <div class="title-style">
+        <a (click)="goBack()"> <mat-icon class="back">arrow_back</mat-icon></a> <mat-card-title >Device Category Update Form</mat-card-title>
+</div>
+<mat-card-content>
+    <form [formGroup]="myform">
+        <div class="main">
+            <div class="mainContent">
+        <mat-form-field class="full">
+            <input  matInput placeholder="Title" formControlName="title" autocomplete="off" required />
+        </mat-form-field>
+        
+        <mat-form-field class="full">
+            <input matInput placeholder="Icon" formControlName="icon" autocomplete="off" required />
+        </mat-form-field>
+        <mat-form-field class="full">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" required>
+                <mat-option *ngFor="let state of states" [value]="state.id">
+                    {{ state.value }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+       
+    </div>
+        
+    </div>
+
+     
+    </form>
+</mat-card-content>
+
+
+<mat-card-actions class="button">
+    <button class="button" mat-stroked-button color="primary" class="btn-block" (click)="updateDeviceCategory()">
+       Update
+    </button>
+    <p>Note: Field marked with * is Mandatory</p>
+</mat-card-actions>
+
+
+</mat-card>
+
+
+

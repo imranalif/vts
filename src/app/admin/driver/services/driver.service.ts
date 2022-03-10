@@ -20,6 +20,10 @@ export class DriverService {
     return this.http.get(this.url + '/listDriver');
   }
 
+  getAllDriversByPage(data): Observable<any> {
+    return this.http.post(this.url + '/listDriversByPage', data);
+  }
+
   getDriverById(id: string): Observable<object> {
     return this.http.get(this.url + id + '/editDriver');
   }

@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
+import { timer, interval, Subscription } from "rxjs";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DriverService } from '../../services/driver.service';
@@ -10,6 +13,7 @@ import { saveAs } from 'file-saver'
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog/";
+import { PaginationService } from 'src/app/shared/services/pagination.service';
 
 @Component({
   selector: 'app-driver-list',
@@ -17,30 +21,64 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog/";
   styleUrls: ['./driver-list.component.scss']
 })
 export class DriverListComponent implements OnInit {
-
+  mediaSub: Subscription;
+  tr: boolean
+  fa: boolean
+  myform: FormGroup;
   assigedRole = []
   show = true;
 
+  page: any;
+  currentPage = 1;
+  params = {}
+  pager: any = [];
+  record: any = [];
+  isLoading = true;
   private idColumn = 'id';
   drivers;
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   states = [{ id: 0, value: 'Inactive' }, { id: 1, value: 'Active' }];
-  displayedColumns = ['action', 'id', 'name', 'identifier',];
+  displayedColumns = ['action', 'id', 'name', 'identifier','phone','license','createdtime','updatedtime'];
   constructor(private driverService: DriverService,
     private snackBar: MatSnackBar,
     private router: Router,
     private dialogService: DialogService,
-    private dialog: MatDialog,) {
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private mediaObserver: MediaObserver,
+    private pagination: PaginationService,) {
     this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
   }
 
   ngOnInit(): void {
+    this.myform = this.fb.group({
+      name: [''],
+      identifier: [''],
+      phone: [''],
+      driving_license: [''],
+      fromdate: [],
+      todate: [],
+
+    });
+    this.mediaSub = this.mediaObserver.media$.subscribe(
+      (result: MediaChange) => {
+        if (result.mqAlias == 'xs') {
+          this.tr = true;
+          this.fa = false;
+        }
+        else {
+          this.tr = false;
+          this.fa = true;
+        }
+      }
+    )
+
     this.getAllDriver();
   }
 
-  getAllDriver(): void {
+  getAllDriverTest(): void {
     this.driverService.getAllDriver().subscribe(res => {
       this.drivers = res;
       this.dataSource = new MatTableDataSource(res as any);
@@ -48,6 +86,69 @@ export class DriverListComponent implements OnInit {
       setTimeout(() => (this.dataSource.paginator = this.paginator));
     });
   }
+
+
+  getAllDriver(): void {
+    this.params = { currentPage: this.currentPage };
+    this.driverService.getAllDriversByPage(this.params).subscribe(res => {
+      this.drivers = res.rows;
+      this.record = res.count;
+      console.log(res.count)
+      this.pager = this.pagination.paginate(this.record);
+      console.log(this.pager.totalPages)
+      this.dataSource = new MatTableDataSource(this.drivers as any);
+      setTimeout(() => (this.dataSource.sort = this.sort));
+      setTimeout(() => (this.dataSource.paginator = this.paginator));
+      this.isLoading = false;
+
+    });
+  }
+
+  getDriverByPage(currentPage): void {
+    this.page = currentPage;
+    if (this.page > this.pager.totalPages) {
+      return;
+    }
+    this.params = {
+      currentPage: currentPage, name: this.myform.value.name,
+      identifier: this.myform.value.identifier, phone: this.myform.value.phone, driving_license: this.myform.value.driving_license,
+      fromdate: this.myform.value.fromdate,
+      todate: this.myform.value.todate,
+
+    };
+    this.driverService.getAllDriversByPage(this.params).subscribe(res => {
+      this.isLoading = false;
+      this.drivers = res.rows;
+      // this.record = res.count;
+      console.log(this.record);
+      this.pager = this.pagination.paginate(this.record, currentPage);
+      this.dataSource = new MatTableDataSource(this.drivers as any);
+      setTimeout(() => (this.dataSource.sort = this.sort));
+      setTimeout(() => (this.dataSource.paginator = this.paginator));
+    });
+  }
+
+  getDriverBySearch(): void {
+    this.params = {
+      currentPage: this.currentPage, name: this.myform.value.name, identifier: this.myform.value.identifier,
+      phone: this.myform.value.phone, driving_license: this.myform.value.driving_license, fromdate: this.myform.value.fromdate,
+      todate: this.myform.value.todate,
+    };
+
+    this.driverService.getAllDriversByPage(this.params).subscribe(res => {
+      this.isLoading = false;
+      this.drivers = res.rows;
+      this.record = res.count;
+      this.pager = this.pagination.paginate(this.record);
+
+      this.dataSource = new MatTableDataSource(this.drivers as any);
+      setTimeout(() => (this.dataSource.sort = this.sort));
+      setTimeout(() => (this.dataSource.paginator = this.paginator));
+    }
+    );
+  }
+
+
 
   editDriver(data): void{
     this.router.navigate(['admin/traccar/driver/edit', data.id]);
@@ -100,5 +201,15 @@ export class DriverListComponent implements OnInit {
       saveAs(blob, "myFile.csv");
   }
 
+
+getBack(){
+  this.getAllDriver();
+}
+goAddPage(){
+  this.router.navigate(['/admin/traccar/driver/add']);
+}
+cleanForm(e){
+  
+}
 
 }

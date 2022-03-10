@@ -14,6 +14,7 @@ import { GroupService } from 'src/app/admin/group/services/group.service';
 export class DeviceAddComponent implements OnInit {
 groups=[];
 show: boolean
+deviceCategories:any;
   object: any = {}
   att = []
   submitted = false;
@@ -21,6 +22,9 @@ show: boolean
   userData;
 
   categories = [{ id: 1, value: 'Bus' }, { id: 0, value: 'Car' }, { id: 0, value: 'Truck' }];
+  nameAttributes = [{ value: 'Web: Report Color' }, { value: 'Device Password' }, { value: 'Processing: Copy' },
+  { value: 'Attributes' }, { value: 'Timezone' }, { value: 'Device Inactivity Start' },
+  { value: 'Device Inactivity Period' }, { value: 'Speed Limit' }, { value: 'Report Ignore' }, { value: 'Odometer' }];
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -45,6 +49,7 @@ show: boolean
       attributes: this.fb.array([]),
     });
     this.getAllGroup();
+    this.getAllDeviceCategory();
   }
 
   getAllGroup(){
@@ -78,6 +83,17 @@ this.groups=res;
       verticalPosition: 'top',
       horizontalPosition: 'end',
     });
+  }
+
+  getAllDeviceCategory(): void {
+    this.deviceService.getAllDeviceCategory().subscribe(res => {
+      this.deviceCategories = res;
+     
+    });
+  }
+
+  goBack(){
+    this.router.navigate(['/admin/traccar/devices/list']);
   }
 
   addDevice() {

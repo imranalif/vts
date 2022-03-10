@@ -20,6 +20,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 
+
+
 @NgModule({
   declarations: [UserEditComponent, UserAddComponent, UserListComponent, ResetPasswordComponent, ChangePasswordComponent, UserProfileComponent, ChangepassPopupComponent, UserprofilePopupComponent
      ],
@@ -31,8 +33,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     FormsModule,
     MatTableExporterModule,
     FlexLayoutModule,
-    ImageCropperModule
-   
-  ]
+    ImageCropperModule 
+  ],
+ 
 })
 export class UsersModule { }

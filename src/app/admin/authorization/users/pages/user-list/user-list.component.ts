@@ -131,7 +131,7 @@ this.mediaSub = this.mediaObserver.media$.subscribe(
   }
 
   getUserByPage(currentPage): void {
-    Object.keys(this.myform).forEach((key) => this.myform.setValue(this.myform.value.trim()));
+    //Object.keys(this.myform).forEach((key) => this.myform.setValue(this.myform.value.trim()));
     this.page = currentPage;
     if (this.page > this.pager.totalPages) {
       return;
@@ -144,7 +144,7 @@ this.mediaSub = this.mediaObserver.media$.subscribe(
     this.userService.getAllUserByPage(this.params).subscribe(res => {
       this.isLoading = false;
       this.users = res.rows;
-      // this.record = res.count;
+       this.record = res.count;
       console.log(this.record);
       this.pager = this.pagination.paginate(this.record, currentPage);
       this.dataSource = new MatTableDataSource(this.users as any);

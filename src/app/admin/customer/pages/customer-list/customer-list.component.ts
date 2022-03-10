@@ -16,6 +16,8 @@ import { CustomerDeviceComponent } from 'src/app/admin/devices/pages/customer-de
 import { CustomerDriverComponent } from 'src/app/admin/driver/pages/customer-driver/customer-driver.component';
 import { ResellerDeviceComponent } from '../reseller-device/reseller-device.component';
 import { DeviceImportStatusComponent } from '../device-import-status/device-import-status.component';
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
+
 
 
 
@@ -25,6 +27,9 @@ import { DeviceImportStatusComponent } from '../device-import-status/device-impo
   styleUrls: ['./customer-list.component.scss']
 })
 export class CustomerListComponent implements OnInit,OnDestroy {
+  mediaSub: Subscription;
+  tr :boolean
+  fa:boolean
   myform: FormGroup;
   customers;
   currentPage = 1;
@@ -45,6 +50,7 @@ export class CustomerListComponent implements OnInit,OnDestroy {
     private dialog: MatDialog,
     private pagination: PaginationService,
     private fb: FormBuilder,
+    private mediaObserver: MediaObserver,
   ) { this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
   this.testingValue = 0;
  }
@@ -75,6 +81,19 @@ export class CustomerListComponent implements OnInit,OnDestroy {
     })
 
     this.addTestingValue();
+
+    this.mediaSub = this.mediaObserver.media$.subscribe(
+      (result: MediaChange) => {
+        if(result.mqAlias=='xs'){
+          this.tr=true;
+          this.fa=false;
+        }
+        else{
+          this.tr=false;
+          this.fa=true; 
+        }
+      }
+    )
   }
 
   ngOnDestroy() {

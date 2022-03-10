@@ -33,6 +33,9 @@ export class DeviceService {
     return this.http.get(this.url + '/listDevices');
   }
 
+  getAllDevicesByPage(data): Observable<any> {
+    return this.http.post(this.url + '/listDevicesByPage', data);
+  }
 
   addDevice(data): Observable<any>{
     return this.http.post(this.url + '/addDevice', data);
@@ -161,6 +164,31 @@ export class DeviceService {
 
   deleteDeviceFromReseller(data): Observable<any> {
     return this.http.post(this.url + '/deleteDeviceFromReseller',data);
+  }
+
+
+  /////////////////  Device Category   /////////////
+
+  getAllDeviceCategory(): Observable<any> {
+    return this.http.get(this.url + '/listDeviceCategory');
+  }
+
+
+  addDeviceCategory(data): Observable<any>{
+    return this.http.post(this.url + '/addDeviceCategory', data);
+  }
+
+
+  getDeviceCategoryById(id: string): Observable<object> {
+    return this.http.get(this.url + id + '/editDeviceCategory');
+  }
+
+  updateDeviceCategory(id: string, data): Observable<object> {
+    return this.http.put(this.url + id + '/updateDeviceCategory', data);
+  }
+
+  deleteDeviceCategory(id: string): Observable<object> {
+    return this.http.delete(this.url + id + '/deleteDeviceCategory');
   }
 
 }

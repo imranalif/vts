@@ -19,6 +19,7 @@ import { TokenInterceptorService } from './shared/services/token-interceptor.ser
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { HashLocationStrategy, LocationStrategy,PathLocationStrategy } from '@angular/common';
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import {NgxImageCompressService} from "ngx-image-compress";
 
 
 
@@ -49,7 +50,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     DragDropModule
   
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },{provide: LocationStrategy, useClass: HashLocationStrategy},NgxImageCompressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
