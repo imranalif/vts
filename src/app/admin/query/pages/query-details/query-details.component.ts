@@ -34,7 +34,7 @@ export class QueryDetailsComponent implements OnInit {
   myform: FormGroup;
   userData;
   isLoading = true;
-  states = [{ id: 1, value: 'Communicated' }, { id: 0, value: 'Visited' }, { id: 0, value: 'Proposal Send' }, { id: 0, value: 'Negotiality' }, { id: 0, value: 'Work Order' }, { id: 0, value: 'Requsition' }, { id: 0, value: 'Delivered' }, { id: 0, value: 'Successful' }, { id: 0, value: 'Canceled' }, { id: 0, value: 'Failed' }, { id: 0, value: 'Hold' }];
+  states = [{ id: 1, value: 'Communicated' }, { id: 0, value: 'Visited' }, { id: 0, value: 'Proposal Send' }, { id: 0, value: 'Negotiation' }, { id: 0, value: 'Work Order' }, { id: 0, value: 'Requsition' }, { id: 0, value: 'Delivered' }, { id: 0, value: 'Successful' }, { id: 0, value: 'Canceled' }, { id: 0, value: 'Failed' }, { id: 0, value: 'Hold' }];
   displayedColumns = ['category', 'model', 'unit_price', 'quantity', 'total_price', 'complementary',];
   displayedMrcColumns = ['title', 'amount'];
   constructor(

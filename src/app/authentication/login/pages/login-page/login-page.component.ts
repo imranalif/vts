@@ -18,6 +18,7 @@ export class LoginPageComponent implements OnInit {
   object
   submitted = false;
   roles = [];
+  public isLoading :boolean = false;
   constructor(private fb: FormBuilder,
     private loginService: LoginService,
     private roleService: RoleService,
@@ -33,6 +34,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   login(): void {
+    this.isLoading = true;
     this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
@@ -41,6 +43,7 @@ export class LoginPageComponent implements OnInit {
     }
     this.loginService.login(this.myform.value).subscribe(res => {
       if(res.data.user_type=="Customer"){
+        this.isLoading = false;
         sessionStorage.setItem('accessToken', res.accessToken);
         sessionStorage.setItem('refreshToken', res.refreshToken);
         this.router.navigate(['/customer-map/info',res.data.id]);
@@ -51,6 +54,7 @@ export class LoginPageComponent implements OnInit {
       }
 
       else if(res.data.user_type=="Reseller"){
+        this.isLoading = false;
         sessionStorage.setItem('accessToken', res.accessToken);
         sessionStorage.setItem('refreshToken', res.refreshToken);
         this.router.navigate(['/reseller/dashboard']);

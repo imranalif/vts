@@ -14,6 +14,7 @@ import { saveAs } from 'file-saver'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog/";
 import { PaginationService } from 'src/app/shared/services/pagination.service';
+import { DateformateService } from 'src/app/shared/services/dateformate.service';
 
 @Component({
   selector: 'app-driver-list',
@@ -48,7 +49,8 @@ export class DriverListComponent implements OnInit {
     private dialog: MatDialog,
     private fb: FormBuilder,
     private mediaObserver: MediaObserver,
-    private pagination: PaginationService,) {
+    private pagination: PaginationService,
+    private dateFormatService: DateformateService) {
     this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
   }
 
@@ -129,6 +131,14 @@ export class DriverListComponent implements OnInit {
   }
 
   getDriverBySearch(): void {
+    if(this.myform.value.fromdate){
+      this.myform.value.fromdate = this.dateFormatService.dateTime('datetime', this.myform.value.fromdate); 
+    }
+    if(this.myform.value.todate){
+      this.myform.value.todate = this.dateFormatService.dateTime('datetime', this.myform.value.todate); 
+    }
+    // var from_date = this.dateFormatService.dateTime('datetime', this.myform.value.fromdate);
+    // var to_date = this.dateFormatService.dateTime('datetime', this.myform.value.todate)
     this.params = {
       currentPage: this.currentPage, name: this.myform.value.name, identifier: this.myform.value.identifier,
       phone: this.myform.value.phone, driving_license: this.myform.value.driving_license, fromdate: this.myform.value.fromdate,
@@ -208,8 +218,9 @@ getBack(){
 goAddPage(){
   this.router.navigate(['/admin/traccar/driver/add']);
 }
-cleanForm(e){
-  
+public cleanForm(formGroup: FormGroup) {
+  Object.keys(formGroup.controls).forEach((key) => formGroup.get(key).setValue(formGroup.get(key).value.trim()));
 }
+
 
 }

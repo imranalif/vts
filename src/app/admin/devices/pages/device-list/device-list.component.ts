@@ -19,6 +19,7 @@ import { ImportErrorComponent } from '../import-error/import-error.component';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { timer, interval, Subscription } from "rxjs";
 import { PaginationService } from 'src/app/shared/services/pagination.service';
+import { DateformateService } from 'src/app/shared/services/dateformate.service';
 
 @Component({
   selector: 'app-device-list',
@@ -53,7 +54,8 @@ export class DeviceListComponent implements OnInit {
     private dialog: MatDialog,
     private fb: FormBuilder,
     private mediaObserver: MediaObserver,
-    private pagination: PaginationService,) {
+    private pagination: PaginationService,
+    private dateFormatService: DateformateService) {
     this.assigedRole = JSON.parse(sessionStorage.getItem('rolesData'));
   }
 
@@ -162,6 +164,12 @@ export class DeviceListComponent implements OnInit {
   }
 
   getDeviceBySearch(): void {
+    if(this.myform.value.fromdate){
+      this.myform.value.fromdate = this.dateFormatService.dateTime('datetime', this.myform.value.fromdate); 
+    }
+    if(this.myform.value.todate){
+      this.myform.value.todate = this.dateFormatService.dateTime('datetime', this.myform.value.todate); 
+    }
     this.params = {
       currentPage: this.currentPage, name: this.myform.value.name, imei: this.myform.value.imei,
       category: this.myform.value.category, model: this.myform.value.model, fromdate: this.myform.value.fromdate,
@@ -337,6 +345,7 @@ export class DeviceListComponent implements OnInit {
 
   getBack() {
     this.getAllDevice();
+    this.myform.reset();
   }
 
 

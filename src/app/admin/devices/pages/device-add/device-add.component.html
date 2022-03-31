@@ -34,7 +34,7 @@
                     <mat-form-field class="half" required>
                         <mat-label>Group</mat-label>
                         <mat-select formControlName="group">
-                            <mat-option *ngFor="let state of groups" [value]="state.value">
+                            <mat-option *ngFor="let state of groups" [value]="state.name">
                                 {{ state.name }}
                             </mat-option>
                         </mat-select>
@@ -43,7 +43,7 @@
                     <mat-form-field class="half"  required>
                         <mat-label>Category</mat-label>
                         <mat-select formControlName="category">
-                            <mat-option *ngFor="let state of deviceCategories" [value]="state.icon">
+                            <mat-option *ngFor="let state of deviceCategories" [value]="state.title">
                                 <mat-icon> {{ state.icon }}</mat-icon>  {{ state.title }}  
                             </mat-option>
                         </mat-select>

@@ -63,6 +63,10 @@ export class CategoryEditComponent implements OnInit {
     });
   }
 
+  goBack(){
+    this.router.navigate(['/admin/inventory/category/list']); 
+  }
+
   updateCategory(): void{
     this.myform.markAllAsTouched();
     this.submitted = true;

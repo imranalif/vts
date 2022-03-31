@@ -62,7 +62,7 @@
         </span>
   
         <button class="export_button" mat-button class="mat-raised-button mat-primary "
-          (click)="exporter.exportTable('csv',{fileName:'Customer'})">
+          (click)="exporter.exportTable('csv',{fileName:'Driver'})">
           EXP
         </button>
         <!-- <button class="export_button" mat-button class="mat-raised-button mat-primary " (click)=exportPdf()>
@@ -152,6 +152,6 @@
       </mat-progress-spinner>
     </mat-card>
     
-    <mat-card class="notfoundbox"  *ngIf="devices==''">
+    <mat-card class="notfoundbox"  *ngIf="drivers==''">
       No Records Found!
       </mat-card>

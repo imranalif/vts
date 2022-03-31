@@ -22,6 +22,10 @@ const routes: Routes = [
       {
         path: 'traccar/driver',
         loadChildren: () => import('../../admin/driver/driver.module').then(m => m.DriverModule),
+      },
+      {
+        path: 'traccar/geofences',
+        loadChildren: () => import('../../admin/geofences/geofences.module').then(m => m.GeofencesModule),
       }
       ,
       {

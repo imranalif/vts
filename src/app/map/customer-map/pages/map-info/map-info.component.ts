@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
+import { map, tileLayer, animatedMarker, polyline } from 'leaflet';
 
 import { Subscription } from 'rxjs';
 
@@ -9,6 +10,7 @@ import 'leaflet-control-bar';
 import 'leaflet-easybutton';
 import 'leaflet-arrowheads'
 import 'esri-leaflet-geocoder'
+import 'leaflet-polylinedecorator'
 import * as esri_geo from 'esri-leaflet-geocoder';
 import * as ELG from 'esri-leaflet-geocoder';
 import * as Geocoding from 'esri-leaflet-geocoder';
@@ -26,6 +28,7 @@ import { DateformateService } from 'src/app/shared/services/dateformate.service'
   styleUrls: ['./map-info.component.scss']
 })
 export class MapInfoComponent implements OnInit {
+  public selectedIcon:string;
   baseMaps
   map
   historyBar
@@ -120,9 +123,9 @@ export class MapInfoComponent implements OnInit {
     });
 
     this.myIcon4 = L.icon({
-      iconUrl: './assets/client/images/nn.png',
-      iconSize: [0, 0],
-      iconAnchor: [0, 0],
+      iconUrl: './assets/client/images/car.png',
+      iconSize: [40, 80],
+      iconAnchor: [12, 69],
       color: 'green',
       className: 'icon'
 
@@ -191,18 +194,8 @@ export class MapInfoComponent implements OnInit {
       visible: false
     }).addTo(this.map);;
 
-
-
     var mook = []
-    var line=[1,4,5,6,7,8]
-    var lineArray={}
-    var lineArray1=[]
-    var lineArray2=[]
-    var lineArray3=[]
-    var lineArray4=[]
-    var lineArray5=[]
-   
-    
+     
     this.cusmapService.deviceDataCatch.subscribe(res => {
       if (res) {
         console.log(res)
@@ -228,7 +221,14 @@ export class MapInfoComponent implements OnInit {
           //this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           //var mook
           res.forEach(elem => {
-            mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(elem.name + " <br> Address: " + elem.contact
+             console.log(elem.category)
+            if(elem.category=="Car"){
+              this.selectedIcon=this.myIcon4
+            }
+            if(elem.category=="motorcycle"){
+              this.selectedIcon=this.myIcon3
+            }
+            mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.selectedIcon }).bindPopup(elem.name + " <br> Address: " + elem.contact
               + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).bindTooltip(elem.name, {
                 direction: 'left', offset: [15, -45], permanent: true
             }).addTo(this.map)
@@ -274,13 +274,15 @@ export class MapInfoComponent implements OnInit {
                 console.log(element.name)
                 var attribute=JSON.parse(element.attributes)
                 //var popup = L.popup().setContent('<a class="click" href="#">click</a>');
-                // this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
+                // this.marker = mook[element.deviceid].setLatLng([element.latitude+.15, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
                 //   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false })
                  
-                this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
-                + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false })
+                this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {animate: true,duration: 5000,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
+                + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
+                
                 
                   this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude));
+   
                   // lineArray[element.deviceid]=lineArray1.push([element.latitude, element.longitude]);
                    //this.line[element.deviceid] = L.polyline( [element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);
 

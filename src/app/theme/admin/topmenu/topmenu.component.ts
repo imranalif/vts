@@ -307,6 +307,29 @@ mediaSub: Subscription;
         }
       ]
     },
+    {
+      displayName: 'Geofences',
+      iconName: 'handyman',
+      route: 'admin/traccar/geofences',
+      permission: 'geofence_link',
+      children: [
+        {
+          displayName: 'Geofence List',
+          iconName: 'list',
+          route: 'admin/traccar/geofences/list',
+          color: '#c1c1c1',
+          permission:'geofence_list',
+
+        },
+        {
+          displayName: 'Geofence Add',
+          iconName: 'add',
+          route: 'admin/traccar/geofences/add',
+          color: '#c1c1c1',
+          permission:'geofence_add',
+        }
+      ]
+    },
 
     {
       displayName: 'Groups',
