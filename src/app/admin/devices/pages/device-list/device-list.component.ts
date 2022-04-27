@@ -118,8 +118,6 @@ export class DeviceListComponent implements OnInit {
       this.dataSource = new MatTableDataSource(res as any);
       setTimeout(() => (this.dataSource.sort = this.sort));
       setTimeout(() => (this.dataSource.paginator = this.paginator));
-
-
     });
   }
 

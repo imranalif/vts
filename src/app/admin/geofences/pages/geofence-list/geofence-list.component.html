@@ -1,1 +1,89 @@
-<p>geofence-list works!</p>
+<div class="custom-style">
+    <div class="table-title">
+      <h3>Geofence Table</h3>
+    </div>
+    <div class="search-div" fxLayout="row" fxLayout.xs="column">
+      <div fxFlex=75%>
+  
+      </div>
+      <div fxFlex=25% fxFlex.xs=100% >
+  
+        <!-- <button mat-button class="search_button" class="mat-stroked-button mat-primary " (click)="cleanForm(myform)"
+          (click)="getDeviceBySearch()">
+          Search
+        </button>
+        <button mat-button class="back_button" class="mat-stroked-button mat-primary " (click)="getBack()">
+          Clear
+        </button> -->
+        <span class="addButton">
+          <button class="export_button" mat-button class="mat-raised-button mat-primary " (click)="goAddPage()">
+            Add
+          </button>
+        </span>
+  
+        <button class="export_button" mat-button class="mat-raised-button mat-primary "
+          (click)="exporter.exportTable('csv',{fileName:'Customer'})">
+          EXP
+        </button>
+        <!-- <button class="export_button" mat-button class="mat-raised-button mat-primary " (click)=exportPdf()>
+          PDF
+        </button> -->
+  
+      </div>
+    </div>
+    <div class="table_container">
+    <table mat-table matTableExporter [dataSource]="dataSource" matSort #exporter="matTableExporter" [hiddenColumns]="[0]"
+      class="mat-elevation-z8">
+  
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button *ngIf="assigedRole.includes('geofence_edit')==true">
+            <mat-icon (click)="editGeofence(row)">edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" *ngIf="assigedRole.includes('geofence_delete')==true">
+            <mat-icon (click)="deleteGeofence(row)">delete_outline</mat-icon>
+          </button>
+          <!-- <button mat-icon-button [matMenuTriggerFor]="setting" color="info"
+            *ngIf="assigedRole.includes('device_setting')==true">
+            <mat-icon (click)="settingDevice(row)">settings</mat-icon>
+          </button> -->
+          
+  
+          
+  
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+        <td mat-cell *matCellDef="let element ; let i = index;">{{ i+1 }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+      </ng-container>
+  
+ 
+  
+  
+      <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  
+   
+    <mat-card *ngIf="isLoading" style="display:flex; justify-content: center; align-items: center">
+      <mat-progress-spinner color="primary" mode="indeterminate">
+      </mat-progress-spinner>
+    </mat-card>
+    
+    <!-- <mat-card class="notfoundbox"  *ngIf="geofences.length()==0">
+      No Records Found!
+      </mat-card> -->

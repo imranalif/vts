@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'src/app/shared/services/dialog.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog/";
+import { MatDialog,MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog/";
 
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';

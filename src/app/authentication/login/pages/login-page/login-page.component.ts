@@ -19,6 +19,7 @@ export class LoginPageComponent implements OnInit {
   submitted = false;
   roles = [];
   public isLoading :boolean = false;
+  public loginAttemp :boolean = true;
   constructor(private fb: FormBuilder,
     private loginService: LoginService,
     private roleService: RoleService,
@@ -34,7 +35,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   login(): void {
-    this.isLoading = true;
+   
     this.myform.markAllAsTouched();
     this.submitted = true;
     if (this.myform.invalid) {
@@ -42,6 +43,8 @@ export class LoginPageComponent implements OnInit {
       return;
     }
     this.loginService.login(this.myform.value).subscribe(res => {
+      this.loginAttemp=false
+      this.isLoading = true;
       if(res.data.user_type=="Customer"){
         this.isLoading = false;
         sessionStorage.setItem('accessToken', res.accessToken);

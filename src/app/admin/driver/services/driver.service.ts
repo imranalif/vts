@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 export class DriverService {
 
   constructor(private http: HttpClient) { }
-  private url = environment.apiUrl + '/driver/';
+  private url :string = environment.apiUrl + '/driver/';
 
   addDriver(data){
     return this.http.post(this.url + '/addDriver', data);

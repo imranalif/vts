@@ -523,6 +523,21 @@ export class UserInfoComponent implements OnInit {
     })
 
 
+    var circle = L.circle([23.774252395907105, 90.41607082790188], {
+      color: 'red',
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: 50
+  }).addTo(this.map);
+  circle.bindTooltip("Bdcom",{
+    permanent: true
+});
+
+var polygon = L.polygon([
+  [51.509, -0.08],
+  [51.503, -0.06],
+  [51.51, -0.047]
+]).addTo(this.map);
 
     //this.getAllPosition();
   }
