@@ -16,8 +16,10 @@ table{
 }
 
 .btn{
-    width: 30px !important;
-    background-color: blue;
+    width: 40px !important;
+    margin-top: 5px;
+    border: 0px ;
+    background-color: #2c82d8;
     margin-left: 5px;
 }
 
@@ -85,6 +87,7 @@ mat-menu{
 
 .item{
     //float: left;
+    font-size: 12px;
     margin-bottom: 10px;
     margin-right: 2px;
 }
@@ -125,6 +128,13 @@ mat-menu{
     flex: 1 1 auto;
     color: yellow !important;
 }
+
+.b212{
+    float: right;
+    width: 10px;
+    flex: 1 1 auto;
+    color: rgb(3, 74, 16) !important;
+}
 .b213{
     float: right;
     flex: 1 1 auto;
@@ -138,5 +148,41 @@ mat-menu{
 
 .historytab{
     margin-left: 10%;
+}
+
+.menubt{
+    line-height: 0px;
+    font-size: 12px;
+    height: 30px;
+  }
+
+  .tabhide{
+      display: none !important;
+  }
+
+  ::ng-deep.mat-tab-label-History{
+   width: 0px !important;
+}
+
+// .mat-tab-header-pagination-chevron {
+//     border-style: none !important;
+//     border-width: 2px 2px 0 0;
+//     content: "";
+//     height: 8px;
+//     width: 8px;
+// }
+
+.mat-tab-header-pagination {
+    display: none;
+}
+
+.poiItem{
+    margin-top: 10px;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+.poiName{
+    margin-left: 10px;
 }
 

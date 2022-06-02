@@ -1,18 +1,19 @@
 <div class="container">
-    <mat-tab-group (selectedTabChange)="objectTab($event)" #allTabs>
+    <mat-tab-group [(selectedIndex)]="demo1TabIndex" (selectedTabChange)="objectTab($event)" #allTabs>
         <mat-tab label="Objects">
             <div *ngIf="customerDevices">
                 <div class="search-div">
                     <mat-form-field class="filter">
                         <input matInput placeholder="search" autocomplete="off"
                             (keyup)="applyFilter($event.target.value)" [checked]="box" />
+                            
                     </mat-form-field>
-
+                  
                     <button class="btn">
-                        +
+                        <mat-icon>list</mat-icon>
                     </button>
                     <button class="btn">
-                        -
+                        <mat-icon>add</mat-icon>
                     </button>
                 </div>
                 <div>
@@ -22,8 +23,8 @@
 
                                 <mat-expansion-panel-header>
                                     <mat-checkbox (click)="$event.stopPropagation()"
-                                        (keydown)="$event.stopPropagation()" (change)="checkByCustomer($event.checked,customer)"
-                                        [checked]="checkStateC(1)">
+                                        (keydown)="$event.stopPropagation()"
+                                        (change)="checkByCustomer($event.checked,customer)" [checked]="checkStateC(1)">
 
                                         {{customer[0]?.name}}
                                     </mat-checkbox>
@@ -33,30 +34,38 @@
 
                                 <div class="item" *ngFor="let val of customerDevices; let i=index  ">
                                     <!-- <div class="item"> -->
-                                        <div class="item">
-                                    <mat-checkbox class="name" [checked]="checkState(val.id)"
-                                        (change)="check($event.checked,val)">
+                                    <div class="item">
+                                        <mat-checkbox class="name" [checked]="checkState(val.id)"
+                                            (change)="check($event.checked,val)">
 
 
-                                    </mat-checkbox>
-                                   <span> <a class="devicename" (click)=getLocation(val)>{{val.name}}</a></span>
-                                    <a class="b2" [matMenuTriggerFor]="hospital">
-                                        <mat-icon>more_vert</mat-icon>
-                                    </a>
-                                    <span class="b21"><i class="fa fa-circle" aria-hidden="true"></i></span>
-                                    <span class="b213" *ngIf="deviceDataIndex">{{deviceDataIndex[val.deviceid]?.speed*1.852 | number}} km</span>
-                                    <div class="movingtime" *ngIf="deviceDataIndex">
-                                        {{deviceDataIndex[val.deviceid]?.servertime|date:'medium'}}
+                                        </mat-checkbox>
+                                        <span> <a class="devicename" (click)=getLocation(val)>{{val.name}}</a></span>
+                                        <a class="b2" [matMenuTriggerFor]="hospital">
+                                            <mat-icon>more_vert</mat-icon>
+                                        </a>
+                                        <span
+                                            [ngClass]="{'b21':!deviceDataIndex[val.deviceid]?.speed, 'b212':deviceDataIndex[val.deviceid]?.speed>0}"
+                                            class="b21"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                        <span class="b213"
+                                            *ngIf="deviceDataIndex">{{deviceDataIndex[val.deviceid]?.speed*1.852 |
+                                            number}} kmh</span>
+                                        <div class="movingtime" *ngIf="deviceDataIndex">
+                                            {{deviceDataIndex[val.deviceid]?.servertime|date:'medium'}}
+                                        </div>
+                                        <mat-menu class="dropdown-content" #hospital="matMenu">
+                                            <button class="menubt" mat-menu-item routerLink="/">Show history(last hour)</button>
+
+                                            <button class="menubt" mat-menu-item routerLink="/">Show history(today)</button>
+                                            <button class="menubt" mat-menu-item routerLink="/">Show history(yesterday)</button>
+                                            <button class="menubt" mat-menu-item routerLink="/">Follow</button>
+                                            <button class="menubt" mat-menu-item routerLink="/">Send command</button>
+                                            <button class="menubt" mat-menu-item routerLink="/">Edit</button>
+                                            <button class="menubt" mat-menu-item routerLink="/">Sharing</button>
+                                            <button class="menubt" mat-menu-item routerLink="/">Alerts</button>
+
+                                        </mat-menu>
                                     </div>
-                                    <mat-menu class="dropdown-content" #hospital="matMenu">
-                                        <button mat-menu-item routerLink="/">Hospital List</button>
-
-                                        <button mat-menu-item routerLink="info/map">
-                                            Hospital Map
-                                        </button>
-
-                                    </mat-menu>
-                                </div>
                                     <!-- </div> -->
                                 </div>
                                 <!-- </div> -->
@@ -114,17 +123,19 @@
         <mat-tab label="Events" *ngIf="customerDevices">
             <table mat-table matTableExporter [dataSource]="dataEvents" class="mat-elevation-z8">
 
-        
+
 
                 <ng-container matColumnDef="time">
                     <th mat-header-cell *matHeaderCellDef>Time</th>
-                    <td mat-cell *matCellDef="let element"><a (click)="eventInfo(element)">{{ element.eventtime|date:'medium' }}</a></td>
+                    <td mat-cell *matCellDef="let element"><a (click)="eventInfo(element)">{{
+                            element.eventtime|date:'medium' }}</a></td>
                 </ng-container>
 
 
                 <ng-container matColumnDef="device_id">
                     <th mat-header-cell *matHeaderCellDef>Name</th>
-                    <td mat-cell *matCellDef="let element"><a (click)="eventInfo(element)">{{ customerDevices[0]?.name }}</a></td>
+                    <td mat-cell *matCellDef="let element"><a (click)="eventInfo(element)">{{ customerDevices[0]?.name
+                            }}</a></td>
                 </ng-container>
 
                 <ng-container matColumnDef="event">
@@ -151,7 +162,7 @@
                 </mat-menu>
 
 
-           
+
 
                 <tr class="header-row" mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
                 <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
@@ -177,16 +188,18 @@
                     </mat-form-field>
 
                     <mat-form-field>
-                    
-                        <input matInput [owlDateTime]="dt1" formControlName="from_date" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+
+                        <input matInput [owlDateTime]="dt1" formControlName="from_date" [owlDateTimeTrigger]="dt1"
+                            placeholder="Date Time">
                         <owl-date-time #dt1></owl-date-time>
                     </mat-form-field>
 
-                    
+
 
                     <mat-form-field>
-                    
-                        <input matInput [owlDateTime]="dt2" formControlName="to_date" [owlDateTimeTrigger]="dt2" placeholder="To Time">
+
+                        <input matInput [owlDateTime]="dt2" formControlName="to_date" [owlDateTimeTrigger]="dt2"
+                            placeholder="To Time">
                         <owl-date-time #dt2></owl-date-time>
                     </mat-form-field>
                     <!-- <mat-form-field class="clock">
@@ -228,13 +241,53 @@
                 <mat-card *ngIf="isLoading" style="display:flex; justify-content: center; align-items: center">
                     <mat-progress-spinner color="primary" mode="indeterminate">
                     </mat-progress-spinner>
-                  </mat-card>
+                </mat-card>
             </div>
 
-            <div  *ngIf="historyData==''">
+            <div *ngIf="historyData==''">
                 No Records Found!
-                </div>
+            </div>
 
         </mat-tab>
+        <mat-tab label="Alerts" class="tabhide">
+
+            <h1>Alerts</h1>
+        </mat-tab>
+        <mat-tab label="Geogence" class="tabhide">
+
+            <h1>Geogence</h1>
+        </mat-tab>
+        <mat-tab label="Poi" class="tabhide">
+
+            <div class="search-div">
+                <mat-form-field class="filter">
+                    <input matInput placeholder="search" autocomplete="off"
+                        (keyup)="applyFilter($event.target.value)"  />
+                        
+                </mat-form-field>
+              
+                <button class="btn">
+                    <mat-icon>list</mat-icon>
+                </button>
+                <button class="btn">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <div class="item" *ngFor="let poi of pois">
+                <!-- <div class="item"> -->
+                <div class="poiItem">
+                    <mat-checkbox  [checked]="1"
+                        (change)="check($event.checked,val)">
+
+
+                    </mat-checkbox>
+                    <span> <a class="poiName">{{poi.name}}</a></span>
+                   
+                    
+                </div>
+                <!-- </div> -->
+            </div>
+        </mat-tab>
     </mat-tab-group>
+
 </div>

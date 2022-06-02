@@ -26,8 +26,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {OverlayModule} from '@angular/cdk/overlay';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 
@@ -49,7 +50,9 @@ const matComponent = [
   MatCheckboxModule,
   MatSidenavModule,
   MatListModule,
+  MatButtonToggleModule,
   MatAutocompleteModule,
+  MatTooltipModule,
    OwlDateTimeModule, OwlNativeDateTimeModule,
   MatProgressSpinnerModule,
   // MatDatetimepickerModule,

@@ -191,4 +191,8 @@ export class DeviceService {
     return this.http.delete(this.url + id + '/deleteDeviceCategory');
   }
 
+  getAllPois(): Observable<any> {
+    return this.http.get(this.url + '/listPois');
+  }
+
 }

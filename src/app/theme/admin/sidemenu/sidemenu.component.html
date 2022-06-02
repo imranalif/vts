@@ -1,5 +1,5 @@
 
-<a class="item" mat-list-item *ngIf="assigedRole.includes(item.permission)==true" [ngStyle]="{'padding-left': (depth * 12) + 'px','background-color': item.color}"
+<a class="item" mat-list-item  [ngStyle]="{'padding-left': (depth * 12) + 'px','background-color': item.color}"
   (click)="onItemSelected(item)"
   [ngClass]="{'active': item.route ? router.isActive(item.route, true): false, 'expanded': expanded}"
   class="menu-list-item">

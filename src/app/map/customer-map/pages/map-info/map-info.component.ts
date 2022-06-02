@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { map, tileLayer, animatedMarker, polyline } from 'leaflet';
 
+
+declare var google
+
+
+
 import { Subscription } from 'rxjs';
 
 import * as L from 'leaflet';
@@ -16,6 +21,7 @@ import * as ELG from 'esri-leaflet-geocoder';
 import * as Geocoding from 'esri-leaflet-geocoder';
 import 'leaflet-control-geocoder';
 import '/var/projects/angular/VTSApp/angular/node_modules/leaflet.motion/dist/leaflet.motion.min.js';
+import '/var/projects/angular/VTSApp/angular/node_modules/leaflet.animatedmarker/src/AnimatedMarker.js';
 import { CusmapService } from '../../services/cusmap.service';
 import { LoginService } from 'src/app/authentication/login/services/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,7 +34,8 @@ import { DateformateService } from 'src/app/shared/services/dateformate.service'
   styleUrls: ['./map-info.component.scss']
 })
 export class MapInfoComponent implements OnInit {
-  public selectedIcon:string;
+
+  public selectedIcon: string;
   baseMaps
   map
   historyBar
@@ -54,18 +61,18 @@ export class MapInfoComponent implements OnInit {
   storeLatlng = []
   polylineMotion
   timeArray = []
-  fixtimeArray=[]
+  fixtimeArray = []
   deviceIdArray = []
   fixtime
 
-  line=[]
+  line = []
   marking
   historyItem
   overlayMaps
   m: number;
   check;
   myInterval
-  setIntervalOption=0;
+  setIntervalOption = 0;
   //////////line drawing
   line1
   line2
@@ -74,7 +81,17 @@ export class MapInfoComponent implements OnInit {
   line5
   line6
 
-   polyline=[]
+  polyline = []
+
+  public s: boolean = true;
+  public h: boolean = false;
+  public poiActive: boolean = false;
+  public poiInactive: boolean = true;
+  public poiStatus: number = 1;
+  public active: boolean = false;
+  public inactive: boolean = true;
+  public checkValue = 1;
+  t
 
   constructor(
     private mediaObserver: MediaObserver,
@@ -95,6 +112,11 @@ export class MapInfoComponent implements OnInit {
         this.deviceXs = result.mqAlias === 'xs' ? true : false;
       }
     )
+
+
+
+
+
 
     this.myIcon = L.icon({
       iconUrl: './assets/client/images/mm.png',
@@ -123,8 +145,8 @@ export class MapInfoComponent implements OnInit {
     });
 
     this.myIcon4 = L.icon({
-      iconUrl: './assets/client/images/car.png',
-      iconSize: [40, 80],
+      iconUrl: `./assets/client/map_icons/${1}.png`,
+      //iconSize: [20, 40],
       iconAnchor: [12, 69],
       color: 'green',
       className: 'icon'
@@ -147,33 +169,55 @@ export class MapInfoComponent implements OnInit {
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
 
-    openStreet.addTo(this.map);
-    var items = L.layerGroup(this.markerArray);
+    var googleStreetsTraffic = L.tileLayer('https://{s}.google.com/vt/lyrs=m@221097413,traffic&x={x}&y={y}&z={z}', {
+      center: [33.590241, 130.421222],
+      maxZoom: 20,
+      subdomains: ['mt1', 'mt2', 'mt3']
+    });
 
+
+
+    var a = googleStreets.addTo(this.map);
+
+    var items = L.layerGroup(this.markerArray);
     var layerGroup = L.layerGroup().addTo(this.map);
+    var layerTooltip = L.layerGroup().addTo(this.map);
 
     this.baseMaps = {
       "OSM": openStreet,
-      "Google Map": googleStreets
+      "Google Map": googleStreets,
+      "Traffic": googleStreetsTraffic,
+      // "Google traffic": trafficLayer
     }
 
     this.overlayMaps = {
-      "Objects": layerGroup
+      "Objects": layerGroup,
 
       //"Names": this.names
     };
 
 
+
+
     // Vehicle Showing on Map
     var data = { id: 1 }
     this.deviceService.getMovingPosition(data).subscribe(res => {
-      console.log(res)
+
     })
 
 
 
     L.control.layers(this.baseMaps, this.overlayMaps).addTo(this.map);
 
+    /*============Which layer selected===============*/
+
+    //   this.map.on( 'baselayerchange', function (event) {
+    //     console.log('Layer name -> ', event.name);
+    //     console.log('Layer URL -> ', event.layer.options.url);
+    //     console.log('Layer attribution -> ', event.layer.options.attribution);
+    // });
+
+    // Bar start
     var sidebar = L.control.sidebar('sidebar').addTo(this.map);
     sidebar.show();
     L.easyButton('fa-exchange', function (btn, map) {
@@ -192,10 +236,13 @@ export class MapInfoComponent implements OnInit {
     this.historyBar = L.control.bar('history', {
       position: 'bottom',
       visible: false
-    }).addTo(this.map);;
+    }).addTo(this.map);
+    // Bar end
 
     var mook = []
-     
+    var tooltip = []
+    /*============================ Device Move  ====================*/
+
     this.cusmapService.deviceDataCatch.subscribe(res => {
       if (res) {
         console.log(res)
@@ -205,49 +252,46 @@ export class MapInfoComponent implements OnInit {
           this.deviceIdArray.push(res[0].deviceid)
 
           //drawing path with device id
-          this.polyline[res[0].deviceid]= L.polyline([]).addTo(this.map);
+          this.polyline[res[0].deviceid] = L.polyline([]).addTo(this.map);
 
 
-          if(!this.fixtime){
+          if (!this.fixtime) {
             console.log("11111")
-            this.fixtime='2020-08-18T05:42:11.000Z';
+            this.fixtime = '2020-08-18T05:42:11.000Z';
             this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           }
           res[0].fixtime = this.dateFormatService.dateTime('datetime', res[0].fixtime)
-          if(this.fixtime < res[0].fixtime){
+          if (this.fixtime < res[0].fixtime) {
             this.fixtime = res[0].fixtime
           }
-          
+
           //this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           //var mook
           res.forEach(elem => {
-             console.log(elem.category)
-            if(elem.category=="Car"){
-              this.selectedIcon=this.myIcon4
+            console.log(elem.category)
+            if (elem.category == "Car") {
+              this.selectedIcon = this.myIcon4
             }
-            if(elem.category=="motorcycle"){
-              this.selectedIcon=this.myIcon3
+            if (elem.category == "motorcycle") {
+              this.selectedIcon = this.myIcon3
             }
             mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.selectedIcon }).bindPopup(elem.name + " <br> Address: " + elem.contact
               + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).bindTooltip(elem.name, {
-                direction: 'left', offset: [15, -45], permanent: true
-            }).addTo(this.map)
+                direction: 'left', offset: [15, -45], permanent: false
+              }).addTo(this.map)
             //var popup = L.popup().setContent('<a class="click" href="#">click</a>');
             // mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(popup).bindTooltip(elem.name, {
             //     direction: 'left', offset: [15, -45], permanent: true
             // }).addTo(this.map)
             layerGroup.addLayer(mook[elem.deviceid]);
+
           })
         }
-        
         // this.deviceIdArray.forEach(element => {
         //   this.polyline[element]= L.polyline([]).addTo(this.map);
         // });
-
-        
-      
         this.myInterval = setInterval(() => {
-          
+
           this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           var data = { id: this.deviceIdArray, fixtime: this.fixtime }
           if (this.check == 1) {
@@ -263,45 +307,55 @@ export class MapInfoComponent implements OnInit {
                 //    console.log(element.name)
                 //   this.cusmapService.detailsDataExchange(element);
                 // })
-
-
-               
-
                 var marker
                 //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
                 var markers = L.layerGroup()
                 this.markerArray = L.layerGroup()
-                console.log(element.name)
-                var attribute=JSON.parse(element.attributes)
+                var attribute = JSON.parse(element.attributes)
                 //var popup = L.popup().setContent('<a class="click" href="#">click</a>');
                 // this.marker = mook[element.deviceid].setLatLng([element.latitude+.15, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
                 //   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false })
-                 
-                this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], {animate: true,duration: 5000,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
-                + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
-                
-                
-                  this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude));
-   
-                  // lineArray[element.deviceid]=lineArray1.push([element.latitude, element.longitude]);
-                   //this.line[element.deviceid] = L.polyline( [element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);
 
-                  
-                 
-                 
-    
-                  // this.line=L.polyline( lineArray, {color: 'red', clickable: 'true'}).addTo(this.map);
-                  // line[1]=L.polyline( lineArray1, {color: 'blue', clickable: 'true'}).addTo(this.map);
-                  // line[2]=L.polyline( lineArray2, {color: 'green', clickable: 'true'}).addTo(this.map);
-                  // line[3]=L.polyline( lineArray3, {color: 'brown', clickable: 'true'}).addTo(this.map);
-                  // line[4]=L.polyline( lineArray4, {color: 'purple', clickable: 'true'}).addTo(this.map);
-                  // line[5]=L.polyline( lineArray5, {color: 'orange', clickable: 'true'}).addTo(this.map);
+                const lt = (element.latitude - mook[element.deviceid].getLatLng().lat) / 100;
+                const ln = (element.longitude - mook[element.deviceid].getLatLng().lng) / 100;
+                // this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], { animate: true, duration: 5000, color: 'red' }).bindPopup("Name:" + " <br> Address: " + element.latitude + "," + element.longitude
+                //   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
+
+var polyline=[]
+polyline[element.deviceid]=L.polyline([]).addTo(this.map);
+var li
+                 //this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude));
+                var i = 0;
+                function move() {
+                  i = i + 1;
+                  var newLat = mook[element.deviceid].getLatLng().lat + lt;
+                   var newLng = mook[element.deviceid].getLatLng().lng + ln;
+                   li = polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng));
+                  this.marker = mook[element.deviceid].setLatLng([newLat, newLng], { animate: true, duration: 5000, color: 'red' }).bindPopup("Name:" + " <br> Address: " + element.latitude + "," + element.longitude
+                    + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
+
+                  if (i == 100) {
+                    clearTimeout(myTimeout);
+                  }
+                  //this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng));
+                }
+
+                const myTimeout = setInterval(move, 50);
+
+                //               var line = L.polyline([[mook[element.deviceid].getLatLng().lat, mook[element.deviceid].getLatLng().lng],[element.latitude, element.longitude]]),
+                //      animatedMarker = L.animatedMarker(line.getLatLngs(),{
+                //       icon: this.myIcon3
+                //     });
+                // this.map.addLayer(animatedMarker);
+
+                // lineArray[element.deviceid]=lineArray1.push([element.latitude, element.longitude]);
+                //this.line[element.deviceid] = L.polyline( [element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);
+                // this.line=L.polyline( lineArray, {color: 'red', clickable: 'true'}).addTo(this.map);
                 //if (element) {
-                  
-                  //this.line[element.deviceid] = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
-                  //this.line[element.deviceid] = L.polyline([element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);;
-  //                 var animatedMarker = L.animatedMarker(this.line[element.deviceid].getLatLngs());
-	// this.map.addLayer(animatedMarker);
+                //this.line[element.deviceid] = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
+                //this.line[element.deviceid] = L.polyline([element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);;
+                //                 var animatedMarker = L.animatedMarker(this.line[element.deviceid].getLatLngs());
+                // this.map.addLayer(animatedMarker);
 
                 //}
 
@@ -312,6 +366,8 @@ export class MapInfoComponent implements OnInit {
       }
     })
 
+    /*============================ Device remoce from map  ====================*/
+
     this.cusmapService.deviceRemoveFromMap.subscribe(data => {
       if (data) {
         // this.check = 0;
@@ -319,20 +375,19 @@ export class MapInfoComponent implements OnInit {
         // clearInterval(this.myInterval);
         //console.log(this.markerArray)
         data.forEach(element => {
-          if(element.deviceid){
-            element.id=element.deviceid
+          if (element.deviceid) {
+            element.id = element.deviceid
           }
           this.deviceIdArray = this.deviceIdArray.filter(item => item !== element.id)
           console.log(element.id)
           this.map.removeLayer(mook[element.id])
-          if(this.polyline[element.id]){
-          this.map.removeLayer(this.polyline[element.id])
-        }
+          if (this.polyline[element.id]) {
+            this.map.removeLayer(this.polyline[element.id])
+          }
 
         })
 
         if (this.deviceIdArray.length <= 0) {
-          console.log("check")
           this.check = 0;
           clearInterval(this.myInterval);
         }
@@ -341,15 +396,17 @@ export class MapInfoComponent implements OnInit {
 
     this.cusmapService.deviceLocationCatch.subscribe(res => {
       if (res) {
-        this.map.panTo(new L.LatLng(res[0].latitude, res[0].longitude));
+        //this.map.panTo(new L.LatLng(res[0].latitude, res[0].longitude));
+        this.map.flyTo([res[0].latitude, res[0].longitude], 17, { duration: 1 });
       }
     })
     this.cusmapService.detailsDataCatch.subscribe(res => {
       if (res) {
         controlBar.show();
-      }})
+      }
+    })
 
-    // eventInfomation showing
+    /*============================ Events  ====================*/
 
     this.cusmapService.eventCatch.subscribe(res => {
 
@@ -361,12 +418,14 @@ export class MapInfoComponent implements OnInit {
           address = (results[0].name)
         })
 
-        var eventMarkar = L.marker([res[0].latitude, res[0].longitude], { icon: this.myIcon4 }).addTo(this.map).bindPopup("<b>" + res[0].name + "</b>" + " <br> Address: " + address 
+        var eventMarkar = L.marker([res[0].latitude, res[0].longitude], { icon: this.myIcon4 }).addTo(this.map).bindPopup("<b>" + res[0].name + "</b>" + " <br> Address: " + address
           + " <br> Latitude: " + res[0].latitude + " <br> Longitude: " + res[0].longitude + " <br> Altitude: " + res[0].altitude + " <br> Speed: " + res[0].speed
           + " <br> Time: " + res[0].eventtime, { closeOnClick: true, autoClose: false }).openPopup();
         this.map.panTo(new L.LatLng(res[0].latitude, res[0].longitude));
       }
     })
+
+    /*============================ Device History  ====================*/
 
     this.cusmapService.deviceHistoryCatch.subscribe(res => {
       console.log(res)
@@ -379,11 +438,11 @@ export class MapInfoComponent implements OnInit {
         //this.viewHistory=1
         var polyline = L.polyline([]).addTo(this.map);
         this.positions = res;
-        this.storeLatlng=[];
+        this.storeLatlng = [];
         if (this.positions != "") {
           this.map.setView(new L.LatLng(this.positions[0].latitude, this.positions[0].longitude), 13);
           this.positions.forEach((element, i) => {
-            
+
             let expireTime = new Date(element.servertime);
             let fixTime = new Date(element.fixtime);
             this.timeArray.push(expireTime)
@@ -396,10 +455,10 @@ export class MapInfoComponent implements OnInit {
               this.engineArray.push(this.engine)
               this.history = L.layerGroup(this.engineArray);
             }
-           var address
+            var address
             if (time < 20 && time > 5) {
-              this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindPopup(element.deviceid + " <br> Address: "  + address
-              + " <br> Latitude: " + element.latitude + " <br> Longitude: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Altitude: " + element.altitude + " <br> Speed: " + element.speed , { closeOnClick: false, autoClose: false }).openPopup().addTo(this.map);
+              this.park = L.marker([element.latitude, element.longitude], { icon: this.myIcon2 }).bindPopup(element.deviceid + " <br> Address: " + address
+                + " <br> Latitude: " + element.latitude + " <br> Longitude: " + element.longitude + " <br> Servertime: " + element.servertime + " <br> Altitude: " + element.altitude + " <br> Speed: " + element.speed, { closeOnClick: false, autoClose: false }).openPopup().addTo(this.map);
               this.parkArray.push(this.park)
               this.parking = L.layerGroup(this.parkArray);
             }
@@ -407,7 +466,7 @@ export class MapInfoComponent implements OnInit {
 
             this.arrow = this.route.arrowheads({ size: '12px', color: 'red', yawn: 40, frequency: 10 });
             //this.marker.setLatLng([element.latitude,element.longitude]).bindTooltip("Loc:"+element.latitude+", "+element.longitude).addTo(this.map);
-           
+
             this.storeLatlng.push([element.latitude, element.longitude])
 
           });
@@ -421,10 +480,10 @@ export class MapInfoComponent implements OnInit {
 
           };
           //L.control.layers(this.baseMaps,this.overlayMaps).addTo(this.map);
-          if(this.parking){
+          if (this.parking) {
             this.parking.addTo(this.map)
           }
-          
+
           this.polylineMotion = L.motion
             .polyline(this.storeLatlng,
               {
@@ -459,7 +518,6 @@ export class MapInfoComponent implements OnInit {
 
     this.cusmapService.motionConCatch.subscribe(res => {
       if (res) {
-        console.log(res)
         this.polylineMotion.motionSpeed(res);
       }
     })
@@ -483,7 +541,7 @@ export class MapInfoComponent implements OnInit {
           this.map.removeLayer(this.parking);
         }
 
-        if(this.history){
+        if (this.history) {
           this.map.removeLayer(this.history);
         }
 
@@ -493,10 +551,100 @@ export class MapInfoComponent implements OnInit {
       }
     })
 
+    this.cusmapService.trafficCatch.subscribe(res => {
+      console.log(res)
+      if (res == 1) {
+        this.t = googleStreetsTraffic.addTo(this.map);
+      }
+    })
+
+    /*=====================POI===============================*/
+    var poimarker = [];
+    var poiMarkerGroup;
+    this.cusmapService.poiCatch.subscribe(res => {
+      console.log(res)
+      if (res) {
+        res.forEach(element => {
+          var poiIcon = L.icon({
+            iconUrl: `./assets/client/map_icons/${element.icon_id}.png`,
+            //iconSize: [20, 40],
+            iconAnchor: [0, 0],
+            color: 'green',
+            className: 'icon'
+
+          });
+          var coordinates = JSON.parse(element.coordinates);
+
+          var poi = L.marker([coordinates.lat, coordinates.lng], { icon: poiIcon })
+            .bindTooltip(element.name);
+          poimarker.push(poi);
+          // layerGroup.addLayer(poimarker[element.icon_id]);
+
+        })
+        poiMarkerGroup = L.layerGroup(poimarker);
+        poiMarkerGroup.addTo(this.map);
+      }
+    })
+
+    this.cusmapService.poiRemoveCatch.subscribe(res => {
+      if (res) {
+        console.log(res)
+        this.map.removeLayer(poiMarkerGroup);
+      }
+
+    })
+
 
   }
 
+  public trafficTest(): void {
+    if (this.h == false) {
+      this.h = true;
+      this.poiActive = true;
+      this.poiInactive = false;
+      this.s = false;
+    }
 
+    else {
+      this.h = false;
+      this.s = true;
+      this.poiActive = false;
+      this.poiInactive = true;
+    }
+  }
+
+  public traffic(e): void {
+    console.log(e);
+    this.cusmapService.trafficExchange(e);
+    this.checkValue = 2;
+  }
+  public geofence(): void {
+
+  }
+  public getAllPoi(e): void {
+    if (e == 1) {
+      this.poiActive = true;
+      this.poiInactive = false;
+      this.deviceService.getAllPois().subscribe(res => {
+        this.cusmapService.poiExchange(res);
+      })
+      this.poiStatus = 2;
+    }
+
+    else {
+      var data = 1;
+      this.poiActive = false;
+      this.poiInactive = true;
+      this.cusmapService.poiRemoveExchange(data);
+      this.poiStatus = 1;
+    }
+
+  }
+
+  public goPoiTab(): void {
+    var poiTab = 5
+    this.cusmapService.poiTabExchange(poiTab);
+  }
 
   logout() {
     this.loginService.logout().subscribe(res => {

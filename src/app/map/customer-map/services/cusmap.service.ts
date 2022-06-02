@@ -22,6 +22,10 @@ export class CusmapService {
   private addressDataSent = new BehaviorSubject<any>("");
   private eventSent = new BehaviorSubject<any>("");
   private logoutEventSent = new BehaviorSubject<any>("");
+  private trafficSent = new BehaviorSubject<any>("");
+  private poiSent = new BehaviorSubject<any>("");
+  private poiRemoveSent = new BehaviorSubject<any>("");
+  private poiTabDataSent= new BehaviorSubject<any>("");
 
 
   public deviceDataCatch = this.deviceDataSent.asObservable();
@@ -38,6 +42,10 @@ export class CusmapService {
   public addressDataCatch = this.addressDataSent.asObservable();
   public eventCatch = this.eventSent.asObservable();
   public logoutEventCatch = this.logoutEventSent.asObservable();
+  public trafficCatch = this.trafficSent.asObservable();
+  public poiCatch = this.poiSent.asObservable();
+  public poiRemoveCatch = this.poiRemoveSent.asObservable();
+  public poiTabDataCatch = this.poiTabDataSent.asObservable();
 
 
   deviceDataExchange(text) {
@@ -97,5 +105,20 @@ export class CusmapService {
 
   logoutEventExchange(text) {
     this.logoutEventSent.next(text);
+  }
+
+  trafficExchange(text) {
+    this.trafficSent.next(text);
+  }
+
+  poiExchange(text) {
+    this.poiSent.next(text);
+  }
+
+  poiRemoveExchange(text) {
+    this.poiRemoveSent.next(text);
+  }
+  poiTabExchange(text) {
+    this.poiTabDataSent.next(text);
   }
 }

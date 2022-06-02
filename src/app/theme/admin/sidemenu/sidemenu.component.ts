@@ -33,7 +33,7 @@ const DEFAULT_DURATION = 300;
 
 export class SidemenuComponent implements OnInit {
   assigedRole = [];
-  expanded: boolean;
+  expanded!: boolean;
   rolesArray = ['admin', 'superAdmin', 'agent'];
   @HostBinding('attr.aria-expanded') ariaExpanded = this.expanded;
   @Input() item: NavItem;
