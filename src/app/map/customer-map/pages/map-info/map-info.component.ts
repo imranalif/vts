@@ -223,7 +223,7 @@ export class MapInfoComponent implements OnInit {
 
 
 
-    L.control.layers(this.baseMaps, this.overlayMaps).addTo(this.map);
+    var layerControl=L.control.layers(this.baseMaps, this.overlayMaps).addTo(this.map);
 
 
     this.cusmapService.poiDrawCatch.subscribe(res => {
@@ -277,11 +277,14 @@ export class MapInfoComponent implements OnInit {
 
     /*============Which layer selected===============*/
 
-    //   this.map.on( 'baselayerchange', function (event) {
-    //     console.log('Layer name -> ', event.name);
-    //     console.log('Layer URL -> ', event.layer.options.url);
-    //     console.log('Layer attribution -> ', event.layer.options.attribution);
-    // });
+      this.map.on( 'baselayerchange', function (event) {
+        if(event.name=="OSM"){
+          layerControl.addOverlay(googleStreetsTraffic, "Parks");
+        }
+        console.log('Layer name -> ', event.name);
+        console.log('Layer URL -> ', event.layer.options.url);
+        console.log('Layer attribution -> ', event.layer.options.attribution);
+    });
 
     // Bar start
     var sidebar = L.control.sidebar('sidebar').addTo(this.map);
