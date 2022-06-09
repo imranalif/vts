@@ -281,6 +281,9 @@ export class MapInfoComponent implements OnInit {
         if(event.name=="OSM"){
           layerControl.addOverlay(googleStreetsTraffic, "Parks");
         }
+        else{
+          layerControl.removeOverlay(googleStreetsTraffic, "Parks");
+        }
         console.log('Layer name -> ', event.name);
         console.log('Layer URL -> ', event.layer.options.url);
         console.log('Layer attribution -> ', event.layer.options.attribution);
