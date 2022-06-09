@@ -186,3 +186,133 @@ mat-menu{
     margin-left: 10px;
 }
 
+::ng-deep .tabs .mat-tab-list .mat-tab-labels {
+    display: none;
+}
+
+.poiField{
+    width: 80%;
+    margin-left: 10%;
+}
+
+.poiInsertInfo{
+    
+    height: 40px;
+    margin-top: 3%;
+   margin-left: 5%;
+   margin-right: 5%;
+    background-color: #d9edf7;
+}
+.poiInsertInfo p{
+    text-align: center;
+    padding-top: 10px;
+    font-size: 14px;   
+    color: #31708f;
+}
+.option_icon{
+    width: 25%;
+    display: inline;
+}
+
+.action_div{
+  margin-left: 10%;
+  margin-top:5% ;
+}
+
+.cancel_span{
+    margin-left: 10%;
+   
+}
+
+// ul li{
+//     font-size: 15px;
+//    color: #000 !important;
+//     width: 30%;
+//     display: inline;
+//     text-decoration: none;
+//  margin-right: 10%;
+// }
+
+// ul li a {
+//     color: #000;
+  
+// }
+// ul li a.active::after {
+ 
+//     background-color: #8f3186;
+// }
+// ul li :hover {
+ 
+//     background-color: #8f3186;
+// }
+.content{
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #eee;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 12px 31.5px;
+    text-decoration: none;
+  }
+  
+  li a:hover:not(.active) {
+    background-color: white;
+  }
+  
+  li a.active::after {
+      color: #2c82d8;
+    background-color: #04AA6D;
+  }
+
+  .mapicon ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #eee;
+  }
+
+  .mapicon  li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 12px 14.5px;
+    text-decoration: none;
+  }
+  .mapicon  li a.ative::after {
+    background-color: #2cd8d8;
+  }
+
+  .active{
+    color: #2cd8d8 !important;
+    background-color: white;   
+  }
+  .inactiveTab{
+    color: black;
+    background-color: eee;   
+  }
+
+  .poiiconlabel{
+      margin-left: 10%;
+      color: #555;
+      margin-bottom: 5%;
+  }
+
+.btn{
+    cursor: pointer;
+}
+

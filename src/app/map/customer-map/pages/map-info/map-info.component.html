@@ -35,7 +35,7 @@
 
             <mat-menu  #menu="matMenu">
                 <button class="matbt" mat-menu-item ><mat-icon class="toolsIcon">notifications</mat-icon>Alerts</button>
-                <button class="matbt" mat-menu-item ><mat-icon class="toolsIcon">fence</mat-icon>Geofencing</button>
+                <button class="matbt" mat-menu-item (click)="goGeofenceTab()"><mat-icon class="toolsIcon">fence</mat-icon>Geofencing</button>
                 <button class="matbt" mat-menu-item ><mat-icon class="toolsIcon">alt_route</mat-icon>Routes</button>
                 <button class="matbt" mat-menu-item ><mat-icon class="toolsIcon">signal_cellular_alt</mat-icon>Reports</button>
                 <button class="matbt" mat-menu-item (click)="goPoiTab()"><mat-icon class="toolsIcon" >room</mat-icon>POI</button>
@@ -75,19 +75,19 @@
 </div>
 <div id="mapid" style=" width: 100%; height: 90%;">
 
-    <button class="t_button" [ngClass]="{'geofenceActive': active, 'geofenceInactive': inactive}"   class="geofenceButton" (click)="geofence()"><mat-icon   matTooltip="Geofences"
+    <button class="map_button" [ngClass]="{'geofenceActive': geoActive, 'geofenceInactive': geoInactive}"   class="geofenceButton" (click)="geofence(geoStatus)"><mat-icon   matTooltip="Geofences"
         matTooltipPosition="left">fence</mat-icon></button>
    
-    <button class="t_button" [ngClass]="{'poiActive': poiActive, 'poiInactive': poiInactive}"   class="poiButton" (click)="getAllPoi(poiStatus)"><mat-icon   matTooltip="POI"
+    <button class="map_button" [ngClass]="{'poiActive': poiActive, 'poiInactive': poiInactive}"   class="poiButton" (click)="getAllPoi(poiStatus)"><mat-icon   matTooltip="POI"
         matTooltipPosition="left">room</mat-icon></button>
 
-        <button type="checkbox" class="t_button" [ngClass]="{'trafficActive': active, 'trafficInactive': inactive}"   class="trafficButton" (click)="traffic(checkValue)"><mat-icon   matTooltip="Traffic"
+        <!-- <button type="checkbox" class="t_button" [ngClass]="{'trafficActive': active, 'trafficInactive': inactive}"   class="trafficButton" (click)="traffic(checkValue)"><mat-icon   matTooltip="Traffic"
             matTooltipPosition="left">drag_indicator</mat-icon></button>
 
             <label class="container" >
                 <input type="checkbox" checked="checked">
                 <span class="checkmark"></span>
-              </label>
+              </label> -->
 </div>
 
 <div id="sidebar" style=" width: 100%; height: 100%;">

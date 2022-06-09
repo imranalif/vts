@@ -26,6 +26,11 @@ export class CusmapService {
   private poiSent = new BehaviorSubject<any>("");
   private poiRemoveSent = new BehaviorSubject<any>("");
   private poiTabDataSent= new BehaviorSubject<any>("");
+  private poiDrawSent= new BehaviorSubject<any>("");
+  private poiLatLngSent= new BehaviorSubject<any>("");
+  private geofenceSent= new BehaviorSubject<any>("");
+  private geofenceRemoveSent= new BehaviorSubject<any>("");
+  private geoTabDataSent= new BehaviorSubject<any>("");
 
 
   public deviceDataCatch = this.deviceDataSent.asObservable();
@@ -46,6 +51,11 @@ export class CusmapService {
   public poiCatch = this.poiSent.asObservable();
   public poiRemoveCatch = this.poiRemoveSent.asObservable();
   public poiTabDataCatch = this.poiTabDataSent.asObservable();
+  public poiDrawCatch = this.poiDrawSent.asObservable();
+  public poiLatLngCatch = this.poiLatLngSent.asObservable();
+  public geofenceCatch = this.geofenceSent.asObservable();
+  public geofenceRemoveCatch = this.geofenceRemoveSent.asObservable();
+  public geoTabDataCatch = this.geoTabDataSent.asObservable();
 
 
   deviceDataExchange(text) {
@@ -120,5 +130,20 @@ export class CusmapService {
   }
   poiTabExchange(text) {
     this.poiTabDataSent.next(text);
+  }
+  poiDrawExchange(text) {
+    this.poiDrawSent.next(text);
+  }
+  poiLatLngExchange(text) {
+    this.poiLatLngSent.next(text);
+  }
+  geofenceExchange(geofenceData) {
+    this.geofenceSent.next(geofenceData);
+  }
+  geofenceRemoveExchange(geofenceRemove) {
+    this.geofenceRemoveSent.next(geofenceRemove);
+  }
+  geoTabDataExchange(text) {
+    this.geoTabDataSent.next(text);
   }
 }

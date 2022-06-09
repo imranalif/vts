@@ -195,4 +195,8 @@ export class DeviceService {
     return this.http.get(this.url + '/listPois');
   }
 
+  addPois(data): Observable<any>{
+    return this.http.post(this.url + '/addPois', data);
+  }
+
 }

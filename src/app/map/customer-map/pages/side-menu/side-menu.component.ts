@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,19 +7,21 @@ import { DeviceService } from 'src/app/admin/devices/services/device.service';
 import { CusmapService } from '../../services/cusmap.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { DateformateService } from 'src/app/shared/services/dateformate.service';
+import { GeofenceService } from 'src/app/admin/geofences/services/geofence.service';
 
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.scss']
 })
-export class SideMenuComponent implements OnInit {
+export class SideMenuComponent implements OnInit,AfterContentChecked {
   devicesArray
   deviceCurrentData = []
   deviceDataT
   deviceData = []
   deviceDataIndex = []
   myform: FormGroup;
+  poiForm: FormGroup;
   Id
   customer
   customerDevices
@@ -32,14 +34,24 @@ export class SideMenuComponent implements OnInit {
   Events
   poiShow=1;
 
-  public demo1TabIndex = 0;
+  public selectedTabIndex = 0;
   public pois=[];
+  public poiLatLng;
+  userData;
+
+ public geofences=[];
+
+  public act:boolean=true;
+  public inact:boolean=false;
+  activeTab=1;
+  activeIcon=1;
 
   deviceId
   locationData
   dataSource = new MatTableDataSource<any>([]);
   dataEvents = new MatTableDataSource<any>([]);
   //displayedColumns = ['select',  'name', 'more'];
+  categories = [{ id: 1, value: 1 }, { id: 0, value: 2 }, { id: 0, value: 3 }, { id: 0, value: 4 }, { id: 0, value: 5 }];
   displayedColumns2 = ['time', 'device_id', 'event', 'more'];
   selected;
   isLoading
@@ -49,7 +61,9 @@ export class SideMenuComponent implements OnInit {
     private customerService: CustomerService,
     private deviceService: DeviceService,
     private cusmapService: CusmapService,
-    private dateFormatService: DateformateService
+    private dateFormatService: DateformateService,
+    private geofenceService: GeofenceService,
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -62,7 +76,16 @@ export class SideMenuComponent implements OnInit {
       d: ['']
     });
 
+    this.poiForm = this.fb.group({
+      name: [],
+      description: [''],
+      group: [],
+      poi_icon: [],
+      coordinates:['']
+     
+    });
 
+    
     this.route.paramMap.subscribe(params => {
       this.Id = params.get('id');
       this.getCustomerDevices(this.Id);
@@ -86,10 +109,31 @@ export class SideMenuComponent implements OnInit {
 
     this.cusmapService.poiTabDataCatch.subscribe(res => {
       if (res) {
-      this.demo1TabIndex=res;
+        this.activeTab=0;
+      this.selectedTabIndex=res;
       this.getAllPoi();
       }
     })
+
+    this.cusmapService.geoTabDataCatch.subscribe(res => {
+      if (res) {
+        this.activeTab=0;
+      this.selectedTabIndex=res;
+      this.getAllGeofence();
+      }
+    })
+
+    this.cusmapService.poiLatLngCatch.subscribe(res=>{
+      if(res){
+        this.poiLatLng=res;
+        console.log(res);
+      }
+    })
+
+  }
+
+  ngAfterContentChecked() {
+    this.ref.detectChanges();
   }
 
   getCustomerDevices(id) {
@@ -335,6 +379,61 @@ export class SideMenuComponent implements OnInit {
     this.deviceService.getAllPois().subscribe(res => {
       this.pois=res
     })
+  }
+
+  public getAllGeofence(): void{
+    this.geofenceService.getAllGeofence().subscribe(res => {
+      this.geofences = res;
+    })
+  }
+
+  public goPoiAddPage():void {
+this.selectedTabIndex=6;
+var draw=1;
+this.cusmapService.poiDrawExchange(draw);
+  }
+
+  public addPoi():void {
+    var drawDenied=0
+    this.cusmapService.poiDrawExchange(drawDenied);
+    this.poiForm.value.coordinates={"lat":this.poiLatLng.lat,"lng":this.poiLatLng.lng};
+    this.poiForm.value.poi_icon=this.activeIcon;
+    this.userData = JSON.parse(localStorage.getItem('userData'));
+    this.poiForm.value.created_by =1;
+    this.deviceService.addPois(this.poiForm.value).subscribe(res=>{
+      this.getAllPoi();
+      this.selectedTabIndex=5;
+    })
+  }
+
+  public goAfterPoiList():void{
+    this.getAllPoi();
+    this.selectedTabIndex=5;
+    var draw=0;
+    this.cusmapService.poiDrawExchange(draw);
+  }
+
+  public object(): void{
+    this.activeTab=1;
+    this.selectedTabIndex=0;
+    var draw=0;
+    this.cusmapService.poiDrawExchange(draw);
+  }
+  public event(): void{
+    this.activeTab=2;
+    this.selectedTabIndex=1;
+    var draw=0;
+    this.cusmapService.poiDrawExchange(draw);
+  }
+  public history(): void{
+    this.activeTab=3;
+    this.selectedTabIndex=2;
+    var draw=0;
+    this.cusmapService.poiDrawExchange(draw);
+  }
+ public iconAdding(i): void{
+  this.cusmapService.poiDrawExchange(i);
+this.activeIcon=i;
   }
 
 }

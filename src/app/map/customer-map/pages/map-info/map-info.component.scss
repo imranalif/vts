@@ -174,10 +174,9 @@ table td{
   color: #555;
 }
 
-// .t_button{
-//   border: 2px solid rgb(175, 171, 171);
-//   background-color: white;
-// }
+.map_button{
+ cursor: pointer;
+}
 mat-icon{
  background-color: 2px solid rgb(175, 171, 171);
 }
@@ -289,6 +288,8 @@ mat-icon{
 
 
 
-
+.u-turn-icon {
+  transform-origin: center;
+}
 
 

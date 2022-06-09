@@ -27,6 +27,7 @@ import { LoginService } from 'src/app/authentication/login/services/login.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceService } from 'src/app/admin/devices/services/device.service';
 import { DateformateService } from 'src/app/shared/services/dateformate.service';
+import { GeofenceService } from 'src/app/admin/geofences/services/geofence.service';
 
 @Component({
   selector: 'app-map-info',
@@ -88,10 +89,24 @@ export class MapInfoComponent implements OnInit {
   public poiActive: boolean = false;
   public poiInactive: boolean = true;
   public poiStatus: number = 1;
-  public active: boolean = false;
-  public inactive: boolean = true;
+
+  public geofences;
+  public geoActive: boolean = false;
+  public geoInactive: boolean = true;
+  public geoStatus: number = 1;
+
+  polygon
+  circle
+  public str: string = '1'
+  public getStr: string;
+  public getStrMap = [];
+  public getStrMapF = [];
+
   public checkValue = 1;
   t
+
+  public poiIcon: number = 1;
+  public poiSetStatus: number = 0;
 
   constructor(
     private mediaObserver: MediaObserver,
@@ -99,7 +114,8 @@ export class MapInfoComponent implements OnInit {
     private loginService: LoginService,
     private routing: Router,
     private deviceService: DeviceService,
-    private dateFormatService: DateformateService
+    private dateFormatService: DateformateService,
+    private geofenceService: GeofenceService
 
   ) { }
 
@@ -145,11 +161,11 @@ export class MapInfoComponent implements OnInit {
     });
 
     this.myIcon4 = L.icon({
-      iconUrl: `./assets/client/map_icons/${1}.png`,
+      iconUrl: `./assets/client/map_icons/car.png`,
       //iconSize: [20, 40],
       iconAnchor: [12, 69],
       color: 'green',
-      className: 'icon'
+      className: 'u-turn-icon'
 
     })
 
@@ -186,13 +202,13 @@ export class MapInfoComponent implements OnInit {
     this.baseMaps = {
       "OSM": openStreet,
       "Google Map": googleStreets,
-      "Traffic": googleStreetsTraffic,
+
       // "Google traffic": trafficLayer
     }
 
     this.overlayMaps = {
       "Objects": layerGroup,
-
+      "Traffic": googleStreetsTraffic,
       //"Names": this.names
     };
 
@@ -208,6 +224,56 @@ export class MapInfoComponent implements OnInit {
 
 
     L.control.layers(this.baseMaps, this.overlayMaps).addTo(this.map);
+
+
+    this.cusmapService.poiDrawCatch.subscribe(res => {
+      var marker
+      var iconid = res
+      var poi = this.cusmapService;
+      function setIcon(e) {
+        this.myIcon4 = L.icon({
+          iconUrl: `./assets/client/map_icons/${iconid}.png`,
+          //iconSize: [20, 40],
+          //iconAnchor: [12, 69],
+          color: 'green',
+          className: 'icon'
+
+        })
+        if (marker) {
+          layerGroup.removeLayer(marker)
+        }
+        marker = L.marker([e.latlng.lat, e.latlng.lng], { icon: this.myIcon4 })
+        marker.addTo(layerGroup);
+        poi.poiLatLngExchange(e.latlng);
+      }
+      console.log(res,this.poiSetStatus)
+      if (res && this.poiSetStatus) {
+        this.map.on('click', setIcon);
+        ;
+      }
+      else {
+        this.map.off('click');
+      }
+      //   {
+      //     var marker
+      //     this.myIcon4 = L.icon({
+      //       iconUrl: `./assets/client/map_icons/${1}.png`,
+      //       //iconSize: [20, 40],
+      //       //iconAnchor: [12, 69],
+      //       color: 'green',
+      //       className: 'icon'
+
+      //     })
+      //     // if(marker){
+      //     //   this.map.removeLayer(marker)
+      //     // }
+
+      //     marker = L.marker([e.latlng.lat, e.latlng.lng], { icon: this.myIcon4 })
+      //     marker.addTo(layerGroup);
+      //   });
+      // }
+    })
+
 
     /*============Which layer selected===============*/
 
@@ -275,7 +341,7 @@ export class MapInfoComponent implements OnInit {
             if (elem.category == "motorcycle") {
               this.selectedIcon = this.myIcon3
             }
-            mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.selectedIcon }).bindPopup(elem.name + " <br> Address: " + elem.contact
+            mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon4 }).bindPopup(elem.name + " <br> Address: " + elem.contact
               + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).bindTooltip(elem.name, {
                 direction: 'left', offset: [15, -45], permanent: false
               }).addTo(this.map)
@@ -321,16 +387,16 @@ export class MapInfoComponent implements OnInit {
                 // this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], { animate: true, duration: 5000, color: 'red' }).bindPopup("Name:" + " <br> Address: " + element.latitude + "," + element.longitude
                 //   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
 
-var polyline=[]
-polyline[element.deviceid]=L.polyline([]).addTo(this.map);
-var li
-                 //this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude));
+                var polyline = []
+                polyline[element.deviceid] = L.polyline([]).addTo(this.map);
+                var li
+                //this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude));
                 var i = 0;
                 function move() {
                   i = i + 1;
                   var newLat = mook[element.deviceid].getLatLng().lat + lt;
-                   var newLng = mook[element.deviceid].getLatLng().lng + ln;
-                   li = polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng));
+                  var newLng = mook[element.deviceid].getLatLng().lng + ln;
+                  li = polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng));
                   this.marker = mook[element.deviceid].setLatLng([newLat, newLng], { animate: true, duration: 5000, color: 'red' }).bindPopup("Name:" + " <br> Address: " + element.latitude + "," + element.longitude
                     + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
 
@@ -564,6 +630,7 @@ var li
     this.cusmapService.poiCatch.subscribe(res => {
       console.log(res)
       if (res) {
+        this.poiSetStatus = 1;
         res.forEach(element => {
           var poiIcon = L.icon({
             iconUrl: `./assets/client/map_icons/${element.icon_id}.png`,
@@ -590,35 +657,113 @@ var li
       if (res) {
         console.log(res)
         this.map.removeLayer(poiMarkerGroup);
+        this.poiSetStatus = 0;
       }
-
     })
 
+    // this.map.on('click', function(e){
+    //   var coord = e.latlng;
+    //   var lat = coord.lat;
+    //   var lng = coord.lng;
+    //   var poi = L.marker([lat, lng], { icon: this.myIcon3 });
+    //   poiMarkerGroup = L.layerGroup(poi);
+    //   poiMarkerGroup.addTo(this.map);
 
+    //   console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
+    //   });
+    /*=====================Geofence===============================*/
+    
+    var geofenceGroup;
+    this.cusmapService.geofenceCatch.subscribe(res => {
+      if (res) {
+        var geofence = [];
+        res.forEach(el => {
+          this.getStr = el.area;
+          console.log(el)
+          this.getStrMap = this.getStr.split(/[,()]/);
+          console.log(this.getStrMap[0].trim())
+
+          if (this.getStrMap[0].trim() == "POLYGON") {
+            this.getStrMap = this.getStrMap.slice(1, -1);
+            this.getStrMap.forEach(e => {
+              e = e.split(' ').join(',');
+              var array = e.split(',');
+              var lati = parseFloat(array[0]);
+              var lngi = parseFloat(array[1]);
+              this.getStrMapF.push([lati, lngi])
+            })
+            //console.log(this.getStrMap.split(' ').join(''))
+
+            var polygon = L.polygon(this.getStrMapF).bindTooltip(el.name,
+              {permanent: true, direction:"right"}
+             ).openTooltip();;
+            geofence.push(polygon);
+            // this.polygon.addTo(this.map);
+          }
+
+          if (this.getStrMap[0].trim() == "CIRCLE") {
+            this.getStrMap = this.getStrMap.slice(1, -1);
+            var e = this.getStrMap[0].split(' ').join(',')
+            var array = e.split(',');
+            var lat = parseFloat(array[0]);
+            var lng = parseFloat(array[1]);
+            var radi = parseFloat(this.getStrMap[1])
+
+
+            var circle = L.circle([lat, lng], {
+              color: '#68e05b',
+              fillColor: '#bbefcb',
+              fillOpacity: 0.5,
+              radius: radi
+            }).bindTooltip(el.name,
+            {permanent: true, direction:"right"}
+           ).openTooltip();
+            geofence.push(circle);
+
+
+          }
+
+        })
+        geofenceGroup = L.layerGroup(geofence);
+        geofenceGroup.addTo(this.map);
+      }
+     
+    })
+
+    this.cusmapService.geofenceRemoveCatch.subscribe(res => {
+      if (res) {
+
+        this.map.removeLayer(geofenceGroup);
+      
+      }
+    })
+    
   }
 
-  public trafficTest(): void {
-    if (this.h == false) {
-      this.h = true;
-      this.poiActive = true;
-      this.poiInactive = false;
-      this.s = false;
-    }
 
-    else {
-      this.h = false;
-      this.s = true;
-      this.poiActive = false;
-      this.poiInactive = true;
-    }
-  }
 
   public traffic(e): void {
     console.log(e);
     this.cusmapService.trafficExchange(e);
     this.checkValue = 2;
   }
-  public geofence(): void {
+  public geofence(event): void {
+    if (event == 1) {
+      this.geoActive = true
+      this.geoInactive = false;
+      this.geofenceService.getAllGeofence().subscribe(res => {
+        this.cusmapService.geofenceExchange(res);
+        this.geofences = res;
+      })
+      this.geoStatus = 2;
+    }
+    else {
+      this.geoActive = false
+      this.geoInactive = true;
+      var gf=1
+      this.cusmapService.geofenceRemoveExchange(gf);
+      this.geoStatus = 1;
+    }
 
   }
   public getAllPoi(e): void {
@@ -645,6 +790,13 @@ var li
     var poiTab = 5
     this.cusmapService.poiTabExchange(poiTab);
   }
+
+
+  public goGeofenceTab(): void {
+    var geoTab = 4
+    this.cusmapService.geoTabDataExchange(geoTab);
+  }
+
 
   logout() {
     this.loginService.logout().subscribe(res => {
