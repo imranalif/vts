@@ -1,19 +1,22 @@
 <div class="container">
-    <div class="menu">
+    <div class="menu" fxLayout="row">
         <ul>
-        <li  [ngClass]="1 === activeTab ? 'active' : 'none'" color="primary" class="btn-block" (click)="object()">
+        <li fxFlex="33%" [ngClass]="1 === activeTab ? 'active' : 'none'" color="primary" class="btn-block" (click)="object()">
            <a> Objects</a>
         </li>
-        <li [ngClass]="2 === activeTab ? 'active' : 'none'" color="primary" class="btn-block" (click)="event()">
+        <li fxFlex="33%" [ngClass]="2 === activeTab ? 'active' : 'none'" color="primary" class="btn-block" (click)="event()">
             <a>Events</a>
         </li>
-        <li [ngClass]="3 === activeTab ? 'active' : 'none'" color="primary" class="btn-block" (click)="history()">
+        <li fxFlex="33%" [ngClass]="3 === activeTab ? 'active' : 'none'" color="primary" class="btn-block" (click)="history()">
             <a>History</a>
         </li>
     </ul>
    
     </div>
     <div class="content">
+
+        <!---------------------------- Objects--------------------- -->
+
     <mat-tab-group class="tabs"  [(selectedIndex)]="selectedTabIndex"   (selectedTabChange)="objectTab($event)" #allTabs>
         <mat-tab   label="Objects">
             <div *ngIf="customerDevices">
@@ -39,7 +42,7 @@
                                 <mat-expansion-panel-header>
                                     <mat-checkbox (click)="$event.stopPropagation()"
                                         (keydown)="$event.stopPropagation()"
-                                        (change)="checkByCustomer($event.checked,customer)" [checked]="checkStateC(1)">
+                                        (change)="checkByCustomer($event.checked,customer)"  [checked]="checkStateC(1)">
 
                                         {{customer[0]?.name}}
                                     </mat-checkbox>
@@ -51,7 +54,7 @@
                                     <!-- <div class="item"> -->
                                     <div class="item">
                                         <mat-checkbox class="name" [checked]="checkState(val.id)"
-                                            (change)="check($event.checked,val)">
+                                            (change)="check($event.checked,val)" (keyup)="applyFilter($event.target.value)">
 
 
                                         </mat-checkbox>
@@ -60,7 +63,7 @@
                                             <mat-icon>more_vert</mat-icon>
                                         </a>
                                         <span
-                                            [ngClass]="{'b21':!deviceDataIndex[val.deviceid]?.speed, 'b212':deviceDataIndex[val.deviceid]?.speed>0}"
+                                            [ngClass]="{'b21':!deviceDataIndex[val.deviceid]?.speed, 'b212':deviceDataIndex[val.deviceid]?.speed>0,'b321':deviceDataIndex[val.deviceid]?.valid==0}"
                                             class="b21"><i class="fa fa-circle" aria-hidden="true"></i></span>
                                         <span class="b213"
                                             *ngIf="deviceDataIndex">{{deviceDataIndex[val.deviceid]?.speed*1.852 |
@@ -183,8 +186,8 @@
                 <tr class="row" mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
             </table>
         </mat-tab>
+        <!---------------------------- History--------------------- -->
         <mat-tab label="History">
-
             <div *ngIf="customerDevices" class="historytab">
                 <form [formGroup]="myform">
 
@@ -205,7 +208,7 @@
                     <mat-form-field>
 
                         <input matInput [owlDateTime]="dt1" formControlName="from_date" [owlDateTimeTrigger]="dt1"
-                            placeholder="Date Time">
+                            placeholder="From Time">
                         <owl-date-time #dt1></owl-date-time>
                     </mat-form-field>
 
@@ -262,14 +265,47 @@
             <div *ngIf="historyData==''">
                 No Records Found!
             </div>
-
         </mat-tab>
+
+        <!---------------------------- Alerts--------------------- -->
+
         <mat-tab  label="Alerts" class="tabhide">
 
-            <h1>Alerts</h1>
+            
+                <div class="search-div">
+                    <mat-form-field class="filter">
+                        <input matInput placeholder="search" autocomplete="off"
+                            (keyup)="applyFilter($event.target.value)"  />
+                            
+                    </mat-form-field>
+                  
+                    <button class="btn">
+                        <mat-icon>list</mat-icon>
+                    </button>
+                    <a><button class="btn" (click)="openAlertModal()">
+                       <mat-icon>add</mat-icon>
+                    </button></a>
+                </div>
+                <div class="item" *ngFor="let geo of geofences">
+                    <!-- <div class="item"> -->
+                    <div class="poiItem">
+                        <mat-checkbox  [checked]="1"
+                            (change)="check($event.checked,val)">
+    
+    
+                        </mat-checkbox>
+                        <span> <a class="poiName">{{geo.name}}</a></span>
+                       
+                        
+                    </div>
+                    <!-- </div> -->
+                </div>
+            
         </mat-tab>
-        <mat-tab label="Geogence" class="tabhide">
 
+         <!---------------------------- Geogence--------------------- -->
+
+        <mat-tab label="Geogence" class="tabhide">
             <div class="search-div">
                 <mat-form-field class="filter">
                     <input matInput placeholder="search" autocomplete="off"
@@ -280,7 +316,7 @@
                 <button class="btn">
                     <mat-icon>list</mat-icon>
                 </button>
-                <a><button class="btn" (click)="goPoiAddPage()">
+                <a><button class="btn" (click)="geofenceAdd()">
                    <mat-icon>add</mat-icon>
                 </button></a>
             </div>
@@ -299,8 +335,49 @@
                 <!-- </div> -->
             </div>
         </mat-tab>
-        <mat-tab label="Poi" class="tabhide">
 
+        <mat-tab label="Geofence Add">
+            <div  class="poiInsertInfo">
+                <p>Please draw geofence on map</p>
+            </div>
+            <form [formGroup]="geofenceForm">
+
+                <mat-form-field class="poiField">
+                    <input  matInput placeholder="Name" formControlName="name" autocomplete="off" required />
+                </mat-form-field>
+             
+            
+
+                <mat-form-field class="poiField">
+                    <mat-label>Group</mat-label>
+                    <mat-select formControlName="group">
+                        <mat-option  *ngFor="let state of categories" [value]="state.value">
+                            
+                            {{state.value}} 
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                
+
+               
+
+               
+            </form>
+            <div class="action_div">
+            <button class="save_button" mat-raised-button color="primary" class="btn-block" >
+               Save
+            </button>
+            <span class="cancel_span"></span>
+            <button class="cancel_button" mat-stroked-button color="primary" class="btn-block" >
+                Cancel
+             </button>
+            </div>
+        </mat-tab>
+
+        <!---------------------------- Poi--------------------- -->
+
+        <mat-tab label="Poi" class="tabhide">
             <div class="search-div">
                 <mat-form-field class="filter">
                     <input matInput placeholder="search" autocomplete="off"
@@ -393,3 +470,8 @@
 </div>
 
 </div>
+
+<mat-card *ngIf="isLoading" style="display:flex; justify-content: center; align-items: center">
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>

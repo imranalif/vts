@@ -50,10 +50,7 @@ export class BottomDetailsComponent implements OnInit {
       }
     })
     this.cusmapService.deviceDetailsCatch.subscribe(response => {
-   console.log("12122")
       if (response) {
-        console.log(response.deviceid)
-        console.log(this.deviceId)
          if(response.deviceid==this.deviceId){
         var latlng = { lat: response.latitude, lng: response.longitude }
         const v = L.Control.Geocoder.nominatim();

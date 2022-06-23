@@ -43,12 +43,13 @@ export class LoginPageComponent implements OnInit {
       return;
     }
     this.loginService.login(this.myform.value).subscribe(res => {
-      this.loginAttemp=false
+      this.loginAttemp=false;
       this.isLoading = true;
       if(res.data.user_type=="Customer"){
-        this.isLoading = false;
+        
         sessionStorage.setItem('accessToken', res.accessToken);
         sessionStorage.setItem('refreshToken', res.refreshToken);
+        this.isLoading = false;
         this.router.navigate(['/customer-map/info',res.data.id]);
         // this.customerService.getCustomerById(res.data.customer_id).subscribe(res=>{
         //   this.loginService.customerData(res)

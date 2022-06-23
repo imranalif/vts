@@ -1,3 +1,4 @@
+
 <div  [ngClass]="{'show': s, 'hide': h}"  id="t" class="mi" fxLayout="row" fxLayout.xs="column" color="primary">
 
 
@@ -34,8 +35,8 @@
             <button mat-button class="col" ><mat-icon  matTooltip="Chat">chat</mat-icon></button>
 
             <mat-menu  #menu="matMenu">
-                <button class="matbt" mat-menu-item ><mat-icon class="toolsIcon">notifications</mat-icon>Alerts</button>
-                <button class="matbt" mat-menu-item (click)="goGeofenceTab()"><mat-icon class="toolsIcon">fence</mat-icon>Geofencing</button>
+                <button class="matbt" mat-menu-item (click)="goGeofenceTab(3)"><mat-icon class="toolsIcon">notifications</mat-icon>Alerts</button>
+                <button class="matbt" mat-menu-item (click)="goGeofenceTab(4)"><mat-icon class="toolsIcon">fence</mat-icon>Geofencing</button>
                 <button class="matbt" mat-menu-item ><mat-icon class="toolsIcon">alt_route</mat-icon>Routes</button>
                 <button class="matbt" mat-menu-item ><mat-icon class="toolsIcon">signal_cellular_alt</mat-icon>Reports</button>
                 <button class="matbt" mat-menu-item (click)="goPoiTab()"><mat-icon class="toolsIcon" >room</mat-icon>POI</button>
@@ -80,6 +81,9 @@
    
     <button class="map_button" [ngClass]="{'poiActive': poiActive, 'poiInactive': poiInactive}"   class="poiButton" (click)="getAllPoi(poiStatus)"><mat-icon   matTooltip="POI"
         matTooltipPosition="left">room</mat-icon></button>
+
+        <button class="map_button" [ngClass]="{'tailActive': tailActive, 'tailInactive': tailInactive}"   class="tailButton" (click)="getAllPoi(poiStatus)"><mat-icon   matTooltip="Tails"
+            matTooltipPosition="left">trending_up</mat-icon></button>
 
         <!-- <button type="checkbox" class="t_button" [ngClass]="{'trafficActive': active, 'trafficInactive': inactive}"   class="trafficButton" (click)="traffic(checkValue)"><mat-icon   matTooltip="Traffic"
             matTooltipPosition="left">drag_indicator</mat-icon></button>

@@ -10,10 +10,11 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatDatetimepickerModule, MatNativeDatetimeModule } from "@mat-datetimepicker/core";
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AlertAddComponent } from './pages/alert-add/alert-add.component';
 
 
 @NgModule({
-  declarations: [SideMenuComponent, BottomDetailsComponent, HistoryInfoComponent, MapInfoComponent],
+  declarations: [SideMenuComponent, BottomDetailsComponent, HistoryInfoComponent, MapInfoComponent, AlertAddComponent],
   imports: [
     CommonModule,
     CustomerMapRoutingModule,

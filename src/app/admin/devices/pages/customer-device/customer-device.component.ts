@@ -37,6 +37,7 @@ devices
     this.Id = data.customer_id,
 this.reseller_id=data.id
 this.reseller=data.reseller
+console.log(this.reseller);
   }
   displayedColumns = ['select', 'name', 'identifier'];
   sms = [{ id: 1, value: 'true' }, { id: 0, value: 'false' }];

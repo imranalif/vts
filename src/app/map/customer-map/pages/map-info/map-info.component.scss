@@ -111,7 +111,16 @@ table td{
   top: 100px;
   right: 10px;
   //padding: 10px;
-  z-index: 4000;
+  z-index: 1000;
+}
+
+.tailButton {
+  position: absolute;
+  height: 30px;
+  top: 170px;
+  right: 10px;
+  //padding: 10px;
+  z-index: 1000;
 }
 
 .poiButton {
@@ -120,7 +129,7 @@ table td{
   top: 135px;
   right: 10px;
   //padding: 10px;
-  z-index: 4000;
+  z-index: 1000;
 }
 
 .trafficButton {
@@ -158,6 +167,17 @@ table td{
   color: #ffffff;
 }
 .poiInactive{
+  border: 0px ;
+  background-color: white;
+  color: #555;
+}
+
+.tailActive{
+  border: 0px ;
+  background-color: #2c82d8;
+  color: #ffffff;
+}
+.tailInactive{
   border: 0px ;
   background-color: white;
   color: #555;
@@ -289,7 +309,7 @@ mat-icon{
 
 
 .u-turn-icon {
-  transform-origin: center;
+  transform: rotate(20deg) !important
 }
 
 

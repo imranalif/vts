@@ -1,5 +1,6 @@
 import {AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from 'src/app/admin/customer/services/customer.service';
@@ -8,6 +9,7 @@ import { CusmapService } from '../../services/cusmap.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { DateformateService } from 'src/app/shared/services/dateformate.service';
 import { GeofenceService } from 'src/app/admin/geofences/services/geofence.service';
+import { AlertAddComponent } from '../alert-add/alert-add.component';
 
 @Component({
   selector: 'app-side-menu',
@@ -22,6 +24,7 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
   deviceDataIndex = []
   myform: FormGroup;
   poiForm: FormGroup;
+  geofenceForm: FormGroup;
   Id
   customer
   customerDevices
@@ -54,7 +57,7 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
   categories = [{ id: 1, value: 1 }, { id: 0, value: 2 }, { id: 0, value: 3 }, { id: 0, value: 4 }, { id: 0, value: 5 }];
   displayedColumns2 = ['time', 'device_id', 'event', 'more'];
   selected;
-  isLoading
+  public isLoading:boolean=true;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -63,7 +66,8 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
     private cusmapService: CusmapService,
     private dateFormatService: DateformateService,
     private geofenceService: GeofenceService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -85,6 +89,13 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
      
     });
 
+    this.geofenceForm = this.fb.group({
+      name: [],
+      group: [],
+      area:['']
+     
+    });
+
     
     this.route.paramMap.subscribe(params => {
       this.Id = params.get('id');
@@ -95,7 +106,6 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
 
     this.cusmapService.deviceDetailsCatch.subscribe(res => {
       if (res) {
-        console.log("menu time check")
         this.deviceData = []
         this.deviceData.push(res);
         this.deviceData.forEach((elem, i) => {
@@ -103,7 +113,6 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
         }
         );
         //this.deviceDataIndex[].speed=Math.round(this.deviceData.speed*1.852)
-        console.log(this.deviceData)
       }
     })
 
@@ -119,7 +128,13 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
       if (res) {
         this.activeTab=0;
       this.selectedTabIndex=res;
-      this.getAllGeofence();
+      if(res==4){
+        this.getAllGeofence();
+      }
+      if(res==3){
+        this.getAllGeofence();
+      }
+      
       }
     })
 
@@ -144,6 +159,7 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
 
     // devices pulling with user id
     this.customerService.DeviceIdByUser(id).subscribe(res => {
+      this.isLoading=false;
       this.deviceId = res;
       console.log(res)
       this.selected = this.deviceId[0].deviceid
@@ -198,7 +214,9 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
   }
 
   applyFilter(filterValue: string): void {
-
+    this.customerDevices=this.customerDevices.filter((device)=>{
+    return  device.name.toLowerCase().indexOf(filterValue) > -1
+    });
   }
 
   public  applyDevices(val): void {
@@ -434,6 +452,26 @@ this.cusmapService.poiDrawExchange(draw);
  public iconAdding(i): void{
   this.cusmapService.poiDrawExchange(i);
 this.activeIcon=i;
+  }
+  /*---------------------------- Geofence--------------------- */
+  public geofenceAdd(): void{
+    this.selectedTabIndex=5;
+  }
+  /*---------------------------- Alert--------------------- */
+ 
+  public openAlertModal(): void {
+    const dialogCofig = new MatDialogConfig();
+    dialogCofig.disableClose = true;
+    dialogCofig.width = "800px";
+    dialogCofig.height = "580px";
+
+    this.dialog.open(AlertAddComponent, {
+      
+      width: '800px',
+      height: '560px',
+     
+    }).afterClosed()
+      .subscribe(response => { });
   }
 
 }
