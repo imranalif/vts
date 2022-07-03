@@ -11,10 +11,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatDatetimepickerModule, MatNativeDatetimeModule } from "@mat-datetimepicker/core";
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AlertAddComponent } from './pages/alert-add/alert-add.component';
+import { ReportComponent } from './pages/report/report.component';
 
 
 @NgModule({
-  declarations: [SideMenuComponent, BottomDetailsComponent, HistoryInfoComponent, MapInfoComponent, AlertAddComponent],
+  declarations: [SideMenuComponent, BottomDetailsComponent, HistoryInfoComponent, MapInfoComponent, AlertAddComponent, ReportComponent],
   imports: [
     CommonModule,
     CustomerMapRoutingModule,

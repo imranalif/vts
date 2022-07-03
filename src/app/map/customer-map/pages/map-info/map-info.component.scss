@@ -3,7 +3,7 @@ h2{
     margin-top: 3%;
 }
 .mi{
-  z-index: 4000;
+  z-index: 2000;
     width: 100% !important;
    // min-width:100% !important ;
     // min-width: 550px;
@@ -35,6 +35,13 @@ h2{
       cursor: pointer;
   }
 
+  .menubar{
+    position: absolute;
+    height: 10%;
+    background-color: #2196F3;
+    z-index: 1000;
+  
+  }
 
 
 
@@ -311,5 +318,14 @@ mat-icon{
 .u-turn-icon {
   transform: rotate(20deg) !important
 }
+
+.bottommenu{
+  width: 100%;
+  overflow: auto;
+}
+
+
+
+
 
 

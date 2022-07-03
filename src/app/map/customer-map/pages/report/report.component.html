@@ -1,0 +1,100 @@
+<div class="table-title">
+    <h3>
+        <mat-icon class="toolsIcon">signal_cellular_alt</mat-icon> Report
+    </h3>
+    <h4>
+        <mat-icon class="closeIcon" (click)="close()">close</mat-icon>
+    </h4>
+</div>
+<div  class="historytab">
+    <form [formGroup]="reportForm">
+        <mat-form-field class="full">
+            <input  matInput placeholder="Title" formControlName="title" autocomplete="off" required />
+        </mat-form-field>
+        <mat-form-field class="half">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type" [(ngModel)]="selectedType" >
+                <mat-option *ngFor="let state of types" [value]="state.id">
+                    {{ state.value }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="half">
+            <mat-label>Format</mat-label>
+            <mat-select formControlName="format" [(ngModel)]="selectedFormat" >
+                <mat-option *ngFor="let state of formates" [value]="state.id">
+                    {{ state.value }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="half">
+            <mat-label>Period</mat-label>
+            <mat-select formControlName="period" [(ngModel)]="selectedDay" >
+                <mat-option *ngFor="let state of periods" [value]="state.id">
+                    {{ state.value }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="half">
+            <mat-label>Geofences</mat-label>
+            <mat-select formControlName="geofences"  >
+                <mat-option *ngFor="let state of geofences" [value]="state.id">
+                    {{ state.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="half">
+            <mat-label>Devices</mat-label>
+            <mat-select formControlName="devices"  >
+                <mat-option *ngFor="let state of devices" [value]="state.id">
+                    {{ state.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+       
+
+        <mat-form-field class="half">
+
+            <input matInput [owlDateTime]="dt1" formControlName="from_date" [owlDateTimeTrigger]="dt1"
+                placeholder="From Time">
+            <owl-date-time #dt1></owl-date-time>
+        </mat-form-field>
+
+
+
+        <mat-form-field class="half">
+
+            <input matInput [owlDateTime]="dt2" formControlName="to_date" [owlDateTimeTrigger]="dt2"
+                placeholder="To Time">
+            <owl-date-time #dt2></owl-date-time>
+        </mat-form-field>
+   
+
+        <mat-form-field class="half">
+            <input  matInput placeholder="Send to email" formControlName="sendEmail" autocomplete="off" required />
+        </mat-form-field>
+
+        <mat-form-field class="half">
+            <input  matInput placeholder="Speed limit" formControlName="speedLimit" autocomplete="off" required />
+        </mat-form-field>
+
+        <mat-form-field class="half">
+            <mat-label>Stops</mat-label>
+            <mat-select formControlName="stops"  >
+                <mat-option *ngFor="let state of states" [value]="state.id">
+                    {{ state.value }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    
+
+    </form>
+    <button class="button" mat-raised-button color="primary" class="btn-block" (click)="generateReport()">
+        Generate
+    </button>
+</div>

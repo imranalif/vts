@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { map, tileLayer, animatedMarker, polyline } from 'leaflet';
 
@@ -29,6 +30,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceService } from 'src/app/admin/devices/services/device.service';
 import { DateformateService } from 'src/app/shared/services/dateformate.service';
 import { GeofenceService } from 'src/app/admin/geofences/services/geofence.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ReportComponent } from '../report/report.component';
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-map-info',
@@ -36,7 +40,8 @@ import { GeofenceService } from 'src/app/admin/geofences/services/geofence.servi
   styleUrls: ['./map-info.component.scss']
 })
 export class MapInfoComponent implements OnInit {
-  address="bangladesh"
+  st
+  address = "bangladesh"
   public selectedIcon: string;
   baseMaps
   map
@@ -48,8 +53,8 @@ export class MapInfoComponent implements OnInit {
   myIcon2
   myIcon4
   myIcon3: string;
- public myIcon3_online
- public myIcon4_online
+  public myIcon3_online
+  public myIcon4_online
   marker = []
   markerArray = []
 
@@ -127,7 +132,9 @@ export class MapInfoComponent implements OnInit {
     private routing: Router,
     private deviceService: DeviceService,
     private dateFormatService: DateformateService,
-    private geofenceService: GeofenceService
+    private geofenceService: GeofenceService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
 
   ) { }
 
@@ -205,6 +212,7 @@ export class MapInfoComponent implements OnInit {
       center: [23.774252395907105, 90.41607082790188],
       zoom: 17,
       zoomControl: false,
+      tap: false,
       attributionControl: false
     });
 
@@ -386,179 +394,238 @@ export class MapInfoComponent implements OnInit {
               this.selectedIcon = this.myIcon4
             }
             if (elem.category == "van") {
-              this.selectedIcon = this.myIcon2
+              this.selectedIcon = this.myIcon4
             }
-            mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.selectedIcon }).bindPopup(elem.name + " <br> Address: " + elem.contact
+            mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.selectedIcon }).bindPopup("<b style='color:blue;margin-right:30px;'>" + elem.name + "</b>" + " <br> Address: " + elem.contact
               + " <br> Model: " + elem.model + " <br> Phone: " + elem.phone + " <br> Type: " + elem.category, { closeOnClick: true, autoClose: false }).bindTooltip(elem.name, {
                 direction: 'left', offset: [15, -45], permanent: false
               }).addTo(this.map);
-              mook[elem.deviceid].setRotationAngle(elem.course+45);
+
             //var popup = L.popup().setContent('<a class="click" href="#">click</a>');
             // mook[elem.deviceid] = L.marker([elem.latitude, elem.longitude], { icon: this.myIcon3 }).bindPopup(popup).bindTooltip(elem.name, {
             //     direction: 'left', offset: [15, -45], permanent: true
             // }).addTo(this.map)
             layerGroup.addLayer(mook[elem.deviceid]);
+            var b = mook[elem.deviceid].on('click', onMarkerClick);
+            var ad
+            var m = this.map
+            const v = L.Control.Geocoder.nominatim();
+            function onMarkerClick(e) {
+              console.log(e)
+              console.log(e.target._tooltip._content)
+              var popup = e.target.getPopup();
+              var latlng = { lat: e.latlng.lat, lng: e.latlng.lng }
+              //               var latlng = [ e.latlng.lat,  e.latlng.lng ]
+              //               var apiKey='AAPK616d40cd2fd04e28bdb7726503ac72ea8FeMtiwl59-umVwWgmWtHlBI8Qndmb0f0e83JbGN_fGsQ071sxlD95KeJMdbIRoX'
+              //               new ELG.ReverseGeocode({apikey: apiKey}).latlng(latlng).run((error,result)=>{
+              //                 if(error){
+              //                   console.log(error)
+              //                   return
+              //                 }
 
+              // console.log(result.address.Match_addr);
+              //               })
+              v.reverse(latlng, m.options.crs.scale(m.getZoom()), results => {
+                if (results[0]) {
+                  ad = results[0].name
+                  popup.setContent("Address :  " + ad, { closeOnClick: false, autoClose: false });
+                  popup.update();
+
+                }
+              })
+            }
           })
         }
+
         // this.deviceIdArray.forEach(element => {
         //   this.polyline[element]= L.polyline([]).addTo(this.map);
         // });
         this.myInterval = setInterval(() => {
-
+          var checkDevice = 11;
           this.fixtime = this.dateFormatService.dateTime('datetime', this.fixtime)
           var data = { id: this.deviceIdArray, fixtime: this.fixtime }
           if (this.check == 1) {
             this.deviceService.getMovingPosition(data).subscribe(data => {
               data.forEach(element => {
-                if (element.protocol == 'teltonika') {
-                  //console.log(element);
-                  this.fixtime = element.fixtime;
-                  this.cusmapService.deviceDetails(element);
-                  var attribute = JSON.parse(element.attributes);
-                  console.log("testing============")
 
-                  if(element.speed !=0){
-                   mook[element.deviceid].setIcon(this.myIcon3_online);
-                  }
-                  else{
-                    mook[element.deviceid].setIcon(this.myIcon3);
-                   }
-   
-                 var m=this.map
-                  // function getAddress(a,b){
-                    var latlng = { lat: element.latitude, lng: element.longitude }
-                    const v = L.Control.Geocoder.nominatim();
-                    v.reverse(latlng, m.options.crs.scale(m.getZoom()), results => {
-                      if(results[0]){
-                        this.address=results[0].name
-                   
-                      //  var address = (results[0].name);
-                         
+                if (checkDevice != element.deviceid) {
+
+                  checkDevice = element.deviceid;
+                  var myTimeoutt;
+                  if (element.protocol == 'teltonika') {
+                    this.st = 1;
+                    //console.log(element);
+                    this.fixtime = element.fixtime;
+                    this.cusmapService.deviceDetails(element);
+                    var attribute = JSON.parse(element.attributes);
+
+                    // if(attribute.ignition==true){
+                    //   this.openSnackBar();
+                    // }
+                    console.log("testing============")
+
+                    if (element.speed != 0) {
+                      mook[element.deviceid].setIcon(this.myIcon3_online);
+                    }
+                    else {
+                      mook[element.deviceid].setIcon(this.myIcon3);
+                    }
+
+                    mook[element.deviceid].setRotationAngle(element.course / 2);
+                    //mook[element.deviceid].setRotationOrigin(element.course);
+
+                    const lt = (element.latitude - mook[element.deviceid].getLatLng().lat) / 20;
+                    const ln = (element.longitude - mook[element.deviceid].getLatLng().lng) / 20;
+                    var i = 0;
+                    myTimeoutt = setInterval(() => {
+                      i = i + 1;
+                      var newLat = mook[element.deviceid].getLatLng().lat + lt;
+                      var newLng = mook[element.deviceid].getLatLng().lng + ln;
+                      li = this.polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng))
+                      tailsGroup.addLayer(li);
+                      //.arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
+
+                      let latlngs = this.polyline[element.deviceid].getLatLngs();
+
+                      if (latlngs.length > 100) {
+                        latlngs = latlngs.slice(20, 120);
+                        li = this.polyline[element.deviceid].setLatLngs(latlngs);
+                        tailsGroup.addLayer(li);
                       }
-                    })
-                  //}
-                  mook[element.deviceid].setRotationAngle(element.course+30);
-                  mook[element.deviceid].setRotationOrigin(element.course+30);
-                  //"<p onclick='this.innerHTML=" + b + "'>Click me</p>"
-                  element.latitude=element.latitude.toFixed(14);
-                  element.longitude=element.longitude.toFixed(14);
-                  this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], { animate: true, duration: 5000, color: 'red' }).bindPopup("Address :  " +this.address+ " <br> Address: "+  element.latitude + "," + element.longitude
-                    + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
-                  li = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude));
-                  tailsGroup.addLayer(li);
-                  let latlngs = this.polyline[element.deviceid].getLatLngs();
-                    if (latlngs.length > 100) {
-                      latlngs = latlngs.slice(20, 120);
-                      li = this.polyline[element.deviceid].setLatLngs(latlngs);
-                      tailsGroup.addLayer(li);
-                    }
-
-                   
-                    
-                }
-                else {
-
-                  if(element.speed !=0){
-                    mook[element.deviceid].setIcon(this.myIcon4_online);
-                   }
-                   else{
-                     mook[element.deviceid].setIcon(this.myIcon4);
-                    }                 
-                  this.fixtime = element.fixtime;
-                  this.cusmapService.deviceDetails(element);
-                  // var latlng = { lat: element.latitude, lng: element.longitude }
-                  // const v = L.Control.Geocoder.nominatim();
-                  // v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
-                  //   element.address = (results[0].name)
-                  //    console.log(element.name)
-                  //   this.cusmapService.detailsDataExchange(element);
-                  // })
-                  var marker
-                  //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
-                  var markers = L.layerGroup()
-                  this.markerArray = L.layerGroup()
-                  var attribute = JSON.parse(element.attributes)
-                  //var popup = L.popup().setContent('<a class="click" href="#">click</a>');
-                  // this.marker = mook[element.deviceid].setLatLng([element.latitude+.15, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
-                  //   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false })
-                  console.log(element.latitude, element.longitude, mook[element.deviceid].getLatLng().lat, mook[element.deviceid].getLatLng().lng)
-                  const lt = (element.latitude - mook[element.deviceid].getLatLng().lat) / 20;
-                  const ln = (element.longitude - mook[element.deviceid].getLatLng().lng) / 20;
-                  // this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], { animate: true, duration: 5000, color: 'red' }).bindPopup("Name:" + " <br> Address: " + element.latitude + "," + element.longitude
-                  //   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
-
-                  var polyline = []
-                  polyline[element.deviceid] = L.polyline([], {
-                    weight: 3,
-                    color: element.deviceid === 1 ? 'red' : 'blue',
-                    opacity: 0.5
-                  }).addTo(this.map);
-                  var li
-                  //this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude));
-                  var i = 0;
-                  // function move() {
-                  //   i = i + 1;
-                  //   var newLat = mook[element.deviceid].getLatLng().lat + lt;
-                  //   var newLng = mook[element.deviceid].getLatLng().lng + ln;
-                  //   li = polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng));
-
-                  //   this.marker = mook[element.deviceid].setLatLng([newLat, newLng], { animate: true, duration: 5000, color: 'red' }).bindPopup("Name:" + " <br> Address: " + element.latitude + "," + element.longitude
-                  //     + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
-
-                  //   if (i == 100) {
-                  //     clearTimeout(myTimeout);
-                  //   }
-                  //   //this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng));
-                  // }
-                  var myTimeoutt
-                  myTimeoutt = setInterval(() => {
-                    i = i + 1;
-                  var newLat = mook[element.deviceid].getLatLng().lat + lt;
-                     var newLng = mook[element.deviceid].getLatLng().lng + ln;
-                    li = this.polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng))
-                    tailsGroup.addLayer(li);
-                    //.arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
-
-                    let latlngs = this.polyline[element.deviceid].getLatLngs();
-                   
-                    if (latlngs.length > 100) {
-                      latlngs = latlngs.slice(20, 120);
-                      li = this.polyline[element.deviceid].setLatLngs(latlngs);
-                      tailsGroup.addLayer(li);
-                    }
-
-                    this.marker = mook[element.deviceid].setLatLng([newLat, newLng]).update().bindPopup("Name:" + " <br> Address: " + test(element.latitude) + element.latitude + "," + element.longitude
+                      this.marker = mook[element.deviceid].setLatLng([newLat, newLng]).update().bindPopup("Name:" + " <br> Address: " + test(element.latitude) + element.latitude + "," + element.longitude
                       + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
 
-                    if (i == 20) {
-                      clearTimeout(myTimeoutt);
+                      if (i >= 20) {
+                        clearTimeout(myTimeoutt);
+                      }
+                      //this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng));
+                    }, 240);
+
+
+                    //"<p onclick='this.innerHTML=" + b + "'>Click me</p>"
+                    // element.latitude=element.latitude.toFixed(14);
+                    // element.longitude=element.longitude.toFixed(14);
+                    // this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], { animate: true, duration: 5000, color: 'red' }).bindPopup("Address :  " +this.address+ " <br> Address: "+  element.latitude + "," + element.longitude
+                    //   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
+                    // li = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude));
+                    // tailsGroup.addLayer(li);
+                    // let latlngs = this.polyline[element.deviceid].getLatLngs();
+                    //   if (latlngs.length > 10) {
+                    //     latlngs = latlngs.slice(1, 11);
+                    //     li = this.polyline[element.deviceid].setLatLngs(latlngs);
+                    //     tailsGroup.addLayer(li);
+                    //   }
+
+
+
+                  }
+                  else {
+
+                    if (element.speed != 0) {
+                      mook[element.deviceid].setIcon(this.myIcon4_online);
                     }
-                    //this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng));
-                  }, 250);
+                    else {
+                      mook[element.deviceid].setIcon(this.myIcon4);
+                    }
+                    this.fixtime = element.fixtime;
+                    this.cusmapService.deviceDetails(element);
+                    // var latlng = { lat: element.latitude, lng: element.longitude }
+                    // const v = L.Control.Geocoder.nominatim();
+                    // v.reverse(latlng, this.map.options.crs.scale(this.map.getZoom()), results => {
+                    //   element.address = (results[0].name)
+                    //    console.log(element.name)
+                    //   this.cusmapService.detailsDataExchange(element);
+                    // })
+                    var marker
+                    //var marker= L.marker([0,0],{icon:this.myIcon3}).addTo(this.map);
+                    var markers = L.layerGroup()
+                    this.markerArray = L.layerGroup()
+                    var attribute = JSON.parse(element.attributes)
+                    //var popup = L.popup().setContent('<a class="click" href="#">click</a>');
+                    // this.marker = mook[element.deviceid].setLatLng([element.latitude+.15, element.longitude], {"animate": true,duration: 0.5,color:'red'}).bindPopup("Name:" + " <br> Address: " + element.latitude+","+element.longitude
+                    //   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition+ " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false })
+                    console.log(element.latitude, element.longitude, mook[element.deviceid].getLatLng().lat, mook[element.deviceid].getLatLng().lng)
+                    const lt = (element.latitude - mook[element.deviceid].getLatLng().lat) / 20;
+                    const ln = (element.longitude - mook[element.deviceid].getLatLng().lng) / 20;
+                    // this.marker = mook[element.deviceid].setLatLng([element.latitude, element.longitude], { animate: true, duration: 5000, color: 'red' }).bindPopup("Name:" + " <br> Address: " + element.latitude + "," + element.longitude
+                    //   + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
+
+                    var polyline = []
+                    polyline[element.deviceid] = L.polyline([], {
+                      weight: 3,
+                      color: element.deviceid === 1 ? 'red' : 'blue',
+                      opacity: 0.5
+                    }).addTo(this.map);
+                    var li
+                    //this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(element.latitude, element.longitude));
+                    var i = 0;
+                    // function move() {
+                    //   i = i + 1;
+                    //   var newLat = mook[element.deviceid].getLatLng().lat + lt;
+                    //   var newLng = mook[element.deviceid].getLatLng().lng + ln;
+                    //   li = polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng));
+
+                    //   this.marker = mook[element.deviceid].setLatLng([newLat, newLng], { animate: true, duration: 5000, color: 'red' }).bindPopup("Name:" + " <br> Address: " + element.latitude + "," + element.longitude
+                    //     + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
+
+                    //   if (i == 100) {
+                    //     clearTimeout(myTimeout);
+                    //   }
+                    //   //this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng));
+                    // }
 
 
-                  //const myTimeout = setInterval(move, 50);
 
-                  //               var line = L.polyline([[mook[element.deviceid].getLatLng().lat, mook[element.deviceid].getLatLng().lng],[element.latitude, element.longitude]]),
-                  //      animatedMarker = L.animatedMarker(line.getLatLngs(),{
-                  //       icon: this.myIcon3
-                  //     });
-                  // this.map.addLayer(animatedMarker);
+                    var myTimeoutt
+                    myTimeoutt = setInterval(() => {
+                      i = i + 1;
+                      var newLat = mook[element.deviceid].getLatLng().lat + lt;
+                      var newLng = mook[element.deviceid].getLatLng().lng + ln;
+                      li = this.polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng))
+                      tailsGroup.addLayer(li);
+                      //.arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
 
-                  // lineArray[element.deviceid]=lineArray1.push([element.latitude, element.longitude]);
-                  //this.line[element.deviceid] = L.polyline( [element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);
-                  // this.line=L.polyline( lineArray, {color: 'red', clickable: 'true'}).addTo(this.map);
-                  //if (element) {
-                  //this.line[element.deviceid] = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
-                  //this.line[element.deviceid] = L.polyline([element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);;
-                  //                 var animatedMarker = L.animatedMarker(this.line[element.deviceid].getLatLngs());
-                  // this.map.addLayer(animatedMarker);
+                      let latlngs = this.polyline[element.deviceid].getLatLngs();
 
-                  //}
+                      if (latlngs.length > 100) {
+                        latlngs = latlngs.slice(20, 120);
+                        li = this.polyline[element.deviceid].setLatLngs(latlngs);
+                        tailsGroup.addLayer(li);
+                      }
 
+                      this.marker = mook[element.deviceid].setLatLng([newLat, newLng]).update().bindPopup("Name:" + " <br> Address: " + test(element.latitude) + element.latitude + "," + element.longitude
+                        + " <br> Time: " + element.fixtime + " <br> Satellite: " + attribute.sat + " <br> Ignition: " + attribute.ignition + " <br> Motion: " + attribute.motion, { closeOnClick: false, autoClose: false });
+
+                      if (i == 20) {
+                        clearTimeout(myTimeoutt);
+                      }
+                      //this.line3 = this.polyline[element.deviceid].addLatLng(L.latLng(newLat, newLng));
+                    }, 250);
+
+
+                    //const myTimeout = setInterval(move, 50);
+
+                    //               var line = L.polyline([[mook[element.deviceid].getLatLng().lat, mook[element.deviceid].getLatLng().lng],[element.latitude, element.longitude]]),
+                    //      animatedMarker = L.animatedMarker(line.getLatLngs(),{
+                    //       icon: this.myIcon3
+                    //     });
+                    // this.map.addLayer(animatedMarker);
+
+                    // lineArray[element.deviceid]=lineArray1.push([element.latitude, element.longitude]);
+                    //this.line[element.deviceid] = L.polyline( [element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);
+                    // this.line=L.polyline( lineArray, {color: 'red', clickable: 'true'}).addTo(this.map);
+                    //if (element) {
+                    //this.line[element.deviceid] = polyline.addLatLng(L.latLng(element.latitude, element.longitude)).arrowheads({ size: '10px', color: 'red', frequency: 'endonly' });
+                    //this.line[element.deviceid] = L.polyline([element.latitude, element.longitude], {color: 'red', clickable: 'true'}).addTo(this.map);;
+                    //                 var animatedMarker = L.animatedMarker(this.line[element.deviceid].getLatLngs());
+                    // this.map.addLayer(animatedMarker);
+
+                    //}
+
+                  }
                 }
-              })
+              }
+              )
             })
           }
         }, 5 * 1000)
@@ -929,7 +996,7 @@ export class MapInfoComponent implements OnInit {
   }
 
   public goPoiTab(): void {
-    var poiTab = 5
+    var poiTab = 6
     this.cusmapService.poiTabExchange(poiTab);
   }
 
@@ -937,6 +1004,29 @@ export class MapInfoComponent implements OnInit {
   public goGeofenceTab(i): void {
     var geoTab = i
     this.cusmapService.geoTabDataExchange(geoTab);
+  }
+
+  openSnackBar(): void {
+    this.snackBar.open('Successfully added!!', 'Close', {
+      duration: 5000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'end',
+    });
+  }
+
+  public openReportModal(): void {
+    const dialogCofig = new MatDialogConfig();
+    dialogCofig.disableClose = true;
+    dialogCofig.width = "800px";
+    dialogCofig.height = "580px";
+
+    this.dialog.open(ReportComponent, {
+
+      width: '800px',
+      height: '560px',
+
+    }).afterClosed()
+      .subscribe(response => { });
   }
 
 

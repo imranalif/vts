@@ -132,7 +132,7 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
         this.getAllGeofence();
       }
       if(res==3){
-        this.getAllGeofence();
+        
       }
       
       }
@@ -173,6 +173,7 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
         this.devicesArray = res;
         this.customerDevices = res;
         var tdata = res
+        this.cusmapService.customerDeviceExchange(this.customerDevices);
         // console.log(this.customerDevices[0].id)
         // this.selected=this.customerDevices[0].id
 
@@ -301,8 +302,6 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
         var positionData = { id: positionArray }
         this.customerService.DevicePositionByPositionId(positionData).subscribe(response => {
           var poArray = response;
-          console.log(darray)
-          console.log(this.customerDevices)
           this.customerDevices = darray.map(x => Object.assign(x, poArray.find(y => y.deviceid == x.id)))
           console.log(this.customerDevices)
           this.customerDevices.forEach((element, i) => {
@@ -406,7 +405,7 @@ export class SideMenuComponent implements OnInit,AfterContentChecked {
   }
 
   public goPoiAddPage():void {
-this.selectedTabIndex=6;
+this.selectedTabIndex=7;
 var draw=1;
 this.cusmapService.poiDrawExchange(draw);
   }
@@ -420,13 +419,13 @@ this.cusmapService.poiDrawExchange(draw);
     this.poiForm.value.created_by =1;
     this.deviceService.addPois(this.poiForm.value).subscribe(res=>{
       this.getAllPoi();
-      this.selectedTabIndex=5;
+      this.selectedTabIndex=6;
     })
   }
 
   public goAfterPoiList():void{
     this.getAllPoi();
-    this.selectedTabIndex=5;
+    this.selectedTabIndex=6;
     var draw=0;
     this.cusmapService.poiDrawExchange(draw);
   }

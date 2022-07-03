@@ -31,6 +31,7 @@ export class CusmapService {
   private geofenceSent= new BehaviorSubject<any>("");
   private geofenceRemoveSent= new BehaviorSubject<any>("");
   private geoTabDataSent= new BehaviorSubject<any>("");
+  private customerDeviceSent= new BehaviorSubject<any>("");
 
 
   public deviceDataCatch = this.deviceDataSent.asObservable();
@@ -56,6 +57,7 @@ export class CusmapService {
   public geofenceCatch = this.geofenceSent.asObservable();
   public geofenceRemoveCatch = this.geofenceRemoveSent.asObservable();
   public geoTabDataCatch = this.geoTabDataSent.asObservable();
+  public customerDeviceCatch = this.customerDeviceSent.asObservable();
 
 
   deviceDataExchange(text) {
@@ -145,5 +147,8 @@ export class CusmapService {
   }
   geoTabDataExchange(text) {
     this.geoTabDataSent.next(text);
+  }
+  customerDeviceExchange(devices) {
+    this.customerDeviceSent.next(devices);
   }
 }
